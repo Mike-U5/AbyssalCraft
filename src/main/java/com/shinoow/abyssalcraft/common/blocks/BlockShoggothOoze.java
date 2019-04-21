@@ -25,6 +25,7 @@ import net.minecraft.world.World;
 import com.shinoow.abyssalcraft.AbyssalCraft;
 import com.shinoow.abyssalcraft.api.AbyssalCraftAPI;
 import com.shinoow.abyssalcraft.common.entity.EntityLesserShoggoth;
+import cpw.mods.fml.common.registry.*;
 
 public class BlockShoggothOoze extends BlockACBasic {
 
@@ -35,21 +36,18 @@ public class BlockShoggothOoze extends BlockACBasic {
 	}
 
 	@Override
-	public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z)
-	{
+	public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z) {
 		float f = 0.25F;
 		return AxisAlignedBB.getBoundingBox(x, y, z, x + 1, y + 1 - f, z + 1);
 	}
 
 	@Override
-	public int quantityDropped(Random par1Random)
-	{
+	public int quantityDropped(Random par1Random) {
 		return 0;
 	}
 
 	@Override
-	public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity)
-	{
+	public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity) {
 		if(!(entity instanceof EntityLesserShoggoth)){
 			entity.motionX *= 0.4D;
 			entity.motionZ *= 0.4D;
@@ -57,13 +55,12 @@ public class BlockShoggothOoze extends BlockACBasic {
 	}
 
 	@Override
-	public boolean canPlaceBlockOnSide(World p_149707_1_, int p_149707_2_, int p_149707_3_, int p_149707_4_, int p_149707_5_)
-	{
+	public boolean canPlaceBlockOnSide(World p_149707_1_, int p_149707_2_, int p_149707_3_, int p_149707_4_, int p_149707_5_) {
 		return super.canPlaceBlockAt(p_149707_1_, p_149707_2_, p_149707_3_, p_149707_4_);
 	}
 
 	@Override
-	public boolean canPlaceBlockAt(World world, int x, int y, int z){
+	public boolean canPlaceBlockAt(World world, int x, int y, int z) {
 		Block block = world.getBlock(x, y, z);
 		if(AbyssalCraft.shoggothOoze)
 			if(!block.getMaterial().isLiquid() && block.getMaterial() != Material.air && !block.hasTileEntity(world.getBlockMetadata(x, y, z))
@@ -81,6 +78,10 @@ public class BlockShoggothOoze extends BlockACBasic {
 		blockBlacklist.add(AbyssalCraft.shoggothBlock);
 		blockBlacklist.add(Blocks.bedrock);
 		blockBlacklist.add(Blocks.crafting_table);
+		blockBlacklist.add(AbyssalCraft.Darkstone_cobble);
+		blockBlacklist.add(AbyssalCraft.Darkstone_brick);
+		blockBlacklist.add(AbyssalCraft.Darkstone);
+		blockBlacklist.add(AbyssalCraft.DSGlow);
 		blockBlacklist.add(AbyssalCraft.ethaxium);
 		blockBlacklist.add(AbyssalCraft.ethaxiumbrick);
 		blockBlacklist.add(AbyssalCraft.ethaxiumpillar);
@@ -88,6 +89,16 @@ public class BlockShoggothOoze extends BlockACBasic {
 		blockBlacklist.add(AbyssalCraft.darkethaxiumpillar);
 		blockBlacklist.add(AbyssalCraft.monolithStone);
 		blockBlacklist.add(AbyssalCraft.shoggothBiomass);
+		//Thaumcraft logs
+		Block magicLogs = GameRegistry.findBlock("Thaumcraft", "blockMagicalLog");
+		if (magicLogs != null) {
+			blockBlacklist.add(magicLogs);
+			blockBlacklist.add(GameRegistry.findBlock("Thaumcraft", "blockWoodenDevice"));
+			blockBlacklist.add(GameRegistry.findBlock("Thaumcraft", "blockCosmeticSlabWood"));
+			blockBlacklist.add(GameRegistry.findBlock("Thaumcraft", "blockStairsSilverwood"));
+			blockBlacklist.add(GameRegistry.findBlock("Thaumcraft", "blockStairsGreatwood"));
+		}
+		//Add all special items to the blacklist
 		blockBlacklist.addAll(AbyssalCraftAPI.getShoggothBlockBlacklist());
 	}
 }

@@ -11,7 +11,11 @@
  ******************************************************************************/
 package com.shinoow.abyssalcraft.common.entity;
 
+import java.util.List;
+import java.lang.Math;
+
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackOnCollide;
@@ -25,6 +29,9 @@ import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
 
 import com.shinoow.abyssalcraft.AbyssalCraft;
@@ -49,8 +56,7 @@ public class EntityShadowBeast extends EntityMob implements IAntiEntity, ICorali
 	}
 
 	@Override
-	protected void applyEntityAttributes()
-	{
+	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
 
 		getEntityAttribute(SharedMonsterAttributes.knockbackResistance).setBaseValue(0.3D);
@@ -65,14 +71,12 @@ public class EntityShadowBeast extends EntityMob implements IAntiEntity, ICorali
 	}
 
 	@Override
-	protected boolean isAIEnabled()
-	{
+	protected boolean isAIEnabled() {
 		return true;
 	}
 
 	@Override
-	public boolean attackEntityAsMob(Entity par1Entity)
-	{
+	public boolean attackEntityAsMob(Entity par1Entity) {
 		swingItem();
 		boolean flag = super.attackEntityAsMob(par1Entity);
 
@@ -80,42 +84,44 @@ public class EntityShadowBeast extends EntityMob implements IAntiEntity, ICorali
 	}
 
 	@Override
-	protected float getSoundPitch()
-	{
-		return rand.nextFloat() - rand.nextFloat() * 0.2F + 0.6F;
+	protected float getSoundPitch() {
+		return rand.nextFloat() - rand.nextFloat() * 0.2F + 0.5F;
 	}
 
 	@Override
-	protected String getHurtSound()
-	{
+	protected String getHurtSound() {
 		return "abyssalcraft:shadow.hit";
 	}
 
 	@Override
-	protected String getDeathSound()
-	{
+	protected String getDeathSound() {
 		return "abyssalcraft:shadow.death";
 	}
 
 	@Override
-	protected Item getDropItem()
-	{
-		return AbyssalCraft.shadowgem;
+	protected void dropFewItems(boolean para, int lootLvl) {
+		float dropRate = 1.0F + (lootLvl*0.5F);
+		int dropAmount = (dropRate % 1 > Math.random()) ? (int)Math.ceil(dropRate) : (int)Math.floor(dropRate);
+		
+		entityDropItem(new ItemStack(AbyssalCraft.shadowgem, dropAmount), 0);
 	}
 
 	@Override
-	public EnumCreatureAttribute getCreatureAttribute()
-	{
+	public EnumCreatureAttribute getCreatureAttribute() {
 		return AbyssalCraftAPI.SHADOW;
 	}
 
 	@Override
-	public void onLivingUpdate()
-	{
-		for (int i = 0; i < 2; ++i)
-			if(AbyssalCraft.particleEntity)
-				worldObj.spawnParticle("largesmoke", posX + (rand.nextDouble() - 0.5D) * width, posY + rand.nextDouble() * height, posZ + (rand.nextDouble() - 0.5D) * width, 0.0D, 0.0D, 0.0D);
-
+	public void onLivingUpdate() {
+		if(!worldObj.isRemote && worldObj.getTotalWorldTime() % 20 == 0) {
+			List entities = worldObj.getEntitiesWithinAABB(EntityPlayer.class, this.boundingBox.expand(4.5D, 3D, 4.5D));
+			if (entities != null) {
+				for (int i = 0; i < entities.size(); i++) {
+					EntityLivingBase entity = (EntityLivingBase) entities.get(i);
+					entity.addPotionEffect(new PotionEffect(Potion.blindness.id, 40));
+				}
+			}
+		}
 		super.onLivingUpdate();
 	}
 }

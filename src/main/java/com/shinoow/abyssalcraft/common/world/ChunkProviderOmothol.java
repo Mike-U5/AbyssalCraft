@@ -42,8 +42,7 @@ public class ChunkProviderOmothol implements IChunkProvider
 	MapGenOmothol omotholGenerator = new MapGenOmothol();
 	int[][] field_73203_h = new int[32][32];
 
-	public ChunkProviderOmothol(World par1World, long par2)
-	{
+	public ChunkProviderOmothol(World par1World, long par2) {
 		worldObj = par1World;
 		rand = new Random(par2);
 		noiseGen1 = new NoiseGeneratorOctaves(rand, 16);
@@ -53,8 +52,7 @@ public class ChunkProviderOmothol implements IChunkProvider
 		noiseGen5 = new NoiseGeneratorOctaves(rand, 16);
 	}
 
-	public void generateTerrain(int x, int z, Block[] par3BlockArray, BiomeGenBase[] par4BiomeArray)
-	{
+	public void generateTerrain(int x, int z, Block[] par3BlockArray, BiomeGenBase[] par4BiomeArray) {
 		byte b0 = 2;
 		int k = b0 + 1;
 		byte b1 = 33;
@@ -63,8 +61,7 @@ public class ChunkProviderOmothol implements IChunkProvider
 
 		for (int i1 = 0; i1 < b0; ++i1)
 			for (int j1 = 0; j1 < b0; ++j1)
-				for (int k1 = 0; k1 < 32; ++k1)
-				{
+				for (int k1 = 0; k1 < 32; ++k1) {
 					double d0 = 0.25D;
 					double d1 = densities[((i1 + 0) * l + j1 + 0) * b1 + k1 + 0];
 					double d2 = densities[((i1 + 0) * l + j1 + 1) * b1 + k1 + 0];

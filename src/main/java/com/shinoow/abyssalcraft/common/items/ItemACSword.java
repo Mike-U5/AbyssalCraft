@@ -22,7 +22,7 @@ public class ItemACSword extends ItemSword {
 
 	private EnumChatFormatting format;
 
-	public ItemACSword(ToolMaterial mat, String name){
+	public ItemACSword(ToolMaterial mat, String name) {
 		this(mat, name, null);
 	}
 
@@ -36,7 +36,6 @@ public class ItemACSword extends ItemSword {
 
 	@Override
 	public String getItemStackDisplayName(ItemStack par1ItemStack) {
-
 		return format != null ? format + StatCollector.translateToLocal(this.getUnlocalizedName() + ".name") : super.getItemStackDisplayName(par1ItemStack);
 	}
 }

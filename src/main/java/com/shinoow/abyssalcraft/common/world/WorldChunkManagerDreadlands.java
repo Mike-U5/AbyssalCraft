@@ -30,16 +30,14 @@ import com.shinoow.abyssalcraft.common.world.gen.layer.GenLayerDL;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class WorldChunkManagerDreadlands extends WorldChunkManager
-{
+public class WorldChunkManagerDreadlands extends WorldChunkManager {
 
 	private GenLayer biomeToUse;
 	private GenLayer biomeIndexLayer;
 	private BiomeCache biomeCache;
 	private List<BiomeGenBase> biomesToSpawnIn;
 
-	public WorldChunkManagerDreadlands()
-	{
+	public WorldChunkManagerDreadlands() {
 		biomeCache = new BiomeCache(this);
 		biomesToSpawnIn = new ArrayList<BiomeGenBase>();
 		biomesToSpawnIn.add(ACBiomes.dreadlands);
@@ -48,28 +46,24 @@ public class WorldChunkManagerDreadlands extends WorldChunkManager
 		biomesToSpawnIn.add(ACBiomes.dreadlands_mountains);
 	}
 
-	public WorldChunkManagerDreadlands(long par1, WorldType par3WorldType)
-	{
+	public WorldChunkManagerDreadlands(long par1, WorldType par3WorldType) {
 		this();
 		GenLayer[] agenlayer = GenLayerDL.makeTheWorld(par1);
 		biomeToUse = agenlayer[0];
 		biomeIndexLayer = agenlayer[1];
 	}
 
-	public WorldChunkManagerDreadlands(World par1world)
-	{
+	public WorldChunkManagerDreadlands(World par1world) {
 		this(par1world.getSeed(), par1world.provider.terrainType);
 	}
 
 	@Override
-	public List<BiomeGenBase> getBiomesToSpawnIn()
-	{
+	public List<BiomeGenBase> getBiomesToSpawnIn() {
 		return biomesToSpawnIn;
 	}
 
 	@Override
-	public BiomeGenBase getBiomeGenAt(int par1, int par2)
-	{
+	public BiomeGenBase getBiomeGenAt(int par1, int par2) {
 		BiomeGenBase biome = biomeCache.getBiomeGenAt(par1, par2);
 		if (biome == null)
 			return ACBiomes.dreadlands;
@@ -125,8 +119,7 @@ public class WorldChunkManagerDreadlands extends WorldChunkManager
 	}
 
 	@Override
-	public BiomeGenBase[] getBiomesForGeneration(BiomeGenBase[] par1ArrayOfBiomeGenBase, int par2, int par3, int par4, int par5)
-	{
+	public BiomeGenBase[] getBiomesForGeneration(BiomeGenBase[] par1ArrayOfBiomeGenBase, int par2, int par3, int par4, int par5) {
 		if (par1ArrayOfBiomeGenBase == null || par1ArrayOfBiomeGenBase.length < par4 * par5)
 			par1ArrayOfBiomeGenBase = new BiomeGenBase[par4 * par5];
 
@@ -142,14 +135,12 @@ public class WorldChunkManagerDreadlands extends WorldChunkManager
 	}
 
 	@Override
-	public BiomeGenBase[] loadBlockGeneratorData(BiomeGenBase[] par1ArrayOfBiomeGenBase, int par2, int par3, int par4, int par5)
-	{
+	public BiomeGenBase[] loadBlockGeneratorData(BiomeGenBase[] par1ArrayOfBiomeGenBase, int par2, int par3, int par4, int par5) {
 		return this.getBiomeGenAt(par1ArrayOfBiomeGenBase, par2, par3, par4, par5, true);
 	}
 
 	@Override
-	public BiomeGenBase[] getBiomeGenAt(BiomeGenBase[] par1ArrayOfBiomeGenBase, int x, int y, int width, int length, boolean cacheFlag)
-	{
+	public BiomeGenBase[] getBiomeGenAt(BiomeGenBase[] par1ArrayOfBiomeGenBase, int x, int y, int width, int length, boolean cacheFlag) {
 		IntCache.resetIntCache();
 
 		if (par1ArrayOfBiomeGenBase == null || par1ArrayOfBiomeGenBase.length < width * length)
@@ -223,8 +214,7 @@ public class WorldChunkManagerDreadlands extends WorldChunkManager
 	}
 
 	@Override
-	public void cleanupCache()
-	{
+	public void cleanupCache() {
 		biomeCache.cleanupCache();
 	}
 }

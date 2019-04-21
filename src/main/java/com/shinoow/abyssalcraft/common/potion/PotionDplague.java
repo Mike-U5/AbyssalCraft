@@ -101,10 +101,8 @@ public class PotionDplague extends Potion{
 	}
 
 	@Override
-	public boolean isReady(int par1, int par2)
-	{
-		int k = 25 >> par2;
-		return k > 0 ? par1 % k == 0 : true;
+	public boolean isReady(int ticksLeft, int amplifier) {
+		return ticksLeft % 25 == 24;
 	}
 
 	@Override

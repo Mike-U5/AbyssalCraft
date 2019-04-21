@@ -75,8 +75,7 @@ public class ItemNecronomicon extends ItemACBasic implements IEnergyTransporter 
 	}
 
 	private boolean isOwner(EntityPlayer player, ItemStack stack){
-		if(!stack.hasTagCompound()) return false;
-		return stack.stackTagCompound.getString("owner").equals(player.getCommandSenderName());
+		return true;
 	}
 
 	@Override

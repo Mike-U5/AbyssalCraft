@@ -50,8 +50,7 @@ public class EntityOmotholGhoul extends EntityMob implements IAntiEntity, ICoral
 	}
 
 	@Override
-	protected void applyEntityAttributes()
-	{
+	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
 
 		getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(64.0D);

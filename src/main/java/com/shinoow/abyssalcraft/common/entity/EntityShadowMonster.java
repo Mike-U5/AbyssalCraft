@@ -24,6 +24,7 @@ import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
 import com.shinoow.abyssalcraft.AbyssalCraft;
@@ -79,26 +80,18 @@ public class EntityShadowMonster extends EntityMob implements IAntiEntity, ICora
 	{
 		return "abyssalcraft:shadow.death";
 	}
-
+	
 	@Override
-	protected Item getDropItem()
-	{
-		return AbyssalCraft.shadowshard;
+	protected void dropFewItems(boolean para, int lootLvl) {
+		float drp = 1.5F + (lootLvl*0.5F);
+		int finalAmt = (drp % 1 > Math.random()) ? (int)Math.ceil(drp) : (int)Math.floor(drp);
+		
+		entityDropItem(new ItemStack(AbyssalCraft.shadowshard, finalAmt), 0);
 	}
 
 	@Override
 	public EnumCreatureAttribute getCreatureAttribute()
 	{
 		return AbyssalCraftAPI.SHADOW;
-	}
-
-	@Override
-	public void onLivingUpdate()
-	{
-		for (int i = 0; i < 2; ++i)
-			if(AbyssalCraft.particleEntity)
-				worldObj.spawnParticle("largesmoke", posX + (rand.nextDouble() - 0.5D) * width, posY + rand.nextDouble() * height, posZ + (rand.nextDouble() - 0.5D) * width, 0.0D, 0.0D, 0.0D);
-
-		super.onLivingUpdate();
 	}
 }

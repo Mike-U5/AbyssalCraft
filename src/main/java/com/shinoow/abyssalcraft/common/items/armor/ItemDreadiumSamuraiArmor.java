@@ -94,20 +94,39 @@ public class ItemDreadiumSamuraiArmor extends ItemArmor {
 
 	@Override
 	public void onArmorTick(World world, EntityPlayer player, ItemStack itemstack) {
-		if (itemstack.getItem() == AbyssalCraft.dreadiumShelmet) {
+		int setItems = 0;
+		
+		if (player.getCurrentArmor(3) != null && player.getCurrentArmor(3).getItem().equals(AbyssalCraft.dreadiumShelmet)) {
+			setItems++;
 			player.addPotionEffect(new PotionEffect(Potion.nightVision.getId(), 260, 0));
-			if(player.getActivePotionEffect(AbyssalCraft.Dplague) !=null)
-				player.removePotionEffect(AbyssalCraft.Dplague.getId());
 		}
-		if (itemstack.getItem() == AbyssalCraft.dreadiumSplate) {
-			player.addPotionEffect(new PotionEffect(Potion.resistance.getId(), 20));
-			player.addPotionEffect(new PotionEffect(Potion.damageBoost.getId(), 20));
+		
+		if (player.getCurrentArmor(2) != null && player.getCurrentArmor(2).getItem().equals(AbyssalCraft.dreadiumSplate)) {
+			setItems++;
 			player.addPotionEffect(new PotionEffect(Potion.fireResistance.getId(), 20, 1));
 		}
-		if (itemstack.getItem() == AbyssalCraft.dreadiumSlegs)
-			player.addPotionEffect(new PotionEffect(Potion.regeneration.getId(), 20, 0));
-		if (itemstack.getItem() == AbyssalCraft.dreadiumSboots)
+		
+		if (player.getCurrentArmor(1) != null && player.getCurrentArmor(1).getItem().equals(AbyssalCraft.dreadiumSlegs)) {
+			setItems++;
+			if(world.getWorldTime() % 100 == 0) {
+				player.addPotionEffect(new PotionEffect(Potion.damageBoost.getId(), 30));			}
+		}
+		
+		if (player.getCurrentArmor(0) != null && player.getCurrentArmor(0).getItem().equals(AbyssalCraft.dreadiumSboots)) {
+			setItems++;
 			player.addPotionEffect(new PotionEffect(Potion.moveSpeed.getId(), 20, 1));
+		}
+		
+		//Set effect
+		if (setItems >= 3) {
+			if(player.getActivePotionEffect(AbyssalCraft.Dplague) != null) {
+				player.removePotionEffect(AbyssalCraft.Dplague.getId());
+			}
+		}
+		
+		//Clear potion effects
+		if(player.getActivePotionEffect(Potion.damageBoost) != null && player.getActivePotionEffect(Potion.damageBoost).getDuration() == 0)
+			player.removePotionEffect(Potion.damageBoost.id);
 
 	}
 }

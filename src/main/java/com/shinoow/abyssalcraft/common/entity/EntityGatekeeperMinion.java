@@ -34,6 +34,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 
 import com.shinoow.abyssalcraft.AbyssalCraft;
+import com.shinoow.abyssalcraft.api.AbyssalCraftAPI;
 import com.shinoow.abyssalcraft.api.entity.IAntiEntity;
 import com.shinoow.abyssalcraft.api.entity.ICoraliumEntity;
 import com.shinoow.abyssalcraft.api.entity.IDreadEntity;
@@ -56,8 +57,7 @@ public class EntityGatekeeperMinion extends EntityMob implements ICoraliumEntity
 	}
 
 	@Override
-	protected void applyEntityAttributes()
-	{
+	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
 
 		getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(64.0D);
@@ -73,8 +73,7 @@ public class EntityGatekeeperMinion extends EntityMob implements ICoraliumEntity
 	}
 
 	@Override
-	protected boolean isAIEnabled()
-	{
+	protected boolean isAIEnabled() {
 		return true;
 	}
 
@@ -84,8 +83,7 @@ public class EntityGatekeeperMinion extends EntityMob implements ICoraliumEntity
 	}
 
 	@Override
-	public boolean attackEntityAsMob(Entity par1Entity)
-	{
+	public boolean attackEntityAsMob(Entity par1Entity) {
 		swingItem();
 		boolean flag = super.attackEntityAsMob(par1Entity);
 
@@ -93,26 +91,22 @@ public class EntityGatekeeperMinion extends EntityMob implements ICoraliumEntity
 	}
 
 	@Override
-	protected boolean canDespawn()
-	{
+	protected boolean canDespawn() {
 		return false;
 	}
 
 	@Override
-	protected String getDeathSound()
-	{
+	protected String getDeathSound() {
 		return "abyssalcraft:shadow.death";
 	}
 
 	@Override
-	protected void func_145780_a(int par1, int par2, int par3, Block par4)
-	{
+	protected void func_145780_a(int par1, int par2, int par3, Block par4) {
 		playSound("mob.spider.step", 0.15F, 1.0F);
 	}
 
 	@Override
-	public boolean attackEntityFrom(DamageSource par1DamageSource, float par2)
-	{
+	public boolean attackEntityFrom(DamageSource par1DamageSource, float par2) {
 		EntityLivingBase enemy = null;
 		if(par1DamageSource.getSourceOfDamage() != null && par1DamageSource.getSourceOfDamage() instanceof EntityLivingBase)
 			enemy = (EntityLivingBase) par1DamageSource.getSourceOfDamage();
@@ -130,27 +124,22 @@ public class EntityGatekeeperMinion extends EntityMob implements ICoraliumEntity
 	}
 
 	@Override
-	protected void dropFewItems(boolean par1, int par2)
-	{
-		ItemStack item = new ItemStack(AbyssalCraft.eldritchScale);
+	protected void dropFewItems(boolean par1, int lootLvl) {
+		float drp = 1.0F + (lootLvl*0.5F);
+		int finalAmt = (drp % 1 > Math.random()) ? (int)Math.ceil(drp) : (int)Math.floor(drp);
+		
+		ItemStack items = new ItemStack(AbyssalCraft.eldritchScale, finalAmt);
+		if(rand.nextInt(10) == 0 && worldObj.provider.dimensionId == AbyssalCraft.configDimId3) {
+			items = new ItemStack(AbyssalCraft.ethaxiumIngot, finalAmt);
+		}
 
-		if(rand.nextInt(10) == 0) item = new ItemStack(AbyssalCraft.ethaxiumIngot);
-
-		if (item != null)
-		{
-			int i = rand.nextInt(3);
-
-			if (par2 > 0)
-				i += rand.nextInt(par2 + 1);
-
-			for (int j = 0; j < i; ++j)
-				entityDropItem(item, 0);
+		if (items != null) {
+			entityDropItem(items, 0);
 		}
 	}
 
 	@Override
-	public EnumCreatureAttribute getCreatureAttribute()
-	{
-		return EnumCreatureAttribute.UNDEAD;
+	public EnumCreatureAttribute getCreatureAttribute() {
+		return AbyssalCraftAPI.SHADOW;
 	}
 }

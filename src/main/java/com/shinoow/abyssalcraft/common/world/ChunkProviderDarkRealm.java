@@ -65,8 +65,7 @@ public class ChunkProviderDarkRealm implements IChunkProvider
 	double[] doubleArray4;
 	int[][] field_73219_j = new int[32][32];
 
-	public ChunkProviderDarkRealm(World par1World, long par2, boolean par4)
-	{
+	public ChunkProviderDarkRealm(World par1World, long par2, boolean par4) {
 		worldObj = par1World;
 		worldType = par1World.getWorldInfo().getTerrainType();
 		rand = new Random(par2);
@@ -81,8 +80,7 @@ public class ChunkProviderDarkRealm implements IChunkProvider
 		parabolicField = new float[25];
 
 		for (int j = -2; j <= 2; ++j)
-			for (int k = -2; k <= 2; ++k)
-			{
+			for (int k = -2; k <= 2; ++k) {
 				float f = 10.0F / MathHelper.sqrt_float(j * j + k * k + 0.2F);
 				parabolicField[j + 2 + (k + 2) * 5] = f;
 			}
@@ -98,26 +96,22 @@ public class ChunkProviderDarkRealm implements IChunkProvider
 		mobSpawnerNoise = (NoiseGeneratorOctaves)noiseGens[6];
 	}
 
-	public void generateTerrain(int x, int z, Block[] par3BlockArray)
-	{
+	public void generateTerrain(int x, int z, Block[] par3BlockArray) {
 		byte b0 = 63;
 		biomesForGeneration = worldObj.getWorldChunkManager().getBiomesForGeneration(biomesForGeneration, x * 4 - 2, z * 4 - 2, 10, 10);
 		generateNoise(x * 4, 0, z * 4);
 
-		for (int k = 0; k < 4; ++k)
-		{
+		for (int k = 0; k < 4; ++k) {
 			int l = k * 5;
 			int i1 = (k + 1) * 5;
 
-			for (int j1 = 0; j1 < 4; ++j1)
-			{
+			for (int j1 = 0; j1 < 4; ++j1) {
 				int k1 = (l + j1) * 33;
 				int l1 = (l + j1 + 1) * 33;
 				int i2 = (i1 + j1) * 33;
 				int j2 = (i1 + j1 + 1) * 33;
 
-				for (int k2 = 0; k2 < 32; ++k2)
-				{
+				for (int k2 = 0; k2 < 32; ++k2) {
 					double d0 = 0.125D;
 					double d1 = field_147434_q[k1 + k2];
 					double d2 = field_147434_q[l1 + k2];
@@ -128,16 +122,14 @@ public class ChunkProviderDarkRealm implements IChunkProvider
 					double d7 = (field_147434_q[i2 + k2 + 1] - d3) * d0;
 					double d8 = (field_147434_q[j2 + k2 + 1] - d4) * d0;
 
-					for (int l2 = 0; l2 < 8; ++l2)
-					{
+					for (int l2 = 0; l2 < 8; ++l2) {
 						double d9 = 0.25D;
 						double d10 = d1;
 						double d11 = d2;
 						double d12 = (d3 - d1) * d9;
 						double d13 = (d4 - d2) * d9;
 
-						for (int i3 = 0; i3 < 4; ++i3)
-						{
+						for (int i3 = 0; i3 < 4; ++i3) {
 							int j3 = i3 + k * 4 << 12 | 0 + j1 * 4 << 8 | k2 * 8 + l2;
 							short short1 = 256;
 							j3 -= short1;
@@ -167,8 +159,7 @@ public class ChunkProviderDarkRealm implements IChunkProvider
 		}
 	}
 
-	public void replaceBlocksForBiome(int x, int z, Block[] par3BlockArray, byte[] par4ByteArray, BiomeGenBase[] par5BiomeArray)
-	{
+	public void replaceBlocksForBiome(int x, int z, Block[] par3BlockArray, byte[] par4ByteArray, BiomeGenBase[] par5BiomeArray) {
 		ChunkProviderEvent.ReplaceBiomeBlocks event = new ChunkProviderEvent.ReplaceBiomeBlocks(this, x, z, par3BlockArray, par4ByteArray, par5BiomeArray, worldObj);
 		MinecraftForge.EVENT_BUS.post(event);
 		if (event.getResult() == Result.DENY) return;
@@ -177,8 +168,7 @@ public class ChunkProviderDarkRealm implements IChunkProvider
 		stoneNoise = noiseGen4.func_151599_a(stoneNoise, x * 16, z * 16, 16, 16, d0 * 2.0D, d0 * 2.0D, 1.0D);
 
 		for (int k = 0; k < 16; ++k)
-			for (int l = 0; l < 16; ++l)
-			{
+			for (int l = 0; l < 16; ++l) {
 				BiomeGenBase biomegenbase = par5BiomeArray[l + k * 16];
 				biomegenbase.genTerrainBlocks(worldObj, rand, par3BlockArray, par4ByteArray, x * 16 + k, z * 16 + l, stoneNoise[l + k * 16]);
 			}

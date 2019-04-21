@@ -111,10 +111,8 @@ public class EntityDepthsGhoul extends EntityMob implements ICoraliumEntity {
 	}
 
 	@Override
-	public String getCommandSenderName()
-	{
-		switch (getGhoulType())
-		{
+	public String getCommandSenderName() {
+		switch (getGhoulType()) {
 		case 0:
 			return super.getCommandSenderName();
 		case 1:
@@ -142,12 +140,10 @@ public class EntityDepthsGhoul extends EntityMob implements ICoraliumEntity {
 		return getDataWatcher().getWatchableObjectByte(12) == 1;
 	}
 
-	public void setChild(boolean par1)
-	{
+	public void setChild(boolean par1) {
 		getDataWatcher().updateObject(12, Byte.valueOf((byte)(par1 ? 1 : 0)));
 
-		if (worldObj != null && !worldObj.isRemote)
-		{
+		if (worldObj != null && !worldObj.isRemote) {
 			IAttributeInstance attributeinstance = getEntityAttribute(SharedMonsterAttributes.movementSpeed);
 			attributeinstance.removeModifier(babySpeedBoostModifier);
 
@@ -159,41 +155,32 @@ public class EntityDepthsGhoul extends EntityMob implements ICoraliumEntity {
 	}
 
 	@Override
-	protected boolean isAIEnabled()
-	{
+	protected boolean isAIEnabled() {
 		return true;
 	}
 
-	public int getGhoulType()
-	{
+	public int getGhoulType() {
 		return dataWatcher.getWatchableObjectByte(13);
 	}
 
-	public void setGhoulType(int par1)
-	{
+	public void setGhoulType(int par1) {
 		dataWatcher.updateObject(13, Byte.valueOf((byte)par1));
 	}
 
 	@Override
-	public void onLivingUpdate()
-	{
-		if (worldObj.isDaytime() && !worldObj.isRemote && !isChild() && worldObj.provider.dimensionId != AbyssalCraft.configDimId1)
-		{
+	public void onLivingUpdate() {
+		if (worldObj.isDaytime() && !worldObj.isRemote && !isChild() && worldObj.provider.dimensionId != AbyssalCraft.configDimId1) {
 			float var1 = getBrightness(1.0F);
 
-			if (var1 > 0.5F && rand.nextFloat() * 30.0F < (var1 - 0.4F) * 2.0F && worldObj.canBlockSeeTheSky(MathHelper.floor_double(posX), MathHelper.floor_double(posY), MathHelper.floor_double(posZ)))
-			{
+			if (var1 > 0.5F && rand.nextFloat() * 30.0F < (var1 - 0.4F) * 2.0F && worldObj.canBlockSeeTheSky(MathHelper.floor_double(posX), MathHelper.floor_double(posY), MathHelper.floor_double(posZ))) {
 				boolean var2 = true;
 				ItemStack var3 = getEquipmentInSlot(4);
 
-				if (var3 != null)
-				{
-					if (var3.isItemStackDamageable())
-					{
+				if (var3 != null) {
+					if (var3.isItemStackDamageable()) {
 						var3.setItemDamage(var3.getItemDamageForDisplay() + rand.nextInt(2));
 
-						if (var3.getItemDamageForDisplay() >= var3.getMaxDamage())
-						{
+						if (var3.getItemDamageForDisplay() >= var3.getMaxDamage()) {
 							renderBrokenItemStack(var3);
 							setCurrentItemOrArmor(4, (ItemStack)null);
 						}
@@ -215,20 +202,17 @@ public class EntityDepthsGhoul extends EntityMob implements ICoraliumEntity {
 	}
 
 	@Override
-	public void onDeath(DamageSource par1DamageSource)
-	{
+	public void onDeath(DamageSource par1DamageSource) {
 		super.onDeath(par1DamageSource);
 
-		if (par1DamageSource.getEntity() instanceof EntityPlayer)
-		{
+		if (par1DamageSource.getEntity() instanceof EntityPlayer) {
 			EntityPlayer entityplayer = (EntityPlayer)par1DamageSource.getEntity();
 			entityplayer.addStat(AbyssalCraft.killghoul,1);
 		}
 	}
 
 	@Override
-	public boolean attackEntityAsMob(Entity par1Entity)
-	{
+	public boolean attackEntityAsMob(Entity par1Entity) {
 		if (super.attackEntityAsMob(par1Entity))
 			if (par1Entity instanceof EntityLivingBase)
 				if(worldObj.provider.dimensionId == AbyssalCraft.configDimId1 && !EntityUtil.isEntityCoralium((EntityLivingBase)par1Entity)
@@ -244,8 +228,7 @@ public class EntityDepthsGhoul extends EntityMob implements ICoraliumEntity {
 	}
 
 	@Override
-	protected String getLivingSound()
-	{
+	protected String getLivingSound() {
 		switch (getGhoulType())
 		{
 		case 0:
@@ -262,50 +245,32 @@ public class EntityDepthsGhoul extends EntityMob implements ICoraliumEntity {
 	}
 
 	@Override
-	protected String getHurtSound()
-	{
-		switch (getGhoulType())
-		{
-		case 0:
-			return "abyssalcraft:ghoul.normal.hit";
-		case 1:
-			return "abyssalcraft:ghoul.pete.hit";
-		case 2:
-			return "abyssalcraft:ghoul.normal.hit"; //abyssalcraft:ghoul.wilson.hit
-		case 3:
-			return "abyssalcraft:ghoul.normal.hit"; //abyssalcraft:ghoul.orange.hit
-		default:
-			return "abyssalcraft:ghoul.normal.hit";
-		}
+	protected String getHurtSound() {
+		return "abyssalcraft:ghoul.normal.hit";
 	}
 
 	@Override
-	protected String getDeathSound()
-	{
+	protected String getDeathSound() {
 		return "abyssalcraft:ghoul.death";
 	}
 
 	@Override
-	protected void func_145780_a(int par1, int par2, int par3, Block par4)
-	{
+	protected void func_145780_a(int par1, int par2, int par3, Block par4) {
 		playSound("mob.zombie.step", 0.15F, 1.0F);
 	}
 
 	@Override
-	protected Item getDropItem()
-	{
+	protected Item getDropItem() {
 		return AbyssalCraft.Corbone;
 	}
 
 	@Override
-	public EnumCreatureAttribute getCreatureAttribute()
-	{
+	public EnumCreatureAttribute getCreatureAttribute() {
 		return EnumCreatureAttribute.UNDEAD;
 	}
 
 	@Override
-	protected void dropRareDrop(int par1)
-	{
+	protected void dropRareDrop(int par1) {
 		switch(getGhoulType()){
 		case 0:
 			dropItem(Item.getItemFromBlock(AbyssalCraft.DGhead),1);
@@ -323,23 +288,20 @@ public class EntityDepthsGhoul extends EntityMob implements ICoraliumEntity {
 	}
 
 	@Override
-	public void readEntityFromNBT(NBTTagCompound par1NBTTagCompound)
-	{
+	public void readEntityFromNBT(NBTTagCompound par1NBTTagCompound) {
 		super.readEntityFromNBT(par1NBTTagCompound);
 
 		if(par1NBTTagCompound.getBoolean("IsBaby"))
 			setChild(true);
 
-		if (par1NBTTagCompound.hasKey("GhoulType"))
-		{
+		if (par1NBTTagCompound.hasKey("GhoulType")) {
 			byte var2 = par1NBTTagCompound.getByte("GhoulType");
 			setGhoulType(var2);
 		}
 	}
 
 	@Override
-	public void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
-	{
+	public void writeEntityToNBT(NBTTagCompound par1NBTTagCompound) {
 		super.writeEntityToNBT(par1NBTTagCompound);
 
 		if(isChild())
@@ -349,23 +311,21 @@ public class EntityDepthsGhoul extends EntityMob implements ICoraliumEntity {
 	}
 
 	@Override
-	public IEntityLivingData onSpawnWithEgg(IEntityLivingData par1EntityLivingData)
-	{
+	public IEntityLivingData onSpawnWithEgg(IEntityLivingData par1EntityLivingData) {
 		Object data = super.onSpawnWithEgg(par1EntityLivingData);
 
-		switch(worldObj.rand.nextInt(4))
-		{
-		case 0:
-			setGhoulType(0);
-			break;
-		case 1:
-			setGhoulType(1);
-			break;
-		case 2:
-			setGhoulType(2);
-			break;
-		case 3:
-			setGhoulType(3);
+		switch(worldObj.rand.nextInt(8)) {
+			case 1:
+				setGhoulType(1);
+				break;
+			case 2:
+				setGhoulType(2);
+				break;
+			case 3:
+				setGhoulType(3);
+				break;
+			default: 
+				setGhoulType(0);
 		}
 
 		float f = worldObj.func_147462_b(posX, posY, posZ);
@@ -374,8 +334,7 @@ public class EntityDepthsGhoul extends EntityMob implements ICoraliumEntity {
 		if (data == null)
 			data = new EntityDepthsGhoul.GroupData(worldObj.rand.nextFloat() < ForgeModContainer.zombieBabyChance, null);
 
-		if (data instanceof EntityDepthsGhoul.GroupData)
-		{
+		if (data instanceof EntityDepthsGhoul.GroupData) {
 			EntityDepthsGhoul.GroupData groupdata = (EntityDepthsGhoul.GroupData)data;
 
 			if (groupdata.isBaby)
@@ -385,12 +344,10 @@ public class EntityDepthsGhoul extends EntityMob implements ICoraliumEntity {
 		addRandomArmor();
 		enchantEquipment();
 
-		if (getEquipmentInSlot(4) == null)
-		{
+		if (getEquipmentInSlot(4) == null) {
 			Calendar calendar = worldObj.getCurrentDate();
 
-			if (calendar.get(2) + 1 == 10 && calendar.get(5) == 31 && rand.nextFloat() < 0.25F)
-			{
+			if (calendar.get(2) + 1 == 10 && calendar.get(5) == 31 && rand.nextFloat() < 0.25F) {
 				setCurrentItemOrArmor(4, new ItemStack(rand.nextFloat() < 0.1F ? Blocks.lit_pumpkin : Blocks.pumpkin));
 				equipmentDropChances[4] = 0.0F;
 			}
@@ -454,14 +411,12 @@ public class EntityDepthsGhoul extends EntityMob implements ICoraliumEntity {
 		hp.removeModifier(orangeHealthBoost);
 	}
 
-	public void setChildSize(boolean p_146071_1_)
-	{
+	public void setChildSize(boolean p_146071_1_) {
 		multiplySize(p_146071_1_ ? 0.5F : 1.0F);
 	}
 
 	@Override
-	protected final void setSize(float p_70105_1_, float p_70105_2_)
-	{
+	protected final void setSize(float p_70105_1_, float p_70105_2_) {
 		boolean flag = ghoulWidth > 0.0F && ghoulHeight > 0.0F;
 		ghoulWidth = p_70105_1_;
 		ghoulHeight = p_70105_2_;
@@ -470,22 +425,18 @@ public class EntityDepthsGhoul extends EntityMob implements ICoraliumEntity {
 			multiplySize(1.0F);
 	}
 
-	protected final void multiplySize(float p_146069_1_)
-	{
+	protected final void multiplySize(float p_146069_1_) {
 		super.setSize(ghoulWidth * p_146069_1_, ghoulHeight * p_146069_1_);
 	}
 
-	class GroupData implements IEntityLivingData
-	{
+	class GroupData implements IEntityLivingData {
 		public boolean isBaby;
-		private GroupData(boolean par2)
-		{
+		private GroupData(boolean par2) {
 			isBaby = false;
 			isBaby = par2;
 		}
 
-		GroupData(boolean par2, Object par4EntityDepthsGhoulINNER1)
-		{
+		GroupData(boolean par2, Object par4EntityDepthsGhoulINNER1) {
 			this(par2);
 		}
 	}

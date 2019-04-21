@@ -63,28 +63,35 @@ public class ItemCoraliumPArmor extends ItemArmor {
 	@SuppressWarnings("rawtypes")
 	@Override
 	public void onArmorTick(World world, EntityPlayer player, ItemStack itemstack) {
-		if (itemstack.getItem() == AbyssalCraft.CorhelmetP) {
+		int setEff = 0;
+		boolean plateWorn = false;
+		
+		if (player.getCurrentArmor(3) != null && player.getCurrentArmor(3).getItem().equals(AbyssalCraft.CorhelmetP)) {
+			setEff++;
 			player.addPotionEffect(new PotionEffect(Potion.nightVision.getId(), 260, 0));
-			if(player.getActivePotionEffect(AbyssalCraft.Cplague) !=null)
+		}
+		
+		if (player.getCurrentArmor(2) != null && player.getCurrentArmor(2).getItem().equals(AbyssalCraft.CorplateP)) {
+			setEff++;
+			player.addPotionEffect(new PotionEffect(Potion.resistance.getId(), 10, 0));
+		}
+		
+		if (player.getCurrentArmor(1) != null && player.getCurrentArmor(1).getItem().equals(AbyssalCraft.CorlegsP)) {
+			setEff++;
+			if(world.getWorldTime() % 200 == 0)
+				player.addPotionEffect(new PotionEffect(Potion.regeneration.id, 8, 3));
+		}
+		
+		if (player.getCurrentArmor(0) != null && player.getCurrentArmor(0).getItem().equals(AbyssalCraft.CorbootsP)) {
+			setEff++;
+			player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 5, 1));
+		}
+		
+		//Set effect
+		if (setEff >= 3) {
+			if(player.getActivePotionEffect(AbyssalCraft.Cplague) != null) {
 				player.removePotionEffect(AbyssalCraft.Cplague.getId());
+			}	
 		}
-		if (itemstack.getItem() == AbyssalCraft.CorplateP) {
-			List list = player.worldObj.getEntitiesWithinAABBExcludingEntity(player, player.boundingBox.expand(4D, 0.0D, 4D));
-
-			if (list != null)
-				for (int k2 = 0; k2 < list.size(); k2++) {
-					Entity entity = (Entity)list.get(k2);
-
-					if (entity instanceof EntityLiving && !entity.isDead)
-						entity.attackEntityFrom(DamageSource.causePlayerDamage(player), 1);
-					else if (entity instanceof EntityPlayer && !entity.isDead)
-						entity.attackEntityFrom(DamageSource.causePlayerDamage(player), 1);
-				}
-		}
-		if (itemstack.getItem() == AbyssalCraft.CorbootsP)
-			if(player.isInWater()){
-				player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 20, 2));
-				player.addPotionEffect(new PotionEffect(Potion.waterBreathing.id, 20, 1));
-			}
 	}
 }

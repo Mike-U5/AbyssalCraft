@@ -36,25 +36,6 @@ public class ItemOC extends Item {
 		return EnumChatFormatting.DARK_RED + StatCollector.translateToLocal(this.getUnlocalizedName() + ".name");
 	}
 
-	@Override
-	public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
-	{
-		par3EntityPlayer.addPotionEffect(new PotionEffect(Potion.damageBoost.id, 6000, 6));
-		par3EntityPlayer.addPotionEffect(new PotionEffect(Potion.nightVision.id, 6000, 6));
-		par3EntityPlayer.addPotionEffect(new PotionEffect(Potion.invisibility.id, 6000, 6));
-		par3EntityPlayer.addPotionEffect(new PotionEffect(Potion.regeneration.id, 6000, 6));
-		par3EntityPlayer.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 6000, 6));
-		par3EntityPlayer.addPotionEffect(new PotionEffect(Potion.resistance.id, 6000, 6));
-		par3EntityPlayer.addPotionEffect(new PotionEffect(Potion.fireResistance.id, 6000, 6));
-		par3EntityPlayer.addPotionEffect(new PotionEffect(Potion.waterBreathing.id, 6000, 6));
-		par3EntityPlayer.addPotionEffect(new PotionEffect(Potion.jump.id, 6000, 6));
-		par3EntityPlayer.addPotionEffect(new PotionEffect(Potion.digSpeed.id, 6000, 6));
-		par3EntityPlayer.addPotionEffect(new PotionEffect(Potion.fireResistance.id, 6000, 6));
-
-		par1ItemStack.stackSize--;
-		return par1ItemStack;
-	}
-
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public void addInformation(ItemStack is, EntityPlayer player, List l, boolean B){

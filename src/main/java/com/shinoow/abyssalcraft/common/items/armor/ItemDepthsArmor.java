@@ -78,20 +78,48 @@ public class ItemDepthsArmor extends ItemArmor implements IVisDiscountGear, IRev
 
 	@Override
 	public void onArmorTick(World world, EntityPlayer player, ItemStack itemstack) {
-		if (itemstack.getItem() == AbyssalCraft.Depthshelmet)
-		{
-			player.addPotionEffect(new PotionEffect(Potion.waterBreathing.getId(), 20, 0));
-			player.addPotionEffect(new PotionEffect(Potion.nightVision.getId(), 260, 0));
-			player.addPotionEffect(new PotionEffect(Potion.field_76443_y.getId(), 20, 0));
-			if(player.getActivePotionEffect(AbyssalCraft.Cplague) !=null)
-				player.removePotionEffect(AbyssalCraft.Cplague.getId());
+		int setEff = 0;
+		
+		if (player.getCurrentArmor(3) != null && player.getCurrentArmor(3).getItem().equals(AbyssalCraft.Depthshelmet)) {
+			setEff++;
+			if(player.isInWater()) {
+				player.addPotionEffect(new PotionEffect(Potion.nightVision.getId(), 260, 0));
+			}
 		}
-		if (itemstack.getItem() == AbyssalCraft.Depthsplate)
-			player.addPotionEffect(new PotionEffect(Potion.resistance.getId(), 20, 0));
-		if (itemstack.getItem() == AbyssalCraft.Depthslegs)
-			player.addPotionEffect(new PotionEffect(Potion.jump.getId(), 20, 1));
-		if (itemstack.getItem() == AbyssalCraft.Depthsboots)
-			player.addPotionEffect(new PotionEffect(Potion.moveSpeed.getId(), 20, 0));
+		
+		if (player.getCurrentArmor(2) != null && player.getCurrentArmor(2).getItem().equals(AbyssalCraft.Depthsplate)) {
+			setEff++;
+			if(player.isInWater()) {
+				player.addPotionEffect(new PotionEffect(Potion.resistance.getId(), 10, 0));
+			}
+		}
+		
+		if (player.getCurrentArmor(1) != null && player.getCurrentArmor(1).getItem().equals(AbyssalCraft.Depthslegs)) {
+			setEff++;
+			if(player.isInWater()) {
+				player.addPotionEffect(new PotionEffect(Potion.regeneration.getId(), 20, 0));
+			}
+		}
+		
+		if (player.getCurrentArmor(0) != null && player.getCurrentArmor(0).getItem().equals(AbyssalCraft.Depthsboots)) {
+			setEff++;
+			if(player.isInWater()) {
+				player.addPotionEffect(new PotionEffect(Potion.moveSpeed.getId(), 10, 3));
+			}
+		}
+		
+		//Set Effect
+		if (setEff >= 3) {
+			player.addPotionEffect(new PotionEffect(Potion.waterBreathing.id, 10, 0));
+			if(player.getActivePotionEffect(AbyssalCraft.Cplague) != null) {
+				player.removePotionEffect(AbyssalCraft.Cplague.getId());
+			}	
+		}
+		
+		//Remove existing effects
+		if(player.getActivePotionEffect(Potion.regeneration) != null && player.getActivePotionEffect(Potion.regeneration).getDuration() <= 0) {
+			player.removePotionEffect(Potion.regeneration.id);
+		}
 	}
 
 	@Override

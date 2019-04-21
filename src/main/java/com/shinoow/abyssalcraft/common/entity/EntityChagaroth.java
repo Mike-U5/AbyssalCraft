@@ -12,10 +12,14 @@
 package com.shinoow.abyssalcraft.common.entity;
 
 import java.util.Calendar;
+import java.util.List;
+import java.util.ArrayList;
 import java.util.UUID;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackOnCollide;
@@ -33,12 +37,15 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.potion.Potion;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
+import net.minecraftforge.event.entity.living.LivingHurtEvent;
 
 import com.shinoow.abyssalcraft.AbyssalCraft;
+import com.shinoow.abyssalcraft.api.AbyssalCraftAPI;
 import com.shinoow.abyssalcraft.api.entity.IDreadEntity;
 import com.shinoow.abyssalcraft.common.util.SpecialTextUtil;
 
@@ -47,6 +54,7 @@ public class EntityChagaroth extends EntityMob implements IBossDisplayData, IDre
 	private static final UUID attackDamageBoostUUID = UUID.fromString("648D7064-6A60-4F59-8ABE-C2C23A6DD7A9");
 	private static final AttributeModifier attackDamageBoost = new AttributeModifier(attackDamageBoostUUID, "Halloween Attack Damage Boost", 8D, 0);
 	public int deathTicks;
+	public int battleActions;
 
 	public EntityChagaroth(World par1World) {
 		super(par1World);
@@ -61,14 +69,12 @@ public class EntityChagaroth extends EntityMob implements IBossDisplayData, IDre
 	}
 
 	@Override
-	public String getCommandSenderName()
-	{
+	public String getCommandSenderName() {
 		return EnumChatFormatting.DARK_RED + super.getCommandSenderName();
 	}
 
 	@Override
 	public boolean attackEntityAsMob(Entity par1Entity) {
-
 		if (super.attackEntityAsMob(par1Entity))
 			if (par1Entity instanceof EntityLivingBase)
 				((EntityLivingBase)par1Entity).addPotionEffect(new PotionEffect(AbyssalCraft.Dplague.id, 100));
@@ -76,8 +82,7 @@ public class EntityChagaroth extends EntityMob implements IBossDisplayData, IDre
 	}
 
 	@Override
-	protected void applyEntityAttributes()
-	{
+	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
 
 		getEntityAttribute(SharedMonsterAttributes.knockbackResistance).setBaseValue(1.0D);
@@ -93,61 +98,60 @@ public class EntityChagaroth extends EntityMob implements IBossDisplayData, IDre
 	}
 
 	@Override
-	protected boolean isAIEnabled()
-	{
+	protected boolean isAIEnabled() {
 		return true;
 	}
 
 	@Override
-	public boolean canBreatheUnderwater()
-	{
+	public boolean canBreatheUnderwater() {
 		return true;
 	}
 
 	@Override
-	protected String getLivingSound()
-	{
+	protected String getLivingSound() {
 		return "abyssalcraft:dreadguard.idle";
 	}
 
 	@Override
-	protected String getHurtSound()
-	{
+	protected String getHurtSound() {
 		return "abyssalcraft:dreadguard.hit";
 	}
 
 	@Override
-	protected String getDeathSound()
-	{
+	protected String getDeathSound() {
 		return "abyssalcraft:dreadguard.death";
 	}
 
 	@Override
-	protected float getSoundVolume()
-	{
+	protected float getSoundVolume() {
 		return 5.0F;
 	}
 
 	@Override
-	public int getTotalArmorValue()
-	{
-		return 10;
+	public int getTotalArmorValue() {
+		return 9;
+	}
+	
+	@Override
+	public EnumCreatureAttribute getCreatureAttribute() {
+		return AbyssalCraftAPI.SHADOW;
 	}
 
 	@Override
-	protected boolean canDespawn()
-	{
+	protected boolean canDespawn() {
 		return false;
 	}
 
 	@Override
-	public void onLivingUpdate()
-	{
+	public void onLivingUpdate() {
 		EntityPlayer player = worldObj.getClosestPlayerToEntity(this, 32D);
-		if(!worldObj.isRemote && deathTicks == 0){
-			if(rand.nextInt(100) == 0 && player != null){
+		int dist = Math.round(320 - Math.max(getDistanceToEntity(player) * 10, 320));
+		if(!worldObj.isRemote && deathTicks == 0) {
+			if(rand.nextInt(100 + dist) == 0 && player != null){
 				EntityChagarothSpawn mob = new EntityChagarothSpawn(worldObj);
 				mob.copyLocationAndAnglesFrom(player);
+				mob.addPotionEffect(new PotionEffect(Potion.weakness.getId(), 60, 19));
+				mob.addPotionEffect(new PotionEffect(Potion.moveSlowdown.getId(), 60, 4));
 				worldObj.spawnEntityInWorld(mob);
 			}
 			if(rand.nextInt(1000) == 0){
@@ -210,25 +214,32 @@ public class EntityChagaroth extends EntityMob implements IBossDisplayData, IDre
 		}
 		super.onLivingUpdate();
 	}
+	
+	public void induceFear(EntityLivingBase entity) {
+		entity.addPotionEffect(new PotionEffect(110, 100));
+		double rnd = rand.nextDouble() * 20;
+		if(!entity.isDead && getDistanceToEntity(entity) > rnd) {
+			entity.addPotionEffect(new PotionEffect(51, 100));
+		}
+	}
 
 	@Override
-	public void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
-	{
+	public void writeEntityToNBT(NBTTagCompound par1NBTTagCompound) {
 		super.writeEntityToNBT(par1NBTTagCompound);
+		par1NBTTagCompound.setInteger("BattleActions", battleActions);
 		par1NBTTagCompound.setInteger("DeathTicks", deathTicks);
 	}
 
 	@Override
-	public void readEntityFromNBT(NBTTagCompound par1NBTTagCompound)
-	{
+	public void readEntityFromNBT(NBTTagCompound par1NBTTagCompound) {
 		super.readEntityFromNBT(par1NBTTagCompound);
+		battleActions = par1NBTTagCompound.getInteger("BattleActions");
 		deathTicks = par1NBTTagCompound.getInteger("DeathTicks");
 	}
 
 	@Override
 	public void onDeath(DamageSource par1DamageSource) {
-		if (par1DamageSource.getEntity() instanceof EntityPlayer)
-		{
+		if (par1DamageSource.getEntity() instanceof EntityPlayer) {
 			EntityPlayer entityplayer = (EntityPlayer)par1DamageSource.getEntity();
 			entityplayer.addStat(AbyssalCraft.killChagaroth, 1);
 		}
@@ -236,23 +247,33 @@ public class EntityChagaroth extends EntityMob implements IBossDisplayData, IDre
 	}
 
 	@Override
-	public boolean attackEntityFrom(DamageSource par1DamageSource, float par2)
-	{
-		if(par2 > 50)
-			if(par2 > 500001 || par2 < 500000)
-				if(par2 > 750001.5F || par2 < 750001)
-					par2 = 30 + worldObj.rand.nextInt(20);
+	public boolean attackEntityFrom(DamageSource dmgSrc, float par2) {
+		if(dmgSrc == DamageSource.cactus) return false;
+		if(dmgSrc == DamageSource.lava) return false;
+		if(dmgSrc == DamageSource.inWall) return false;
+		if(dmgSrc == DamageSource.drown) return false;
+		if(dmgSrc == DamageSource.fall) return false;
+		
+		if(par2 > 50) {
+			if(par2 > 500001 || par2 < 500000) {
+				if(par2 > 750001.5F || par2 < 750001) {
+					par2 = 40;
+				}
+			}
+		}
+		
+		//if(dmgSrc.getEntity() != null && dmgSrc.getEntity() instanceof EntityLivingBase){
+		//	induceFear((EntityLivingBase)dmgSrc.getEntity());
+		//}
 
-		return super.attackEntityFrom(par1DamageSource, par2);
+		return super.attackEntityFrom(dmgSrc, par2);
 	}
 
 	@Override
-	protected void onDeathUpdate()
-	{
+	protected void onDeathUpdate() {
 		++deathTicks;
 
-		if (deathTicks <= 200)
-		{
+		if (deathTicks <= 200) {
 			float f = (rand.nextFloat() - 0.5F) * 8.0F;
 			float f1 = (rand.nextFloat() - 0.5F) * 4.0F;
 			float f2 = (rand.nextFloat() - 0.5F) * 8.0F;
@@ -269,13 +290,11 @@ public class EntityChagaroth extends EntityMob implements IBossDisplayData, IDre
 		int i;
 		int j;
 
-		if (!worldObj.isRemote)
-			if (deathTicks > 150 && deathTicks % 5 == 0)
-			{
+		if (!worldObj.isRemote) {
+			if (deathTicks > 150 && deathTicks % 5 == 0) {
 				i = 500;
 
-				while (i > 0)
-				{
+				while (i > 0) {
 					j = EntityXPOrb.getXPSplit(i);
 					i -= j;
 					worldObj.spawnEntityInWorld(new EntityXPOrb(worldObj, posX, posY, posZ, j));
@@ -287,13 +306,17 @@ public class EntityChagaroth extends EntityMob implements IBossDisplayData, IDre
 					}
 				}
 			}
-		if(deathTicks == 20 && !worldObj.isRemote)
+		}
+		if(deathTicks == 20 && !worldObj.isRemote) {
 			SpecialTextUtil.ChagarothGroup(worldObj, StatCollector.translateToLocal("message.chagaroth.death.1"));
-		if(deathTicks == 80 && !worldObj.isRemote)
+		}
+		if(deathTicks == 80 && !worldObj.isRemote) {
 			SpecialTextUtil.ChagarothGroup(worldObj, StatCollector.translateToLocal("message.chagaroth.death.2"));
-		if(deathTicks == 140 && !worldObj.isRemote)
+		}
+		if(deathTicks == 140 && !worldObj.isRemote) {
 			SpecialTextUtil.ChagarothGroup(worldObj, StatCollector.translateToLocal("message.chagaroth.death.3"));
-		if(deathTicks == 200 && !worldObj.isRemote){
+		}
+		if(deathTicks == 200 && !worldObj.isRemote) {
 			SpecialTextUtil.ChagarothGroup(worldObj, StatCollector.translateToLocal("message.chagaroth.death.4"));
 			setDead();
 			worldObj.spawnEntityInWorld(new EntityItem(worldObj, posX, posY, posZ, new ItemStack(AbyssalCraft.dreadKey)));
@@ -305,8 +328,7 @@ public class EntityChagaroth extends EntityMob implements IBossDisplayData, IDre
 	}
 
 	@Override
-	public IEntityLivingData onSpawnWithEgg(IEntityLivingData par1EntityLivingData)
-	{
+	public IEntityLivingData onSpawnWithEgg(IEntityLivingData par1EntityLivingData) {
 		par1EntityLivingData = super.onSpawnWithEgg(par1EntityLivingData);
 
 		IAttributeInstance attribute = getEntityAttribute(SharedMonsterAttributes.attackDamage);

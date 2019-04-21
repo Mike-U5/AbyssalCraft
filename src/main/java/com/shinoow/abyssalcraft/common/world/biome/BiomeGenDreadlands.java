@@ -21,8 +21,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.world.World;
 
-public class BiomeGenDreadlands extends BiomeGenDreadlandsBase
-{
+public class BiomeGenDreadlands extends BiomeGenDreadlandsBase {
 
 	@SuppressWarnings("unchecked")
 	public BiomeGenDreadlands(int par1) {
@@ -31,8 +30,7 @@ public class BiomeGenDreadlands extends BiomeGenDreadlandsBase
 	}
 
 	@Override
-	public void decorate(World world, Random rand, int x, int z)
-	{
+	public void decorate(World world, Random rand, int x, int z) {
 		super.decorate(world, rand, x, z);
 
 		if(AbyssalCraft.generateDreadlandsStalagmite)
@@ -45,15 +43,13 @@ public class BiomeGenDreadlands extends BiomeGenDreadlandsBase
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public int getBiomeGrassColor(int par1, int par2, int par3)
-	{
+	public int getBiomeGrassColor(int par1, int par2, int par3) {
 		return 0x910000;
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public int getBiomeFoliageColor(int par1, int par2, int par3)
-	{
+	public int getBiomeFoliageColor(int par1, int par2, int par3) {
 		return 0x910000;
 	}
 }

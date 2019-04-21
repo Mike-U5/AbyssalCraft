@@ -57,115 +57,106 @@ public class BiomeGenDreadlandsBase extends BiomeGenBase implements IDreadlandsB
 	}
 
 	@Override
-	public void decorate(World par1World, Random par2Random, int par3, int par4)
-	{
-		super.decorate(par1World, par2Random, par3, par4);
+	public void decorate(World world, Random rnd, int par3, int par4) {
+		super.decorate(world, rnd, par3, par4);
 
-		if(AbyssalCraft.generateDreadedAbyssalniteOre)
+		if(AbyssalCraft.generateDreadedAbyssalniteOre) {
 			for(int rarity = 0; rarity < 8; rarity++) {
-				int veinSize =  4 + par2Random.nextInt(12);
-				int x = par3 + par2Random.nextInt(16);
-				int y = par2Random.nextInt(60);
-				int z = par4 + par2Random.nextInt(16);
+				int veinSize =  4 + rnd.nextInt(12);
+				int x = par3 + rnd.nextInt(16);
+				int y = rnd.nextInt(60);
+				int z = par4 + rnd.nextInt(16);
 
-				new WorldGenMinable(AbyssalCraft.dreadore, veinSize, AbyssalCraft.dreadstone).generate(par1World, par2Random, x, y, z);
+				new WorldGenMinable(AbyssalCraft.dreadore, veinSize, AbyssalCraft.dreadstone).generate(world, rnd, x, y, z);
 			}
+		}
 
-		for (int rarity = 0; rarity < 3; ++rarity)
-		{
-			int x = par3 + par2Random.nextInt(16);
-			int y = par2Random.nextInt(55);
-			int z = par4 + par2Random.nextInt(16);
-			new WorldGenMinable(AbyssalCraft.abydreadstone, 16,
-					AbyssalCraft.dreadstone).generate(par1World, par2Random, x, y, z);
+		for (int rarity = 0; rarity < 3; ++rarity) {
+			int x = par3 + rnd.nextInt(16);
+			int y = rnd.nextInt(55);
+			int z = par4 + rnd.nextInt(16);
+			new WorldGenMinable(AbyssalCraft.abydreadstone, 16, AbyssalCraft.dreadstone).generate(world, rnd, x, y, z);
+		}
+		
+		for (int rarity = 0; rarity < 32; ++rarity) {
+			int x = par3 + rnd.nextInt(16);
+			int y = rnd.nextInt(60);
+			int z = par4 + rnd.nextInt(16);
+			new WorldGenMinable(AbyssalCraft.magicdreadstone, 3, AbyssalCraft.dreadstone).generate(world, rnd, x, y, z);
 		}
 	}
 
 	@Override
-	public void genTerrainBlocks(World world, Random rand, Block[] blockArray, byte[] byteArray, int x, int z, double d)
-	{
+	public void genTerrainBlocks(World world, Random rand, Block[] blockArray, byte[] byteArray, int x, int z, double d) {
 		genDreadlandsTerrain(world, rand, blockArray, byteArray, x, z, d);
 	}
 
-	public final void genDreadlandsTerrain(World world, Random rand, Block[] blockArray, byte[] byteArray, int x, int z, double d)
-	{
-		Block block = topBlock;
+	public final void genDreadlandsTerrain(World world, Random rand, Block[] blockArray, byte[] byteArray, int x, int z, double d) {
+		Block baseBlock = topBlock;
 		byte b0 = (byte)(field_150604_aj & 255);
-		Block block1 = fillerBlock;
+		Block stoneBlock = AbyssalCraft.dreadstone;
 		int k = -1;
 		int l = (int)(d / 3.0D + 3.0D + rand.nextDouble() * 0.25D);
 		int i1 = x & 15;
 		int j1 = z & 15;
 		int k1 = blockArray.length / 256;
 
-		for (int l1 = 255; l1 >= 0; --l1)
-		{
+		for (int l1 = 255; l1 >= 0; --l1) {
 			int i2 = (j1 * 16 + i1) * k1 + l1;
 
-			if (l1 <= 0 + rand.nextInt(5))
+			if (l1 <= 0 + rand.nextInt(5)) {
 				blockArray[i2] = Blocks.bedrock;
-			else
-			{
+			} else {
 				Block block2 = blockArray[i2];
 
-				if (block2 != null && block2.getMaterial() != Material.air)
-				{
-					if (block2 == AbyssalCraft.dreadstone)
-						if (k == -1)
-						{
-							if (l <= 0)
-							{
-								block = null;
+				if (block2 != null && block2.getMaterial() != Material.air) {
+					if (block2 == AbyssalCraft.dreadstone) {
+						if (k == -1) {
+							if (l <= 0) {
+								baseBlock = null;
 								b0 = 0;
-								block1 = AbyssalCraft.dreadstone;
-							}
-							else if (l1 >= 59 && l1 <= 64)
-							{
-								block = topBlock;
+								stoneBlock = AbyssalCraft.dreadstone;
+							} else if (l1 >= 59 && l1 <= 64) {
+								baseBlock = topBlock;
 								b0 = (byte)(field_150604_aj & 255);
-								block1 = fillerBlock;
+								stoneBlock = fillerBlock;
 							}
 
-							if (l1 < 63 && (block == null || block.getMaterial() == Material.air))
-								if (getFloatTemperature(x, l1, z) < 0.15F)
-								{
-									block = AbyssalCraft.dreadstone;
+							if (l1 < 63 && (baseBlock == null || baseBlock.getMaterial() == Material.air)) {
+								if (getFloatTemperature(x, l1, z) < 0.15F) {
+									baseBlock = AbyssalCraft.dreadstone;
+									b0 = 0;
+								} else {
+									baseBlock = AbyssalCraft.dreadstone;
 									b0 = 0;
 								}
-								else
-								{
-									block = AbyssalCraft.dreadstone;
-									b0 = 0;
-								}
+							}
 
 							k = l;
 
-							if (l1 >= 62)
-							{
-								blockArray[i2] = block;
+							if (l1 >= 62) {
+								blockArray[i2] = baseBlock;
 								byteArray[i2] = b0;
-							}
-							else if (l1 < 56 - l)
-							{
-								block = null;
-								block1 = AbyssalCraft.dreadstone;
+							} else if (l1 < 56 - l) {
+								baseBlock = null;
+								stoneBlock = AbyssalCraft.dreadstone;
 								blockArray[i2] = AbyssalCraft.dreadstone;
-							} else
-								blockArray[i2] = block1;
-						}
-						else if (k > 0)
-						{
+							} else {
+								blockArray[i2] = stoneBlock;
+							}
+						} else if (k > 0) {
 							--k;
-							blockArray[i2] = block1;
+							blockArray[i2] = stoneBlock;
 
-							if (k == 0 && block1 == AbyssalCraft.dreadstone)
-							{
+							if (k == 0 && stoneBlock == AbyssalCraft.dreadstone) {
 								k = rand.nextInt(4) + Math.max(0, l1 - 63);
-								block1 = AbyssalCraft.dreadstone;
+								stoneBlock = AbyssalCraft.dreadstone;
 							}
 						}
-				} else
+					}
+				} else {
 					k = -1;
+				}
 			}
 		}
 	}

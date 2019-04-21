@@ -33,7 +33,6 @@ public class ItemCorb extends Item {
 
 	@Override
 	public String getItemStackDisplayName(ItemStack par1ItemStack) {
-
 		return EnumChatFormatting.AQUA + StatCollector.translateToLocal(this.getUnlocalizedName() + ".name");
 	}
 
@@ -42,21 +41,24 @@ public class ItemCorb extends Item {
 		if(w.getBlock(x, y, z) == Blocks.stone){
 			w.setBlock(x, y, z, AbyssalCraft.Darkstone);
 			is.damageItem(50, player);
-		}else if(w.getBlock(x, y, z) == AbyssalCraft.Darkstone){
+		} else if(w.getBlock(x, y, z) == AbyssalCraft.Darkstone){
 			w.setBlock(x, y, z, Blocks.stone);
 			is.damageItem(50, player);
-		}else if(w.getBlock(x, y, z) == Blocks.cobblestone){
+		} else if(w.getBlock(x, y, z) == Blocks.cobblestone){
 			w.setBlock(x, y, z, AbyssalCraft.Darkstone_cobble);
 			is.damageItem(50, player);
-		}else if(w.getBlock(x, y, z) == AbyssalCraft.Darkstone_cobble){
+		} else if(w.getBlock(x, y, z) == AbyssalCraft.Darkstone_cobble){
 			w.setBlock(x, y, z, Blocks.cobblestone);
 			is.damageItem(50, player);
-		}else if(w.getBlock(x, y, z) == Blocks.stonebrick){
+		} else if(w.getBlock(x, y, z) == Blocks.stonebrick){
 			w.setBlock(x, y, z, AbyssalCraft.Darkstone_brick);
 			is.damageItem(50, player);
-		}else if(w.getBlock(x, y, z) == AbyssalCraft.Darkstone_brick){
+		} else if(w.getBlock(x, y, z) == AbyssalCraft.Darkstone_brick){
 			w.setBlock(x, y, z, Blocks.stonebrick);
 			is.damageItem(50, player);
+		} else if (w.getBlock(x, y, z) == AbyssalCraft.shoggothBlock) {
+			w.setBlock(x, y, z, Blocks.dirt);
+			is.damageItem(1, player);
 		}
 		return false;
 	}

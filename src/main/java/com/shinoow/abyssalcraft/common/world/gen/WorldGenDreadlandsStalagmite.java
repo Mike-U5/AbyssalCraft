@@ -21,6 +21,9 @@ import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
 
 public class WorldGenDreadlandsStalagmite extends WorldGenerator {
+	
+	private boolean purified = false;
+	private boolean infusedCanGen = true;
 
 	@Override
 	public boolean generate(World world, Random rand, int x, int y, int z) {
@@ -31,30 +34,41 @@ public class WorldGenDreadlandsStalagmite extends WorldGenerator {
 		if(world.getBlock(x, y, z) != AbyssalCraft.abydreadstone &&
 				world.getBlock(x, y, z) != AbyssalCraft.dreadstone)
 			return false;
-
-		Block block;
-		if(world.getBiomeGenForCoords(x, z) == ACBiomes.purified_dreadlands)
-			block = AbyssalCraft.abydreadstone;
-		else block = AbyssalCraft.dreadstone;
+		
+		if(world.getBiomeGenForCoords(x, z) == ACBiomes.purified_dreadlands) {
+			this.purified = true;
+		}
+		
 		for(int i = 0; i < 7 + rand.nextInt(5); i++)
-			world.setBlock(x, y + i, z, block);
+			world.setBlock(x, y + i, z, rollStalagBlock(rand));
 		for(int i = 0; i < 5 + rand.nextInt(5); i++)
-			world.setBlock(x + 1, y + i, z, block);
+			world.setBlock(x + 1, y + i, z, rollStalagBlock(rand));
 		for(int i = 0; i < 5 + rand.nextInt(5); i++)
-			world.setBlock(x - 1, y + i, z, block);
+			world.setBlock(x - 1, y + i, z, rollStalagBlock(rand));
 		for(int i = 0; i < 5 + rand.nextInt(5); i++)
-			world.setBlock(x, y + i, z + 1, block);
+			world.setBlock(x, y + i, z + 1, rollStalagBlock(rand));
 		for(int i = 0; i < 5 + rand.nextInt(5); i++)
-			world.setBlock(x, y + i, z - 1, block);
+			world.setBlock(x, y + i, z - 1, rollStalagBlock(rand));
 		for(int i = 0; i < 3 + rand.nextInt(5); i++)
-			world.setBlock(x + 1, y + i, z + 1, block);
+			world.setBlock(x + 1, y + i, z + 1, rollStalagBlock(rand));
 		for(int i = 0; i < 3 + rand.nextInt(5); i++)
-			world.setBlock(x - 1, y + i, z - 1, block);
+			world.setBlock(x - 1, y + i, z - 1, rollStalagBlock(rand));
 		for(int i = 0; i < 3 + rand.nextInt(5); i++)
-			world.setBlock(x - 1, y + i, z + 1, block);
+			world.setBlock(x - 1, y + i, z + 1, rollStalagBlock(rand));
 		for(int i = 0; i < 3 + rand.nextInt(5); i++)
-			world.setBlock(x + 1, y + i, z - 1, block);
+			world.setBlock(x + 1, y + i, z - 1, rollStalagBlock(rand));
 
 		return true;
+	}
+	
+	private Block rollStalagBlock(Random rand) {
+		if(this.purified) {
+			return AbyssalCraft.abydreadstone;
+		} else if (this.infusedCanGen && rand.nextInt(200) == 0) {
+			this.infusedCanGen = false;
+			return AbyssalCraft.magicdreadstone;
+		} else {
+			return AbyssalCraft.dreadstone;
+		}
 	}
 }

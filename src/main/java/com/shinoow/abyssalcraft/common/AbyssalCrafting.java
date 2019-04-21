@@ -12,11 +12,13 @@
 package com.shinoow.abyssalcraft.common;
 
 import net.minecraft.init.Blocks;
+import net.minecraft.entity.EntityList;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraftforge.oredict.*;
+import net.minecraft.world.World;
 
 import com.shinoow.abyssalcraft.AbyssalCraft;
 import com.shinoow.abyssalcraft.api.AbyssalCraftAPI;
@@ -37,6 +39,7 @@ import com.shinoow.abyssalcraft.common.entity.EntityShadowBeast;
 import com.shinoow.abyssalcraft.common.entity.EntityShadowCreature;
 import com.shinoow.abyssalcraft.common.entity.EntityShadowMonster;
 import com.shinoow.abyssalcraft.common.ritual.NecronomiconBreedingRitual;
+import com.shinoow.abyssalcraft.common.ritual.NecronomiconPurificationRitual;
 import com.shinoow.abyssalcraft.common.ritual.NecronomiconDreadSpawnRitual;
 import com.shinoow.abyssalcraft.common.ritual.NecronomiconRespawnJzaharRitual;
 
@@ -65,37 +68,8 @@ public class AbyssalCrafting {
 		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.DSGlow, 4), new Object[] {"#$#", "&%&", "#&#", '#', AbyssalCraft.Darkstone_brick, '$', Items.diamond,'&', Blocks.obsidian, '%', Blocks.glowstone });
 		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.Darkcobbleslab1, 6), new Object[] {"AAA", 'A', AbyssalCraft.Darkstone_cobble });
 		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.DLTplank, 4), new Object[] {"A", 'A', AbyssalCraft.DLTLog });
-		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.ODB, 1), new Object[] {"AOO", "TCO", "LOO", 'A', AbyssalCraft.antibucket, 'O', Blocks.obsidian, 'T', AbyssalCraft.OC, 'C', AbyssalCraft.ODBcore, 'L', AbyssalCraft.Cbucket});
-		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.ODB, 1), new Object[] {"AOO", "TCO", "LOO", 'L', AbyssalCraft.antibucket, 'O', Blocks.obsidian, 'T', AbyssalCraft.OC, 'C', AbyssalCraft.ODBcore, 'A', AbyssalCraft.Cbucket});
 		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.abyblock, 1), new Object[] {"AAA", "AAA", "AAA", 'A', AbyssalCraft.abyingot });
 		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.ODBcore, 1), new Object[] {"#&#", "$@$", "#&#", '#', AbyssalCraft.abyingot, '&', Blocks.iron_block, '$', Items.iron_ingot,'@', AbyssalCraft.Cpearl});
-		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.CoraliumInfusedStone, 1), new Object[] {"###", "&&&", "###", '#', Blocks.stone, '&', AbyssalCraft.Coraliumcluster3});
-		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.CoraliumInfusedStone, 1), new Object[] {"###", "&$%", "###", '#', Blocks.stone, '&', AbyssalCraft.Coraliumcluster2, '$', AbyssalCraft.Coraliumcluster3, '%', AbyssalCraft.Coraliumcluster4});
-		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.CoraliumInfusedStone, 1), new Object[] {"###", "&$%", "###", '#', Blocks.stone, '&', AbyssalCraft.Coraliumcluster3, '$', AbyssalCraft.Coraliumcluster2, '%', AbyssalCraft.Coraliumcluster4});
-		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.CoraliumInfusedStone, 1), new Object[] {"###", "&$%", "###", '#', Blocks.stone, '&', AbyssalCraft.Coraliumcluster4, '$', AbyssalCraft.Coraliumcluster3, '%', AbyssalCraft.Coraliumcluster2});
-		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.CoraliumInfusedStone, 1), new Object[] {"###", "&$%", "###", '#', Blocks.stone, '&', AbyssalCraft.Coraliumcluster3, '$', AbyssalCraft.Coraliumcluster4, '%', AbyssalCraft.Coraliumcluster2});
-		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.CoraliumInfusedStone, 1), new Object[] {"###", "&$%", "###", '#', Blocks.stone, '&', AbyssalCraft.Coraliumcluster2, '$', AbyssalCraft.Coraliumcluster4, '%', AbyssalCraft.Coraliumcluster3});
-		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.CoraliumInfusedStone, 1), new Object[] {"###", "&$%", "###", '#', Blocks.stone, '&', AbyssalCraft.Coraliumcluster4, '$', AbyssalCraft.Coraliumcluster2, '%', AbyssalCraft.Coraliumcluster3});
-		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.CoraliumInfusedStone, 1), new Object[] {"###", "&&&", "###", '#', Blocks.stone, '&', AbyssalCraft.Coraliumcluster3});
-		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.CoraliumInfusedStone, 1), new Object[] {"###", "&$%", "###", '#', Blocks.stone, '&', AbyssalCraft.Coralium, '$', AbyssalCraft.Coraliumcluster3, '%', AbyssalCraft.Coraliumcluster5});
-		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.CoraliumInfusedStone, 1), new Object[] {"###", "&$%", "###", '#', Blocks.stone, '&', AbyssalCraft.Coraliumcluster3, '$', AbyssalCraft.Coralium, '%', AbyssalCraft.Coraliumcluster5});
-		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.CoraliumInfusedStone, 1), new Object[] {"###", "&$%", "###", '#', Blocks.stone, '&', AbyssalCraft.Coraliumcluster3, '$', AbyssalCraft.Coraliumcluster5, '%', AbyssalCraft.Coralium});
-		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.CoraliumInfusedStone, 1), new Object[] {"###", "&$%", "###", '#', Blocks.stone, '&', AbyssalCraft.Coraliumcluster5, '$', AbyssalCraft.Coraliumcluster3, '%', AbyssalCraft.Coralium});
-		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.CoraliumInfusedStone, 1), new Object[] {"###", "&$%", "###", '#', Blocks.stone, '&', AbyssalCraft.Coralium, '$', AbyssalCraft.Coraliumcluster5, '%', AbyssalCraft.Coraliumcluster3});
-		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.CoraliumInfusedStone, 1), new Object[] {"###", "&$%", "###", '#', Blocks.stone, '&', AbyssalCraft.Coraliumcluster5, '$', AbyssalCraft.Coralium, '%', AbyssalCraft.Coraliumcluster3});
-		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.CoraliumInfusedStone, 1), new Object[] {"###", "&$%", "###", '#', Blocks.stone, '&', AbyssalCraft.Coralium, '$', AbyssalCraft.Coraliumcluster7, '%', AbyssalCraft.Coralium});
-		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.CoraliumInfusedStone, 1), new Object[] {"###", "&$%", "###", '#', Blocks.stone, '&', AbyssalCraft.Coraliumcluster7, '$', AbyssalCraft.Coralium, '%', AbyssalCraft.Coralium});
-		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.CoraliumInfusedStone, 1), new Object[] {"###", "&$%", "###", '#', Blocks.stone, '&', AbyssalCraft.Coralium, '$', AbyssalCraft.Coralium, '%', AbyssalCraft.Coraliumcluster7});
-		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.CoraliumInfusedStone, 1), new Object[] {"###", "&$%", "###", '#', Blocks.stone, '&', AbyssalCraft.Coraliumcluster5, '$', AbyssalCraft.Coraliumcluster2, '%', AbyssalCraft.Coraliumcluster2});
-		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.CoraliumInfusedStone, 1), new Object[] {"###", "&$%", "###", '#', Blocks.stone, '&', AbyssalCraft.Coraliumcluster2, '$', AbyssalCraft.Coraliumcluster5, '%', AbyssalCraft.Coraliumcluster2});
-		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.CoraliumInfusedStone, 1), new Object[] {"###", "&$%", "###", '#', Blocks.stone, '&', AbyssalCraft.Coraliumcluster2, '$', AbyssalCraft.Coraliumcluster2, '%', AbyssalCraft.Coraliumcluster5});
-		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.CoraliumInfusedStone, 1), new Object[] {"###", "&$%", "###", '#', Blocks.stone, '&', AbyssalCraft.Coraliumcluster2, '$', AbyssalCraft.Coralium, '%', AbyssalCraft.Coraliumcluster6});
-		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.CoraliumInfusedStone, 1), new Object[] {"###", "&$%", "###", '#', Blocks.stone, '&', AbyssalCraft.Coralium, '$', AbyssalCraft.Coraliumcluster2, '%', AbyssalCraft.Coraliumcluster6});
-		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.CoraliumInfusedStone, 1), new Object[] {"###", "&$%", "###", '#', Blocks.stone, '&', AbyssalCraft.Coraliumcluster5, '$', AbyssalCraft.Coralium, '%', AbyssalCraft.Coraliumcluster2});
-		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.CoraliumInfusedStone, 1), new Object[] {"###", "&$%", "###", '#', Blocks.stone, '&', AbyssalCraft.Coralium, '$', AbyssalCraft.Coraliumcluster5, '%', AbyssalCraft.Coraliumcluster2});
-		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.CoraliumInfusedStone, 1), new Object[] {"###", "&$%", "###", '#', Blocks.stone, '&', AbyssalCraft.Coraliumcluster2, '$', AbyssalCraft.Coraliumcluster5, '%', AbyssalCraft.Coralium});
-		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.CoraliumInfusedStone, 1), new Object[] {"###", "&$%", "###", '#', Blocks.stone, '&', AbyssalCraft.Coraliumcluster5, '$', AbyssalCraft.Coraliumcluster2, '%', AbyssalCraft.Coralium});
-		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.CoraliumInfusedStone, 1), new Object[] {"###", "#%#", "###", '#', Blocks.stone, '%', AbyssalCraft.Coraliumcluster9});
 		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.abybrick, 4), new Object[] {"##", "##", '#', AbyssalCraft.abystone});
 		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.abyslab1, 6), new Object[] {"###", '#', AbyssalCraft.abybrick});
 		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.abyfence, 6), new Object[] {"###", "###", '#', AbyssalCraft.abybrick});
@@ -239,7 +213,6 @@ public class AbyssalCrafting {
 		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.crystalShard, 1, 23), new Object[] {"#%", '#', new ItemStack(AbyssalCraft.crystalShard, 1, 19), '%', new ItemStack(AbyssalCraft.crystalShard, 1, 4)});
 		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.ethaxiumIngot), new Object[] {"###", "#%#", "###", '#', AbyssalCraft.ethaxium_brick, '%', AbyssalCraft.lifeCrystal});
 		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.ethaxiumIngot), new Object[] {" # ", "#%#", " # ", '#', AbyssalCraft.ethaxium_brick, '%', AbyssalCraft.OC});
-		GameRegistry.addRecipe(new ItemStack(Items.spawn_egg, 1, AbyssalCraft.stringtoIDMapping.get("shadowboss")), new Object[] {"#", '#', AbyssalCraft.ODB});
 		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.ethaxiumIngot, 9), new Object[] {"#", '#', AbyssalCraft.ethaxiumblock});
 		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.ethPickaxe, 1), new Object[] {"###", " % ", " % ", '#', AbyssalCraft.ethaxiumIngot, '%', AbyssalCraft.ethaxium_brick});
 		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.ethAxe, 1), new Object[] {"##", "#%", " %", '#', AbyssalCraft.ethaxiumIngot, '%', AbyssalCraft.ethaxium_brick});
@@ -289,11 +262,7 @@ public class AbyssalCrafting {
 		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.crystal, 1, 10), new Object[] {"###", "###", "###", '#', new ItemStack(AbyssalCraft.crystalShard, 1, 10)});
 		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.crystal, 1, 11), new Object[] {"###", "###", "###", '#', new ItemStack(AbyssalCraft.crystalShard, 1, 11)});
 		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.crystal, 1, 12), new Object[] {"###", "###", "###", '#', new ItemStack(AbyssalCraft.crystalShard, 1, 12)});
-		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.crystal, 1, 13), new Object[] {"###", "###", "###", '#', new ItemStack(AbyssalCraft.crystalShard, 1, 13)});
 		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.crystal, 1, 14), new Object[] {"###", "###", "###", '#', new ItemStack(AbyssalCraft.crystalShard, 1, 14)});
-		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.crystal, 1, 15), new Object[] {"###", "###", "###", '#', new ItemStack(AbyssalCraft.crystalShard, 1, 15)});
-		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.crystal, 1, 16), new Object[] {"###", "###", "###", '#', new ItemStack(AbyssalCraft.crystalShard, 1, 16)});
-		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.crystal, 1, 17), new Object[] {"###", "###", "###", '#', new ItemStack(AbyssalCraft.crystalShard, 1, 17)});
 		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.crystal, 1, 18), new Object[] {"###", "###", "###", '#', new ItemStack(AbyssalCraft.crystalShard, 1, 18)});
 		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.crystal, 1, 19), new Object[] {"###", "###", "###", '#', new ItemStack(AbyssalCraft.crystalShard, 1, 19)});
 		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.crystal, 1, 20), new Object[] {"###", "###", "###", '#', new ItemStack(AbyssalCraft.crystalShard, 1, 20)});
@@ -314,11 +283,7 @@ public class AbyssalCrafting {
 		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.crystalShard, 9, 10), new Object[] {"#", '#', new ItemStack(AbyssalCraft.crystal, 1, 10)});
 		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.crystalShard, 9, 11), new Object[] {"#", '#', new ItemStack(AbyssalCraft.crystal, 1, 11)});
 		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.crystalShard, 9, 12), new Object[] {"#", '#', new ItemStack(AbyssalCraft.crystal, 1, 12)});
-		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.crystalShard, 9, 13), new Object[] {"#", '#', new ItemStack(AbyssalCraft.crystal, 1, 13)});
 		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.crystalShard, 9, 14), new Object[] {"#", '#', new ItemStack(AbyssalCraft.crystal, 1, 14)});
-		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.crystalShard, 9, 15), new Object[] {"#", '#', new ItemStack(AbyssalCraft.crystal, 1, 15)});
-		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.crystalShard, 9, 16), new Object[] {"#", '#', new ItemStack(AbyssalCraft.crystal, 1, 16)});
-		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.crystalShard, 9, 17), new Object[] {"#", '#', new ItemStack(AbyssalCraft.crystal, 1, 17)});
 		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.crystalShard, 9, 18), new Object[] {"#", '#', new ItemStack(AbyssalCraft.crystal, 1, 18)});
 		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.crystalShard, 9, 19), new Object[] {"#", '#', new ItemStack(AbyssalCraft.crystal, 1, 19)});
 		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.crystalShard, 9, 20), new Object[] {"#", '#', new ItemStack(AbyssalCraft.crystal, 1, 20)});
@@ -420,17 +385,6 @@ public class AbyssalCrafting {
 		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.dreadiumSlegs, 1), new Object[] {"#%#", "&&&", '#', AbyssalCraft.dreadplate, '%', new ItemStack(AbyssalCraft.dreadiumlegs, 1, OreDictionary.WILDCARD_VALUE), '&', AbyssalCraft.dreadcloth});
 		addArmor(AbyssalCraft.ethHelmet, AbyssalCraft.ethPlate, AbyssalCraft.ethLegs, AbyssalCraft.ethBoots, AbyssalCraft.ethaxiumIngot, AbyssalCraft.EthaxiumU, AbyssalCraft.dreadiumhelmet, AbyssalCraft.dreadiumplate, AbyssalCraft.dreadiumlegs, AbyssalCraft.dreadiumboots);
 
-		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.ironp, 2), new Object[] {"#", "#", '#', Items.iron_ingot});
-		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.cloth, 1), new Object[] {"###", "#%#", "###", '#', Blocks.web, '%', Blocks.wool});
-
-		GameRegistry.addShapelessRecipe(new ItemStack(AbyssalCraft.MRE, 1), AbyssalCraft.ironp, Items.carrot, Items.potato, Items.cooked_beef);
-		GameRegistry.addShapelessRecipe(new ItemStack(AbyssalCraft.chickenp, 1), AbyssalCraft.ironp, Items.cooked_chicken);
-		GameRegistry.addShapelessRecipe(new ItemStack(AbyssalCraft.porkp, 1), AbyssalCraft.ironp, Items.cooked_porkchop);
-		GameRegistry.addShapelessRecipe(new ItemStack(AbyssalCraft.beefp, 1), AbyssalCraft.ironp, Items.cooked_beef);
-		GameRegistry.addShapelessRecipe(new ItemStack(AbyssalCraft.fishp, 1), AbyssalCraft.ironp, Items.cooked_fished);
-		GameRegistry.addShapelessRecipe(new ItemStack(AbyssalCraft.eggp, 1), AbyssalCraft.ironp, AbyssalCraft.friedegg);
-		GameRegistry.addShapelessRecipe(new ItemStack(AbyssalCraft.ironp, 1, 0), AbyssalCraft.dirtyplate, new ItemStack(AbyssalCraft.cloth,1, OreDictionary.WILDCARD_VALUE));
-
 		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(AbyssalCraft.CobbleU, 4), "plankWood", Blocks.cobblestone, Blocks.cobblestone, Items.string, Items.flint));
 		GameRegistry.addShapelessRecipe(new ItemStack(AbyssalCraft.IronU, 1), Blocks.cobblestone, Items.iron_ingot, Items.iron_ingot, AbyssalCraft.CobbleU);
 		GameRegistry.addShapelessRecipe(new ItemStack(AbyssalCraft.GoldU, 1), Items.iron_ingot, Items.gold_ingot, Items.gold_ingot, AbyssalCraft.IronU);
@@ -513,7 +467,6 @@ public class AbyssalCrafting {
 
 		GameRegistry.addSmelting(AbyssalCraft.abychunk, new ItemStack(AbyssalCraft.abyingot), 3F);
 		GameRegistry.addSmelting(AbyssalCraft.Cchunk, new ItemStack(AbyssalCraft.Cingot, 2), 3F);
-		GameRegistry.addSmelting(Items.egg, new ItemStack(AbyssalCraft.friedegg, 1), 0F);
 		GameRegistry.addSmelting(AbyssalCraft.dreadchunk, new ItemStack(AbyssalCraft.abyingot), 3F);
 		GameRegistry.addSmelting(AbyssalCraft.Cbucket, new ItemStack(AbyssalCraft.cstone, 1), 0.2F);
 
@@ -533,136 +486,25 @@ public class AbyssalCrafting {
 		GameRegistry.addSmelting(Items.golden_chestplate, new ItemStack(Items.gold_ingot), 1F);
 		GameRegistry.addSmelting(Items.golden_leggings, new ItemStack(Items.gold_ingot), 1F);
 		GameRegistry.addSmelting(Items.golden_boots, new ItemStack(Items.gold_ingot), 1F);
-
-		GameRegistry.addSmelting(Items.diamond_helmet, new ItemStack(Items.diamond), 1F);
-		GameRegistry.addSmelting(Items.diamond_chestplate, new ItemStack(Items.diamond), 1F);
-		GameRegistry.addSmelting(Items.diamond_leggings, new ItemStack(Items.diamond), 1F);
-		GameRegistry.addSmelting(Items.diamond_boots, new ItemStack(Items.diamond), 1F);
 	}
 
 	private static void addCrystallization(){
 
-		AbyssalCraftAPI.addSingleCrystallization(AbyssalCraft.Cwater, new ItemStack(AbyssalCraft.crystalShard, 6, 13), 0.4F);
-		AbyssalCraftAPI.addSingleCrystallization(AbyssalCraft.Cbucket, new ItemStack(AbyssalCraft.crystalShard, 6, 13), 0.2F);
-		AbyssalCraftAPI.addSingleCrystallization(AbyssalCraft.Cingot, new ItemStack(AbyssalCraft.crystalShard, 4, 13), 0.1F);
-		AbyssalCraftAPI.addSingleCrystallization(AbyssalCraft.Cchunk, new ItemStack(AbyssalCraft.crystalShard, 4, 13), 0.1F);
-		AbyssalCraftAPI.addSingleCrystallization(AbyssalCraft.AbyLCorOre, new ItemStack(AbyssalCraft.crystalShard, 4, 13), 0.1F);
-		AbyssalCraftAPI.addSingleCrystallization(AbyssalCraft.abyingot, new ItemStack(AbyssalCraft.crystalShard, 4, 12), 0.1F);
-		AbyssalCraftAPI.addSingleCrystallization(AbyssalCraft.abychunk, new ItemStack(AbyssalCraft.crystalShard, 4, 12), 0.1F);
-		AbyssalCraftAPI.addSingleCrystallization(AbyssalCraft.dreadiumingot, new ItemStack(AbyssalCraft.crystalShard, 4, 14), 0.1F);
-		AbyssalCraftAPI.addSingleCrystallization(Items.iron_ingot, new ItemStack(AbyssalCraft.crystalShard, 4, 0), 0.1F);
-		AbyssalCraftAPI.addSingleCrystallization(Items.gold_ingot, new ItemStack(AbyssalCraft.crystalShard, 4, 1), 0.1F);
-		AbyssalCraftAPI.addSingleCrystallization(Items.redstone, new ItemStack(AbyssalCraft.crystalShard, 4, 11), 0.1F);
-		AbyssalCraftAPI.addSingleCrystallization(Items.coal, new ItemStack(AbyssalCraft.crystalShard, 4, 3), 0.1F);
-		AbyssalCraftAPI.addSingleCrystallization(Items.blaze_powder, new ItemStack(AbyssalCraft.crystalShard, 4, 15), 0.1F);
-		AbyssalCraftAPI.addSingleCrystallization(new ItemStack(Items.dye, 1, 15), new ItemStack(AbyssalCraft.crystalShard, 4, 7), 0.0F);
-		AbyssalCraftAPI.addSingleCrystallization("oreAbyssalnite", "crystalShardAbyssalnite", 4, 0.1F);
-		AbyssalCraftAPI.addSingleCrystallization("oreCoralium", "crystalShardCoralium", 4, 0.1F);
-		AbyssalCraftAPI.addSingleCrystallization("oreIron", "crystalShardIron", 4, 0.1F);
-		AbyssalCraftAPI.addSingleCrystallization("oreGold", "crystalShardGold", 4, 0.1F);
-		AbyssalCraftAPI.addSingleCrystallization("ingotTin", "crystalShardTin", 4, 0.1F);
-		AbyssalCraftAPI.addSingleCrystallization("oreTin", "crystalShardTin", 4, 0.1F);
-		AbyssalCraftAPI.addSingleCrystallization("ingotCopper", "crystalShardCopper", 4, 0.1F);
-		AbyssalCraftAPI.addSingleCrystallization("oreCopper", "crystalShardCopper", 4, 0.1F);
-		AbyssalCraftAPI.addSingleCrystallization("ingotAluminum", "crystalShardAluminium", 4, 0.1F);
-		AbyssalCraftAPI.addSingleCrystallization("ingotAluminium", "crystalShardAluminium", 4, 0.1F);
-		AbyssalCraftAPI.addSingleCrystallization("oreAluminum", "crystalShardAluminium", 4, 0.1F);
-		AbyssalCraftAPI.addSingleCrystallization("blockCopper", "crystalCopper", 4, 0.9F);
-		AbyssalCraftAPI.addSingleCrystallization("blockTin", "crystalTin", 4, 0.9F);
-		AbyssalCraftAPI.addSingleCrystallization(Blocks.gold_block, new ItemStack(AbyssalCraft.crystal, 4, 1), 0.9F);
-		AbyssalCraftAPI.addSingleCrystallization(Blocks.iron_block, new ItemStack(AbyssalCraft.crystal, 4, 0), 0.9F);
-		AbyssalCraftAPI.addSingleCrystallization(AbyssalCraft.abyblock, new ItemStack(AbyssalCraft.crystal, 4, 12), 0.9F);
-		AbyssalCraftAPI.addSingleCrystallization(AbyssalCraft.corblock, new ItemStack(AbyssalCraft.crystal, 4, 13), 0.9F);
-		AbyssalCraftAPI.addSingleCrystallization(AbyssalCraft.dreadiumblock, new ItemStack(AbyssalCraft.crystal, 4, 14), 0.9F);
-		AbyssalCraftAPI.addSingleCrystallization(Blocks.coal_ore, new ItemStack(AbyssalCraft.crystalShard, 4, 3), 0.1F);
-		AbyssalCraftAPI.addSingleCrystallization(Blocks.coal_block, new ItemStack(AbyssalCraft.crystal, 4, 3), 0.9F);
-		AbyssalCraftAPI.addSingleCrystallization(Blocks.redstone_ore, new ItemStack(AbyssalCraft.crystalShard, 4, 11), 0.1F);
-		AbyssalCraftAPI.addSingleCrystallization(Blocks.redstone_block, new ItemStack(AbyssalCraft.crystal, 4, 11), 0.9F);
-		AbyssalCraftAPI.addSingleCrystallization("ingotZinc", "crystalZinc", 0.1F);
-		AbyssalCraftAPI.addSingleCrystallization("oreZinc", "crystalZinc", 0.1F);
-		AbyssalCraftAPI.addCrystallization(AbyssalCraft.dreadchunk, new ItemStack(AbyssalCraft.crystalShard, 4, 12), new ItemStack(AbyssalCraft.crystalShard, 4, 14), 0.2F);
-		AbyssalCraftAPI.addCrystallization(AbyssalCraft.dreadore, new ItemStack(AbyssalCraft.crystalShard, 4, 12), new ItemStack(AbyssalCraft.crystalShard, 4, 14), 0.2F);
-		AbyssalCraftAPI.addCrystallization(Blocks.water, new ItemStack(AbyssalCraft.crystalShard, 12, 5), new ItemStack(AbyssalCraft.crystalShard, 6, 4), 0.4F);
-		AbyssalCraftAPI.addCrystallization(Items.water_bucket, new ItemStack(AbyssalCraft.crystalShard, 12, 5), new ItemStack(AbyssalCraft.crystalShard, 6, 4), 0.1F);
-		AbyssalCraftAPI.addCrystallization(new ItemStack(Items.potionitem, 1, 0), new ItemStack(AbyssalCraft.crystalShard, 6, 5), new ItemStack(AbyssalCraft.crystalShard, 3, 4), 0.1F);
-		AbyssalCraftAPI.addCrystallization(new ItemStack(Items.dye, 1, 4), new ItemStack(AbyssalCraft.crystal, 2, 21), new ItemStack(AbyssalCraft.crystalShard, 16, 2), 0.15F);
-		AbyssalCraftAPI.addCrystallization(AbyssalCraft.methane, new ItemStack(AbyssalCraft.crystalShard, 4, 4), new ItemStack(AbyssalCraft.crystal, 16, 5), 0.1F);
-		AbyssalCraftAPI.addCrystallization(Items.gunpowder, new ItemStack(AbyssalCraft.crystalShard, 16, 9), new ItemStack(AbyssalCraft.crystalShard, 4, 2), 0.1F);
-		AbyssalCraftAPI.addCrystallization("dustSaltpeter", "crystalShardPotassium", 4, "crystalShardNitrate", 4, 0.1F);
-		AbyssalCraftAPI.addCrystallization("oreSaltpeter", "crystalShardPotassium", 4, "crystalShardNitrate", 4, 0.1F);
-		AbyssalCraftAPI.addCrystallization(Blocks.obsidian, new ItemStack(AbyssalCraft.crystalShard, 4, 21), new ItemStack(AbyssalCraft.crystalShard, 4, 23), 0.1F);
-		AbyssalCraftAPI.addCrystallization(Blocks.stone, new ItemStack(AbyssalCraft.crystalShard, 4, 21), new ItemStack(AbyssalCraft.crystalShard, 4, 23), 0.1F);
-		AbyssalCraftAPI.addCrystallization(new ItemStack(AbyssalCraft.crystal,1, 21), new ItemStack(AbyssalCraft.crystal, 1, 18), new ItemStack(AbyssalCraft.crystal, 2, 4), 0.1F);
-		AbyssalCraftAPI.addCrystallization(new ItemStack(AbyssalCraft.crystalShard,1, 21), new ItemStack(AbyssalCraft.crystalShard, 1, 18), new ItemStack(AbyssalCraft.crystalShard, 2, 4), 0.1F);
-		AbyssalCraftAPI.addCrystallization(new ItemStack(AbyssalCraft.crystal, 1, 22), new ItemStack(AbyssalCraft.crystal, 2, 20), new ItemStack(AbyssalCraft.crystal, 3, 4), 0.1F);
-		AbyssalCraftAPI.addCrystallization(new ItemStack(AbyssalCraft.crystalShard, 1, 22), new ItemStack(AbyssalCraft.crystalShard, 2, 20), new ItemStack(AbyssalCraft.crystalShard, 3, 4), 0.1F);
-		AbyssalCraftAPI.addCrystallization(new ItemStack(AbyssalCraft.crystal, 1, 23), new ItemStack(AbyssalCraft.crystal, 1, 19), new ItemStack(AbyssalCraft.crystal, 1, 4), 0.1F);
-		AbyssalCraftAPI.addCrystallization(new ItemStack(AbyssalCraft.crystalShard, 1, 23), new ItemStack(AbyssalCraft.crystalShard, 1, 19), new ItemStack(AbyssalCraft.crystalShard, 1, 4), 0.1F);
-		AbyssalCraftAPI.addCrystallization("ingotBronze", "crystalShardCopper", 4, "crystalShardTin", 12, 0.4F);
-		AbyssalCraftAPI.addCrystallization(new ItemStack(AbyssalCraft.crystal, 1, 10), new ItemStack(AbyssalCraft.crystal, 1, 3), new ItemStack(AbyssalCraft.crystal, 4, 5), 0.1F);
-		AbyssalCraftAPI.addCrystallization(new ItemStack(AbyssalCraft.crystalShard, 1, 10), new ItemStack(AbyssalCraft.crystalShard, 1, 3), new ItemStack(AbyssalCraft.crystalShard, 4, 5), 0.1F);
-		AbyssalCraftAPI.addCrystallization(new ItemStack(AbyssalCraft.crystal, 1, 9), new ItemStack(AbyssalCraft.crystal, 1, 6), new ItemStack(AbyssalCraft.crystal, 3, 4), 0.1F);
-		AbyssalCraftAPI.addCrystallization(new ItemStack(AbyssalCraft.crystalShard, 1, 9), new ItemStack(AbyssalCraft.crystalShard, 1, 6), new ItemStack(AbyssalCraft.crystalShard, 3, 4), 0.1F);
-		AbyssalCraftAPI.addCrystallization(Blocks.lapis_ore, new ItemStack(AbyssalCraft.crystalShard, 24, 21), new ItemStack(AbyssalCraft.crystalShard, 16, 2), 0.15F);
-		AbyssalCraftAPI.addCrystallization(Blocks.lapis_block, new ItemStack(AbyssalCraft.crystal, 24, 21), new ItemStack(AbyssalCraft.crystal, 16, 2), 1.0F);
-		AbyssalCraftAPI.addCrystallization("ingotBrass", "crystalShardCopper", 12, "crystalShardZinc", 8, 0.5F);
-		AbyssalCraftAPI.addCrystallization("oreBrass", "crystalShardCopper", 12, "crystalShardZinc", 8, 0.5F);
-		AbyssalCraftAPI.addSingleCrystallization(Items.rotten_flesh, new ItemStack(AbyssalCraft.crystalShard, 8, 7), 0.1F);
-		AbyssalCraftAPI.addSingleCrystallization(new ItemStack(AbyssalCraft.shoggothFlesh, 1, 0), new ItemStack(AbyssalCraft.crystalShard, 8, 7), 0.2F);
-		AbyssalCraftAPI.addCrystallization(new ItemStack(AbyssalCraft.shoggothFlesh, 1, 1), new ItemStack(AbyssalCraft.crystalShard, 8, 7), new ItemStack(AbyssalCraft.crystalShard, 4, 13), 0.2F);
-		AbyssalCraftAPI.addCrystallization(new ItemStack(AbyssalCraft.shoggothFlesh, 1, 2), new ItemStack(AbyssalCraft.crystalShard, 8, 7), new ItemStack(AbyssalCraft.crystalShard, 4, 14), 0.2F);
-		AbyssalCraftAPI.addCrystallization(new ItemStack(AbyssalCraft.shoggothFlesh, 1, 3), new ItemStack(AbyssalCraft.crystalShard, 8, 7), new ItemStack(AbyssalCraft.crystalShard, 4, 3), 0.2F);
-		AbyssalCraftAPI.addCrystallization(new ItemStack(AbyssalCraft.shoggothFlesh, 1, 4), new ItemStack(AbyssalCraft.crystalShard, 8, 7), new ItemStack(AbyssalCraft.shadowgem, 1), 0.2F);
-		AbyssalCraftAPI.addCrystallization(new ItemStack(AbyssalCraft.Corflesh), new ItemStack(AbyssalCraft.crystalShard, 8, 7), new ItemStack(AbyssalCraft.crystalShard, 4, 13), 0.2F);
-		AbyssalCraftAPI.addCrystallization(new ItemStack(AbyssalCraft.Corbone), new ItemStack(AbyssalCraft.crystalShard, 12, 7), new ItemStack(AbyssalCraft.crystalShard, 4, 13), 0.2F);
-		AbyssalCraftAPI.addSingleCrystallization(Items.gold_nugget, new ItemStack(AbyssalCraft.crystalShard, 1, 1), 0.1F);
-		AbyssalCraftAPI.addSingleCrystallization(new ItemStack(AbyssalCraft.nugget, 1, 0), new ItemStack(AbyssalCraft.crystalShard, 1, 12), 0.1F);
-		AbyssalCraftAPI.addSingleCrystallization(new ItemStack(AbyssalCraft.nugget, 1, 1), new ItemStack(AbyssalCraft.crystalShard, 1, 13), 0.1F);
-		AbyssalCraftAPI.addSingleCrystallization(new ItemStack(AbyssalCraft.nugget, 1, 2), new ItemStack(AbyssalCraft.crystalShard, 1, 14), 0.1F);
-		AbyssalCraftAPI.addSingleCrystallization("nuggetIron", "crystalShardIron", 0.1F);
-		AbyssalCraftAPI.addSingleCrystallization("nuggetCopper", "crystalShardCopper", 0.1F);
-		AbyssalCraftAPI.addSingleCrystallization("nuggetTin", "crystalShardTin", 0.1F);
-		AbyssalCraftAPI.addSingleCrystallization("nuggetAluminium", "crystalShardAluminium", 0.1F);
-		AbyssalCraftAPI.addCrystallization("nuggetBronze", "crystalShardCopper", 1, "crystalShardTin", 3, 0.1F);
-		AbyssalCraftAPI.addCrystallization("nuggetBrass", "crystalShardCopper", 3, "crystalShardTin", 2, 0.1F);
-		AbyssalCraftAPI.addSingleCrystallization(AbyssalCraft.Coralium, new ItemStack(AbyssalCraft.crystalShard, 1, 13), 0.1F);
-		AbyssalCraftAPI.addSingleCrystallization("nuggetZinc", "crystalShardZinc", 0.1F);
-		AbyssalCraftAPI.addSingleCrystallization("nuggetMagnesium", "crystalShardMagnesium", 0.1F);
-		AbyssalCraftAPI.addSingleCrystallization("ingotMagnesium", "crystalShardMagnesium", 4, 0.1F);
-		AbyssalCraftAPI.addCrystallization(new ItemStack(AbyssalCraft.skin, 1, 0), new ItemStack(AbyssalCraft.crystalShard, 8, 7), new ItemStack(AbyssalCraft.essence, 1, 0), 0.2F);
-		AbyssalCraftAPI.addCrystallization(new ItemStack(AbyssalCraft.skin, 1, 1), new ItemStack(AbyssalCraft.crystalShard, 8, 7), new ItemStack(AbyssalCraft.essence, 1, 1), 0.2F);
-		AbyssalCraftAPI.addCrystallization(new ItemStack(AbyssalCraft.skin, 1, 2), new ItemStack(AbyssalCraft.crystalShard, 8, 7), new ItemStack(AbyssalCraft.essence, 1, 2), 0.2F);
-		AbyssalCraftAPI.addCrystallization(AbyssalCraft.Dreadshard, new ItemStack(AbyssalCraft.crystalShard, 1, 12), new ItemStack(AbyssalCraft.crystalShard, 4, 14), 0.2F);
-
-		//Crystallization for dusts
-		AbyssalCraftAPI.addSingleCrystallization("dustIron", "crystalShardIron", 4, 0.1F);
-		AbyssalCraftAPI.addSingleCrystallization("dustGold", "crystalShardGold", 4, 0.1F);
-		AbyssalCraftAPI.addSingleCrystallization("dustTin", "crystalShardTin", 4, 0.1F);
-		AbyssalCraftAPI.addSingleCrystallization("dustCopper", "crystalShardCopper", 4, 0.1F);
-		AbyssalCraftAPI.addSingleCrystallization("dustCoal", "crystalShardCarbon", 4, 0.1F);
-		AbyssalCraftAPI.addSingleCrystallization("dustAluminium", "crystalSHardAluminium", 4, 0.1F);
-		AbyssalCraftAPI.addSingleCrystallization("dustSulfur", "crystalShardSulfur", 4, 0.1F);
-		AbyssalCraftAPI.addCrystallization("dustBronze", "crystalShardCopper", 4, "crystalShardTin", 12, 0.1F);
-		AbyssalCraftAPI.addCrystallization("dustBrass", "crystalShardCopper", 12, "crystalShardZinc", 8, 0.1F);
 	}
 
 	private static void addTransmutation(){
 
 		AbyssalCraftAPI.addTransmutation(new ItemStack(AbyssalCraft.crystal, 1, 12), new ItemStack(AbyssalCraft.abyingot, 1), 0.2F);
-		AbyssalCraftAPI.addTransmutation(new ItemStack(AbyssalCraft.crystal, 1, 13), new ItemStack(AbyssalCraft.Cingot, 1), 0.2F);
 		AbyssalCraftAPI.addTransmutation(new ItemStack(AbyssalCraft.crystal, 1, 14), new ItemStack(AbyssalCraft.dreadiumingot, 1), 0.2F);
 		AbyssalCraftAPI.addTransmutation(AbyssalCraft.Dreadshard, new ItemStack(AbyssalCraft.dreadiumingot, 1), 0.2F);
 		AbyssalCraftAPI.addTransmutation(new ItemStack(AbyssalCraft.crystal, 1, 0), new ItemStack(Items.iron_ingot, 1), 0.2F);
 		AbyssalCraftAPI.addTransmutation(new ItemStack(AbyssalCraft.crystal, 1, 1), new ItemStack(Items.gold_ingot, 1), 0.2F);
 		AbyssalCraftAPI.addTransmutation(new ItemStack(AbyssalCraft.crystal, 1, 2), new ItemStack(AbyssalCraft.sulfur, 1), 0.2F);
-		AbyssalCraftAPI.addTransmutation(new ItemStack(AbyssalCraft.crystal, 1, 15), new ItemStack(Items.blaze_powder, 1), 0.2F);
 		AbyssalCraftAPI.addTransmutation(new ItemStack(AbyssalCraft.crystal, 1, 11), new ItemStack(Items.redstone, 1), 0.2F);
 		AbyssalCraftAPI.addTransmutation(new ItemStack(AbyssalCraft.crystal, 1, 5), new ItemStack(AbyssalCraft.crystal, 1, 5), 0.2F);
 		AbyssalCraftAPI.addTransmutation(new ItemStack(AbyssalCraft.crystal, 1, 4), new ItemStack(AbyssalCraft.crystal, 1, 4), 0.2F);
 		AbyssalCraftAPI.addTransmutation(new ItemStack(AbyssalCraft.crystal, 1, 6), new ItemStack(AbyssalCraft.crystal, 1, 6), 0.2F);
 		AbyssalCraftAPI.addTransmutation(new ItemStack(AbyssalCraft.crystal, 1, 10), new ItemStack(AbyssalCraft.methane, 1), 0.2F);
-		AbyssalCraftAPI.addTransmutation(new ItemStack(AbyssalCraft.crystal, 1, 16), new ItemStack(AbyssalCraft.tinIngot, 1), 0.2F);
-		AbyssalCraftAPI.addTransmutation(new ItemStack(AbyssalCraft.crystal, 1, 17), new ItemStack(AbyssalCraft.copperIngot, 1), 0.2F);
 		AbyssalCraftAPI.addTransmutation(AbyssalCraft.Darkstone, new ItemStack(Blocks.stone, 1), 0.0F);
 		AbyssalCraftAPI.addTransmutation(Blocks.stone, new ItemStack(AbyssalCraft.Darkstone, 1), 0.0F);
 		AbyssalCraftAPI.addTransmutation(Blocks.stonebrick, new ItemStack(AbyssalCraft.Darkstone_brick, 1), 0.0F);
@@ -758,6 +600,9 @@ public class AbyssalCrafting {
 				new ItemStack(Items.gold_ingot), new ItemStack(Blocks.enchanting_table), new ItemStack(Items.gold_ingot)};
 		RitualRegistry.instance().registerRitual(new NecronomiconSummonRitual("summonAsorah", 1, AbyssalCraft.configDimId1, 1000F, EntityDragonBoss.class, asorahofferings));
 		RitualRegistry.instance().registerRitual(new NecronomiconBreedingRitual());
+		
+		RitualRegistry.instance().registerRitual(new NecronomiconPurificationRitual());
+		
 		Object[] sacthothofferings = new Object[]{new ItemStack(AbyssalCraft.OC), new ItemStack(Blocks.obsidian), new ItemStack(AbyssalCraft.Cbucket), new ItemStack(Blocks.obsidian),
 				new ItemStack(AbyssalCraft.antibucket), new ItemStack(Blocks.obsidian), new ItemStack(AbyssalCraft.ODBcore), new ItemStack(Blocks.obsidian)};
 		RitualRegistry.instance().registerRitual(new NecronomiconSummonRitual("summonSacthoth", 1, 1000F, EntitySacthoth.class, sacthothofferings));
@@ -881,7 +726,7 @@ public class AbyssalCrafting {
 		RitualRegistry.instance().registerRitual(new NecronomiconInfusionRitual("jzaharStaff", 4, AbyssalCraft.configDimId3, 15000F, true, new ItemStack(AbyssalCraft.Staff), AbyssalCraft.drainStaff, staffofferings));
 	}
 
-	private static void addDisruptions(){
+	private static void addDisruptions() {
 		DisruptionHandler.instance().registerDisruption(new DisruptionLightning());
 		DisruptionHandler.instance().registerDisruption(new DisruptionFire());
 		DisruptionHandler.instance().registerDisruption(new DisruptionSpawn("spawnShoggoth", null, EntityLesserShoggoth.class));
@@ -895,6 +740,7 @@ public class AbyssalCrafting {
 		DisruptionHandler.instance().registerDisruption(new DisruptionFreeze());
 		DisruptionHandler.instance().registerDisruption(new DisruptionSwarm("swarmShadow", null, EntityShadowCreature.class, EntityShadowMonster.class, EntityShadowBeast.class));
 		DisruptionHandler.instance().registerDisruption(new DisruptionFireRain());
+		DisruptionHandler.instance().registerDisruption(new DisruptionTaintRain());
 		DisruptionHandler.instance().registerDisruption(new DisruptionDisplaceEntities());
 		DisruptionHandler.instance().registerDisruption(new DisruptionMonolith());
 		DisruptionHandler.instance().registerDisruption(new DisruptionTeleportRandomly());

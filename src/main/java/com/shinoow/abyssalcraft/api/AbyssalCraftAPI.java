@@ -90,20 +90,21 @@ public class AbyssalCraftAPI {
 	 */
 	public static EnumCreatureAttribute SHADOW = EnumHelper.addCreatureAttribute("SHADOW");
 
-	public static ArmorMaterial abyssalniteArmor = EnumHelper.addArmorMaterial("Abyssalnite", 35, new int[]{3, 6, 8, 3}, 13);
-	public static ArmorMaterial dreadedAbyssalniteArmor = EnumHelper.addArmorMaterial("Dread", 36, new int[]{3, 6, 8, 3}, 15);
-	public static ArmorMaterial refinedCoraliumArmor = EnumHelper.addArmorMaterial("Coralium", 37, new int[]{3, 6, 8, 3}, 14);
-	public static ArmorMaterial platedCoraliumArmor = EnumHelper.addArmorMaterial("CoraliumP", 55, new int[]{4, 7, 9, 4}, 14);
-	public static ArmorMaterial depthsArmor = EnumHelper.addArmorMaterial("Depths", 33, new int[]{3, 6, 8, 3}, 25);
-	public static ArmorMaterial dreadiumArmor = EnumHelper.addArmorMaterial("Dreadium", 40, new int[]{3, 6, 8, 3}, 15);
-	public static ArmorMaterial dreadiumSamuraiArmor = EnumHelper.addArmorMaterial("DreadiumS", 45, new int[]{3, 6, 8, 3}, 20);
-	public static ArmorMaterial ethaxiumArmor = EnumHelper.addArmorMaterial("Ethaxium", 50, new int[]{3, 6, 8, 3}, 25);
+	public static ArmorMaterial abyssalniteArmor = EnumHelper.addArmorMaterial("Abyssalnite", 35, new int[]{3, 8, 6, 3}, 13);
+	public static ArmorMaterial dreadedAbyssalniteArmor = EnumHelper.addArmorMaterial("Dread", 36, new int[]{3, 8, 6, 3}, 15);
+	public static ArmorMaterial refinedCoraliumArmor = EnumHelper.addArmorMaterial("Coralium", 37, new int[]{3, 8, 6, 3}, 14);
+	public static ArmorMaterial platedCoraliumArmor = EnumHelper.addArmorMaterial("CoraliumP", 55, new int[]{4, 9, 7, 4}, 14);
+	public static ArmorMaterial depthsArmor = EnumHelper.addArmorMaterial("Depths", 33, new int[]{3, 8, 6, 3}, 25);
+	public static ArmorMaterial dreadiumArmor = EnumHelper.addArmorMaterial("Dreadium", 40, new int[]{3, 8, 6, 3}, 15);
+	public static ArmorMaterial dreadiumSamuraiArmor = EnumHelper.addArmorMaterial("DreadiumS", 45, new int[]{3, 8, 6, 3}, 20);
+	public static ArmorMaterial ethaxiumArmor = EnumHelper.addArmorMaterial("Ethaxium", 50, new int[]{3, 8, 6, 3}, 25);
 
-	public static ToolMaterial darkstoneTool = EnumHelper.addToolMaterial("DARKSTONE", 1, 180, 5.0F, 1, 5);
-	public static ToolMaterial abyssalniteTool = EnumHelper.addToolMaterial("ABYSSALNITE", 4, 1261, 10.0F, 4, 13);
-	public static ToolMaterial refinedCoraliumTool = EnumHelper.addToolMaterial("CORALIUM", 5, 1800, 12.0F, 5, 14);
-	public static ToolMaterial dreadiumTool = EnumHelper.addToolMaterial("DREADIUM", 6, 2300, 14.0F, 6, 15);
-	public static ToolMaterial ethaxiumTool = EnumHelper.addToolMaterial("ETHAXIUM", 8, 2800, 16.0F, 8, 20);
+	public static ToolMaterial darkstoneTool = EnumHelper.addToolMaterial("DARKSTONE", 1, 180, 5.0F, 1F, 5);
+	public static ToolMaterial abyssalniteTool = EnumHelper.addToolMaterial("ABYSSALNITE", 4, 1261, 10.0F, 2F, 13);
+	public static ToolMaterial refinedCoraliumTool = EnumHelper.addToolMaterial("CORALIUM", 5, 1800, 12.0F, 3F, 14);
+	public static ToolMaterial dreadiumTool = EnumHelper.addToolMaterial("DREADIUM", 6, 2300, 14.0F, 4F, 15);
+	public static ToolMaterial ethaxiumTool = EnumHelper.addToolMaterial("ETHAXIUM", 8, 2800, 15.5F, 5F, 19);
+	public static ToolMaterial souliumTool = EnumHelper.addToolMaterial("SOULIUM", 9, 3000, 16.5F, 6F, 21);
 
 	private static IInternalNecroDataHandler internalNDHandler = new DummyNecroDataHandler();
 

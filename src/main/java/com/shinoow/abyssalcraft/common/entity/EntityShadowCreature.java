@@ -24,6 +24,7 @@ import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
 import com.shinoow.abyssalcraft.AbyssalCraft;
@@ -69,7 +70,7 @@ public class EntityShadowCreature extends EntityMob implements IAntiEntity, ICor
 	@Override
 	protected float getSoundPitch()
 	{
-		return rand.nextFloat() - rand.nextFloat() * 0.2F + 1.3F;
+		return rand.nextFloat() - rand.nextFloat() * 0.2F + 1.5F;
 	}
 
 	@Override
@@ -83,26 +84,18 @@ public class EntityShadowCreature extends EntityMob implements IAntiEntity, ICor
 	{
 		return "abyssalcraft:shadow.death";
 	}
-
+	
 	@Override
-	protected Item getDropItem()
-	{
-		return AbyssalCraft.shadowfragment;
+	protected void dropFewItems(boolean para, int lootLvl) {
+		int drp = 2 + (lootLvl*1);
+		int finalAmt = drp;
+		
+		entityDropItem(new ItemStack(AbyssalCraft.shadowfragment, finalAmt), 0);
 	}
 
 	@Override
 	public EnumCreatureAttribute getCreatureAttribute()
 	{
 		return AbyssalCraftAPI.SHADOW;
-	}
-
-	@Override
-	public void onLivingUpdate()
-	{
-		for (int i = 0; i < 2; ++i)
-			if(AbyssalCraft.particleEntity)
-				worldObj.spawnParticle("largesmoke", posX + (rand.nextDouble() - 0.5D) * width, posY + rand.nextDouble() * height, posZ + (rand.nextDouble() - 0.5D) * width, 0.0D, 0.0D, 0.0D);
-
-		super.onLivingUpdate();
 	}
 }

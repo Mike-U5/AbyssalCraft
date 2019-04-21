@@ -61,8 +61,7 @@ public class WorldProviderDarkRealm extends WorldProvider {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public Vec3 getFogColor(float par1, float par2)
-	{
+	public Vec3 getFogColor(float par1, float par2) {
 		int i = 10518688;
 		float f2 = MathHelper.cos(par1 * (float)Math.PI * 2.0F) * 2.0F + 0.5F;
 

@@ -477,7 +477,7 @@ public class Abypillar extends WorldGenerator
 		world.setBlock (i + 3, j + 98, k + 4, Blocks.obsidian, 0, 0);
 		world.setBlock (i + 3, j + 98, k + 5, Blocks.obsidian, 0, 0);
 		world.setBlock (i + 3, j + 99, k + 2, Blocks.obsidian, 0, 0);
-		world.setBlock (i + 3, j + 99, k + 3, Blocks.diamond_block, 0, 0);
+		world.setBlock (i + 3, j + 99, k + 3, AbyssalCraft.abyblock, 0, 0);
 		world.setBlock (i + 3, j + 99, k + 4, Blocks.obsidian, 0, 0);
 		world.setBlock (i + 4, j + 0, k + 0, Blocks.obsidian, 0, 0);
 		world.setBlock (i + 4, j + 0, k + 1, Blocks.obsidian, 0, 0);

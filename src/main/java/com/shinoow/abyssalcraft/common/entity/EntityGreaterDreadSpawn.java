@@ -30,6 +30,7 @@ import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
@@ -60,8 +61,7 @@ public class EntityGreaterDreadSpawn extends EntityMob implements IDreadEntity, 
 	}
 
 	@Override
-	protected void applyEntityAttributes()
-	{
+	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
 
 		getEntityAttribute(SharedMonsterAttributes.knockbackResistance).setBaseValue(0.2D);
@@ -77,14 +77,12 @@ public class EntityGreaterDreadSpawn extends EntityMob implements IDreadEntity, 
 	}
 
 	@Override
-	protected boolean isAIEnabled()
-	{
+	protected boolean isAIEnabled() {
 		return true;
 	}
 
 	@Override
 	public boolean attackEntityAsMob(Entity par1Entity){
-
 		if (super.attackEntityAsMob(par1Entity))
 			if (par1Entity instanceof EntityLivingBase)
 				((EntityLivingBase)par1Entity).addPotionEffect(new PotionEffect(AbyssalCraft.Dplague.id, 100));
@@ -92,15 +90,13 @@ public class EntityGreaterDreadSpawn extends EntityMob implements IDreadEntity, 
 	}
 
 	@Override
-	protected void entityInit()
-	{
+	protected void entityInit() {
 		super.entityInit();
 		dataWatcher.addObject(18, Byte.valueOf((byte)0));
 	}
 
 	@Override
-	public void onUpdate()
-	{
+	public void onUpdate() {
 		super.onUpdate();
 
 		if (!worldObj.isRemote)
@@ -108,32 +104,28 @@ public class EntityGreaterDreadSpawn extends EntityMob implements IDreadEntity, 
 	}
 
 	@Override
-	protected String getLivingSound()
-	{
-		return "mob.zombie.say";
+	protected String getLivingSound() {
+		return "abyssalcraft:dreadspawn.idle";
 	}
 
 	@Override
-	protected String getHurtSound()
-	{
-		return "mob.zombie.hurt";
+	protected String getHurtSound() {
+		return "abyssalcraft:dreadspawn.hurt";
 	}
 
 	@Override
 	protected String getDeathSound()
 	{
-		return "mob.zombie.death";
+		return "abyssalcraft:dreadspawn.death";
 	}
 
 	@Override
-	protected void func_145780_a(int par1, int par2, int par3, Block par4)
-	{
+	protected void func_145780_a(int par1, int par2, int par3, Block par4) {
 		worldObj.playSoundAtEntity(this, "mob.zombie.step", 0.15F, 1.0F);
 	}
 
 	@Override
-	public boolean isOnLadder()
-	{
+	public boolean isOnLadder() {
 		return isBesideClimbableBlock();
 	}
 
@@ -141,8 +133,7 @@ public class EntityGreaterDreadSpawn extends EntityMob implements IDreadEntity, 
 	 * Returns true if the WatchableObject (Byte) is 0x01 otherwise returns false. The WatchableObject is updated using
 	 * setBesideClimableBlock.
 	 */
-	public boolean isBesideClimbableBlock()
-	{
+	public boolean isBesideClimbableBlock() {
 		return (dataWatcher.getWatchableObjectByte(18) & 1) != 0;
 	}
 
@@ -150,8 +141,7 @@ public class EntityGreaterDreadSpawn extends EntityMob implements IDreadEntity, 
 	 * Updates the WatchableObject (Byte) created in entityInit(), setting it to 0x01 if par1 is true or 0x00 if it is
 	 * false.
 	 */
-	public void setBesideClimbableBlock(boolean par1)
-	{
+	public void setBesideClimbableBlock(boolean par1) {
 		byte b0 = dataWatcher.getWatchableObjectByte(18);
 
 		if (par1)
@@ -166,21 +156,20 @@ public class EntityGreaterDreadSpawn extends EntityMob implements IDreadEntity, 
 	protected void fall(float par1) {}
 
 	@Override
-	protected Item getDropItem()
-	{
-		return AbyssalCraft.Dreadshard;
-
+	protected void dropFewItems(boolean para, int lootLvl) {
+		float drp = 1.0F + (lootLvl*0.5F);
+		int finalAmt = (drp % 1 > Math.random()) ? (int)Math.ceil(drp) : (int)Math.floor(drp);
+		
+		entityDropItem(new ItemStack(AbyssalCraft.Dreadshard, finalAmt), 0);
+	}
+	
+	@Override
+	public EnumCreatureAttribute getCreatureAttribute() {
+		return EnumCreatureAttribute.ARTHROPOD;
 	}
 
 	@Override
-	public EnumCreatureAttribute getCreatureAttribute()
-	{
-		return EnumCreatureAttribute.UNDEAD;
-	}
-
-	@Override
-	public void onLivingUpdate()
-	{
+	public void onLivingUpdate() {
 		super.onLivingUpdate();
 
 		if(entityToAttack != null && getDistanceToEntity(entityToAttack) >= 5)
@@ -213,7 +202,6 @@ public class EntityGreaterDreadSpawn extends EntityMob implements IDreadEntity, 
 
 	@Override
 	public void onDeath(DamageSource par1DamageSource) {
-
 		if(!worldObj.isRemote){
 			EntityDreadSpawn spawn1 = new EntityDreadSpawn(worldObj);
 			EntityDreadSpawn spawn2 = new EntityDreadSpawn(worldObj);

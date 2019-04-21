@@ -90,11 +90,13 @@ public class BlockAntiliquid extends BlockFluidClassic {
 
 		if(par5Entity instanceof EntityLivingBase && !EntityUtil.isEntityAnti((EntityLivingBase)par5Entity)){
 			((EntityLivingBase)par5Entity).addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 400));
-			((EntityLivingBase)par5Entity).addPotionEffect(new PotionEffect(Potion.blindness.id, 400));
+			///((EntityLivingBase)par5Entity).addPotionEffect(new PotionEffect(Potion.blindness.id, 400));
 			((EntityLivingBase)par5Entity).addPotionEffect(new PotionEffect(Potion.weakness.id, 400));
 			((EntityLivingBase)par5Entity).addPotionEffect(new PotionEffect(Potion.hunger.id, 400));
 			((EntityLivingBase)par5Entity).addPotionEffect(new PotionEffect(Potion.nightVision.id, 400));
-			((EntityLivingBase)par5Entity).addPotionEffect(new PotionEffect(AbyssalCraft.antiMatter.id, 200));
+			if(((EntityLivingBase)par5Entity).getActivePotionEffect(AbyssalCraft.antiMatter) == null || ((EntityLivingBase)par5Entity).getActivePotionEffect(AbyssalCraft.antiMatter).getDuration() < 196) {
+				((EntityLivingBase)par5Entity).addPotionEffect(new PotionEffect(AbyssalCraft.antiMatter.id, 200));
+			}
 		}
 		if(par5Entity instanceof EntityItem && AbyssalCraft.antiItemDisintegration)
 			par5Entity.setDead();

@@ -21,11 +21,9 @@ import net.minecraft.client.settings.KeyBinding;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
-public final class GuiRenderHelper
-{
+public final class GuiRenderHelper {
 
-	public static void renderTooltip(int x, int y, List<String> tooltipData)
-	{
+	public static void renderTooltip(int x, int y, List<String> tooltipData) {
 		int color = 0x505000ff;
 		int color2 = 0xf0100010;
 

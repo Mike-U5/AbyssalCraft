@@ -63,7 +63,6 @@ public class PotionAntimatter extends Potion{
 
 	@Override
 	public void performEffect(EntityLivingBase par1EntityLivingBase, int par2){
-
 		if(par1EntityLivingBase instanceof IAntiEntity)
 			par1EntityLivingBase.removePotionEffect(AbyssalCraft.antiMatter.id);
 		else par1EntityLivingBase.attackEntityFrom(AbyssalCraftAPI.antimatter, 5);
@@ -145,9 +144,8 @@ public class PotionAntimatter extends Potion{
 	}
 
 	@Override
-	public boolean isReady(int par1, int par2)
-	{
-		return true;
+	public boolean isReady(int ticksLeft, int amplifier) {
+		return ticksLeft % 5 == 4;
 	}
 
 	@Override

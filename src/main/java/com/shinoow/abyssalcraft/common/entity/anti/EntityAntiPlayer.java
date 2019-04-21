@@ -26,10 +26,14 @@ import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
+
+import net.minecraft.world.biome.BiomeGenBase;
 
 import com.shinoow.abyssalcraft.AbyssalCraft;
 import com.shinoow.abyssalcraft.api.entity.IAntiEntity;
+import com.shinoow.abyssalcraft.api.biome.IDarklandsBiome;
 
 public class EntityAntiPlayer extends EntityMob implements IAntiEntity {
 
@@ -46,20 +50,16 @@ public class EntityAntiPlayer extends EntityMob implements IAntiEntity {
 	}
 
 	@Override
-	protected void applyEntityAttributes()
-	{
+	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
 
-		if(AbyssalCraft.hardcoreMode){
-			getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(80.0D);
-			getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(4.0D);
-		} else
-			getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(40.0D);
+		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(1.0D);
+		getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(8.5D);
+		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.4D);
 	}
 
 	@Override
-	protected boolean isAIEnabled()
-	{
+	protected boolean isAIEnabled() {
 		return true;
 	}
 
@@ -67,55 +67,69 @@ public class EntityAntiPlayer extends EntityMob implements IAntiEntity {
 	public boolean canDespawn(){
 		return false;
 	}
-
+	
 	@Override
-	protected void func_145780_a(int par1, int par2, int par3, Block par4)
+	protected String getLivingSound()
 	{
-		worldObj.playSoundAtEntity(this, "mob.zombie.step", 0.15F, 1.0F);
+		return "abyssalcraft:antiplayer.idle";
+	}
+	
+	@Override
+	protected String getDeathSound() {
+		return "abyssalcraft:antiplayer.death";
 	}
 
 	@Override
-	public void onKillEntity(EntityLivingBase par1EntityLivingBase)
-	{
-		super.onKillEntity(par1EntityLivingBase);
-
-		if (par1EntityLivingBase instanceof EntityPlayer)
-		{
-			if (rand.nextBoolean())
-				return;
-
-			EntityAntiPlayer antiPlayer = new EntityAntiPlayer(worldObj);
-			antiPlayer.copyLocationAndAnglesFrom(par1EntityLivingBase);
-			worldObj.removeEntity(par1EntityLivingBase);
-			antiPlayer.onSpawnWithEgg((IEntityLivingData)null);
-
-			worldObj.spawnEntityInWorld(antiPlayer);
-			worldObj.playAuxSFXAtEntity((EntityPlayer)null, 1016, (int)posX, (int)posY, (int)posZ, 0);
-
+	public void onDeath(DamageSource src) {
+		boolean flag = worldObj.getGameRules().getGameRuleBooleanValue("mobGriefing");
+		if(!worldObj.isRemote) {
+			worldObj.createExplosion(this, posX, posY, posZ, 1, flag);
 		}
+		super.onDeath(src);
 	}
 
 	@Override
-	protected void collideWithEntity(Entity par1Entity)
-	{
-		if(!worldObj.isRemote && par1Entity instanceof EntityPlayer && AbyssalCraft.hardcoreMode){
-			boolean flag = worldObj.getGameRules().getGameRuleBooleanValue("mobGriefing");
-			worldObj.createExplosion(this, posX, posY, posZ, 5, flag);
-			setDead();
-		}
-		else par1Entity.applyEntityCollision(this);
-	}
-
-	@Override
-	public IEntityLivingData onSpawnWithEgg(IEntityLivingData par1EntityLivingData)
-	{
+	public IEntityLivingData onSpawnWithEgg(IEntityLivingData par1EntityLivingData) {
 		par1EntityLivingData = super.onSpawnWithEgg(par1EntityLivingData);
 
-		setCanPickUpLoot(true);
-
-		addRandomArmor();
-		enchantEquipment();
+		setCanPickUpLoot(false);
 
 		return par1EntityLivingData;
+	}
+	
+	@Override
+	public void onLivingUpdate() {
+    	if(isInDarklands(this)) {
+    		this.attackEntityFrom(DamageSource.outOfWorld, 99999);
+    	}
+        super.onLivingUpdate();
+	}
+	
+	public boolean isInDarklands(Entity entity) {
+		if (!worldObj.isRemote) {
+			int roundX = (int)Math.round(entity.posX);
+			int roundZ = (int)Math.round(entity.posZ);
+            BiomeGenBase biome = worldObj.getBiomeGenForCoords(roundX, roundZ);
+        	if(!(biome instanceof IDarklandsBiome)) {
+        		return true;
+        	}
+        }
+		return false;
+	}
+	
+	@Override
+	public int getTotalArmorValue() {
+		return 30;
+	}
+	
+	@Override
+	public boolean attackEntityFrom(DamageSource src, float dmg) {
+		if (src == DamageSource.outOfWorld) {
+			return super.attackEntityFrom(src, dmg);
+		} else if (src.getEntity() instanceof Entity || src.isExplosion()) {
+			return super.attackEntityFrom(src, 0);
+		}
+		
+		return false;
 	}
 }

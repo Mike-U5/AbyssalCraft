@@ -16,6 +16,7 @@ import java.util.List;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.entity.IEntityMultiPart;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.boss.BossStatus;
@@ -97,27 +98,23 @@ public class EntityDragonBoss extends EntityMob implements IBossDisplayData, IEn
 	}
 
 	@Override
-	public String getCommandSenderName()
-	{
+	public String getCommandSenderName() {
 		return EnumChatFormatting.AQUA + StatCollector.translateToLocal("entity.abyssalcraft.dragonboss.name");
 	}
 
 	@Override
-	protected void applyEntityAttributes()
-	{
+	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
 		if(AbyssalCraft.hardcoreMode) getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(800.0D);
 		else getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(400.0D);
 	}
 
 	@Override
-	protected void entityInit()
-	{
+	protected void entityInit() {
 		super.entityInit();
 	}
 
-	public double[] getMovementOffsets(int par1, float par2)
-	{
+	public double[] getMovementOffsets(int par1, float par2) {
 		if (getHealth() <= 0.0F)
 			par2 = 0.0F;
 
@@ -136,16 +133,13 @@ public class EntityDragonBoss extends EntityMob implements IBossDisplayData, IEn
 	}
 
 	@Override
-	protected boolean canDespawn()
-	{
+	protected boolean canDespawn() {
 		return false;
 	}
 
 	@Override
-	public void onDeath(DamageSource par1DamageSource)
-	{
-		if (par1DamageSource.getEntity() instanceof EntityPlayer)
-		{
+	public void onDeath(DamageSource par1DamageSource) {
+		if (par1DamageSource.getEntity() instanceof EntityPlayer) {
 			EntityPlayer entityplayer = (EntityPlayer)par1DamageSource.getEntity();
 			entityplayer.addStat(AbyssalCraft.killAsorah, 1);
 		}
@@ -154,14 +148,12 @@ public class EntityDragonBoss extends EntityMob implements IBossDisplayData, IEn
 	}
 
 	@Override
-	public void onLivingUpdate()
-	{
+	public void onLivingUpdate() {
 
 		float f;
 		float f1;
 
-		if (worldObj.isRemote)
-		{
+		if (worldObj.isRemote) {
 			BossStatus.setBossStatus(this, true);
 			f = MathHelper.cos(animTime * (float)Math.PI * 2.0F);
 			f1 = MathHelper.cos(prevAnimTime * (float)Math.PI * 2.0F);
@@ -173,16 +165,13 @@ public class EntityDragonBoss extends EntityMob implements IBossDisplayData, IEn
 		prevAnimTime = animTime;
 		float f2;
 
-		if (getHealth() <= 0.0F)
-		{
+		if (getHealth() <= 0.0F) {
 			f = (rand.nextFloat() - 0.5F) * 8.0F;
 			f1 = (rand.nextFloat() - 0.5F) * 4.0F;
 			f2 = (rand.nextFloat() - 0.5F) * 8.0F;
 			if(AbyssalCraft.particleEntity)
 				worldObj.spawnParticle("largeexplode", posX + f, posY + 2.0D + f1, posZ + f2, 0.0D, 0.0D, 0.0D);
-		}
-		else
-		{
+		} else {
 			updateHealingCircle();
 			f = 0.2F / (MathHelper.sqrt_double(motionX * motionX + motionZ * motionZ) * 10.0F + 1.0F);
 			f *= (float)Math.pow(2.0D, motionY);
@@ -210,10 +199,8 @@ public class EntityDragonBoss extends EntityMob implements IBossDisplayData, IEn
 			double d3;
 			float f3;
 
-			if (worldObj.isRemote)
-			{
-				if (newPosRotationIncrements > 0)
-				{
+			if (worldObj.isRemote) {
+				if (newPosRotationIncrements > 0) {
 					d3 = posX + (newPosX - posX) / newPosRotationIncrements;
 					d0 = posY + (newPosY - posY) / newPosRotationIncrements;
 					d1 = posZ + (newPosZ - posZ) / newPosRotationIncrements;
@@ -228,16 +215,13 @@ public class EntityDragonBoss extends EntityMob implements IBossDisplayData, IEn
 				for (int i = 0; i < 2; ++i)
 					if(AbyssalCraft.particleEntity)
 						ParticleEffects.spawnParticle("CorBlood", posX + (rand.nextDouble() - 0.5D) * width, posY + rand.nextDouble() * height - 0.25D, posZ + (rand.nextDouble() - 0.5D) * width, (rand.nextDouble() - 0.5D) * 2.0D, -rand.nextDouble(), (rand.nextDouble() - 0.5D) * 2.0D);
-			}
-			else
-			{
+			} else {
 				d3 = targetX - posX;
 				d0 = targetY - posY;
 				d1 = targetZ - posZ;
 				d2 = d3 * d3 + d0 * d0 + d1 * d1;
 
-				if (target != null)
-				{
+				if (target != null) {
 					targetX = target.posX;
 					targetZ = target.posZ;
 					double d4 = targetX - posX;
@@ -375,21 +359,18 @@ public class EntityDragonBoss extends EntityMob implements IBossDisplayData, IEn
 	}
 
 	@Override
-	public void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
-	{
+	public void writeEntityToNBT(NBTTagCompound par1NBTTagCompound) {
 		super.writeEntityToNBT(par1NBTTagCompound);
 		par1NBTTagCompound.setInteger("DeathTicks", deathTicks);
 	}
 
 	@Override
-	public void readEntityFromNBT(NBTTagCompound par1NBTTagCompound)
-	{
+	public void readEntityFromNBT(NBTTagCompound par1NBTTagCompound) {
 		super.readEntityFromNBT(par1NBTTagCompound);
 		deathTicks = par1NBTTagCompound.getInteger("DeathTicks");
 	}
 
-	private void updateHealingCircle()
-	{
+	private void updateHealingCircle() {
 		if (healingcircle != null)
 			if (healingcircle.isDead)
 				healingcircle = null;
@@ -403,21 +384,18 @@ public class EntityDragonBoss extends EntityMob implements IBossDisplayData, IEn
 				healingcircle.worldObj.createExplosion(healingcircle, healingcircle.lastTickPosX, healingcircle.lastTickPosY, healingcircle.lastTickPosZ, 10F, true);
 			}
 
-		if (rand.nextInt(10) == 0)
-		{
+		if (rand.nextInt(10) == 0) {
 			float f = 32.0F;
 			List<?> list = worldObj.getEntitiesWithinAABB(EntityDragonMinion.class, boundingBox.expand(f, f, f));
 			EntityDragonMinion entitydragonminion = null;
 			double d0 = Double.MAX_VALUE;
 			Iterator<?> iterator = list.iterator();
 
-			while (iterator.hasNext())
-			{
+			while (iterator.hasNext()) {
 				EntityDragonMinion entitydragonminion1 = (EntityDragonMinion)iterator.next();
 				double d1 = entitydragonminion1.getDistanceSqToEntity(this);
 
-				if (d1 < d0)
-				{
+				if (d1 < d0) {
 					d0 = d1;
 					entitydragonminion = entitydragonminion1;
 				}
@@ -427,18 +405,15 @@ public class EntityDragonBoss extends EntityMob implements IBossDisplayData, IEn
 		}
 	}
 
-	private void collideWithEntities(List<?> par1List)
-	{
+	private void collideWithEntities(List<?> par1List) {
 		double d0 = (dragonPartBody.boundingBox.minX + dragonPartBody.boundingBox.maxX) / 2.0D;
 		double d1 = (dragonPartBody.boundingBox.minZ + dragonPartBody.boundingBox.maxZ) / 2.0D;
 		Iterator<?> iterator = par1List.iterator();
 
-		while (iterator.hasNext())
-		{
+		while (iterator.hasNext()) {
 			Entity entity = (Entity)iterator.next();
 
-			if (entity instanceof EntityLivingBase)
-			{
+			if (entity instanceof EntityLivingBase) {
 				double d2 = entity.posX - d0;
 				double d3 = entity.posZ - d1;
 				double d4 = d2 * d2 + d3 * d3;
@@ -447,10 +422,8 @@ public class EntityDragonBoss extends EntityMob implements IBossDisplayData, IEn
 		}
 	}
 
-	private void attackEntitiesInList(List<?> par1List)
-	{
-		for (int i = 0; i < par1List.size(); ++i)
-		{
+	private void attackEntitiesInList(List<?> par1List) {
+		for (int i = 0; i < par1List.size(); ++i) {
 			Entity entity = (Entity)par1List.get(i);
 
 			if (entity instanceof EntityLivingBase)
@@ -458,18 +431,15 @@ public class EntityDragonBoss extends EntityMob implements IBossDisplayData, IEn
 		}
 	}
 
-	private void setNewTarget()
-	{
+	private void setNewTarget() {
 		forceNewTarget = false;
 
 		if (rand.nextInt(2) == 0 && !worldObj.playerEntities.isEmpty())
 			target = (Entity)worldObj.playerEntities.get(rand.nextInt(worldObj.playerEntities.size()));
-		else
-		{
+		else {
 			boolean flag = false;
 
-			do
-			{
+			do {
 				targetX = 0.0D;
 				targetY = 70.0F + rand.nextFloat() * 50.0F;
 				targetZ = 0.0D;
@@ -486,21 +456,19 @@ public class EntityDragonBoss extends EntityMob implements IBossDisplayData, IEn
 		}
 	}
 
-	private float simplifyAngle(double par1)
-	{
+	private float simplifyAngle(double par1) {
 		return (float)MathHelper.wrapAngleTo180_double(par1);
 	}
 
 	@Override
-	public boolean attackEntityFromPart(EntityDragonPart par1EntityDragonPart, DamageSource par2DamageSource, float par3)
-	{
+	public boolean attackEntityFromPart(EntityDragonPart par1EntityDragonPart, DamageSource par2DamageSource, float par3) {
 		if (par1EntityDragonPart != dragonPartHead)
 			par3 = par3 / 4.0F + 1.0F;
 
 		if(par3 > 50)
 			if(par3 > 500001 || par3 < 500000)
 				if(par3 > 750001.5F || par3 < 750001)
-					par3 = 30 + worldObj.rand.nextInt(20);
+					par3 = 50;
 
 		float f1 = rotationYaw * (float)Math.PI / 180.0F;
 		float f2 = MathHelper.sin(f1);
@@ -517,23 +485,19 @@ public class EntityDragonBoss extends EntityMob implements IBossDisplayData, IEn
 	}
 
 	@Override
-	public boolean attackEntityFrom(DamageSource par1DamageSource, float par2)
-	{
+	public boolean attackEntityFrom(DamageSource par1DamageSource, float par2) {
 		return false;
 	}
 
-	protected boolean func_82195_e(DamageSource par1DamageSource, float par2)
-	{
+	protected boolean func_82195_e(DamageSource par1DamageSource, float par2) {
 		return super.attackEntityFrom(par1DamageSource, par2);
 	}
 
 	@Override
-	protected void onDeathUpdate()
-	{
+	protected void onDeathUpdate() {
 		++deathTicks;
 
-		if (deathTicks >= 180 && deathTicks <= 200)
-		{
+		if (deathTicks >= 180 && deathTicks <= 200) {
 			float f = (rand.nextFloat() - 0.5F) * 8.0F;
 			float f1 = (rand.nextFloat() - 0.5F) * 4.0F;
 			float f2 = (rand.nextFloat() - 0.5F) * 8.0F;
@@ -544,14 +508,11 @@ public class EntityDragonBoss extends EntityMob implements IBossDisplayData, IEn
 		int i;
 		int j;
 
-		if (!worldObj.isRemote)
-		{
-			if (deathTicks > 150 && deathTicks % 5 == 0)
-			{
+		if (!worldObj.isRemote) {
+			if (deathTicks > 150 && deathTicks % 5 == 0) {
 				i = 500;
 
-				while (i > 0)
-				{
+				while (i > 0) {
 					j = EntityXPOrb.getXPSplit(i);
 					i -= j;
 					worldObj.spawnEntityInWorld(new EntityXPOrb(worldObj, posX, posY, posZ, j));
@@ -582,43 +543,42 @@ public class EntityDragonBoss extends EntityMob implements IBossDisplayData, IEn
 		}
 	}
 
-	private int posneg(int num){
+	private int posneg(int num) {
 		return rand.nextBoolean() ? rand.nextInt(num) : -1 * rand.nextInt(num);
 	}
 
 	@Override
-	public Entity[] getParts()
-	{
+	public Entity[] getParts() {
 		return dragonPartArray;
 	}
 
 	@Override
-	public boolean canBeCollidedWith()
-	{
+	public boolean canBeCollidedWith() {
 		return true;
 	}
 
 	@Override
-	public World func_82194_d()
-	{
+	public World func_82194_d() {
 		return worldObj;
 	}
 
 	@Override
-	protected String getLivingSound()
-	{
+	protected String getLivingSound() {
 		return "mob.enderdragon.growl";
 	}
 
 	@Override
-	protected String getHurtSound()
-	{
+	protected String getHurtSound() {
 		return "mob.enderdragon.hit";
 	}
 
 	@Override
-	protected float getSoundVolume()
-	{
+	protected float getSoundVolume() {
 		return 5.0F;
+	}
+	
+	@Override
+	public EnumCreatureAttribute getCreatureAttribute() {
+		return EnumCreatureAttribute.UNDEAD;
 	}
 }

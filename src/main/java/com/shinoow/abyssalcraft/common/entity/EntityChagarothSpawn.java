@@ -34,8 +34,7 @@ import com.shinoow.abyssalcraft.api.entity.IDreadEntity;
 
 public class EntityChagarothSpawn extends EntityMob implements IDreadEntity {
 
-	public EntityChagarothSpawn(World par1World)
-	{
+	public EntityChagarothSpawn(World par1World) {
 		super(par1World);
 		setSize(0.6F, 0.6F);
 		tasks.addTask(1, new EntityAIAttackOnCollide(this, EntityPlayer.class, 0.35D, true));
@@ -49,8 +48,7 @@ public class EntityChagarothSpawn extends EntityMob implements IDreadEntity {
 	}
 
 	@Override
-	protected void applyEntityAttributes()
-	{
+	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
 
 		getEntityAttribute(SharedMonsterAttributes.knockbackResistance).setBaseValue(0.1D);
@@ -66,8 +64,7 @@ public class EntityChagarothSpawn extends EntityMob implements IDreadEntity {
 	}
 
 	@Override
-	protected boolean isAIEnabled()
-	{
+	protected boolean isAIEnabled() {
 		return true;
 	}
 
@@ -81,39 +78,32 @@ public class EntityChagarothSpawn extends EntityMob implements IDreadEntity {
 	}
 
 	@Override
-	protected String getLivingSound()
-	{
-		return "mob.zombie.say";
+	protected String getLivingSound() {
+		return "abyssalcraft:dreadslug.idle";
 	}
 
 	@Override
-	protected String getHurtSound()
-	{
-		return "mob.zombie.hurt";
+	protected String getHurtSound() {
+		return "abyssalcraft:dreadslug.hurt";
 	}
 
 	@Override
-	protected String getDeathSound()
-	{
-		return "mob.zombie.death";
+	protected String getDeathSound() {
+		return "abyssalcraft:dreadslug.death";
 	}
 
 	@Override
-	protected void func_145780_a(int par1, int par2, int par3, Block par4)
-	{
+	protected void func_145780_a(int par1, int par2, int par3, Block par4) {
 		worldObj.playSoundAtEntity(this, "mob.zombie.step", 0.15F, 1.0F);
 	}
 
 	@Override
-	protected Item getDropItem()
-	{
+	protected Item getDropItem() {
 		return AbyssalCraft.dreadfragment;
-
 	}
 
 	@Override
-	public EnumCreatureAttribute getCreatureAttribute()
-	{
-		return EnumCreatureAttribute.UNDEAD;
+	public EnumCreatureAttribute getCreatureAttribute() {
+		return EnumCreatureAttribute.ARTHROPOD;
 	}
 }

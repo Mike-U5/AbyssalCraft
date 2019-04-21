@@ -69,27 +69,23 @@ public class EntitySacthoth extends EntityMob implements IBossDisplayData, IAnti
 	}
 
 	@Override
-	public boolean canBreatheUnderwater()
-	{
+	public boolean canBreatheUnderwater() {
 		return true;
 	}
 
 	@Override
-	protected void entityInit()
-	{
+	protected void entityInit() {
 		super.entityInit();
 		dataWatcher.addObject(16, new Byte((byte)0));
 	}
 
 	@Override
-	public String getCommandSenderName()
-	{
+	public String getCommandSenderName() {
 		return EnumChatFormatting.DARK_RED + super.getCommandSenderName();
 	}
 
 	@Override
-	public void onUpdate()
-	{
+	public void onUpdate() {
 		super.onUpdate();
 
 		if (!worldObj.isRemote)
@@ -97,8 +93,7 @@ public class EntitySacthoth extends EntityMob implements IBossDisplayData, IAnti
 	}
 
 	@Override
-	protected void applyEntityAttributes()
-	{
+	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
 
 		getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(160.0D);
@@ -115,26 +110,22 @@ public class EntitySacthoth extends EntityMob implements IBossDisplayData, IAnti
 	}
 
 	@Override
-	protected boolean isAIEnabled()
-	{
+	protected boolean isAIEnabled() {
 		return true;
 	}
 
 	@Override
-	protected boolean canDespawn()
-	{
+	protected boolean canDespawn() {
 		return worldObj.provider.dimensionId == AbyssalCraft.configDimId4 ? true : false;
 	}
 
 	@Override
-	public boolean isOnLadder()
-	{
+	public boolean isOnLadder() {
 		return isBesideClimbableBlock();
 	}
 
 	@Override
 	public boolean attackEntityAsMob(Entity par1Entity) {
-
 		if (super.attackEntityAsMob(par1Entity))
 			if (par1Entity instanceof EntityLivingBase)
 				((EntityLivingBase)par1Entity).addPotionEffect(new PotionEffect(Potion.confusion.id, 60));
@@ -142,8 +133,7 @@ public class EntitySacthoth extends EntityMob implements IBossDisplayData, IAnti
 	}
 
 	@Override
-	protected float getSoundPitch()
-	{
+	protected float getSoundPitch() {
 		return rand.nextFloat() - rand.nextFloat() * 0.2F + 0.6F;
 	}
 
@@ -151,38 +141,32 @@ public class EntitySacthoth extends EntityMob implements IBossDisplayData, IAnti
 	protected void fall(float par1) {}
 
 	@Override
-	protected String getLivingSound()
-	{
+	protected String getLivingSound() {
 		return "mob.blaze.breathe";
 	}
 
 	@Override
-	protected String getHurtSound()
-	{
+	protected String getHurtSound() {
 		return "mob.blaze.hit";
 	}
 
 	@Override
-	protected String getDeathSound()
-	{
+	protected String getDeathSound() {
 		return "abyssalcraft:sacthoth.death";
 	}
 
 	@Override
-	protected float getSoundVolume()
-	{
+	protected float getSoundVolume() {
 		return 5.0F;
 	}
 
 	@Override
-	public int getTotalArmorValue()
-	{
+	public int getTotalArmorValue() {
 		return 20;
 	}
 
 	@Override
-	public EnumCreatureAttribute getCreatureAttribute()
-	{
+	public EnumCreatureAttribute getCreatureAttribute() {
 		return AbyssalCraftAPI.SHADOW;
 	}
 
@@ -190,8 +174,7 @@ public class EntitySacthoth extends EntityMob implements IBossDisplayData, IAnti
 	 * Returns true if the WatchableObject (Byte) is 0x01 otherwise returns false. The WatchableObject is updated using
 	 * setBesideClimableBlock.
 	 */
-	public boolean isBesideClimbableBlock()
-	{
+	public boolean isBesideClimbableBlock() {
 		return (dataWatcher.getWatchableObjectByte(16) & 1) != 0;
 	}
 
@@ -199,8 +182,7 @@ public class EntitySacthoth extends EntityMob implements IBossDisplayData, IAnti
 	 * Updates the WatchableObject (Byte) created in entityInit(), setting it to 0x01 if par1 is true or 0x00 if it is
 	 * false.
 	 */
-	public void setBesideClimbableBlock(boolean par1)
-	{
+	public void setBesideClimbableBlock(boolean par1) {
 		byte b0 = dataWatcher.getWatchableObjectByte(16);
 
 		if (par1)
@@ -212,8 +194,12 @@ public class EntitySacthoth extends EntityMob implements IBossDisplayData, IAnti
 	}
 
 	@Override
-	public boolean attackEntityFrom(DamageSource par1DamageSource, float par2)
-	{
+	public boolean attackEntityFrom(DamageSource par1DamageSource, float par2) {
+		if(par1DamageSource == DamageSource.cactus) return false;
+		if(par1DamageSource == DamageSource.lava) return false;
+		if(par1DamageSource == DamageSource.drown) return false;
+		if(par1DamageSource == DamageSource.fall) return false;
+		
 		if(par2 > 50)
 			if(par2 > 500001 || par2 < 500000)
 				if(par2 > 750001.5F || par2 < 750001)
@@ -223,29 +209,17 @@ public class EntitySacthoth extends EntityMob implements IBossDisplayData, IAnti
 			teleportRandomly();
 			return false;
 		}
-		else if(par1DamageSource.isExplosion()){
-			if(worldObj.isRemote)
-				SpecialTextUtil.SacthothText(StatCollector.translateToLocal("message.sacthoth.damage.explosion"));
-			return false;
-		}
-		else if(par1DamageSource.isProjectile()){
-			if(worldObj.isRemote)
-				SpecialTextUtil.SacthothText(StatCollector.translateToLocal("message.sacthoth.damage.projectile"));
-			return false;
-		}
 		return super.attackEntityFrom(par1DamageSource, par2);
 	}
 
-	protected boolean teleportRandomly()
-	{
+	protected boolean teleportRandomly() {
 		double d0 = posX + (rand.nextDouble() - 0.5D) * 64.0D;
 		double d1 = posY + (rand.nextInt(64) - 32);
 		double d2 = posZ + (rand.nextDouble() - 0.5D) * 64.0D;
 		return teleportTo(d0, d1, d2);
 	}
 
-	protected boolean teleportTo(double par1, double par3, double par5)
-	{
+	protected boolean teleportTo(double par1, double par3, double par5) {
 		EnderTeleportEvent event = new EnderTeleportEvent(this, par1, par3, par5, 0);
 		if (MinecraftForge.EVENT_BUS.post(event))
 			return false;
@@ -260,25 +234,21 @@ public class EntitySacthoth extends EntityMob implements IBossDisplayData, IAnti
 		int j = MathHelper.floor_double(posY);
 		int k = MathHelper.floor_double(posZ);
 
-		if (worldObj.blockExists(i, j, k))
-		{
+		if (worldObj.blockExists(i, j, k)) {
 			boolean flag1 = false;
 
-			while (!flag1 && j > 0)
-			{
+			while (!flag1 && j > 0){
 				Block block = worldObj.getBlock(i, j - 1, k);
 
-				if (block.getMaterial().blocksMovement())
+				if (block.getMaterial().blocksMovement()) {
 					flag1 = true;
-				else
-				{
+				} else {
 					--posY;
 					--j;
 				}
 			}
 
-			if (flag1)
-			{
+			if (flag1) {
 				setPosition(posX, posY, posZ);
 
 				if (worldObj.getCollidingBoundingBoxes(this, boundingBox).isEmpty() && !worldObj.isAnyLiquid(boundingBox))
@@ -286,17 +256,13 @@ public class EntitySacthoth extends EntityMob implements IBossDisplayData, IAnti
 			}
 		}
 
-		if (!flag)
-		{
+		if (!flag) {
 			setPosition(d3, d4, d5);
 			return false;
-		}
-		else
-		{
+		} else {
 			short short1 = 128;
 
-			for (int l = 0; l < short1; ++l)
-			{
+			for (int l = 0; l < short1; ++l) {
 				double d6 = l / (short1 - 1.0D);
 				float f = (rand.nextFloat() - 0.5F) * 0.2F;
 				float f1 = (rand.nextFloat() - 0.5F) * 0.2F;
@@ -373,7 +339,7 @@ public class EntitySacthoth extends EntityMob implements IBossDisplayData, IAnti
 			}
 			if(deathTicks == 200 && !worldObj.isRemote){
 				setDead();
-				worldObj.spawnEntityInWorld(new EntityItem(worldObj, posX, posY, posZ, new ItemStack(AbyssalCraft.soulReaper)));
+				///worldObj.spawnEntityInWorld(new EntityItem(worldObj, posX, posY, posZ, new ItemStack(AbyssalCraft.soulReaper)));
 			}
 		}
 	}

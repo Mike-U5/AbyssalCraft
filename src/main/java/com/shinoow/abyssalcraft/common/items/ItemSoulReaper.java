@@ -31,7 +31,7 @@ import com.shinoow.abyssalcraft.AbyssalCraft;
 
 public class ItemSoulReaper extends Item {
 
-	private float weaponDamage = 30.0F;
+	private float weaponDamage = 15.0F;
 
 	public ItemSoulReaper(String par1Str){
 		super();
@@ -82,44 +82,7 @@ public class ItemSoulReaper extends Item {
 		par1ItemStack.damageItem(1, par3EntityLivingBase);
 		if(par2EntityLivingBase.getHealth() == 0){
 			increaseSouls(par1ItemStack);
-			switch(getSouls(par1ItemStack)){
-			case 32:
-				par3EntityLivingBase.addPotionEffect(new PotionEffect(Potion.damageBoost.getId(), 600));
-				par3EntityLivingBase.heal(20.0F);
-				break;
-			case 64:
-				par3EntityLivingBase.addPotionEffect(new PotionEffect(Potion.damageBoost.getId(), 1200));
-				par3EntityLivingBase.heal(20.0F);
-				break;
-			case 128:
-				par3EntityLivingBase.addPotionEffect(new PotionEffect(Potion.damageBoost.getId(), 1200, 1));
-				par3EntityLivingBase.addPotionEffect(new PotionEffect(Potion.moveSpeed.getId(), 600));
-				par3EntityLivingBase.heal(20.0F);
-				break;
-			case 256:
-				par3EntityLivingBase.addPotionEffect(new PotionEffect(Potion.damageBoost.getId(), 2400, 1));
-				par3EntityLivingBase.addPotionEffect(new PotionEffect(Potion.moveSpeed.getId(), 1200));
-				par3EntityLivingBase.addPotionEffect(new PotionEffect(Potion.resistance.getId(), 300));
-				par3EntityLivingBase.heal(20.0F);
-				break;
-			case 512:
-				par3EntityLivingBase.addPotionEffect(new PotionEffect(Potion.damageBoost.getId(), 1200, 2));
-				par3EntityLivingBase.addPotionEffect(new PotionEffect(Potion.moveSpeed.getId(), 1200, 1));
-				par3EntityLivingBase.addPotionEffect(new PotionEffect(Potion.resistance.getId(), 600));
-				par3EntityLivingBase.addPotionEffect(new PotionEffect(Potion.fireResistance.getId(), 300));
-				par3EntityLivingBase.heal(20.0F);
-				break;
-			case 1024:
-				setSouls(0, par1ItemStack);
-				par3EntityLivingBase.addPotionEffect(new PotionEffect(Potion.damageBoost.getId(), 2400, 2));
-				par3EntityLivingBase.addPotionEffect(new PotionEffect(Potion.moveSpeed.getId(), 2400, 2));
-				par3EntityLivingBase.addPotionEffect(new PotionEffect(Potion.resistance.getId(), 1200));
-				par3EntityLivingBase.addPotionEffect(new PotionEffect(Potion.fireResistance.getId(), 600));
-				par3EntityLivingBase.addPotionEffect(new PotionEffect(Potion.field_76443_y.getId(), 300));
-				par3EntityLivingBase.addPotionEffect(new PotionEffect(Potion.field_76434_w.getId(), 2400, 2));
-				par3EntityLivingBase.heal(20.0F);
-				break;
-			}
+			par3EntityLivingBase.heal(1.0F);
 			return true;
 		}
 		return true;

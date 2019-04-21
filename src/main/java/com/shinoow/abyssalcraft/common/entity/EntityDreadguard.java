@@ -58,8 +58,7 @@ public class EntityDreadguard extends EntityMob implements IDreadEntity {
 	}
 
 	@Override
-	protected void applyEntityAttributes()
-	{
+	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
 
 		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.23000000417232513D);
@@ -74,16 +73,13 @@ public class EntityDreadguard extends EntityMob implements IDreadEntity {
 	}
 
 	@Override
-	public boolean canBreatheUnderwater()
-	{
+	public boolean canBreatheUnderwater() {
 		return true;
 	}
 
 	@Override
-	public void onDeath(DamageSource par1DamageSource)
-	{
-		if (par1DamageSource.getEntity() instanceof EntityPlayer)
-		{
+	public void onDeath(DamageSource par1DamageSource) {
+		if (par1DamageSource.getEntity() instanceof EntityPlayer) {
 			EntityPlayer entityplayer = (EntityPlayer)par1DamageSource.getEntity();
 			entityplayer.addStat(AbyssalCraft.killdreadguard, 1);
 		}
@@ -92,7 +88,6 @@ public class EntityDreadguard extends EntityMob implements IDreadEntity {
 
 	@Override
 	public boolean attackEntityAsMob(Entity par1Entity) {
-
 		if (super.attackEntityAsMob(par1Entity))
 			if (par1Entity instanceof EntityLivingBase)
 				((EntityLivingBase)par1Entity).addPotionEffect(new PotionEffect(AbyssalCraft.Dplague.id, 100));
@@ -100,8 +95,7 @@ public class EntityDreadguard extends EntityMob implements IDreadEntity {
 	}
 
 	@Override
-	public int getTotalArmorValue()
-	{
+	public int getTotalArmorValue() {
 		int var1 = super.getTotalArmorValue() + 2;
 
 		if (var1 > 20)
@@ -111,49 +105,44 @@ public class EntityDreadguard extends EntityMob implements IDreadEntity {
 	}
 
 	@Override
-	protected boolean isAIEnabled()
-	{
+	protected boolean isAIEnabled() {
 		return true;
 	}
 
 	@Override
-	protected String getLivingSound()
-	{
+	protected String getLivingSound() {
 		return "abyssalcraft:dreadguard.idle";
 	}
 
 	@Override
-	protected String getHurtSound()
-	{
+	protected String getHurtSound() {
 		return "abyssalcraft:dreadguard.hit";
 	}
 
 	@Override
-	protected String getDeathSound()
-	{
+	protected String getDeathSound() {
 		return "abyssalcraft:dreadguard.death";
 	}
 
-	protected void playStepSound(int par1, int par2, int par3, int par4)
-	{
+	protected void playStepSound(int par1, int par2, int par3, int par4) {
 		worldObj.playSoundAtEntity(this, "mob.zombie.step", 0.15F, 1.0F);
 	}
 
 	@Override
-	public EnumCreatureAttribute getCreatureAttribute()
-	{
+	public EnumCreatureAttribute getCreatureAttribute() {
 		return EnumCreatureAttribute.UNDEFINED;
 	}
 
 	@Override
-	protected Item getDropItem()
-	{
-		return AbyssalCraft.Dreadshard;
+	protected void dropFewItems(boolean para, int lootLvl) {
+		float drp = 1.2F + (lootLvl*0.6F);
+		int finalAmt = (drp % 1 > Math.random()) ? (int)Math.ceil(drp) : (int)Math.floor(drp);
+		
+		entityDropItem(new ItemStack(AbyssalCraft.Dreadshard, finalAmt), 0);
 	}
 
 	@Override
-	public void onLivingUpdate()
-	{
+	public void onLivingUpdate() {
 		if (worldObj.isRemote){
 			setCurrentItemOrArmor(1, new ItemStack(AbyssalCraft.bootsD));
 			setCurrentItemOrArmor(3, new ItemStack(AbyssalCraft.plateD));
@@ -164,8 +153,7 @@ public class EntityDreadguard extends EntityMob implements IDreadEntity {
 	}
 
 	@Override
-	public IEntityLivingData onSpawnWithEgg(IEntityLivingData par1EntityLivingData)
-	{
+	public IEntityLivingData onSpawnWithEgg(IEntityLivingData par1EntityLivingData) {
 		par1EntityLivingData = super.onSpawnWithEgg(par1EntityLivingData);
 
 		IAttributeInstance attribute = getEntityAttribute(SharedMonsterAttributes.attackDamage);

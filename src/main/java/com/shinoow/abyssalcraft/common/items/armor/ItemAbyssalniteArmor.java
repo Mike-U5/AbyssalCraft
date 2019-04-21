@@ -56,12 +56,4 @@ public class ItemAbyssalniteArmor extends ItemArmor {
 	{
 		itemIcon = par1IconRegister.registerIcon(AbyssalCraft.modid + ":" + this.getUnlocalizedName().substring(5));
 	}
-
-	@Override
-	public void onArmorTick(World world, EntityPlayer player, ItemStack itemstack) {
-		if (itemstack.getItem() == AbyssalCraft.helmet)
-			player.addPotionEffect(new PotionEffect(Potion.waterBreathing.getId(), 20, 0));
-		if (itemstack.getItem() == AbyssalCraft.boots)
-			player.addPotionEffect(new PotionEffect(Potion.moveSpeed.getId(), 20, 0));
-	}
 }

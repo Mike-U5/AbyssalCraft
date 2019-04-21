@@ -51,30 +51,31 @@ public class EntityDreadgolem extends EntityMob implements IDreadEntity {
 		if(AbyssalCraft.hardcoreMode){
 			getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(40.0D);
 			getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(8.0D);
-		} else getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(4.0D);
+		} else getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(4.5D);
+	}
+	
+	@Override
+	protected float getSoundPitch() {
+		return (rand.nextFloat() * 0.15F) + 0.8F;
 	}
 
 	@Override
-	protected boolean isAIEnabled()
-	{
+	protected boolean isAIEnabled() {
 		return true;
 	}
 
 	@Override
-	protected String getLivingSound()
-	{
+	protected String getLivingSound() {
 		return "abyssalcraft:golem.idle";
 	}
 
 	@Override
-	protected String getHurtSound()
-	{
+	protected String getHurtSound() {
 		return "abyssalcraft:golem.hit";
 	}
 
 	@Override
-	protected String getDeathSound()
-	{
+	protected String getDeathSound() {
 		return "abyssalcraft:golem.death";
 	}
 
@@ -86,8 +87,7 @@ public class EntityDreadgolem extends EntityMob implements IDreadEntity {
 	}
 
 	@Override
-	protected void func_145780_a(int par1, int par2, int par3, Block par4)
-	{
+	protected void func_145780_a(int par1, int par2, int par3, Block par4) {
 		worldObj.playSoundAtEntity(this, "mob.zombie.step", 0.15F, 1.0F);
 	}
 }

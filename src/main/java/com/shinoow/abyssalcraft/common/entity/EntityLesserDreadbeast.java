@@ -28,6 +28,7 @@ import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
@@ -40,6 +41,7 @@ public class EntityLesserDreadbeast extends EntityMob implements IDreadEntity, I
 
 	private EntityAIArrowAttack arrowAttack = new EntityAIArrowAttack(this, 1.0D, 20, 60, 15.0F);
 	private EntityAIAttackOnCollide attackOnCollide = new EntityAIAttackOnCollide(this, EntityPlayer.class, 0.35D, true);
+	private int DreadSperm = 19;
 
 	public EntityLesserDreadbeast(World par1World) {
 		super(par1World);
@@ -55,8 +57,7 @@ public class EntityLesserDreadbeast extends EntityMob implements IDreadEntity, I
 	}
 
 	@Override
-	protected void applyEntityAttributes()
-	{
+	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
 
 		getEntityAttribute(SharedMonsterAttributes.knockbackResistance).setBaseValue(0.4D);
@@ -72,8 +73,7 @@ public class EntityLesserDreadbeast extends EntityMob implements IDreadEntity, I
 	}
 
 	@Override
-	protected boolean isAIEnabled()
-	{
+	protected boolean isAIEnabled() {
 		return true;
 	}
 
@@ -87,15 +87,13 @@ public class EntityLesserDreadbeast extends EntityMob implements IDreadEntity, I
 	}
 
 	@Override
-	protected void entityInit()
-	{
+	protected void entityInit() {
 		super.entityInit();
 		dataWatcher.addObject(18, Byte.valueOf((byte)0));
 	}
 
 	@Override
-	public void onUpdate()
-	{
+	public void onUpdate() {
 		super.onUpdate();
 
 		if (!worldObj.isRemote)
@@ -103,32 +101,27 @@ public class EntityLesserDreadbeast extends EntityMob implements IDreadEntity, I
 	}
 
 	@Override
-	protected String getLivingSound()
-	{
-		return "mob.zombie.say";
+	protected String getLivingSound() {
+		return "abyssalcraft:dreadslug.idle";
 	}
 
 	@Override
-	protected String getHurtSound()
-	{
-		return "mob.zombie.hurt";
+	protected String getHurtSound() {
+		return "abyssalcraft:dreadslug.hurt";
 	}
 
 	@Override
-	protected String getDeathSound()
-	{
-		return "mob.zombie.death";
+	protected String getDeathSound() {
+		return "abyssalcraft:dreadslug.death";
 	}
 
 	@Override
-	protected void func_145780_a(int par1, int par2, int par3, Block par4)
-	{
+	protected void func_145780_a(int par1, int par2, int par3, Block par4) {
 		worldObj.playSoundAtEntity(this, "mob.zombie.step", 0.15F, 1.0F);
 	}
 
 	@Override
-	public boolean isOnLadder()
-	{
+	public boolean isOnLadder() {
 		return isBesideClimbableBlock();
 	}
 
@@ -136,8 +129,7 @@ public class EntityLesserDreadbeast extends EntityMob implements IDreadEntity, I
 	 * Returns true if the WatchableObject (Byte) is 0x01 otherwise returns false. The WatchableObject is updated using
 	 * setBesideClimableBlock.
 	 */
-	public boolean isBesideClimbableBlock()
-	{
+	public boolean isBesideClimbableBlock() {
 		return (dataWatcher.getWatchableObjectByte(18) & 1) != 0;
 	}
 
@@ -145,8 +137,7 @@ public class EntityLesserDreadbeast extends EntityMob implements IDreadEntity, I
 	 * Updates the WatchableObject (Byte) created in entityInit(), setting it to 0x01 if par1 is true or 0x00 if it is
 	 * false.
 	 */
-	public void setBesideClimbableBlock(boolean par1)
-	{
+	public void setBesideClimbableBlock(boolean par1) {
 		byte b0 = dataWatcher.getWatchableObjectByte(18);
 
 		if (par1)
@@ -159,41 +150,45 @@ public class EntityLesserDreadbeast extends EntityMob implements IDreadEntity, I
 
 	@Override
 	protected void fall(float par1) {}
-
+	
 	@Override
-	protected Item getDropItem()
-	{
-		return AbyssalCraft.Dreadshard;
-
+	protected void dropFewItems(boolean para, int lootLvl) {
+		int finalFrag = 1 + (int)Math.ceil(lootLvl*0.5);
+		int finalShard = 1 + (int)Math.floor(lootLvl*0.5);
+		
+		entityDropItem(new ItemStack(AbyssalCraft.dreadfragment, finalFrag), 0);
+		entityDropItem(new ItemStack(AbyssalCraft.Dreadshard, finalShard), 0);
 	}
 
 	@Override
-	public EnumCreatureAttribute getCreatureAttribute()
-	{
-		return EnumCreatureAttribute.UNDEAD;
+	public EnumCreatureAttribute getCreatureAttribute() {
+		return EnumCreatureAttribute.ARTHROPOD;
 	}
 
 	@Override
-	public void onLivingUpdate()
-	{
+	public void onLivingUpdate() {
 		super.onLivingUpdate();
 
 		if(entityToAttack != null && getDistanceToEntity(entityToAttack) >= 2)
 			setAttackMode(true);
 		else setAttackMode(false);
 
-		if(worldObj.rand.nextInt(200) == 0)
+		if(worldObj.rand.nextInt(10000) == 0 && DreadSperm > 4) {
+			if(!worldObj.isRemote){
+				EntityGreaterDreadSpawn spawn = new EntityGreaterDreadSpawn(worldObj);
+				spawn.copyLocationAndAnglesFrom(this);
+				DreadSperm -= 5;
+				///this.attackEntityFrom(DamageSource.causeMobDamage(this), 15);
+			}
+		} else if(worldObj.rand.nextInt(200) == 0 && DreadSperm > 0) {
 			if(!worldObj.isRemote){
 				EntityDreadSpawn spawn = new EntityDreadSpawn(worldObj);
 				spawn.copyLocationAndAnglesFrom(this);
 				worldObj.spawnEntityInWorld(spawn);
+				DreadSperm -= 1;
+				///this.attackEntityFrom(DamageSource.causeMobDamage(this), 3);
 			}
-		if(worldObj.rand.nextInt(10000) == 0)
-			if(!worldObj.isRemote){
-				EntityGreaterDreadSpawn spawn = new EntityGreaterDreadSpawn(worldObj);
-				spawn.copyLocationAndAnglesFrom(this);
-				worldObj.spawnEntityInWorld(spawn);
-			}
+		}
 	}
 
 	private void setAttackMode(boolean par1){

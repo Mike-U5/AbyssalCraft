@@ -59,14 +59,27 @@ public class ItemCoraliumArmor extends ItemArmor {
 
 	@Override
 	public void onArmorTick(World world, EntityPlayer player, ItemStack itemstack) {
-		if (itemstack.getItem() == AbyssalCraft.Corhelmet)
-		{
-			player.addPotionEffect(new PotionEffect(Potion.waterBreathing.getId(), 20, 0));
-			player.addPotionEffect(new PotionEffect(Potion.nightVision.getId(), 260, 0));
+		int setEff = 0;
+		if (player.getCurrentArmor(3) != null && player.getCurrentArmor(3).getItem().equals(AbyssalCraft.Corhelmet)) {
+			setEff++;
 		}
-		if (itemstack.getItem() == AbyssalCraft.Corplate)
-			player.addPotionEffect(new PotionEffect(Potion.resistance.getId(), 20, 0));
-		if (itemstack.getItem() == AbyssalCraft.Corboots)
-			player.addPotionEffect(new PotionEffect(Potion.moveSpeed.getId(), 20, 1));
+		
+		if (player.getCurrentArmor(2) != null && player.getCurrentArmor(2).getItem().equals(AbyssalCraft.Corplate)) {
+			setEff++;
+		}
+		
+		if (player.getCurrentArmor(1) != null && player.getCurrentArmor(1).getItem().equals(AbyssalCraft.Corlegs)) {
+			setEff++;
+		}
+		
+		if (player.getCurrentArmor(0) != null && player.getCurrentArmor(0).getItem().equals(AbyssalCraft.Corboots)) {
+			setEff++;
+		}
+		
+		if (setEff >= 4) {
+			if(player.getActivePotionEffect(AbyssalCraft.Cplague) != null) {
+				player.removePotionEffect(AbyssalCraft.Cplague.getId());
+			}
+		}
 	}
 }

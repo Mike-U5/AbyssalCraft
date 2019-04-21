@@ -62,23 +62,42 @@ public class ItemDreadArmor extends ItemArmor {
 	@SuppressWarnings("rawtypes")
 	@Override
 	public void onArmorTick(World world, EntityPlayer player, ItemStack itemstack) {
-		if (itemstack.getItem() == AbyssalCraft.helmetD)
+		int setEff = 0;
+		boolean plateWorn = false;
+		if (player.getCurrentArmor(3) != null && player.getCurrentArmor(3).getItem().equals(AbyssalCraft.helmetD)) {
+			setEff++;
 			player.addPotionEffect(new PotionEffect(Potion.nightVision.getId(), 260, 0));
-		if (itemstack.getItem() == AbyssalCraft.plateD) {
-			player.addPotionEffect(new PotionEffect(Potion.fireResistance.getId(), 20, 3));
+		}
+		
+		if (player.getCurrentArmor(2) != null && player.getCurrentArmor(2).getItem().equals(AbyssalCraft.plateD)) {
+			setEff++;
+			plateWorn = true;
+		}
+		
+		if (player.getCurrentArmor(1) != null && player.getCurrentArmor(1).getItem().equals(AbyssalCraft.legsD)) {
+			setEff++;
+			if (plateWorn) {
+				player.addPotionEffect(new PotionEffect(Potion.fireResistance.getId(), 20, 3));
+			}
+		}
+		
+		if (player.getCurrentArmor(0) != null && player.getCurrentArmor(0).getItem().equals(AbyssalCraft.bootsD)) {
+			setEff++;
+			player.addPotionEffect(new PotionEffect(Potion.moveSpeed.getId(), 20, 0));
+		}
+		
+		if (setEff >= 3) {
 			List list = player.worldObj.getEntitiesWithinAABBExcludingEntity(player, player.boundingBox.expand(4D, 0.0D, 4D));
-			if (list != null)
+			if (list != null) {
 				for (int k2 = 0; k2 < list.size(); k2++) {
 					Entity entity = (Entity)list.get(k2);
-					if (entity instanceof EntityLiving && !entity.isDead)
+					if (entity instanceof EntityLiving && !entity.isDead && !entity.isBurning()) {
 						entity.setFire(99);
-					else if (entity instanceof EntityPlayer && !entity.isDead)
+					} else if (entity instanceof EntityPlayer && !entity.isDead && !entity.isBurning()) {
 						entity.setFire(99);
+					}
 				}
+			}
 		}
-		if (itemstack.getItem() == AbyssalCraft.legsD)
-			player.addPotionEffect(new PotionEffect(Potion.fireResistance.getId(), 20, 3));
-		if (itemstack.getItem() == AbyssalCraft.bootsD)
-			player.addPotionEffect(new PotionEffect(Potion.fireResistance.getId(), 20, 3));
 	}
 }

@@ -58,14 +58,27 @@ public class ItemDreadiumArmor extends ItemArmor {
 
 	@Override
 	public void onArmorTick(World world, EntityPlayer player, ItemStack itemstack) {
-		if (itemstack.getItem() == AbyssalCraft.dreadiumhelmet) {
-			player.addPotionEffect(new PotionEffect(Potion.nightVision.getId(), 260, 0));
-			if(player.getActivePotionEffect(AbyssalCraft.Dplague) !=null)
-				player.removePotionEffect(AbyssalCraft.Dplague.getId());
+		int setEff = 0;
+		if (player.getCurrentArmor(3) != null && player.getCurrentArmor(3).getItem().equals(AbyssalCraft.dreadiumhelmet)) {
+			setEff++;
 		}
-		if (itemstack.getItem() == AbyssalCraft.dreadiumplate)
-			player.addPotionEffect(new PotionEffect(Potion.resistance.getId(), 20, 0));
-		if (itemstack.getItem() == AbyssalCraft.dreadiumboots)
-			player.addPotionEffect(new PotionEffect(Potion.moveSpeed.getId(), 20, 1));
+		
+		if (player.getCurrentArmor(2) != null && player.getCurrentArmor(2).getItem().equals(AbyssalCraft.dreadiumplate)) {
+			setEff++;
+		}
+		
+		if (player.getCurrentArmor(1) != null && player.getCurrentArmor(1).getItem().equals(AbyssalCraft.dreadiumlegs)) {
+			setEff++;
+		}
+		
+		if (player.getCurrentArmor(0) != null && player.getCurrentArmor(0).getItem().equals(AbyssalCraft.dreadiumboots)) {
+			setEff++;
+		}
+		
+		if (setEff >= 4) {
+			if(player.getActivePotionEffect(AbyssalCraft.Dplague) != null) {
+				player.removePotionEffect(AbyssalCraft.Dplague.getId());
+			}
+		}
 	}
 }

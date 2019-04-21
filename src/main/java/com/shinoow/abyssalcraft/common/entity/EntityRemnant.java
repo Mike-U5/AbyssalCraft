@@ -29,6 +29,7 @@ import net.minecraft.village.*;
 import net.minecraft.world.World;
 
 import com.shinoow.abyssalcraft.AbyssalCraft;
+import com.shinoow.abyssalcraft.api.AbyssalCraftAPI;
 import com.shinoow.abyssalcraft.api.APIUtils;
 import com.shinoow.abyssalcraft.api.entity.*;
 import com.shinoow.abyssalcraft.common.items.ItemDrainStaff;
@@ -37,6 +38,7 @@ import com.shinoow.abyssalcraft.common.util.EntityUtil;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import cpw.mods.fml.common.registry.*;
 
 public class EntityRemnant extends EntityMob implements IMerchant, IAntiEntity, ICoraliumEntity, IDreadEntity {
 
@@ -77,7 +79,7 @@ public class EntityRemnant extends EntityMob implements IMerchant, IAntiEntity, 
 			getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(200.0D);
 			getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(20.0D);
 		} else {
-			getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(100.0D);
+			getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(150.0D);
 			getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(10.0D);
 		}
 	}
@@ -106,20 +108,15 @@ public class EntityRemnant extends EntityMob implements IMerchant, IAntiEntity, 
 	@SuppressWarnings("rawtypes")
 	protected void updateAITick() {
 
-		if (!isTrading() && timeUntilReset > 0)
-		{
+		if (!isTrading() && timeUntilReset > 0) {
 			--timeUntilReset;
 
-			if (timeUntilReset <= 0)
-			{
-				if (needsInitilization)
-				{
-					if (tradingList.size() > 1)
-					{
+			if (timeUntilReset <= 0) {
+				if (needsInitilization) {
+					if (tradingList.size() > 1) {
 						Iterator iterator = tradingList.iterator();
 
-						while (iterator.hasNext())
-						{
+						while (iterator.hasNext()) {
 							MerchantRecipe merchantrecipe = (MerchantRecipe)iterator.next();
 
 							if (merchantrecipe.isRecipeDisabled())
@@ -139,8 +136,7 @@ public class EntityRemnant extends EntityMob implements IMerchant, IAntiEntity, 
 	}
 
 	@Override
-	public boolean interact(EntityPlayer par1EntityPlayer)
-	{
+	public boolean interact(EntityPlayer par1EntityPlayer) {
 		if(isEntityAlive() && !par1EntityPlayer.isSneaking() && !isAngry)
 			if(EntityUtil.hasNecronomicon(par1EntityPlayer)){
 				if(!isTrading()){
@@ -156,8 +152,7 @@ public class EntityRemnant extends EntityMob implements IMerchant, IAntiEntity, 
 	}
 
 	@Override
-	protected void entityInit()
-	{
+	protected void entityInit() {
 		super.entityInit();
 		dataWatcher.addObject(16, Integer.valueOf(0));
 	}
@@ -198,10 +193,6 @@ public class EntityRemnant extends EntityMob implements IMerchant, IAntiEntity, 
 			return "%s ukhoyah g'ka-dish-tu.";
 		case 2:
 			return "%s go-tha ukhoyah Necronomicon g'mnahn'.";
-			//		case 3:
-			//			return "test %s";
-			//		case 4:
-			//			return "test %s";
 		default:
 			return getInsult(0);
 		}
@@ -240,8 +231,7 @@ public class EntityRemnant extends EntityMob implements IMerchant, IAntiEntity, 
 	}
 
 	@Override
-	public boolean attackEntityFrom(DamageSource par1DamageSource, float par2)
-	{
+	public boolean attackEntityFrom(DamageSource par1DamageSource, float par2) {
 		if(par1DamageSource.getSourceOfDamage() instanceof EntityLivingBase){
 			if(entityToAttack != par1DamageSource.getSourceOfDamage()){
 				entityToAttack = par1DamageSource.getEntity();
@@ -269,8 +259,7 @@ public class EntityRemnant extends EntityMob implements IMerchant, IAntiEntity, 
 	}
 
 	@Override
-	public void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
-	{
+	public void writeEntityToNBT(NBTTagCompound par1NBTTagCompound) {
 		super.writeEntityToNBT(par1NBTTagCompound);
 		par1NBTTagCompound.setInteger("Profession", getProfession());
 		par1NBTTagCompound.setInteger("Money", wealth);
@@ -281,63 +270,53 @@ public class EntityRemnant extends EntityMob implements IMerchant, IAntiEntity, 
 	}
 
 	@Override
-	public void readEntityFromNBT(NBTTagCompound par1NBTTagCompound)
-	{
+	public void readEntityFromNBT(NBTTagCompound par1NBTTagCompound) {
 		super.readEntityFromNBT(par1NBTTagCompound);
 		setProfession(par1NBTTagCompound.getInteger("Profession"));
 		wealth = par1NBTTagCompound.getInteger("Money");
 		isAngry = par1NBTTagCompound.getBoolean("IsAngry");
 
-		if (par1NBTTagCompound.hasKey("Offers", 10))
-		{
+		if (par1NBTTagCompound.hasKey("Offers", 10)) {
 			NBTTagCompound nbttagcompound1 = par1NBTTagCompound.getCompoundTag("Offers");
 			tradingList = new MerchantRecipeList(nbttagcompound1);
 		}
 	}
 
 	@Override
-	protected Item getDropItem()
-	{
+	protected Item getDropItem() {
 		return AbyssalCraft.eldritchScale;
 	}
 
 	@Override
-	protected boolean canDespawn()
-	{
+	protected boolean canDespawn() {
 		return false;
 	}
 
 	@Override
-	protected String getDeathSound()
-	{
+	protected String getDeathSound() {
 		return "abyssalcraft:shadow.death";
 	}
 
 	@Override
-	protected void func_145780_a(int par1, int par2, int par3, Block par4)
-	{
+	protected void func_145780_a(int par1, int par2, int par3, Block par4) {
 		playSound("mob.spider.step", 0.15F, 1.0F);
 	}
 
-	public void setProfession(int par1)
-	{
+	public void setProfession(int par1) {
 		dataWatcher.updateObject(16, Integer.valueOf(par1));
 	}
 
-	public int getProfession()
-	{
+	public int getProfession() {
 		return dataWatcher.getWatchableObjectInt(16);
 	}
 
 	@Override
 	public void setCustomer(EntityPlayer var1) {
-
 		tradingPlayer = var1;
 	}
 
 	@Override
 	public EntityPlayer getCustomer() {
-
 		return tradingPlayer;
 	}
 
@@ -347,22 +326,34 @@ public class EntityRemnant extends EntityMob implements IMerchant, IAntiEntity, 
 
 	@Override
 	public MerchantRecipeList getRecipes(EntityPlayer var1) {
-
 		if(tradingList == null)
 			addDefaultEquipmentAndRecipies(1);
 
 		return tradingList;
 	}
 
-	private float adjustProbability(float par1)
-	{
+	private float adjustProbability(float par1) {
 		float f1 = par1 + field_82191_bN;
 		return f1 > 0.9F ? 0.9F - (f1 - 0.9F) : f1;
 	}
+	
+	private void shuffle(Block[] arr) {
+	  Random rnd = new Random();
+	  for (int i = arr.length - 1; i > 0; i--)  {
+	    int index = rnd.nextInt(i + 1);
+	    // Simple swap
+	    Block tmp = arr[index];
+	    arr[index] = arr[i];
+	    arr[i] = tmp;
+	  }
+	}
+	
+	private ItemStack blockStack(Block block) {
+		return new ItemStack(Item.getItemFromBlock(block), 1);
+	}
 
 	@SuppressWarnings("unchecked")
-	private void addDefaultEquipmentAndRecipies(int par1)
-	{
+	private void addDefaultEquipmentAndRecipies(int par1) {
 		if (tradingList != null)
 			field_82191_bN = MathHelper.sqrt_float(tradingList.size()) * 0.2F;
 		else
@@ -373,35 +364,26 @@ public class EntityRemnant extends EntityMob implements IMerchant, IAntiEntity, 
 		int k;
 		label50:
 
-			switch (getProfession())
-			{
+			switch (getProfession()) {
 			case 0:
-				addItemTrade(list, Items.wheat, rand, adjustProbability(0.9F));
-				addItemTrade(list, Item.getItemFromBlock(Blocks.wool), rand, adjustProbability(0.5F));
-				addItemTrade(list, Items.chicken, rand, adjustProbability(0.5F));
-				addItemTrade(list, Items.cooked_fished, rand, adjustProbability(0.4F));
-				addCoinTrade(list, Items.bread, rand, adjustProbability(0.9F));
-				addCoinTrade(list, Items.melon, rand, adjustProbability(0.3F));
-				addCoinTrade(list, Items.apple, rand, adjustProbability(0.3F));
-				addCoinTrade(list, Items.cookie, rand, adjustProbability(0.3F));
-				addCoinTrade(list, Items.shears, rand, adjustProbability(0.3F));
-				addCoinTrade(list, Items.flint_and_steel, rand, adjustProbability(0.3F));
-				addCoinTrade(list, AbyssalCraft.fishp, rand, adjustProbability(0.3F));
-				addCoinTrade(list, Items.arrow, rand, adjustProbability(0.5F));
-
-				if (rand.nextFloat() < adjustProbability(0.5F))
-					list.add(new MerchantRecipe(new ItemStack(Blocks.gravel, 10), new ItemStack(AbyssalCraft.elderCoin), new ItemStack(Items.flint, 4 + rand.nextInt(2), 0)));
-
+				Block[] statues = new Block[]{AbyssalCraft.cthulhuStatue, AbyssalCraft.jzaharStatue, AbyssalCraft.azathothStatue, AbyssalCraft.nyarlathotepStatue, AbyssalCraft.yogsothothStatue, AbyssalCraft.shubniggurathStatue};
+				shuffle(statues);
+				ItemStack relic = new ItemStack(Item.getItemFromBlock(AbyssalCraft.ODBcore), 1);
+				
+				for (int i = 0; i < statues.length; i++) {
+					ItemStack statue = new ItemStack(Item.getItemFromBlock(statues[i]), 1);
+					if (rand.nextFloat() < 0.5F) {
+						list.add(new MerchantRecipe(relic, null, statue));
+					} else {
+						list.add(new MerchantRecipe(statue, null, relic));
+					}
+				}
+				
 				break;
 			case 1:
-				addItemTrade(list, Items.paper, rand, adjustProbability(0.8F));
 				addItemTrade(list, Items.book, rand, adjustProbability(0.8F));
 				addItemTrade(list, Items.written_book, rand, adjustProbability(0.3F));
-				addItemTrade(list, Items.rotten_flesh, rand, adjustProbability(0.7F));
-				addItemTrade(list, AbyssalCraft.Corflesh, rand, adjustProbability(0.7F));
 				addItemTrade(list, AbyssalCraft.dreadfragment, rand, adjustProbability(0.7F));
-				addItemTrade(list, AbyssalCraft.omotholFlesh, rand, adjustProbability(0.7F));
-				addItemTrade(list, AbyssalCraft.antiFlesh, rand, adjustProbability(0.3F));
 				addCoinTrade(list, Item.getItemFromBlock(Blocks.bookshelf), rand, adjustProbability(0.8F));
 				addCoinTrade(list, Item.getItemFromBlock(Blocks.glass), rand, adjustProbability(0.2F));
 				addCoinTrade(list, Items.compass, rand, adjustProbability(0.2F));
@@ -409,9 +391,18 @@ public class EntityRemnant extends EntityMob implements IMerchant, IAntiEntity, 
 				addCoinTrade(list, AbyssalCraft.necronomicon, rand, adjustProbability(0.3F));
 				addCoinTrade(list, AbyssalCraft.necronomicon_cor, rand, adjustProbability(0.2F));
 				addCoinTrade(list, AbyssalCraft.necronomicon_dre, rand, adjustProbability(0.1F));
+				if (GameRegistry.findItem("GalacticraftMars", "item.schematic") != null) {
+					ItemStack elcoin = new ItemStack(AbyssalCraft.elderCoin, 4);
+					Item schematicCore = GameRegistry.findItem("GalacticraftCore", "item.schematic");
+					Item schematicMars = GameRegistry.findItem("GalacticraftMars", "item.schematic");
+					list.add(new MerchantRecipe(new ItemStack(schematicCore, 1, 0), elcoin, new ItemStack(schematicCore, 1, 1)));
+					list.add(new MerchantRecipe(new ItemStack(schematicCore, 1, 1), elcoin, new ItemStack(schematicCore, 1, 0)));
+					list.add(new MerchantRecipe(new ItemStack(schematicMars, 1, 0), elcoin, new ItemStack(schematicMars, 1, 1)));
+					list.add(new MerchantRecipe(new ItemStack(schematicMars, 1, 1), elcoin, new ItemStack(schematicMars, 1, 2)));
+					list.add(new MerchantRecipe(new ItemStack(schematicMars, 1, 2), elcoin, new ItemStack(schematicMars, 1, 0)));
+				}
 
-				if (rand.nextFloat() < adjustProbability(0.07F))
-				{
+				if (rand.nextFloat() < adjustProbability(0.07F)) {
 					Enchantment enchantment = Enchantment.enchantmentsBookList[rand.nextInt(Enchantment.enchantmentsBookList.length)];
 					int i1 = MathHelper.getRandomIntegerInRange(rand, enchantment.getMinLevel(), enchantment.getMaxLevel());
 					ItemStack itemstack = Items.enchanted_book.getEnchantedItemStack(new EnchantmentData(enchantment, i1));
@@ -439,8 +430,7 @@ public class EntityRemnant extends EntityMob implements IMerchant, IAntiEntity, 
 				int j = aitem.length;
 				k = 0;
 
-				while (true)
-				{
+				while (true) {
 					if (k >= j)
 						break label50;
 
@@ -473,11 +463,17 @@ public class EntityRemnant extends EntityMob implements IMerchant, IAntiEntity, 
 				addItemTrade(list, Items.porkchop, rand, adjustProbability(0.5F));
 				addItemTrade(list, Items.beef, rand, adjustProbability(0.5F));
 				addItemTrade(list, Items.chicken, rand, adjustProbability(0.5F));
-				addCoinTrade(list, AbyssalCraft.cloth, rand, adjustProbability(0.4F));
-				addCoinTrade(list, AbyssalCraft.MRE, rand, adjustProbability(0.1F));
-				addCoinTrade(list, AbyssalCraft.porkp, rand, adjustProbability(0.3F));
-				addCoinTrade(list, AbyssalCraft.beefp, rand, adjustProbability(0.3F));
-				addCoinTrade(list, AbyssalCraft.chickenp, rand, adjustProbability(0.3F));
+				addCoinTrade(list, AbyssalCraft.MRE, rand, adjustProbability(0.4F));
+				addItemTrade(list, Items.rotten_flesh, rand, adjustProbability(0.7F));
+				addItemTrade(list, AbyssalCraft.Corflesh, rand, adjustProbability(0.7F));
+				addItemTrade(list, AbyssalCraft.omotholFlesh, rand, adjustProbability(0.7F));
+				addItemTrade(list, AbyssalCraft.antiFlesh, rand, adjustProbability(0.3F));
+				addItemTrade(list, Items.cooked_fished, rand, adjustProbability(0.4F));
+				if (GameRegistry.findItem("ThaumicHorizons", "crystalTH") != null && GameRegistry.findItem("Thaumcraft", "ItemResource") != null) {
+					Item salisMundus = GameRegistry.findItem("Thaumcraft", "ItemResource");
+					Item soulCrystal = GameRegistry.findItem("ThaumicHorizons", "crystalTH");
+					list.add(new MerchantRecipe(new ItemStack(soulCrystal, 1, 3), new ItemStack(salisMundus, 4, 14)));
+				}
 				break;
 			case 5:
 				addCoinTrade(list, AbyssalCraft.elderCoin, 8, AbyssalCraft.cthulhuCoin, 1);
@@ -564,10 +560,9 @@ public class EntityRemnant extends EntityMob implements IMerchant, IAntiEntity, 
 				var1.getItemToBuy().getItem() instanceof ItemDrainStaff)
 			var1.func_82785_h();
 		livingSoundTime = -getTalkInterval();
-		playSound("mob.villager.yes", getSoundVolume(), getSoundPitch() * 0.5F);
+		playSound("abyssalcraft:remnant.trade", getSoundVolume(), getSoundPitch());
 
-		if (var1.hasSameIDsAs((MerchantRecipe)tradingList.get(tradingList.size() - 1)))
-		{
+		if (var1.hasSameIDsAs((MerchantRecipe)tradingList.get(tradingList.size() - 1))) {
 			timeUntilReset = 40;
 			needsInitilization = true;
 		}
@@ -577,39 +572,31 @@ public class EntityRemnant extends EntityMob implements IMerchant, IAntiEntity, 
 	}
 
 	@SuppressWarnings("unchecked")
-	public static void addItemTrade(MerchantRecipeList list, Item item, Random rand, float probability)
-	{
+	public static void addItemTrade(MerchantRecipeList list, Item item, Random rand, float probability) {
 		if (rand.nextFloat() < probability)
 			list.add(new MerchantRecipe(getItemStackWithQuantity(item, rand), AbyssalCraft.elderCoin));
 	}
 
-	private static ItemStack getItemStackWithQuantity(Item item, Random rand)
-	{
+	private static ItemStack getItemStackWithQuantity(Item item, Random rand) {
 		return new ItemStack(item, getQuantity(item, rand), 0);
 	}
 
-	private static int getQuantity(Item item, Random rand)
-	{
+	private static int getQuantity(Item item, Random rand) {
 		Tuple tuple = itemSellingList.get(item);
 		return tuple == null ? 1 : ((Integer)tuple.getFirst()).intValue() >= ((Integer)tuple.getSecond()).intValue() ? ((Integer)tuple.getFirst()).intValue() : ((Integer)tuple.getFirst()).intValue() + rand.nextInt(((Integer)tuple.getSecond()).intValue() - ((Integer)tuple.getFirst()).intValue());
 	}
 
 	@SuppressWarnings("unchecked")
-	public static void addCoinTrade(MerchantRecipeList list, Item item, Random rand, float probability)
-	{
-		if (rand.nextFloat() < probability)
-		{
+	public static void addCoinTrade(MerchantRecipeList list, Item item, Random rand, float probability) {
+		if (rand.nextFloat() < probability) {
 			int i = getRarity(item, rand);
 			ItemStack itemstack;
 			ItemStack itemstack1;
 
-			if (i < 0)
-			{
+			if (i < 0) {
 				itemstack = new ItemStack(AbyssalCraft.elderCoin, 1, 0);
 				itemstack1 = new ItemStack(item, -i, 0);
-			}
-			else
-			{
+			} else {
 				itemstack = new ItemStack(AbyssalCraft.elderCoin, i, 0);
 				itemstack1 = new ItemStack(item, 1, 0);
 			}
@@ -618,23 +605,21 @@ public class EntityRemnant extends EntityMob implements IMerchant, IAntiEntity, 
 		}
 	}
 
-	private static int getRarity(Item par1, Random par2)
-	{
+	private static int getRarity(Item par1, Random par2) {
 		Tuple tuple = coinSellingList.get(par1);
 		return tuple == null ? 1 : ((Integer)tuple.getFirst()).intValue() >= ((Integer)tuple.getSecond()).intValue() ? ((Integer)tuple.getFirst()).intValue() : ((Integer)tuple.getFirst()).intValue() + par2.nextInt(((Integer)tuple.getSecond()).intValue() - ((Integer)tuple.getFirst()).intValue());
 	}
 
 	@Override
-	public void func_110297_a_(ItemStack par1ItemStack)
-	{
+	public void func_110297_a_(ItemStack par1ItemStack) {
 		if (!worldObj.isRemote && livingSoundTime > -getTalkInterval() + 20)
 		{
 			livingSoundTime = -getTalkInterval();
 
 			if (par1ItemStack != null)
-				playSound("mob.villager.yes", getSoundVolume(), getSoundPitch() * 0.5F);
+				playSound("abyssalcraft:remnant.trade", getSoundVolume(), getSoundPitch() * 0.9F);
 			else
-				playSound("mob.villager.no", getSoundVolume(), getSoundPitch() * 0.5F);
+				playSound("abyssalcraft:remnant.trade", getSoundVolume(), getSoundPitch() * 0.8F);
 		}
 	}
 
@@ -662,8 +647,7 @@ public class EntityRemnant extends EntityMob implements IMerchant, IAntiEntity, 
 		return data;
 	}
 
-	static
-	{
+	static {
 		itemSellingList.put(Items.coal, new Tuple(Integer.valueOf(16), Integer.valueOf(24)));
 		itemSellingList.put(AbyssalCraft.abyingot, new Tuple(Integer.valueOf(8), Integer.valueOf(10)));
 		itemSellingList.put(AbyssalCraft.Cingot, new Tuple(Integer.valueOf(8), Integer.valueOf(10)));
@@ -705,7 +689,6 @@ public class EntityRemnant extends EntityMob implements IMerchant, IAntiEntity, 
 		coinSellingList.put(Items.cookie, new Tuple(Integer.valueOf(-10), Integer.valueOf(-7)));
 		coinSellingList.put(Item.getItemFromBlock(Blocks.glass), new Tuple(Integer.valueOf(-5), Integer.valueOf(-3)));
 		coinSellingList.put(Item.getItemFromBlock(Blocks.bookshelf), new Tuple(Integer.valueOf(3), Integer.valueOf(4)));
-		coinSellingList.put(AbyssalCraft.cloth, new Tuple(Integer.valueOf(2), Integer.valueOf(4)));
 		coinSellingList.put(AbyssalCraft.MRE, new Tuple(Integer.valueOf(6), Integer.valueOf(8)));
 		coinSellingList.put(Items.experience_bottle, new Tuple(Integer.valueOf(-4), Integer.valueOf(-1)));
 		coinSellingList.put(Items.redstone, new Tuple(Integer.valueOf(-4), Integer.valueOf(-1)));
@@ -715,10 +698,7 @@ public class EntityRemnant extends EntityMob implements IMerchant, IAntiEntity, 
 		coinSellingList.put(AbyssalCraft.necronomicon_cor, new Tuple(Integer.valueOf(10), Integer.valueOf(12)));
 		coinSellingList.put(AbyssalCraft.necronomicon_dre, new Tuple(Integer.valueOf(10), Integer.valueOf(12)));
 		coinSellingList.put(Item.getItemFromBlock(Blocks.glowstone), new Tuple(Integer.valueOf(-3), Integer.valueOf(-1)));
-		coinSellingList.put(AbyssalCraft.porkp, new Tuple(Integer.valueOf(-7), Integer.valueOf(-5)));
-		coinSellingList.put(AbyssalCraft.beefp, new Tuple(Integer.valueOf(-7), Integer.valueOf(-5)));
-		coinSellingList.put(AbyssalCraft.chickenp, new Tuple(Integer.valueOf(-7), Integer.valueOf(-5)));
-		coinSellingList.put(AbyssalCraft.fishp, new Tuple(Integer.valueOf(-7), Integer.valueOf(-5)));
+		coinSellingList.put(AbyssalCraft.EoA, new Tuple(Integer.valueOf(-7), Integer.valueOf(-5)));
 		coinSellingList.put(Items.cooked_chicken, new Tuple(Integer.valueOf(-8), Integer.valueOf(-6)));
 		coinSellingList.put(Items.ender_eye, new Tuple(Integer.valueOf(7), Integer.valueOf(11)));
 		coinSellingList.put(Items.arrow, new Tuple(Integer.valueOf(-12), Integer.valueOf(-8)));
@@ -736,5 +716,10 @@ public class EntityRemnant extends EntityMob implements IMerchant, IAntiEntity, 
 	public void applyRandomTrade(Random rand){
 		int trade = rand.nextInt(7);
 		setProfession(trade);
+	}
+	
+	@Override
+	public EnumCreatureAttribute getCreatureAttribute() {
+		return AbyssalCraftAPI.SHADOW;
 	}
 }

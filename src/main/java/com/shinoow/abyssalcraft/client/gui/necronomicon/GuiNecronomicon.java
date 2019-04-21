@@ -44,7 +44,6 @@ public class GuiNecronomicon extends GuiScreen {
 	private ButtonCategory buttonCat3;
 	private ButtonCategory buttonCat4;
 	private ButtonCategory buttonCat5;
-	private ButtonCategory buttonCat6;
 	private GuiButton buttonDone;
 	private int bookType;
 	/** Used to check if we're at a text entry (true), or a index (false) */
@@ -80,8 +79,7 @@ public class GuiNecronomicon extends GuiScreen {
 	 * Called from the main game loop to update the screen.
 	 */
 	@Override
-	public void updateScreen()
-	{
+	public void updateScreen() {
 		super.updateScreen();
 	}
 
@@ -90,8 +88,7 @@ public class GuiNecronomicon extends GuiScreen {
 	 */
 	@Override
 	@SuppressWarnings("unchecked")
-	public void initGui()
-	{
+	public void initGui() {
 		buttonList.clear();
 		Keyboard.enableRepeatEvents(true);
 
@@ -101,15 +98,16 @@ public class GuiNecronomicon extends GuiScreen {
 		byte b0 = 2;
 		buttonList.add(buttonNextPage = new ButtonNextPage(1, i + 215, b0 + 154, true));
 		buttonList.add(buttonPreviousPage = new ButtonNextPage(2, i + 18, b0 + 154, false));
+		
 		buttonList.add(buttonCat1 = new ButtonCategory(3, i + 14, b0 + 24, this, NecronomiconText.LABEL_INFORMATION, AbyssalCraft.necronomicon));
-		buttonList.add(buttonCat2 = new ButtonCategory(4, i + 14, b0 + 41, this, NecronomiconText.LABEL_SPELLBOOK, AbyssalCraft.necronomicon));
-		buttonList.add(buttonCat3 = new ButtonCategory(5, i + 14, b0 + 58, this, NecronomiconText.LABEL_RITUALS, AbyssalCraft.necronomicon));
-		if(bookType == 4)
-			buttonList.add(buttonCat4 = new ButtonCategory(6, i + 14, b0 + 75, this, NecronomiconText.LABEL_HUH, AbyssalCraft.abyssalnomicon));
-		else buttonList.add(buttonCat4 = new ButtonCategory(6, i + 14, b0 + 75, this, NecronomiconText.LABEL_HUH, AbyssalCraft.necronomicon));
-		buttonList.add(buttonCat5 = new ButtonCategory(7, i + 14, b0 + 92, this, NecronomiconText.LABEL_MISC_INFORMATION, AbyssalCraft.necronomicon));
-		if(!AbyssalCraftAPI.getNecronomiconData().isEmpty())
-			buttonList.add(buttonCat6 = new ButtonCategory(8, i + 14, b0 + 109, this, NecronomiconText.LABEL_OTHER, AbyssalCraft.necronomicon));
+		
+		buttonList.add(buttonCat2 = new ButtonCategory(5, i + 14, b0 + 41, this, NecronomiconText.LABEL_RITUALS, AbyssalCraft.necronomicon));
+		if(bookType == 4) {
+			buttonList.add(buttonCat3 = new ButtonCategory(6, i + 14, b0 + 58, this, NecronomiconText.LABEL_HUH, AbyssalCraft.abyssalnomicon));
+		} else {
+			buttonList.add(buttonCat3 = new ButtonCategory(6, i + 14, b0 + 58, this, NecronomiconText.LABEL_HUH, AbyssalCraft.necronomicon));
+		}
+		buttonList.add(buttonCat4 = new ButtonCategory(7, i + 14, b0 + 75, this, NecronomiconText.LABEL_MISC_INFORMATION, AbyssalCraft.necronomicon));
 		updateButtons();
 	}
 
@@ -117,8 +115,7 @@ public class GuiNecronomicon extends GuiScreen {
 	 * Called when the screen is unloaded. Used to disable keyboard repeat events
 	 */
 	@Override
-	public void onGuiClosed()
-	{
+	public void onGuiClosed() {
 		Keyboard.enableRepeatEvents(false);
 	}
 
@@ -127,8 +124,7 @@ public class GuiNecronomicon extends GuiScreen {
 		return false;
 	}
 
-	private void updateButtons()
-	{
+	private void updateButtons() {
 		buttonNextPage.visible = currTurnup < bookTotalTurnups - 1 && isInfo;
 		buttonPreviousPage.visible = isInfo;
 		buttonDone.visible = true;
@@ -136,33 +132,25 @@ public class GuiNecronomicon extends GuiScreen {
 		buttonCat2.visible = true;
 		buttonCat3.visible = true;
 		buttonCat4.visible = true;
-		buttonCat5.visible = true;
-		if(!AbyssalCraftAPI.getNecronomiconData().isEmpty())
-			buttonCat6.visible = true;
-
 	}
 
 	@Override
-	protected void actionPerformed(GuiButton button)
-	{
-		if (button.enabled)
-		{
-			if (button.id == 0)
+	protected void actionPerformed(GuiButton button) {
+		if (button.enabled) {
+			if (button.id == 0) {
 				mc.displayGuiScreen((GuiScreen)null);
-			else if (button.id == 1)
-			{
+			} else if (button.id == 1) {
 				if (currTurnup < bookTotalTurnups - 1)
 					++currTurnup;
 
-			} else if (button.id == 2)
-			{
+			} else if (button.id == 2) {
 				if(isInfo && currTurnup == 0){
 					initGui();
 					isInfo = false;
 					isNecroInfo = false;
-				}
-				else if (currTurnup > 0)
+				} else if (currTurnup > 0) {
 					--currTurnup;
+				}
 
 			} else if (button.id == 3)
 				mc.displayGuiScreen(new GuiNecronomiconInformation(bookType));
@@ -170,18 +158,20 @@ public class GuiNecronomicon extends GuiScreen {
 				mc.displayGuiScreen(new GuiNecronomiconSpells(bookType));
 			else if (button.id == 5)
 				mc.displayGuiScreen(new GuiNecronomiconRituals(bookType));
-			else if (button.id == 6)
-			{
+			else if (button.id == 6) {
 				isInfo = true;
 				isNecroInfo = true;
-				if(bookType == 4)
+				if(bookType == 4) {
 					bookTotalTurnups = 1;
-				else bookTotalTurnups = 2;
+				} else {
+					bookTotalTurnups = 2;
+				}
 				drawButtons();
-			} else if(button.id == 7)
+			} else if(button.id == 7) {
 				mc.displayGuiScreen(new GuiNecronomiconEntry(bookType, AbyssalCraftAPI.getInternalNDHandler().getInternalNecroData("miscinfo"), this, AbyssalCraft.necronomicon));
-			else if (button.id == 8)
+			} else if (button.id == 8) {
 				mc.displayGuiScreen(new GuiNecronomiconOther(bookType));
+			}
 			updateButtons();
 		}
 	}
@@ -190,8 +180,7 @@ public class GuiNecronomicon extends GuiScreen {
 	 * Fired when a key is typed. This is the equivalent of KeyListener.keyTyped(KeyEvent e).
 	 */
 	@Override
-	protected void keyTyped(char par1, int par2)
-	{
+	protected void keyTyped(char par1, int par2) {
 		super.keyTyped(par1, par2);
 
 	}
@@ -261,8 +250,7 @@ public class GuiNecronomicon extends GuiScreen {
 	 * Draws the screen and all the components in it.
 	 */
 	@Override
-	public void drawScreen(int par1, int par2, float par3)
-	{
+	public void drawScreen(int par1, int par2, float par3) {
 		boolean unicode = fontRendererObj.getUnicodeFlag();
 		fontRendererObj.setUnicodeFlag(true);
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);

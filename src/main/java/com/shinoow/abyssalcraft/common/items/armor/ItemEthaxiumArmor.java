@@ -68,23 +68,24 @@ public class ItemEthaxiumArmor extends ItemArmor {
 			if(world.rand.nextInt(300) == 0)
 				player.addPotionEffect(new PotionEffect(Potion.field_76443_y.getId(), 60, 0));
 		}
+		
 		if(itemstack.getItem() == AbyssalCraft.ethPlate){
-			if(player.isBurning() || world.provider.isHellWorld)
-				player.addPotionEffect(new PotionEffect(Potion.fireResistance.id, 20, 2));
-			if(player.getActivePotionEffect(AbyssalCraft.antiMatter) !=null)
+			player.addPotionEffect(new PotionEffect(Potion.fireResistance.id, 10, 2));
+			if(player.getActivePotionEffect(AbyssalCraft.antiMatter) != null)
 				player.removePotionEffect(AbyssalCraft.antiMatter.getId());
-			if(world.rand.nextInt(200) == 0)
+			if(world.getWorldTime() % 200 == 0)
 				player.addPotionEffect(new PotionEffect(Potion.damageBoost.id, 60));
 		}
+		
 		if(itemstack.getItem() == AbyssalCraft.ethLegs)
-			if(world.rand.nextInt(200) == 0)
-				player.addPotionEffect(new PotionEffect(Potion.regeneration.id, 60));
+			player.addPotionEffect(new PotionEffect(Potion.jump.getId(), 10, 0));
+			if(world.getWorldTime() % 200 == 0)
+				player.addPotionEffect(new PotionEffect(Potion.regeneration.id, 8, 3));
+		
 		if(itemstack.getItem() == AbyssalCraft.ethBoots)
-			if(player.isInWater()){
-				player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 20, 2));
-				player.addPotionEffect(new PotionEffect(Potion.waterBreathing.id, 20, 1));
-			}
+				player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 10, 2));
 
+		//Clear potion effects
 		if(player.getActivePotionEffect(Potion.field_76443_y) != null && player.getActivePotionEffect(Potion.field_76443_y).getDuration() == 0)
 			player.removePotionEffect(Potion.field_76443_y.id);
 		if(player.getActivePotionEffect(Potion.damageBoost) != null && player.getActivePotionEffect(Potion.damageBoost).getDuration() == 0)
@@ -93,5 +94,7 @@ public class ItemEthaxiumArmor extends ItemArmor {
 			player.removePotionEffect(Potion.regeneration.id);
 		if(player.getActivePotionEffect(Potion.fireResistance) != null && player.getActivePotionEffect(Potion.fireResistance).getDuration() == 0)
 			player.removePotionEffect(Potion.fireResistance.id);
+		if(player.getActivePotionEffect(Potion.jump) != null && player.getActivePotionEffect(Potion.jump).getDuration() == 0)
+			player.removePotionEffect(Potion.jump.id);
 	}
 }

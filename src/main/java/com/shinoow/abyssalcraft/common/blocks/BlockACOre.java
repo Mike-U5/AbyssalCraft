@@ -29,34 +29,32 @@ public class BlockACOre extends BlockACBasic {
 	}
 
 	@Override
-	public Item getItemDropped(int par1, Random par2Random, int par3)
-	{
+	public Item getItemDropped(int par1, Random par2Random, int par3) {
 		return this == AbyssalCraft.CoraliumInfusedStone ? AbyssalCraft.Cpearl: this == AbyssalCraft.Coraliumore ? AbyssalCraft.Coralium: this == AbyssalCraft.nitreOre ? AbyssalCraft.nitre: this == AbyssalCraft.AbyNitOre ? AbyssalCraft.nitre: this == AbyssalCraft.AbyDiaOre ? Items.diamond:
 			this == AbyssalCraft.AbyCorOre ? AbyssalCraft.Coralium: this == AbyssalCraft.AbyPCorOre ? AbyssalCraft.Cpearl: Item.getItemFromBlock(this);
 	}
 
 	@Override
-	public int quantityDropped(Random par1Random)
-	{
-		return this == AbyssalCraft.Coraliumore ? 1 + par1Random.nextInt(3): this == AbyssalCraft.nitreOre ? 1 + par1Random.nextInt(3): this == AbyssalCraft.AbyNitOre ? 1 + par1Random.nextInt(3):
+	public int quantityDropped(Random par1Random) {
+		return this == AbyssalCraft.Coraliumore ? 2 : this == AbyssalCraft.nitreOre ? 1 + par1Random.nextInt(3): this == AbyssalCraft.AbyNitOre ? 1 + par1Random.nextInt(3):
 			this == AbyssalCraft.AbyCorOre ? 1 + par1Random.nextInt(3): this == AbyssalCraft.AbyPCorOre ? 1 + par1Random.nextInt(2): 1;
 	}
 
 	@Override
-	public int quantityDroppedWithBonus(int par1, Random par2Random)
-	{
-		if (par1 > 0 && Item.getItemFromBlock(this) != getItemDropped(0, par2Random, par1))
-		{
+	public int quantityDroppedWithBonus(int par1, Random par2Random) {
+		if (par1 > 0 && Item.getItemFromBlock(this) != getItemDropped(0, par2Random, par1)) {
 			int j = par2Random.nextInt(par1 + 2) - 1;
 
-			if (j < 0)
+			if (j < 0) {
 				j = 0;
+			}
 
 			return quantityDropped(par2Random) * (j + 1);
-		} else if(this == AbyssalCraft.Coraliumore || this == AbyssalCraft.nitreOre || this == AbyssalCraft.AbyNitOre || this == AbyssalCraft.AbyCorOre)
+		} else if(this == AbyssalCraft.Coraliumore || this == AbyssalCraft.nitreOre || this == AbyssalCraft.AbyNitOre || this == AbyssalCraft.AbyCorOre) {
 			return quantityDropped(par2Random);
-		else
+		} else {
 			return quantityDropped(par2Random);
+		}
 	}
 
 	@Override

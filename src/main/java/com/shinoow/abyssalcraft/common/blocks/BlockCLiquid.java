@@ -143,8 +143,9 @@ public class BlockCLiquid extends BlockFluidClassic {
 	public void onEntityCollidedWithBlock(World par1World, int par2, int par3, int par4, Entity par5Entity) {
 		super.onEntityCollidedWithBlock(par1World, par2, par3, par4, par5Entity);
 
-		if(par5Entity instanceof EntityLivingBase && !EntityUtil.isEntityCoralium((EntityLivingBase)par5Entity) && ((EntityLivingBase)par5Entity).getActivePotionEffect(AbyssalCraft.Cplague) == null)
+		if(par5Entity instanceof EntityLivingBase && !EntityUtil.isEntityCoralium((EntityLivingBase)par5Entity) && ((EntityLivingBase)par5Entity).getActivePotionEffect(AbyssalCraft.Cplague) == null) {
 			((EntityLivingBase)par5Entity).addPotionEffect(new PotionEffect(AbyssalCraft.Cplague.id, 200));
+		}
 	}
 
 	private List<Block> oresToBlocks(List<ItemStack> list){

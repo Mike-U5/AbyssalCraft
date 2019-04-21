@@ -26,17 +26,17 @@ import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
 
+import cpw.mods.fml.common.registry.*;
 import com.shinoow.abyssalcraft.AbyssalCraft;
 import com.shinoow.abyssalcraft.api.entity.IDreadEntity;
 
-public class EntityDreadling extends EntityMob implements IDreadEntity
-{
+public class EntityDreadling extends EntityMob implements IDreadEntity {
 
-	public EntityDreadling(World par1World)
-	{
+	public EntityDreadling(World par1World) {
 		super(par1World);
 		setSize(0.8F, 1.5F);
 		tasks.addTask(2, new EntityAIAttackOnCollide(this, EntityPlayer.class, 0.35D, true));
@@ -50,28 +50,25 @@ public class EntityDreadling extends EntityMob implements IDreadEntity
 	}
 
 	@Override
-	protected void applyEntityAttributes()
-	{
+	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
 
 		if(AbyssalCraft.hardcoreMode){
 			getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(60.0D);
 			getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(12.0D);
 		} else {
-			getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(30.0D);
-			getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(6.0D);
+			getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(40.0D);
+			getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(10.0D);
 		}
 	}
 
 	@Override
-	protected boolean isAIEnabled()
-	{
+	protected boolean isAIEnabled() {
 		return true;
 	}
 
 	@Override
-	public boolean attackEntityAsMob(Entity par1Entity){
-
+	public boolean attackEntityAsMob(Entity par1Entity) {
 		if (super.attackEntityAsMob(par1Entity))
 			if (par1Entity instanceof EntityLivingBase)
 				((EntityLivingBase)par1Entity).addPotionEffect(new PotionEffect(AbyssalCraft.Dplague.id, 100));
@@ -79,44 +76,47 @@ public class EntityDreadling extends EntityMob implements IDreadEntity
 	}
 
 	@Override
-	protected String getLivingSound()
-	{
-		return "mob.zombie.say";
+	protected String getLivingSound() {
+		return "abyssalcraft:dreadling.idle";
 	}
 
 	/**
 	 * Returns the sound this mob makes when it is hurt.
 	 */
 	@Override
-	protected String getHurtSound()
-	{
-		return "mob.zombie.hurt";
+	protected String getHurtSound() {
+		return "abyssalcraft:dreadling.hurt";
 	}
 
 	/**
 	 * Returns the sound this mob makes on death.
 	 */
 	@Override
-	protected String getDeathSound()
-	{
-		return "mob.zombie.death";
+	protected String getDeathSound() {
+		return "abyssalcraft:dreadling.death";
 	}
 
 	@Override
-	protected void func_145780_a(int par1, int par2, int par3, Block par4)
-	{
+	protected void func_145780_a(int par1, int par2, int par3, Block par4) {
 		worldObj.playSoundAtEntity(this, "mob.zombie.step", 0.15F, 1.0F);
 	}
 
 	@Override
-	protected Item getDropItem()
-	{
-		return AbyssalCraft.dreadfragment;
+	protected void dropFewItems(boolean para, int lootLvl) {
+		float drp = 1.0F + (lootLvl*0.5F);
+		int finalAmt = (drp % 1 > Math.random()) ? (int)Math.ceil(drp) : (int)Math.floor(drp);
+		
+		//Nerfed change to drop dread shards. Will drop tar instead if Archelogy is installed.
+		Item tar = GameRegistry.findItem("fossil", "tardrop");
+		if (Math.random() >= 0.8F) {
+			entityDropItem(new ItemStack(AbyssalCraft.Dreadshard, finalAmt), 0);
+		} else if (tar != null) {
+			entityDropItem(new ItemStack(tar, finalAmt), 0);
+		}
 	}
 
 	@Override
-	public EnumCreatureAttribute getCreatureAttribute()
-	{
+	public EnumCreatureAttribute getCreatureAttribute() {
 		return EnumCreatureAttribute.UNDEAD;
 	}
 }

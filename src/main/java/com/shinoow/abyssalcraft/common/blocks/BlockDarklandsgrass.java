@@ -59,15 +59,6 @@ public class BlockDarklandsgrass extends Block
 		return par1 == 1 ? iconGrassTop : par1 == 0 ? Blocks.dirt.getBlockTextureFromSide(par1) : blockIcon;
 	}
 
-	@Override
-	public void randomDisplayTick(World par1World, int par2, int par3, int par4, Random par5Random)
-	{
-		super.randomDisplayTick(par1World, par2, par3, par4, par5Random);
-
-		if(AbyssalCraft.particleBlock)
-			if (par5Random.nextInt(10) == 0)
-				par1World.spawnParticle("portal", par2 + par5Random.nextFloat(), par3 + 1.1F, par4 + par5Random.nextFloat(), 0.0D, 0.0D, 0.0D);
-	}
 	/**
 	 * Ticks the block if it's been scheduled
 	 */
@@ -75,36 +66,26 @@ public class BlockDarklandsgrass extends Block
 	public void updateTick(World par1World, int par2, int par3, int par4, Random par5Random)
 	{
 		if (!par1World.isRemote)
-			if (par1World.getBlockLightValue(par2, par3 + 1, par4) < 4 && par1World.getBlockLightOpacity(par2, par3 + 1, par4) > 2)
+			if (par1World.getBlockLightValue(par2, par3 + 1, par4) < 4 && par1World.getBlockLightOpacity(par2, par3 + 1, par4) > 2) {
 				par1World.setBlock(par2, par3, par4, Blocks.dirt);
-			else if (par1World.getBlockLightValue(par2, par3 + 1, par4) >= 9)
-				for (int l = 0; l < 4; ++l)
-				{
-					int i1 = par2 + par5Random.nextInt(3) - 1;
-					int j1 = par3 + par5Random.nextInt(5) - 3;
-					int k1 = par4 + par5Random.nextInt(3) - 1;
-
-					if (par1World.getBlock(i1, j1, k1) == Blocks.dirt && par1World.getBlockMetadata(i1, j1, k1) == 0 && par1World.getBlockLightValue(i1, j1 + 1, k1) >= 4 && par1World.getBlockLightOpacity(i1, j1 + 1, k1) <= 2)
-						par1World.setBlock(i1, j1, k1, AbyssalCraft.Darkgrass);
-				}
+			}
 	}
 
 	@Override
-	public boolean canSustainPlant(IBlockAccess world, int x, int y, int z, ForgeDirection direction, IPlantable plantable)
-	{
+	public boolean canSustainPlant(IBlockAccess world, int x, int y, int z, ForgeDirection direction, IPlantable plantable) {
 		Block plant = plantable.getPlant(world, x, y + 1, z);
-		if (plant == AbyssalCraft.DLTSapling || plant == AbyssalCraft.dreadsapling || plant instanceof BlockFlower ||
-				plant instanceof BlockMushroom || plant instanceof BlockTallGrass)
+		if (plant == AbyssalCraft.DLTSapling || plant == AbyssalCraft.dreadsapling) {
 			return true;
-		return false;
+		} else {
+			return false;
+		}
 	}
 
 	/**
 	 * Returns the ID of the items to drop on destruction.
 	 */
 	@Override
-	public Item getItemDropped(int par1, Random par2Random, int par3)
-	{
+	public Item getItemDropped(int par1, Random par2Random, int par3) {
 		return Blocks.dirt.getItemDropped(0, par2Random, par3);
 	}
 

@@ -78,8 +78,7 @@ public class GuiNecronomiconEntry extends GuiNecronomicon {
 		updateButtons();
 	}
 
-	private void updateButtons()
-	{
+	private void updateButtons() {
 		buttonNextPage.visible = currTurnup < getTurnupLimit() - 1 && isInfo;
 		buttonPreviousPage.visible = true;
 		buttonDone.visible = true;
@@ -89,10 +88,8 @@ public class GuiNecronomiconEntry extends GuiNecronomicon {
 	}
 
 	@Override
-	protected void actionPerformed(GuiButton button)
-	{
-		if (button.enabled)
-		{
+	protected void actionPerformed(GuiButton button) {
+		if (button.enabled) {
 			if (button.id == 0)
 				mc.displayGuiScreen((GuiScreen)null);
 			else if(button.id == 1){

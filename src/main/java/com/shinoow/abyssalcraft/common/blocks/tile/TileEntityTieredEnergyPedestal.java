@@ -31,10 +31,10 @@ public class TileEntityTieredEnergyPedestal extends TileEntity implements IEnerg
 	private float energy;
 	Random rand = new Random();
 	private boolean isDirty;
+	private int particleTimer = 0;
 
 	@Override
-	public void readFromNBT(NBTTagCompound nbttagcompound)
-	{
+	public void readFromNBT(NBTTagCompound nbttagcompound) {
 		super.readFromNBT(nbttagcompound);
 		NBTTagCompound nbtItem = nbttagcompound.getCompoundTag("Item");
 		item = ItemStack.loadItemStackFromNBT(nbtItem);
@@ -43,8 +43,7 @@ public class TileEntityTieredEnergyPedestal extends TileEntity implements IEnerg
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound nbttagcompound)
-	{
+	public void writeToNBT(NBTTagCompound nbttagcompound) {
 		super.writeToNBT(nbttagcompound);
 		NBTTagCompound nbtItem = new NBTTagCompound();
 		if(item != null)
@@ -62,14 +61,12 @@ public class TileEntityTieredEnergyPedestal extends TileEntity implements IEnerg
 	}
 
 	@Override
-	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity packet)
-	{
+	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity packet) {
 		readFromNBT(packet.func_148857_g());
 	}
 
 	@Override
-	public void updateEntity()
-	{
+	public void updateEntity() {
 		super.updateEntity();
 
 		if(isDirty){
@@ -82,29 +79,20 @@ public class TileEntityTieredEnergyPedestal extends TileEntity implements IEnerg
 		if(item != null)
 			rot++;
 
-		if(worldObj.canBlockSeeTheSky(xCoord, yCoord, zCoord))
-			if(rand.nextInt(40) == 0 && getContainedEnergy() < getMaxEnergy()){
-				if(worldObj.isDaytime()){
-					addEnergy(1);
-					worldObj.spawnParticle("smoke", xCoord + 0.5, yCoord + 0.95, zCoord + 0.5, 0, 0, 0);
-				} else {
-					if(worldObj.getCurrentMoonPhaseFactor() == 1)
-						addEnergy(3);
-					else if(worldObj.getCurrentMoonPhaseFactor() == 0)
-						addEnergy(1);
-					else addEnergy(2);
-					worldObj.spawnParticle("smoke", xCoord + 0.5, yCoord + 0.95, zCoord + 0.5, 0, 0, 0);
-				}
-				if(getContainedEnergy() > getMaxEnergy())
-					energy = getMaxEnergy();
-			}
-
-		if(item != null)
+		if(item != null) {
 			if(item.getItem() instanceof IEnergyTransporter)
 				if(getContainedEnergy() > 0 && ((IEnergyTransporter) item.getItem()).getContainedEnergy(item) < ((IEnergyTransporter) item.getItem()).getMaxEnergy(item)){
 					((IEnergyTransporter) item.getItem()).addEnergy(item, 1);
 					consumeEnergy(1);
 				}
+		}
+		
+		particleTimer++;
+		int particleRate = Math.round(getContainedEnergy()/getMaxEnergy())*40;
+		if (getContainedEnergy() >= 1 && particleTimer > (40 - particleRate)) {
+			worldObj.spawnParticle("reddust", xCoord + 0.5, yCoord + 0.95, zCoord + 0.5, 0, 0, 0);
+			particleTimer = 0;
+		}
 	}
 
 	public int getRotation(){

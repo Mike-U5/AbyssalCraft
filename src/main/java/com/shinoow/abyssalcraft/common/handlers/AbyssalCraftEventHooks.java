@@ -183,17 +183,6 @@ public class AbyssalCraftEventHooks {
 	}
 
 	@SubscribeEvent
-	public void ironWall(LivingHurtEvent event){
-		ItemStack item = event.entityLiving.getEquipmentInSlot(3);
-		if(item != null && item.hasTagCompound()){
-			NBTTagList enchTag = item.getEnchantmentTagList();
-			for(int i = 0; i < enchTag.tagCount(); i++)
-				if(enchTag.getCompoundTagAt(i).getInteger("id") == AbyssalCraft.ironWall.effectId)
-					event.entityLiving.setInWeb();
-		}
-	}
-
-	@SubscribeEvent
 	public void darkRealm(LivingUpdateEvent event){
 		if(event.entityLiving instanceof EntityPlayerMP){
 			WorldServer worldServer = (WorldServer)event.entityLiving.worldObj;
@@ -205,29 +194,6 @@ public class AbyssalCraftEventHooks {
 				player.addStat(AbyssalCraft.enterDarkRealm, 1);
 			}
 		}
-		if(event.entityLiving.worldObj.isRemote && event.entityLiving.dimension == AbyssalCraft.configDimId4){
-			Random rand = new Random();
-			if(AbyssalCraft.particleEntity)
-				event.entityLiving.worldObj.spawnParticle("largesmoke", event.entityLiving.posX + (rand.nextDouble() - 0.5D) * event.entityLiving.width,
-						event.entityLiving.posY + rand.nextDouble() * event.entityLiving.height,
-						event.entityLiving.posZ + (rand.nextDouble() - 0.5D) * event.entityLiving.width, 0,0,0);
-		}
-		if(AbyssalCraft.darkness)
-			if(event.entityLiving instanceof EntityPlayer){
-				EntityPlayer player = (EntityPlayer)event.entityLiving;
-				Random rand = new Random();
-				ItemStack helmet = player.getEquipmentInSlot(4);
-				if(player.worldObj.getBiomeGenForCoords((int)player.posX, (int)player.posZ) instanceof IDarklandsBiome)
-					if(rand.nextInt(1000) == 0)
-						if(helmet == null || helmet != null && helmet.getItem() != AbyssalCraft.helmet && helmet.getItem() != AbyssalCraft.helmetD
-						&& helmet.getItem() != AbyssalCraft.Corhelmet && helmet.getItem() != AbyssalCraft.CorhelmetP
-						&& helmet.getItem() != AbyssalCraft.Depthshelmet && helmet.getItem() != AbyssalCraft.dreadiumhelmet
-						&& helmet.getItem() != AbyssalCraft.dreadiumShelmet && helmet.getItem() != AbyssalCraft.ethHelmet)
-							if(!player.capabilities.isCreativeMode)
-								player.addPotionEffect(new PotionEffect(Potion.blindness.id, 100));
-				if(player.getActivePotionEffect(Potion.blindness) != null && player.getActivePotionEffect(Potion.blindness).getDuration() == 0)
-					player.removePotionEffect(Potion.blindness.id);
-			}
 	}
 
 	@SubscribeEvent

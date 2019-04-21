@@ -59,14 +59,22 @@ public class EntityChagarothFist extends EntityMob implements IDreadEntity {
 	}
 
 	@Override
-	protected boolean isAIEnabled()
-	{
+	protected boolean isAIEnabled() {
 		return true;
+	}
+	
+	@Override
+	protected String getHurtSound() {
+		return "abyssalcraft:fist.hurt";
+	}
+	
+	@Override
+	protected String getDeathSound() {
+		return "abyssalcraft:fist.death";
 	}
 
 	@Override
-	protected void func_145780_a(int par1, int par2, int par3, Block par4)
-	{
+	protected void func_145780_a(int par1, int par2, int par3, Block par4) {
 		playSound("mob.spider.step", 0.15F, 1.0F);
 	}
 }

@@ -48,16 +48,6 @@
 			"abyssalcraft:ghoul/death"
 		]
 	},
-	"ghoul.pete.hit": {
-		"category": "hostile",
-		"sounds": [
-			"abyssalcraft:ghoul/pete/hit1",
-			"abyssalcraft:ghoul/pete/hit2",
-			"abyssalcraft:ghoul/pete/hit3",
-			"abyssalcraft:ghoul/pete/hit4",
-			"abyssalcraft:ghoul/pete/hit5"
-		]
-	},
 	"ghoul.pete.idle": {
 		"category": "hostile",
 		"sounds": [
@@ -69,6 +59,13 @@
 			"abyssalcraft:ghoul/pete/idle6",
 			"abyssalcraft:ghoul/pete/idle7",
 			"abyssalcraft:ghoul/pete/idle8"
+		]
+	},
+	"golem.idle": {
+		"category": "hostile",
+		"sounds": [
+			"abyssalcraft:golem/idle1",
+			"abyssalcraft:golem/silence"
 		]
 	},
 	"golem.death": {
@@ -84,10 +81,24 @@
 			"abyssalcraft:golem/hit2"
 		]
 	},
-	"golem.idle": {
+	"dreadgolem.idle": {
 		"category": "hostile",
 		"sounds": [
-			"abyssalcraft:golem/idle1"
+			"abyssalcraft:dreadgolem/idle1",
+			"abyssalcraft:golem/silence"
+		]
+	},
+	"dreadgolem.death": {
+		"category": "hostile",
+		"sounds": [
+			"abyssalcraft:dreadgolem/death"
+		]
+	},
+	"dreadgolem.hit": {
+		"category": "hostile",
+		"sounds": [
+			"abyssalcraft:dreadgolem/hit1",
+			"abyssalcraft:dreadgolem/hit2"
 		]
 	},
 	"sacthoth.death": {
@@ -116,6 +127,12 @@
 			"abyssalcraft:remnant/scream"
 		]
 	},
+	"remnant.trade": {
+		"category": "hostile",
+		"sounds": [
+			"abyssalcraft:remnant/trade"
+		]
+	},
 	"shoggoth.idle": {
 		"category": "hostile",
 		"sounds": [
@@ -142,10 +159,168 @@
 			"abyssalcraft:shoggoth/death"
 		]
 	},
+	"abyzombie.idle": {
+		"category": "hostile",
+		"sounds": [
+			"abyssalcraft:abyzombie/idle1",
+			"abyssalcraft:abyzombie/idle2",
+			"abyssalcraft:abyzombie/idle3",
+			"abyssalcraft:abyzombie/idle4",
+			"abyssalcraft:abyzombie/idle5"
+		]
+	},
+	"abyzombie.hurt": {
+		"category": "hostile",
+		"sounds": [
+			"abyssalcraft:abyzombie/hurt1",
+			"abyssalcraft:abyzombie/hurt2",
+			"abyssalcraft:abyzombie/hurt3",
+			"abyssalcraft:abyzombie/hurt4",
+			"abyssalcraft:abyzombie/hurt5"
+		]
+	},
+	"abyzombie.death": {
+		"category": "hostile",
+		"sounds": [
+			"abyssalcraft:abyzombie/death"
+		]
+	},
+	"dreadling.idle": {
+		"category": "hostile",
+		"sounds": [
+			"abyssalcraft:wideman/wideman_idle1",
+			"abyssalcraft:wideman/wideman_idle2",
+			"abyssalcraft:wideman/wideman_idle3",
+			"abyssalcraft:wideman/wideman_idle4",
+			"abyssalcraft:wideman/wideman_idle5"
+		]
+	},
+	"dreadling.hurt": {
+		"category": "hostile",
+		"sounds": [
+			"abyssalcraft:wideman/wideman_hurt1",
+			"abyssalcraft:wideman/wideman_hurt2",
+			"abyssalcraft:wideman/wideman_hurt3",
+			"abyssalcraft:wideman/wideman_hurt4",
+			"abyssalcraft:wideman/wideman_hurt5",
+			"abyssalcraft:wideman/wideman_hurt6"
+		]
+	},
+	"dreadling.death": {
+		"category": "hostile",
+		"sounds": [
+			"abyssalcraft:wideman/wideman_death1",
+			"abyssalcraft:wideman/wideman_death2",
+			"abyssalcraft:wideman/wideman_death3"
+		]
+	},
+	"dreadslug.idle": {
+		"category": "hostile",
+		"sounds": [
+			"abyssalcraft:entrail/entrail_idle1",
+			"abyssalcraft:entrail/entrail_idle2",
+			"abyssalcraft:entrail/entrail_idle3"
+		]
+	},
+	"dreadslug.hurt": {
+		"category": "hostile",
+		"sounds": [
+			"abyssalcraft:entrail/entrail_hurt1",
+			"abyssalcraft:entrail/entrail_hurt2",
+			"abyssalcraft:entrail/entrail_hurt3"
+		]
+	},
+	"dreadslug.death": {
+		"category": "hostile",
+		"sounds": [
+			"abyssalcraft:entrail/entrail_death1",
+			"abyssalcraft:entrail/entrail_death2",
+			"abyssalcraft:entrail/entrail_death3"
+		]
+	},
+	"dreadspawn.idle": {
+		"category": "hostile",
+		"sounds": [
+			"abyssalcraft:dreadspawn/idle1",
+			"abyssalcraft:dreadspawn/idle2",
+			"abyssalcraft:dreadspawn/idle3",
+			"abyssalcraft:dreadspawn/idle4",
+			"abyssalcraft:dreadspawn/idle5"
+		]
+	},
+	"dreadspawn.hurt": {
+		"category": "hostile",
+		"sounds": [
+			"abyssalcraft:dreadspawn/hurt1",
+			"abyssalcraft:dreadspawn/hurt2",
+			"abyssalcraft:dreadspawn/hurt3",
+			"abyssalcraft:dreadspawn/hurt4",
+			"abyssalcraft:dreadspawn/hurt5"
+		]
+	},
+	"dreadspawn.death": {
+		"category": "hostile",
+		"sounds": [
+			"abyssalcraft:dreadspawn/death"
+		]
+	},
+	"fist.hurt": {
+		"category": "hostile",
+		"sounds": [
+			"abyssalcraft:freezer/idle1",
+			"abyssalcraft:freezer/idle2",
+			"abyssalcraft:freezer/idle3"
+		]
+	},
+	"fist.death": {
+		"category": "hostile",
+		"sounds": [
+			"abyssalcraft:freezer/death1",
+			"abyssalcraft:freezer/death2",
+			"abyssalcraft:freezer/death3"
+		]
+	},
+	"antiplayer.idle": {
+		"category": "hostile",
+		"sounds": [
+			"abyssalcraft:antiplayer/idle1",
+			"abyssalcraft:antiplayer/idle2",
+			"abyssalcraft:antiplayer/idle3",
+			"abyssalcraft:antiplayer/idle4",
+			"abyssalcraft:antiplayer/idle5",
+			"abyssalcraft:antiplayer/idle6"
+		]
+	},
+	"antiplayer.death": {
+		"category": "hostile",
+		"sounds": [
+			"abyssalcraft:antiplayer/death1",
+			"abyssalcraft:antiplayer/death2",
+			"abyssalcraft:antiplayer/death3"
+		]
+	},
+	"jzahar.skill.1": {
+		"category": "hostile",
+		"sounds": [
+			"abyssalcraft:jzahar/spell_gyro"
+		]
+	},
 	"jzahar.charge": {
 		"category": "hostile",
 		"sounds": [
 			"abyssalcraft:jzahar/charge"
+		]
+	},
+	"event.essence": {
+		"category": "hostile",
+		"sounds": [
+			"abyssalcraft:event/essence"
+		]
+	},
+	"event.sin": {
+		"category": "hostile",
+		"sounds": [
+			"abyssalcraft:event/sin"
 		]
 	}
 }

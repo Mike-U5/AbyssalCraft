@@ -22,21 +22,18 @@ public class TEDirectional extends TileEntity {
 	public int direction;
 
 	@Override
-	public boolean canUpdate()
-	{
+	public boolean canUpdate() {
 		return false;
 	}
 
 	@Override
-	public void readFromNBT(NBTTagCompound nbttagcompound)
-	{
+	public void readFromNBT(NBTTagCompound nbttagcompound) {
 		super.readFromNBT(nbttagcompound);
 		direction = nbttagcompound.getInteger("Dir");
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound nbttagcompound)
-	{
+	public void writeToNBT(NBTTagCompound nbttagcompound) {
 		super.writeToNBT(nbttagcompound);
 		nbttagcompound.setInteger("Dir", direction);
 	}
@@ -49,18 +46,15 @@ public class TEDirectional extends TileEntity {
 	}
 
 	@Override
-	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity packet)
-	{
+	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity packet) {
 		readFromNBT(packet.func_148857_g());
 	}
 
-	public int getDirection()
-	{
+	public int getDirection() {
 		return direction;
 	}
 
-	public void setDirection(int par1)
-	{
+	public void setDirection(int par1) {
 		direction = par1;
 	}
 }

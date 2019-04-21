@@ -40,8 +40,7 @@ public class GuiNecronomiconRituals extends GuiNecronomicon {
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public void initGui()
-	{
+	public void initGui() {
 		buttonList.clear();
 		Keyboard.enableRepeatEvents(true);
 
@@ -63,8 +62,7 @@ public class GuiNecronomiconRituals extends GuiNecronomicon {
 		updateButtons();
 	}
 
-	private void updateButtons()
-	{
+	private void updateButtons() {
 		buttonPreviousPage.visible = true;
 		buttonDone.visible = true;
 		info.visible = true;
@@ -81,10 +79,8 @@ public class GuiNecronomiconRituals extends GuiNecronomicon {
 	}
 
 	@Override
-	protected void actionPerformed(GuiButton button)
-	{
-		if (button.enabled)
-		{
+	protected void actionPerformed(GuiButton button) {
+		if (button.enabled) {
 			if(button.id == 0)
 				mc.displayGuiScreen((GuiScreen)null);
 			else if(button.id == 1)

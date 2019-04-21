@@ -227,21 +227,18 @@ public class EntityAbyssalZombie extends EntityMob implements ICoraliumEntity {
 	}
 
 	@Override
-	protected String getLivingSound()
-	{
-		return "mob.zombie.say";
+	protected String getLivingSound() {
+		return "abyssalcraft:abyzombie.idle";
 	}
 
 	@Override
-	protected String getHurtSound()
-	{
-		return "mob.zombie.hurt";
+	protected String getHurtSound() {
+		return "abyssalcraft:abyzombie.hurt";
 	}
 
 	@Override
-	protected String getDeathSound()
-	{
-		return "mob.zombie.death";
+	protected String getDeathSound() {
+		return "abyssalcraft:abyzombie.death";
 	}
 
 	@Override

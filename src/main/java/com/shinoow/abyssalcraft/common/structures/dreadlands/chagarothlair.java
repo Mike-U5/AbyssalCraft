@@ -3755,10 +3755,6 @@ public class chagarothlair extends WorldGenerator {
 				tileentitychest.decrStackSize(13, 1);
 
 			tileentitychest.setInventorySlotContents(13, new ItemStack(Blocks.dirt, 1).setStackDisplayName(EnumChatFormatting.GOLD +"The Legendary Treasure of The Dreadlands"));
-			if(world.rand.nextInt(10) == 0){
-				tileentitychest.decrStackSize(13, 1);
-				tileentitychest.setInventorySlotContents(13, new ItemStack(AbyssalCraft.friedegg, 1).setStackDisplayName(EnumChatFormatting.GOLD +"The Legendary Treasure of The Dreadlands"));
-			}
 			if(world.rand.nextInt(100) == 0){
 				tileentitychest.setInventorySlotContents(0, new ItemStack(AbyssalCraft.crystal, 1, 0));
 				tileentitychest.setInventorySlotContents(1, new ItemStack(AbyssalCraft.crystal, 1, 1));
