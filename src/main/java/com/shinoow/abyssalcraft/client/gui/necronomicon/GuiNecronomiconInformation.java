@@ -32,8 +32,8 @@ enum InfoType {ABYSSALCRAFT, ABOUTTHISBOOK, PATRONS, GREATOLDONES, OUTERGODS};
 
 public class GuiNecronomiconInformation extends GuiNecronomicon {
 	private ButtonNextPage buttonNextPage, buttonPreviousPage;
-	private ButtonCategory[] buttonCat = new ButtonCategory[8];
-	private final int[] buttonBooks = new int[] {0,0,0,0,1,2,3,4};
+	private ButtonCategory[] buttonCat = new ButtonCategory[9];
+	private final int[] buttonBooks = new int[] {0,0,0,0,0,1,2,3,4};
 	private final Item[] itemBooks = new Item[] {
 		AbyssalCraft.necronomicon,
 		AbyssalCraft.necronomicon_cor,
@@ -44,7 +44,9 @@ public class GuiNecronomiconInformation extends GuiNecronomicon {
 	private final String[] buttonText = new String[] {
 		NecronomiconText.LABEL_INFORMATION_ABYSSALCRAFT,
 		NecronomiconText.LABEL_INFORMATION_GREAT_OLD_ONES,
+		NecronomiconText.LABEL_OUTER_GODS,
 		NecronomiconText.LABEL_HUH,
+		///NecronomiconText.LABEL_INFO,
 		NecronomiconText.LABEL_INFORMATION_OVERWORLD,
 		NecronomiconText.LABEL_INFORMATION_ABYSSAL_WASTELAND,
 		NecronomiconText.LABEL_INFORMATION_DREADLANDS,
@@ -81,7 +83,10 @@ public class GuiNecronomiconInformation extends GuiNecronomicon {
 				yPos -= 85;
 			}
 			// Icon
-			final Item icon = itemBooks[buttonBooks[i]];
+			Item icon = itemBooks[buttonBooks[i]];
+			if (i == 4 && getBookType() == 4) {
+				icon = itemBooks[buttonBooks[4]];
+			}
 			// Add
 			if(getBookType() >= buttonBooks[i]) {
 				buttonList.add(buttonCat[i] = new ButtonCategory(3 + i, xPos, yPos, this, buttonText[i], icon));
@@ -92,7 +97,7 @@ public class GuiNecronomiconInformation extends GuiNecronomicon {
 	}
 
 	private void updateButtons() {
-		buttonNextPage.visible = (currTurnup < getTurnupLimit() - 1 && isInfo && infoType == InfoType.ABYSSALCRAFT);
+		buttonNextPage.visible = (currTurnup < getTurnupLimit() - 1 && isInfo);
 		buttonPreviousPage.visible = true;
 		buttonDone.visible = true;
 	}
@@ -123,20 +128,26 @@ public class GuiNecronomiconInformation extends GuiNecronomicon {
 				infoType = InfoType.ABYSSALCRAFT;
 				drawButtons();
 			} else if(button.id == 4) {
-				mc.displayGuiScreen(new GuiNecronomiconEntry(getBookType(), AbyssalCraftAPI.getInternalNDHandler().getInternalNecroData("greatoldones"), this, AbyssalCraft.necronomicon));
+				isInfo = true;
+				infoType = InfoType.GREATOLDONES;
+				drawButtons();
 			} else if(button.id == 5) {
+				isInfo = true;
+				infoType = InfoType.OUTERGODS;
+				drawButtons();
+			} else if(button.id == 6) {
 				isInfo = true;
 				infoType = InfoType.ABOUTTHISBOOK;
 				drawButtons();
-			} else if(button.id == 6) {
+			} else if(button.id == 7) {
 				mc.displayGuiScreen(new GuiNecronomiconEntry(getBookType(), AbyssalCraftAPI.getInternalNDHandler().getInternalNecroData("overworld"), this, AbyssalCraft.necronomicon));
-			} else if(button.id == 7) { 
+			} else if(button.id == 8) { 
 				mc.displayGuiScreen(new GuiNecronomiconEntry(getBookType(), AbyssalCraftAPI.getInternalNDHandler().getInternalNecroData("abyssalwasteland"), this, AbyssalCraft.necronomicon_cor));
-			} else if(button.id == 8) {
-				mc.displayGuiScreen(new GuiNecronomiconEntry(getBookType(), AbyssalCraftAPI.getInternalNDHandler().getInternalNecroData("dreadlands"), this, AbyssalCraft.necronomicon_dre));
 			} else if(button.id == 9) {
-				mc.displayGuiScreen(new GuiNecronomiconEntry(getBookType(), AbyssalCraftAPI.getInternalNDHandler().getInternalNecroData("omothol"), this, AbyssalCraft.necronomicon_omt));
+				mc.displayGuiScreen(new GuiNecronomiconEntry(getBookType(), AbyssalCraftAPI.getInternalNDHandler().getInternalNecroData("dreadlands"), this, AbyssalCraft.necronomicon_dre));
 			} else if(button.id == 10) {
+				mc.displayGuiScreen(new GuiNecronomiconEntry(getBookType(), AbyssalCraftAPI.getInternalNDHandler().getInternalNecroData("omothol"), this, AbyssalCraft.necronomicon_omt));
+			} else if(button.id == 11) {
 				mc.displayGuiScreen(new GuiNecronomiconEntry(getBookType(), AbyssalCraftAPI.getInternalNDHandler().getInternalNecroData("darkrealm"), this, AbyssalCraft.abyssalnomicon));
 			}
 			updateButtons();
@@ -189,10 +200,53 @@ public class GuiNecronomiconInformation extends GuiNecronomicon {
 				writeText(1, NecronomiconText.NECRONOMICON_PAGE_3);
 				writeText(2, NecronomiconText.NECRONOMICON_PAGE_4);
 			}
+		} else if (infoType == InfoType.GREATOLDONES) {
+			setTurnupLimit(3);
+			switch (currTurnup) {
+				case 0: 
+					writeText(1, NecronomiconText.CTHULHU_1, 100);
+					writeText(2, NecronomiconText.CTHULHU_2);
+					renderPicture(NecronomiconResources.CTHULHU_SEAL, k, b0);
+					break;
+				case 1: 
+					writeText(1, NecronomiconText.HASTUR_1, 100);
+					writeText(2, NecronomiconText.HASTUR_2);
+					renderPicture(NecronomiconResources.HASTUR_SEAL, k, b0);
+					break;
+				case 2: 
+					writeText(1, NecronomiconText.JZAHAR_1, 100);
+					writeText(2, NecronomiconText.JZAHAR_2);
+					renderPicture(NecronomiconResources.JZAHAR_SEAL, k, b0);
+					break;
+			}
+		} else if (infoType == InfoType.OUTERGODS) {
+			setTurnupLimit(4);
+			switch (currTurnup) {
+				case 0: 
+					writeText(1, NecronomiconText.NYARLATHOTEP_1, 100);
+					writeText(2, NecronomiconText.NYARLATHOTEP_2);
+					renderPicture(NecronomiconResources.NYARLATHOTEP_SEAL, k, b0);
+				break;
+				case 1: 
+					writeText(1, NecronomiconText.YOG_SOTHOTH_1, 100);
+					writeText(2, NecronomiconText.YOG_SOTHOTH_2);
+					renderPicture(NecronomiconResources.YOG_SOTHOTH_SEAL, k, b0);
+				break;
+				case 2:
+					writeText(1, NecronomiconText.SHUB_NIGGURATH_1, 100);
+					writeText(2, NecronomiconText.SHUB_NIGGURATH_2);
+					renderPicture(NecronomiconResources.SHUB_NIGGURATH_SEAL, k, b0);
+				break;
+				case 3: 
+					writeText(1, NecronomiconText.AZATHOTH_1, 100);
+					writeText(2, NecronomiconText.AZATHOTH_2);
+					renderPicture(NecronomiconResources.AZATHOTH_SEAL, k, b0);
+				break;
+			}
 		}
 	}
 	
-	private void renderPicture(ResourceLocation srcLoc, int x, int y) {
+	private void renderPicture(ResourceLocation srcLoc, int x, byte y) {
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		mc.renderEngine.bindTexture(srcLoc);
 		drawTexturedModalRect(x, y, 0, 0, 256, 256);
