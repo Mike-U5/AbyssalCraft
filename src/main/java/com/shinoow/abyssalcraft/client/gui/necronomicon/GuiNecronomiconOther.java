@@ -140,7 +140,7 @@ public class GuiNecronomiconOther extends GuiNecronomicon {
 				drawButtons();
 			} else if (button.id == 2){
 				if(currTurnup == 0)
-					mc.displayGuiScreen(new GuiNecronomicon(getBookType()));
+					mc.displayGuiScreen(new GuiNecronomiconInformation(getBookType()));
 				else if (currTurnup > 0)
 					--currTurnup;
 				drawButtons();

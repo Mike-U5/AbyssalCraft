@@ -87,7 +87,7 @@ public class GuiNecronomiconRituals extends GuiNecronomicon {
 			if(button.id == 0) {
 				mc.displayGuiScreen((GuiScreen)null);
 			} else if(button.id == 1) {
-				mc.displayGuiScreen(new GuiNecronomicon(getBookType()));
+				mc.displayGuiScreen(new GuiNecronomiconInformation(getBookType()));
 			} else if(button.id == 2) {
 				mc.displayGuiScreen(new GuiNecronomiconEntry(getBookType(), AbyssalCraftAPI.getInternalNDHandler().getInternalNecroData("rituals"), this, AbyssalCraft.necronomicon));
 			} else if(button.id >= 3) {

@@ -11,15 +11,11 @@
 :compileApiJava UP-TO-DATE
 :processApiResources UP-TO-DATE
 :apiClasses UP-TO-DATE
-:sourceMainJava
-:compileJavawarning: [options] bootstrap class path not set in conjunction with -source 1.7
-Note: Some input files use unchecked or unsafe operations.
-Note: Recompile with -Xlint:unchecked for details.
-1 warning
-
+:sourceMainJava UP-TO-DATE
+:compileJava UP-TO-DATE
 :processResources UP-TO-DATE
-:classes
-:devJar
+:classes UP-TO-DATE
+:devJar UP-TO-DATE
 :jar
 :compileTestJava UP-TO-DATE
 :processTestResources UP-TO-DATE
@@ -30,11 +26,11 @@ Note: Recompile with -Xlint:unchecked for details.
 :extractUserDev UP-TO-DATE
 :genSrgs SKIPPED
 :reobf
-:srcJar
+:srcJar UP-TO-DATE
 :assemble
 :check UP-TO-DATE
 :build
 
 BUILD SUCCESSFUL
 
-Total time: 42.829 secs
+Total time: 21.022 secs

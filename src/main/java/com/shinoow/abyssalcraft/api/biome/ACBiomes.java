@@ -9,7 +9,6 @@ import net.minecraft.world.biome.BiomeGenBase;
  *
  */
 public class ACBiomes {
-
 	public static BiomeGenBase darklands;
 	public static BiomeGenBase darklands_forest;
 	public static BiomeGenBase darklands_plains;
@@ -23,5 +22,4 @@ public class ACBiomes {
 	public static BiomeGenBase dreadlands_forest;
 	public static BiomeGenBase omothol;
 	public static BiomeGenBase dark_realm;
-	public static BiomeGenBase purged;
 }

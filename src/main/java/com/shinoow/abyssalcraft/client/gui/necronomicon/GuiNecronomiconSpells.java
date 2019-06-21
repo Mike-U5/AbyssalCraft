@@ -72,7 +72,7 @@ public class GuiNecronomiconSpells extends GuiNecronomicon {
 			if (button.id == 0)
 				mc.displayGuiScreen((GuiScreen)null);
 			else if (button.id == 2)
-				mc.displayGuiScreen(new GuiNecronomicon(getBookType()));
+				mc.displayGuiScreen(new GuiNecronomiconInformation(getBookType()));
 			updateButtons();
 		}
 	}

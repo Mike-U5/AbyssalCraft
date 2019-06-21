@@ -652,9 +652,9 @@ public class AbyssalCrafting {
 				new ItemStack(AbyssalCraft.shoggothFlesh, 1, 4), new ItemStack(AbyssalCraft.shoggothFlesh, 1, 4), new ItemStack(AbyssalCraft.essence, 1, 0), new ItemStack(AbyssalCraft.essence, 1, 1),
 				new ItemStack(AbyssalCraft.essence, 1, 2)};
 		RitualRegistry.instance().registerRitual(new NecronomiconInfusionRitual("shubniggurathStatue", 4, AbyssalCraft.configDimId3, 20000F, true, new ItemStack(AbyssalCraft.shubniggurathStatue), AbyssalCraft.monolithStone, shubniggurathofferings));
-		Object[] psdlofferings = new Object[]{new ItemStack(AbyssalCraft.essence, 1, 1), new ItemStack(AbyssalCraft.essence, 1, 1), new ItemStack(AbyssalCraft.essence, 1, 1), new ItemStack(AbyssalCraft.essence, 1, 1),
-				new ItemStack(AbyssalCraft.essence, 1, 1), new ItemStack(AbyssalCraft.essence, 1, 1), new ItemStack(AbyssalCraft.essence, 1, 1), new ItemStack(AbyssalCraft.essence, 1, 1)};
-		RitualRegistry.instance().registerRitual(new NecronomiconInfusionRitual("powerStone", 4, AbyssalCraft.configDimId2, 5000F, new ItemStack(AbyssalCraft.PSDL), AbyssalCraft.CoraliumInfusedStone, psdlofferings));
+		///Object[] psdlofferings = new Object[]{new ItemStack(AbyssalCraft.essence, 1, 1), new ItemStack(AbyssalCraft.essence, 1, 1), new ItemStack(AbyssalCraft.essence, 1, 1), new ItemStack(AbyssalCraft.essence, 1, 1),
+		///		new ItemStack(AbyssalCraft.essence, 1, 1), new ItemStack(AbyssalCraft.essence, 1, 1), new ItemStack(AbyssalCraft.essence, 1, 1), new ItemStack(AbyssalCraft.essence, 1, 1)};
+		///RitualRegistry.instance().registerRitual(new NecronomiconInfusionRitual("powerStone", 3, AbyssalCraft.configDimId2, 5000F, new ItemStack(AbyssalCraft.PSDL), AbyssalCraft.Cpearl, psdlofferings));
 		Object[] ethofferings = new Object[]{AbyssalCraft.ethaxium_brick, AbyssalCraft.ethaxium_brick, AbyssalCraft.lifeCrystal, AbyssalCraft.ethaxium_brick, AbyssalCraft.ethaxium_brick};
 		RitualRegistry.instance().registerRitual(new NecronomiconCreationRitual("ethaxiumIngot", 3, AbyssalCraft.configDimId3, 1000F, new ItemStack(AbyssalCraft.ethaxiumIngot), ethofferings));
 		Object[] dreadofferings = new Object[]{new ItemStack(AbyssalCraft.essence, 1, 1), AbyssalCraft.Dreadshard, AbyssalCraft.Dreadshard, AbyssalCraft.Dreadshard, AbyssalCraft.Dreadshard,

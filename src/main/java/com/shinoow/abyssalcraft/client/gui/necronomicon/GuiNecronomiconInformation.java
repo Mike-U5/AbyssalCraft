@@ -41,12 +41,19 @@ public class GuiNecronomiconInformation extends GuiNecronomicon {
 		AbyssalCraft.necronomicon_omt,
 		AbyssalCraft.abyssalnomicon
 	};
+	private final String[] worldNames = new String[] {
+		"overworld",
+		"abyssalwasteland",
+		"dreadlands",
+		"omothol",
+		"darkrealm"
+	};
 	private final String[] buttonText = new String[] {
-		NecronomiconText.LABEL_INFORMATION_ABYSSALCRAFT,
+		///NecronomiconText.LABEL_INFORMATION_ABYSSALCRAFT,
 		NecronomiconText.LABEL_INFORMATION_GREAT_OLD_ONES,
 		NecronomiconText.LABEL_OUTER_GODS,
 		NecronomiconText.LABEL_HUH,
-		///NecronomiconText.LABEL_INFO,
+		NecronomiconText.LABEL_INFO,
 		NecronomiconText.LABEL_INFORMATION_OVERWORLD,
 		NecronomiconText.LABEL_INFORMATION_ABYSSAL_WASTELAND,
 		NecronomiconText.LABEL_INFORMATION_DREADLANDS,
@@ -78,27 +85,32 @@ public class GuiNecronomiconInformation extends GuiNecronomicon {
 			int xPos = w + 14;
 			int yPos = b0 + 24 + (i * 17);
 			// Left or Right Page?
-			if (i >= 5) {
+			if (i >= 4) {
 				xPos += 118;
-				yPos -= 85;
+				yPos -= 68;
 			}
 			// Icon
 			Item icon = itemBooks[buttonBooks[i]];
-			if (i == 4 && getBookType() == 4) {
-				icon = itemBooks[buttonBooks[4]];
+			if (getBookType() == 4 && buttonText[i] == NecronomiconText.LABEL_HUH) {
+				icon = AbyssalCraft.abyssalnomicon;
 			}
-			// Add
+			// Add to list
 			if(getBookType() >= buttonBooks[i]) {
-				buttonList.add(buttonCat[i] = new ButtonCategory(3 + i, xPos, yPos, this, buttonText[i], icon));
-				buttonCat[i].visible = true;
+				buttonList.add(buttonCat[i] = new ButtonCategory(3 + i, xPos, yPos, this, buttonText[i], icon));	
+				buttonCat[i].enabled = true;
+			} else {
+				buttonList.add(buttonCat[i] = new ButtonCategory(-1, xPos, yPos, this, "???????", AbyssalCraft.OC));
+				buttonCat[i].enabled = false;
 			}
+			buttonCat[i].visible = true;
 		}
 		updateButtons();
 	}
 
 	private void updateButtons() {
-		buttonNextPage.visible = (currTurnup < getTurnupLimit() - 1 && isInfo);
-		buttonPreviousPage.visible = true;
+		boolean isJzaharsBook = (getBookType() == 4 && infoType == InfoType.ABOUTTHISBOOK);
+		buttonNextPage.visible = (currTurnup < getTurnupLimit() - 1 && isInfo && !isJzaharsBook);
+		buttonPreviousPage.visible = isInfo;
 		buttonDone.visible = true;
 	}
 
@@ -125,20 +137,18 @@ public class GuiNecronomiconInformation extends GuiNecronomicon {
 			// Categories
 			} else if(button.id == 3) {
 				isInfo = true;
-				infoType = InfoType.ABYSSALCRAFT;
+				infoType = InfoType.GREATOLDONES;
 				drawButtons();
 			} else if(button.id == 4) {
 				isInfo = true;
-				infoType = InfoType.GREATOLDONES;
+				infoType = InfoType.OUTERGODS;
 				drawButtons();
 			} else if(button.id == 5) {
 				isInfo = true;
-				infoType = InfoType.OUTERGODS;
-				drawButtons();
-			} else if(button.id == 6) {
-				isInfo = true;
 				infoType = InfoType.ABOUTTHISBOOK;
 				drawButtons();
+			} else if(button.id == 6) {
+				mc.displayGuiScreen(new GuiNecronomiconEntry(getBookType(), AbyssalCraftAPI.getInternalNDHandler().getInternalNecroData("rituals"), this, AbyssalCraft.necronomicon));
 			} else if(button.id == 7) {
 				mc.displayGuiScreen(new GuiNecronomiconEntry(getBookType(), AbyssalCraftAPI.getInternalNDHandler().getInternalNecroData("overworld"), this, AbyssalCraft.necronomicon));
 			} else if(button.id == 8) { 
@@ -182,9 +192,9 @@ public class GuiNecronomiconInformation extends GuiNecronomicon {
 				writeText(2, NecronomiconText.INFORMATION_ABYSSALCRAFT_PAGE_4, 100);
 				renderPicture(NecronomiconResources.ABYSSALCRAFT_2, k, b0);
 			} else if(currTurnup == 2) {
-				writeText(1, NecronomiconText.INFORMATION_ABYSSALCRAFT_PAGE_5, 100);
-				writeText(2, NecronomiconText.INFORMATION_ABYSSALCRAFT_PAGE_6, 100);
-				renderPicture(NecronomiconResources.ABYSSALCRAFT_3, k, b0);
+				writeText(1, NecronomiconText.INFORMATION_ABYSSALCRAFT_PAGE_5, 0);
+				///writeText(2, NecronomiconText.INFORMATION_ABYSSALCRAFT_PAGE_6, 100);
+				///renderPicture(NecronomiconResources.ABYSSALCRAFT_3, k, b0);
 			}
 		} else if(infoType == InfoType.ABOUTTHISBOOK) {
 			setTurnupLimit(getBookType() == 4 ? 1 : 2);
