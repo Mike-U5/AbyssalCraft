@@ -44,7 +44,7 @@ public class NecroData {
 	 * @param info Optional text to write beside buttons for sub-category pages
 	 * @param chapters Chapters for sub-category pages
 	 */
-	public NecroData(String identifier, String title, String info,Chapter...chapters){
+	public NecroData(String identifier, String title, String info, Chapter...chapters){
 		this.identifier = identifier;
 		this.title = title;
 		this.chapters = chapters;
@@ -56,7 +56,7 @@ public class NecroData {
 	 * @param title Title to display on the "Index" for the information page
 	 * @param chapters Chapters for sub-category pages
 	 */
-	public NecroData(String identifier, String title,Chapter...chapters){
+	public NecroData(String identifier, String title, Chapter...chapters){
 		this(identifier, title, null, chapters);
 	}
 
@@ -114,13 +114,16 @@ public class NecroData {
 
 		if(chapters.length < 7){
 			Chapter[] newchap = new Chapter[chapters.length + 1];
-			for(int i = 0; i < chapters.length; i++)
+			for(int i = 0; i < chapters.length; i++) {
 				newchap[i] = chapters[i];
+			}
 
 			newchap[chapters.length] = chapter;
 
 			chapters = newchap;
-		} else FMLLog.log("AbyssalCraftAPI", Level.ERROR, "NecroData instance is already full, can't add a new Chapter!");
+		} else { 
+			FMLLog.log("AbyssalCraftAPI", Level.ERROR, "NecroData instance is already full, can't add a new Chapter!");
+		}
 	}
 
 	/**
@@ -262,7 +265,7 @@ public class NecroData {
 	 *
 	 * @since 1.6
 	 */
-	public static class Page{
+	public static class Page {
 		private Object icon;
 		private int pageNum;
 		private String text;
@@ -283,11 +286,15 @@ public class NecroData {
 		 * @param text Text to display on the Page
 		 */
 		public Page(int pageNum, Object icon, String text){
-			if(pageNum == 0) throw new ArithmeticException("The Page number can't be zero");
+			if(pageNum == 0) { 
+				throw new ArithmeticException("The Page number can't be zero");
+			}
 			this.pageNum = pageNum;
-			if(icon != null)
-				if(!(icon instanceof ResourceLocation) && !(icon instanceof ItemStack) && !(icon instanceof CraftingStack))
+			if(icon != null) {
+				if(!(icon instanceof ResourceLocation) && !(icon instanceof ItemStack) && !(icon instanceof CraftingStack)) {
 					throw new IllegalArgumentException("Icon isn't a ResourceLocation, ItemStack or CraftingStack!");
+				}
+			}
 			this.icon = icon;
 			this.text = text;
 		}
@@ -315,10 +322,10 @@ public class NecroData {
 
 		@Override
 		public boolean equals(Object obj){
-			if(!(obj instanceof Page)) return false;
-
+			if(!(obj instanceof Page)) { 
+				return false;
+			}
 			Page page = (Page)obj;
-
 			boolean test1 = page.pageNum == pageNum;
 			boolean test2 = page.icon == null && icon == null || page.icon.equals(icon);
 			boolean test3 = page.text.equals(text);

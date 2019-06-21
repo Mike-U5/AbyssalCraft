@@ -21,14 +21,18 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
+import com.google.common.collect.Lists;
 import com.shinoow.abyssalcraft.api.necronomicon.CraftingStack;
 import com.shinoow.abyssalcraft.api.necronomicon.NecroData;
 import com.shinoow.abyssalcraft.api.necronomicon.NecroData.Chapter;
 import com.shinoow.abyssalcraft.api.necronomicon.NecroData.Page;
+import com.shinoow.abyssalcraft.api.ritual.NecronomiconRitual;
+import com.shinoow.abyssalcraft.api.ritual.RitualRegistry;
 import com.shinoow.abyssalcraft.client.gui.necronomicon.buttons.ButtonCategory;
 import com.shinoow.abyssalcraft.client.gui.necronomicon.buttons.ButtonNextPage;
 import com.shinoow.abyssalcraft.client.lib.GuiRenderHelper;
 import com.shinoow.abyssalcraft.client.lib.NecronomiconResources;
+import com.shinoow.abyssalcraft.client.lib.NecronomiconText;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
@@ -46,18 +50,21 @@ public class GuiNecronomiconEntry extends GuiNecronomicon {
 
 	private ButtonNextPage buttonNextPage;
 	private ButtonNextPage buttonPreviousPage;
-	private ButtonCategory[] buttons = new ButtonCategory[5];
 	private GuiButton buttonDone;
-	private NecroData data;
-	private GuiNecronomicon parent;
-	private Item icon;
-	private boolean bool1, bool2, bool3, bool4, bool5, bool6, bool7;
+	private final ButtonCategory[] buttons;
+	private final NecroData data;
+	private final GuiNecronomicon parent;
+	private final Item icon;
+	private final int dimId;
+	private int chapterId = -1;
 
-	public GuiNecronomiconEntry(int bookType, NecroData nd, GuiNecronomicon gui, Item item){
+	public GuiNecronomiconEntry(int bookType, NecroData nd, GuiNecronomicon gui, Item item) {
 		super(bookType);
 		data = nd;
 		parent = gui;
 		icon = item;
+		buttons = new ButtonCategory[data.getChapters().length];
+		dimId = findDimId();
 	}
 
 	@SuppressWarnings("unchecked")
@@ -68,68 +75,79 @@ public class GuiNecronomiconEntry extends GuiNecronomicon {
 
 		buttonList.add(buttonDone = new GuiButton(0, width / 2 - 100, 4 + guiHeight, 200, 20, I18n.format("gui.done", new Object[0])));
 
-		int i = (width - guiWidth) / 2;
+		int w = (width - guiWidth) / 2;
 		byte b0 = 2;
-		buttonList.add(buttonNextPage = new ButtonNextPage(1, i + 215, b0 + 154, true));
-		buttonList.add(buttonPreviousPage = new ButtonNextPage(2, i + 18, b0 + 154, false));
-		if(data != null)
-			for(int n = 0; n < data.getChapters().length; n++)
-				buttonList.add(buttons[n] = new ButtonCategory(3 + n, i + 14, b0 + 24 + 17*n,this, data.getChapters()[n].getTitle(), icon));
+		buttonList.add(buttonNextPage = new ButtonNextPage(1, w + 215, b0 + 154, true));
+		buttonList.add(buttonPreviousPage = new ButtonNextPage(2, w + 18, b0 + 154, false));
+		
+		int posX = w + 14;
+		int posY = b0 + 24;
+		if(data != null) {
+			// Place Chapters
+			for(int i = 0; i < data.getChapters().length; i++) {
+				buttonList.add(buttons[i] = new ButtonCategory(3 + i, posX, posY, this, data.getChapters()[i].getTitle(), icon));
+				posY += 17;
+			}
+			
+			//ID finder
+			if (dimId >= 0) {
+				buttonList.add(new ButtonCategory(42, posX, posY, this, NecronomiconText.LABEL_RITUALS, icon));
+			}
+			
+		}
+		
 		updateButtons();
+	}
+	
+	private int findDimId() {
+		switch(data.getIdentifier()) {
+			case "overworld": return 0;
+			case "abyssalwasteland": return 1;
+			case "dreadlands": return 2;
+			case "omothol": return 3;
+			case "darkrealm": return 4;
+			default: return -1;
+		}
 	}
 
 	private void updateButtons() {
 		buttonNextPage.visible = currTurnup < getTurnupLimit() - 1 && isInfo;
 		buttonPreviousPage.visible = true;
 		buttonDone.visible = true;
-		if(data != null)
-			for(int i = 0; i < data.getChapters().length; i++)
+		if(data != null) {
+			for(int i = 0; i < data.getChapters().length; i++) {
 				buttons[i].visible = !isInfo;
+			}
+		}
 	}
 
 	@Override
 	protected void actionPerformed(GuiButton button) {
 		if (button.enabled) {
-			if (button.id == 0)
+			// Controls
+			if (button.id == 0) {
 				mc.displayGuiScreen((GuiScreen)null);
-			else if(button.id == 1){
-				if (currTurnup < getTurnupLimit() -1)
+			} else if(button.id == 1) {
+				if (currTurnup < getTurnupLimit() -1) {
 					++currTurnup;
-			} else if (button.id == 2){
-				if(currTurnup == 0 && !isInfo)
+				}
+			} else if (button.id == 2) {
+				if(currTurnup == 0 && !isInfo) {
 					mc.displayGuiScreen(parent);
-				else if(currTurnup == 0 && isInfo){
+				} else if(currTurnup == 0 && isInfo) {
 					initGui();
-					isInfo = bool1 = bool2 = bool3 = bool4 = bool5 = false;
+					isInfo = false;
 					setTurnupLimit(2);
-				} else if (currTurnup > 0)
+				} else if (currTurnup > 0) {
 					--currTurnup;
-			} else if(button.id == 3){
-				bool1 = true;
-				isInfo = true;
-				drawButtons();
-			} else if(button.id == 4){
-				bool2 = true;
-				isInfo = true;
-				drawButtons();
-			} else if(button.id == 5){
-				bool3 = true;
-				isInfo = true;
-				drawButtons();
-			} else if(button.id == 6){
-				bool4 = true;
-				isInfo = true;
-				drawButtons();
-			} else if(button.id == 7){
-				bool5 = true;
-				isInfo = true;
-				drawButtons();
-			} else if(button.id == 8){
-				bool6 = true;
-				isInfo = true;
-				drawButtons();
-			} else if(button.id == 9){
-				bool7 = true;
+				}
+			} else if (button.id == 42) {
+				if(hasRituals(dimId)) {
+					mc.displayGuiScreen(new GuiNecronomiconRitualEntry(getBookType(), this, dimId));
+				}
+			// Categories
+			} else if (button.id >= 3) {
+				chapterId = button.id - 3;
 				isInfo = true;
 				drawButtons();
 			}
@@ -147,36 +165,32 @@ public class GuiNecronomiconEntry extends GuiNecronomicon {
 		buttonList.add(buttonNextPage = new ButtonNextPage(1, i + 215, b0 + 154, true));
 		buttonList.add(buttonPreviousPage = new ButtonNextPage(2, i + 18, b0 + 154, false));
 	}
+	
+	private boolean hasRituals(int book) {
+		List<NecronomiconRitual> rituals = Lists.newArrayList();
+		for(NecronomiconRitual ritual : RitualRegistry.instance().getRituals()) {
+			if(ritual.getBookType() == book) {
+				rituals.add(ritual);
+			}
+		}
+		return !rituals.isEmpty();
+	}
 
 	@Override
 	protected void drawInformationText(int x, int y){
-		if(bool1)
-			drawChapter(data.getChapters()[0], x, y);
-		else if(bool2)
-			drawChapter(data.getChapters()[1], x, y);
-		else if(bool3)
-			drawChapter(data.getChapters()[2], x, y);
-		else if(bool4)
-			drawChapter(data.getChapters()[3], x, y);
-		else if(bool5)
-			drawChapter(data.getChapters()[4], x, y);
-		else if(bool6)
-			drawChapter(data.getChapters()[5], x, y);
-		else if(bool7)
-			drawChapter(data.getChapters()[6], x, y);
+		drawChapter(data.getChapters()[chapterId], x, y);
 		updateButtons();
 	}
 
 	private void drawChapter(Chapter chapter, int x, int y){
 		int k = (width - guiWidth) / 2;
 		byte b0 = 2;
-		String stuff;
+		String text = StatCollector.translateToLocal(chapter.getTitle());
 
-		stuff = StatCollector.translateToLocal(chapter.getTitle());
-		fontRendererObj.drawSplitString(stuff, k + 20, b0 + 16, 116, 0xC40000);
+		fontRendererObj.drawSplitString(text, k + 20, b0 + 16, 116, 0xC40000);
 		setTurnupLimit(chapter.getTurnupAmount());
 
-		int num = (currTurnup + 1)*2;
+		int num = (currTurnup + 1) * 2;
 
 		addPage(chapter.getPage(num-1), chapter.getPage(num), num, x, y);
 	}
@@ -189,11 +203,11 @@ public class GuiNecronomiconEntry extends GuiNecronomicon {
 		Object icon1 = null;
 		Object icon2 = null;
 
-		if(page1 != null){
+		if(page1 != null) {
 			text1 = page1.getText();
 			icon1 = page1.getIcon();
 		}
-		if(page2 != null){
+		if(page2 != null) {
 			text2 = page2.getText();
 			icon2 = page2.getIcon();
 		}
@@ -205,10 +219,11 @@ public class GuiNecronomiconEntry extends GuiNecronomicon {
 		writeText(1, String.valueOf(displayNum - 1), 165, 50);
 		writeText(2, String.valueOf(displayNum), 165, 50);
 
-		if(icon1 != null){
-			if(icon1 instanceof ItemStack)
+		if(icon1 != null) {
+			if(icon1 instanceof ItemStack) {
 				renderItem(k + 60, b0 + 28,(ItemStack)icon1, x, y);
-			if(icon1 instanceof ResourceLocation){
+			}
+			if(icon1 instanceof ResourceLocation) {
 				GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 				icon1 = verify((ResourceLocation)icon1);
 				mc.renderEngine.bindTexture((ResourceLocation)icon1);
@@ -222,24 +237,24 @@ public class GuiNecronomiconEntry extends GuiNecronomicon {
 				fontRendererObj.setUnicodeFlag(false);
 				renderItem(k + 93, b0 + 52,((CraftingStack)icon1).getOutput(), x, y);
 				fontRendererObj.setUnicodeFlag(unicode);
-				for(int i = 0; i <= 2; i++){
+				for(int i = 0; i <= 2; i++) {
 					renderItem(k + 24 +i*21, b0 + 31,((CraftingStack)icon1).getFirstArray()[i], x, y);
 					renderItem(k + 24 +i*21, b0 + 52,((CraftingStack)icon1).getSecondArray()[i], x, y);
 					renderItem(k + 24 +i*21, b0 + 73,((CraftingStack)icon1).getThirdArray()[i], x, y);
 				}
 			}
 		}
-		if(icon2 != null){
+		if(icon2 != null) {
 			int n = 123;
 			if(icon2 instanceof ItemStack)
 				renderItem(k + 60 + n, b0 + 28,(ItemStack)icon2, x, y);
-			if(icon2 instanceof ResourceLocation){
+			if(icon2 instanceof ResourceLocation) {
 				GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 				icon2 = verify((ResourceLocation)icon2);
 				mc.renderEngine.bindTexture((ResourceLocation)icon2);
 				drawTexturedModalRect(k + n, b0, 0, 0, 256, 256);
 			}
-			if(icon2 instanceof CraftingStack){
+			if(icon2 instanceof CraftingStack) {
 				GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 				GL11.glPushMatrix();
 				GL11.glEnable(GL11.GL_BLEND);
@@ -262,14 +277,13 @@ public class GuiNecronomiconEntry extends GuiNecronomicon {
 			}
 		}
 
-		if(tooltipStack != null)
-		{
+		if(tooltipStack != null) {
+			@SuppressWarnings("unchecked")
 			List<String> tooltipData = tooltipStack.getTooltip(Minecraft.getMinecraft().thePlayer, false);
-			List<String> parsedTooltip = new ArrayList();
+			List<String> parsedTooltip = new ArrayList<String>();
 			boolean first = true;
 
-			for(String s : tooltipData)
-			{
+			for(String s : tooltipData) {
 				String s_ = s;
 				if(!first)
 					s_ = EnumChatFormatting.GRAY + s;
@@ -292,39 +306,51 @@ public class GuiNecronomiconEntry extends GuiNecronomicon {
 	private void writeTexts(Object icon1, Object icon2, String text1, String text2){
 
 		if(icon1 != null){
-			if(icon1 instanceof ItemStack)
+			if(icon1 instanceof ItemStack) {
 				writeText(1, text1, 50);
-			if(icon1 instanceof ResourceLocation)
+			}
+			if(icon1 instanceof ResourceLocation) {
 				writeText(1, text1, 100);
-			if(icon1 instanceof CraftingStack)
+			}
+			if(icon1 instanceof CraftingStack) {
 				writeText(1, text1, 95);
-		} else writeText(1, text1);
-		if(icon2 != null){
-			if(icon2 instanceof ItemStack)
+			}
+		} else { 
+			writeText(1, text1);
+		}
+		if(icon2 != null) {
+			if(icon2 instanceof ItemStack) {
 				writeText(2, text2, 50);
-			if(icon2 instanceof ResourceLocation)
+			}
+			if(icon2 instanceof ResourceLocation) {
 				writeText(2, text2, 100);
-			if(icon2 instanceof CraftingStack)
+			}
+			if(icon2 instanceof CraftingStack) {
 				writeText(2, text2, 95);
-		} else writeText(2, text2);
+			}
+		} else {
+			writeText(2, text2);
+		}
 	}
 
 	@Override
-	protected void drawIndexText(){
+	protected void drawIndexText() {
 		int k = (width - guiWidth) / 2;
 		byte b0 = 2;
 		String stuff;
 		stuff = StatCollector.translateToLocal(data.getTitle());
 		fontRendererObj.drawSplitString(stuff, k + 20, b0 + 16, 116, 0xC40000);
-		if(data.getInformation() != null) writeText(2, data.getInformation());
+		if(data.getInformation() != null) {
+			writeText(2, data.getInformation());
+		}
 	}
 
 	private ItemStack tooltipStack;
-	public void renderItem(int xPos, int yPos, ItemStack stack, int mx, int my)
-	{
+	public void renderItem(int xPos, int yPos, ItemStack stack, int mx, int my) {
 		RenderItem render = new RenderItem();
-		if(mx > xPos && mx < xPos+16 && my > yPos && my < yPos+16)
+		if(mx > xPos && mx < xPos+16 && my > yPos && my < yPos+16) {
 			tooltipStack = stack;
+		}
 
 		GL11.glPushMatrix();
 		GL11.glEnable(GL11.GL_BLEND);

@@ -13,6 +13,14 @@ package com.shinoow.abyssalcraft.common.entity;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.UUID;
+
+import com.shinoow.abyssalcraft.AbyssalCraft;
+import com.shinoow.abyssalcraft.api.AbyssalCraftAPI;
+import com.shinoow.abyssalcraft.api.entity.IAntiEntity;
+import com.shinoow.abyssalcraft.api.entity.ICoraliumEntity;
+import com.shinoow.abyssalcraft.api.entity.IDreadEntity;
+import com.shinoow.abyssalcraft.api.item.ACItems;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
@@ -27,22 +35,21 @@ import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 
-import com.shinoow.abyssalcraft.AbyssalCraft;
-import com.shinoow.abyssalcraft.api.AbyssalCraftAPI;
-import com.shinoow.abyssalcraft.api.entity.IAntiEntity;
-import com.shinoow.abyssalcraft.api.entity.ICoraliumEntity;
-import com.shinoow.abyssalcraft.api.entity.IDreadEntity;
-
 public class EntityGatekeeperMinion extends EntityMob implements ICoraliumEntity, IDreadEntity, IAntiEntity {
 
-	public EntityGatekeeperMinion(World par1World) {
-		super(par1World);
+	private static final UUID dashSpeedBoostUUID = UUID.fromString("B9766B59-9566-4402-BC1F-2EE2A276D893");
+	private static final AttributeModifier dashSpeedBoostModifier = new AttributeModifier(dashSpeedBoostUUID, "Dash speed boost", 0.5D, 1);
+	private int stamina = 0;
+	
+	public EntityGatekeeperMinion(World world) {
+		super(world);
 		tasks.addTask(0, new EntityAISwimming(this));
 		tasks.addTask(2, new EntityAIAttackOnCollide(this, EntityLivingBase.class, 0.35D, false));
 		tasks.addTask(3, new EntityAIMoveTowardsRestriction(this, 0.35D));
@@ -110,7 +117,7 @@ public class EntityGatekeeperMinion extends EntityMob implements ICoraliumEntity
 		EntityLivingBase enemy = null;
 		if(par1DamageSource.getSourceOfDamage() != null && par1DamageSource.getSourceOfDamage() instanceof EntityLivingBase)
 			enemy = (EntityLivingBase) par1DamageSource.getSourceOfDamage();
-		if(rand.nextInt(10) == 0){
+		if(rand.nextInt(10) == 0) {
 			List<EntityRemnant> remnants = worldObj.getEntitiesWithinAABB(EntityRemnant.class, boundingBox.expand(16D, 16D, 16D));
 			if(remnants != null)
 				if(enemy != null){
@@ -141,5 +148,12 @@ public class EntityGatekeeperMinion extends EntityMob implements ICoraliumEntity
 	@Override
 	public EnumCreatureAttribute getCreatureAttribute() {
 		return AbyssalCraftAPI.SHADOW;
+	}
+	
+	@Override
+	protected void dropRareDrop(int par1) {
+		if (worldObj.provider.dimensionId == AbyssalCraft.configDimId3) {
+			dropItem(ACItems.ethaxium_ingot, 1);
+		}
 	}
 }

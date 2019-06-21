@@ -27,8 +27,7 @@ public class BlockDarkstone extends Block {
 	}
 
 	@Override
-	public Item getItemDropped(int i, Random random, int j)
-	{
+	public Item getItemDropped(int i, Random random, int j) {
 		return Item.getItemFromBlock(AbyssalCraft.Darkstone_cobble);
 	}
 }

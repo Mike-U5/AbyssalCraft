@@ -67,7 +67,7 @@ public class BiomeGenDreadlandsBase extends BiomeGenBase implements IDreadlandsB
 				int y = rnd.nextInt(60);
 				int z = par4 + rnd.nextInt(16);
 
-				new WorldGenMinable(AbyssalCraft.dreadore, veinSize, AbyssalCraft.dreadstone).generate(world, rnd, x, y, z);
+				new WorldGenMinable(AbyssalCraft.magicdreadstone, veinSize, AbyssalCraft.dreadstone).generate(world, rnd, x, y, z);
 			}
 		}
 
@@ -77,13 +77,6 @@ public class BiomeGenDreadlandsBase extends BiomeGenBase implements IDreadlandsB
 			int z = par4 + rnd.nextInt(16);
 			new WorldGenMinable(AbyssalCraft.abydreadstone, 16, AbyssalCraft.dreadstone).generate(world, rnd, x, y, z);
 		}
-		
-		for (int rarity = 0; rarity < 32; ++rarity) {
-			int x = par3 + rnd.nextInt(16);
-			int y = rnd.nextInt(60);
-			int z = par4 + rnd.nextInt(16);
-			new WorldGenMinable(AbyssalCraft.magicdreadstone, 3, AbyssalCraft.dreadstone).generate(world, rnd, x, y, z);
-		}
 	}
 
 	@Override
@@ -92,70 +85,66 @@ public class BiomeGenDreadlandsBase extends BiomeGenBase implements IDreadlandsB
 	}
 
 	public final void genDreadlandsTerrain(World world, Random rand, Block[] blockArray, byte[] byteArray, int x, int z, double d) {
-		Block baseBlock = topBlock;
-		byte b0 = (byte)(field_150604_aj & 255);
+		Block surfaceBlock = topBlock;
 		Block stoneBlock = AbyssalCraft.dreadstone;
-		int k = -1;
-		int l = (int)(d / 3.0D + 3.0D + rand.nextDouble() * 0.25D);
-		int i1 = x & 15;
-		int j1 = z & 15;
-		int k1 = blockArray.length / 256;
+		byte bit = (byte)(field_150604_aj & 255);
+		int numK = -1;
+		final int seaLevel = 63;
+		final int numL = (int)((d / 3.0D) + 3.0D + (rand.nextDouble() * 0.25D));
+		final int posX = x & 15; // Up to 15
+		final int posZ = z & 15; // Up to 15
+		final int heightMult = blockArray.length / 256;
 
-		for (int l1 = 255; l1 >= 0; --l1) {
-			int i2 = (j1 * 16 + i1) * k1 + l1;
+		for (int depth = 255; depth >= 0; --depth) {
+			final int index = (posZ * 16 + posX) * heightMult + depth;
 
-			if (l1 <= 0 + rand.nextInt(5)) {
-				blockArray[i2] = Blocks.bedrock;
+			if (depth <= 0 + rand.nextInt(5)) {
+				blockArray[index] = Blocks.bedrock;
 			} else {
-				Block block2 = blockArray[i2];
+				Block block = blockArray[index];
 
-				if (block2 != null && block2.getMaterial() != Material.air) {
-					if (block2 == AbyssalCraft.dreadstone) {
-						if (k == -1) {
-							if (l <= 0) {
-								baseBlock = null;
-								b0 = 0;
+				if (block != null && block.getMaterial() != Material.air) {
+					if (block == AbyssalCraft.dreadstone) {
+						if (numK == -1) {
+							if (numL <= 0) {
+								surfaceBlock = null;
+								bit = 0;
 								stoneBlock = AbyssalCraft.dreadstone;
-							} else if (l1 >= 59 && l1 <= 64) {
-								baseBlock = topBlock;
-								b0 = (byte)(field_150604_aj & 255);
+							} else if (depth >= 59 && depth <= 64) {
+								surfaceBlock = topBlock;
+								bit = (byte)(field_150604_aj & 255);
 								stoneBlock = fillerBlock;
 							}
 
-							if (l1 < 63 && (baseBlock == null || baseBlock.getMaterial() == Material.air)) {
-								if (getFloatTemperature(x, l1, z) < 0.15F) {
-									baseBlock = AbyssalCraft.dreadstone;
-									b0 = 0;
-								} else {
-									baseBlock = AbyssalCraft.dreadstone;
-									b0 = 0;
-								}
+							if (depth < seaLevel && (surfaceBlock == null || surfaceBlock.getMaterial() == Material.air)) {
+								surfaceBlock = AbyssalCraft.dreadstone;
+								bit = 0;
 							}
 
-							k = l;
+							numK = numL;
 
-							if (l1 >= 62) {
-								blockArray[i2] = baseBlock;
-								byteArray[i2] = b0;
-							} else if (l1 < 56 - l) {
-								baseBlock = null;
+							if (depth >= 62) {
+								blockArray[index] = surfaceBlock;
+								byteArray[index] = bit;
+							} else if (depth < 56 - numL) {
+								surfaceBlock = null;
 								stoneBlock = AbyssalCraft.dreadstone;
-								blockArray[i2] = AbyssalCraft.dreadstone;
+								blockArray[index] = AbyssalCraft.dreadstone;
 							} else {
-								blockArray[i2] = stoneBlock;
+								blockArray[index] = stoneBlock;
 							}
-						} else if (k > 0) {
-							--k;
-							blockArray[i2] = stoneBlock;
+						} else if (numK > 0) {
+							--numK;
+							blockArray[index] = stoneBlock;
 
-							if (k == 0 && stoneBlock == AbyssalCraft.dreadstone) {
-								k = rand.nextInt(4) + Math.max(0, l1 - 63);
+							if (numK == 0 && stoneBlock == AbyssalCraft.dreadstone) {
+								numK = rand.nextInt(4) + Math.max(0, depth - seaLevel);
 								stoneBlock = AbyssalCraft.dreadstone;
 							}
 						}
 					}
 				} else {
-					k = -1;
+					numK = -1;
 				}
 			}
 		}

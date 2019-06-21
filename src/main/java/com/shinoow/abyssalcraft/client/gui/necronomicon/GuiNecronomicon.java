@@ -14,6 +14,7 @@ package com.shinoow.abyssalcraft.client.gui.necronomicon;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.input.Keyboard;
@@ -39,11 +40,13 @@ public class GuiNecronomicon extends GuiScreen {
 	protected int currTurnup;
 	private ButtonNextPage buttonNextPage;
 	private ButtonNextPage buttonPreviousPage;
-	private ButtonCategory buttonCat1;
-	private ButtonCategory buttonCat2;
-	private ButtonCategory buttonCat3;
-	private ButtonCategory buttonCat4;
-	private ButtonCategory buttonCat5;
+	private ButtonCategory[] buttonCat = new ButtonCategory[4];
+	private String[] buttonLabels = new String[] {
+		NecronomiconText.LABEL_INFORMATION,
+		NecronomiconText.LABEL_RITUALS,
+		NecronomiconText.LABEL_HUH,
+		NecronomiconText.LABEL_MISC_INFORMATION
+	};
 	private GuiButton buttonDone;
 	private int bookType;
 	/** Used to check if we're at a text entry (true), or a index (false) */
@@ -54,9 +57,9 @@ public class GuiNecronomicon extends GuiScreen {
 		this(0);
 	}
 
-	public GuiNecronomicon(int par1){
-		bookType = par1;
-		switch(par1){
+	public GuiNecronomicon(int type){
+		bookType = type;
+		switch(type){
 		case 0:
 			bookGuiTextures = new ResourceLocation("abyssalcraft:textures/gui/necronomicon.png");
 			break;
@@ -99,15 +102,11 @@ public class GuiNecronomicon extends GuiScreen {
 		buttonList.add(buttonNextPage = new ButtonNextPage(1, i + 215, b0 + 154, true));
 		buttonList.add(buttonPreviousPage = new ButtonNextPage(2, i + 18, b0 + 154, false));
 		
-		buttonList.add(buttonCat1 = new ButtonCategory(3, i + 14, b0 + 24, this, NecronomiconText.LABEL_INFORMATION, AbyssalCraft.necronomicon));
-		
-		buttonList.add(buttonCat2 = new ButtonCategory(5, i + 14, b0 + 41, this, NecronomiconText.LABEL_RITUALS, AbyssalCraft.necronomicon));
-		if(bookType == 4) {
-			buttonList.add(buttonCat3 = new ButtonCategory(6, i + 14, b0 + 58, this, NecronomiconText.LABEL_HUH, AbyssalCraft.abyssalnomicon));
-		} else {
-			buttonList.add(buttonCat3 = new ButtonCategory(6, i + 14, b0 + 58, this, NecronomiconText.LABEL_HUH, AbyssalCraft.necronomicon));
+		// Category Buttons
+		for (int c = 0; c < buttonCat.length; c++) {
+			Item icon = (c == 2 && bookType == 4) ? AbyssalCraft.abyssalnomicon : AbyssalCraft.necronomicon;
+			buttonList.add(buttonCat[c] = new ButtonCategory(3 + c, i + 14, b0 + 24 + (c*17), this, buttonLabels[c], icon));
 		}
-		buttonList.add(buttonCat4 = new ButtonCategory(7, i + 14, b0 + 75, this, NecronomiconText.LABEL_MISC_INFORMATION, AbyssalCraft.necronomicon));
 		updateButtons();
 	}
 
@@ -128,21 +127,18 @@ public class GuiNecronomicon extends GuiScreen {
 		buttonNextPage.visible = currTurnup < bookTotalTurnups - 1 && isInfo;
 		buttonPreviousPage.visible = isInfo;
 		buttonDone.visible = true;
-		buttonCat1.visible = true;
-		buttonCat2.visible = true;
-		buttonCat3.visible = true;
-		buttonCat4.visible = true;
 	}
 
 	@Override
 	protected void actionPerformed(GuiButton button) {
 		if (button.enabled) {
+			// Control Buttons
 			if (button.id == 0) {
 				mc.displayGuiScreen((GuiScreen)null);
 			} else if (button.id == 1) {
-				if (currTurnup < bookTotalTurnups - 1)
+				if (currTurnup < bookTotalTurnups - 1) {
 					++currTurnup;
-
+				}
 			} else if (button.id == 2) {
 				if(isInfo && currTurnup == 0){
 					initGui();
@@ -151,25 +147,19 @@ public class GuiNecronomicon extends GuiScreen {
 				} else if (currTurnup > 0) {
 					--currTurnup;
 				}
-
-			} else if (button.id == 3)
+			// Category Buttons
+			} else if (button.id == 3) {
 				mc.displayGuiScreen(new GuiNecronomiconInformation(bookType));
-			else if (button.id == 4)
-				mc.displayGuiScreen(new GuiNecronomiconSpells(bookType));
-			else if (button.id == 5)
+			} else if (button.id == 4) {
 				mc.displayGuiScreen(new GuiNecronomiconRituals(bookType));
-			else if (button.id == 6) {
+			} else if (button.id == 5) {
 				isInfo = true;
 				isNecroInfo = true;
-				if(bookType == 4) {
-					bookTotalTurnups = 1;
-				} else {
-					bookTotalTurnups = 2;
-				}
+				bookTotalTurnups = (bookType == 4) ? 1 : 2;
 				drawButtons();
-			} else if(button.id == 7) {
+			} else if(button.id == 6) {
 				mc.displayGuiScreen(new GuiNecronomiconEntry(bookType, AbyssalCraftAPI.getInternalNDHandler().getInternalNecroData("miscinfo"), this, AbyssalCraft.necronomicon));
-			} else if (button.id == 8) {
+			} else if (button.id == 7) {
 				mc.displayGuiScreen(new GuiNecronomiconOther(bookType));
 			}
 			updateButtons();
@@ -180,13 +170,12 @@ public class GuiNecronomicon extends GuiScreen {
 	 * Fired when a key is typed. This is the equivalent of KeyListener.keyTyped(KeyEvent e).
 	 */
 	@Override
-	protected void keyTyped(char par1, int par2) {
-		super.keyTyped(par1, par2);
-
+	protected void keyTyped(char key, int num) {
+		super.keyTyped(key, num);
 	}
 
 	@SuppressWarnings("unchecked")
-	private void drawButtons(){
+	private void drawButtons() {
 		buttonList.clear();
 		buttonList.add(buttonDone = new GuiButton(0, width / 2 - 100, 4 + guiHeight, 200, 20, I18n.format("gui.done", new Object[0])));
 
@@ -202,20 +191,20 @@ public class GuiNecronomicon extends GuiScreen {
 	 * @param y Y-coordinate on screen
 	 */
 	protected void drawInformationText(int x, int y){
-		if(currTurnup == 0){
-			if(bookType < 4){
+		if(currTurnup == 0) {
+			if(bookType < 4) {
 				writeText(1, NecronomiconText.NECRONOMICON_PAGE_1);
 				writeText(2, NecronomiconText.NECRONOMICON_PAGE_2);
 			} else {
 				writeText(1, NecronomiconText.ABYSSALNOMICON_PAGE_1);
 				writeText(2, NecronomiconText.ABYSSALNOMICON_PAGE_2);
 			}
-		}
-		else if(currTurnup == 1)
-			if(bookType < 4){
+		} else if(currTurnup == 1) {
+			if(bookType < 4) {
 				writeText(1, NecronomiconText.NECRONOMICON_PAGE_3);
 				writeText(2, NecronomiconText.NECRONOMICON_PAGE_4);
 			}
+		}
 	}
 	/**
 	 * Index version of {@link #drawInformationText()}, called when {@link #isInfo} is false
@@ -230,19 +219,19 @@ public class GuiNecronomicon extends GuiScreen {
 		fontRendererObj.drawString(stuff, k + 50 - length, b0 + 16, 0);
 	}
 
-	public int getBookType(){
+	public int getBookType() {
 		return bookType;
 	}
 
-	public ResourceLocation getGuiTexture(){
+	public ResourceLocation getGuiTexture() {
 		return bookGuiTextures;
 	}
 
-	public int getTurnupLimit(){
+	public int getTurnupLimit() {
 		return bookTotalTurnups;
 	}
 
-	public void setTurnupLimit(int i){
+	public void setTurnupLimit(int i) {
 		bookTotalTurnups = i;
 	}
 
@@ -263,8 +252,8 @@ public class GuiNecronomicon extends GuiScreen {
 		String stuff;
 		super.drawScreen(par1, par2, par3);
 
-		if(isInfo){
-			if(isNecroInfo){
+		if(isInfo) {
+			if(isNecroInfo) {
 				stuff = NecronomiconText.LABEL_HUH;
 				fontRendererObj.drawSplitString(stuff, k + 20, b0 + 16, 116, 0xC40000);
 			}
@@ -273,8 +262,9 @@ public class GuiNecronomicon extends GuiScreen {
 
 			l = fontRendererObj.getStringWidth(s);
 			fontRendererObj.drawString(s, k - l + guiWidth - 22, b0 + 16, 0);
-		} else
+		} else {
 			drawIndexText();
+		}
 
 		fontRendererObj.setUnicodeFlag(unicode);
 	}
@@ -307,17 +297,15 @@ public class GuiNecronomicon extends GuiScreen {
 	 */
 	protected void writeText(int page, String text, int height, int width){
 		int k = (this.width - guiWidth) / 2;
-		if(page > 2)
+		if(page > 2) {
 			throw new IndexOutOfBoundsException("Number is greater than 2 ("+page+")!");
-		else if(page < 1)
+		} else if(page < 1) {
 			throw new IndexOutOfBoundsException("Number is smaller than 1 ("+page+")!");
-		else if(text.length() > 368)
+		} else if(text.length() > 368) {
 			throw new IndexOutOfBoundsException("Text is longer than 368 characters ("+text.length()+")!");
-		else{
-			if(page == 1)
-				fontRendererObj.drawSplitString(text, k + 20 + width, height, 107, 0);
-			if(page == 2)
-				fontRendererObj.drawSplitString(text, k + 138 + width, height, 107, 0);
+		} else {
+			final int extraWidth =  (page == 1) ? 20 : 138;
+			fontRendererObj.drawSplitString(text, k + extraWidth + width, height, 107, 0);
 		}
 	}
 }

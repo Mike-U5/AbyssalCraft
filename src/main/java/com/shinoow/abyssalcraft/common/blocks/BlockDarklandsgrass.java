@@ -13,24 +13,19 @@ package com.shinoow.abyssalcraft.common.blocks;
 
 import java.util.Random;
 
+import com.shinoow.abyssalcraft.AbyssalCraft;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockFlower;
-import net.minecraft.block.BlockMushroom;
-import net.minecraft.block.BlockTallGrass;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.util.ForgeDirection;
-
-import com.shinoow.abyssalcraft.AbyssalCraft;
-
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockDarklandsgrass extends Block
 {
@@ -44,8 +39,8 @@ public class BlockDarklandsgrass extends Block
 	public BlockDarklandsgrass()
 	{
 		super(Material.grass);
-		setTickRandomly(true);
-		setCreativeTab(AbyssalCraft.tabBlock);
+		setHardness(2.0F); //Harder than regular grass
+		setStepSound(Block.soundTypeGrass);
 	}
 
 	@Override
@@ -54,27 +49,14 @@ public class BlockDarklandsgrass extends Block
 	/**
 	 * From the specified side and block metadata retrieves the blocks texture. Args: side, metadata
 	 */
-	public IIcon getIcon(int par1, int par2)
-	{
+	public IIcon getIcon(int par1, int par2) {
 		return par1 == 1 ? iconGrassTop : par1 == 0 ? Blocks.dirt.getBlockTextureFromSide(par1) : blockIcon;
-	}
-
-	/**
-	 * Ticks the block if it's been scheduled
-	 */
-	@Override
-	public void updateTick(World par1World, int par2, int par3, int par4, Random par5Random)
-	{
-		if (!par1World.isRemote)
-			if (par1World.getBlockLightValue(par2, par3 + 1, par4) < 4 && par1World.getBlockLightOpacity(par2, par3 + 1, par4) > 2) {
-				par1World.setBlock(par2, par3, par4, Blocks.dirt);
-			}
 	}
 
 	@Override
 	public boolean canSustainPlant(IBlockAccess world, int x, int y, int z, ForgeDirection direction, IPlantable plantable) {
 		Block plant = plantable.getPlant(world, x, y + 1, z);
-		if (plant == AbyssalCraft.DLTSapling || plant == AbyssalCraft.dreadsapling) {
+		if (plant == AbyssalCraft.DLTSapling) {
 			return true;
 		} else {
 			return false;
@@ -95,8 +77,7 @@ public class BlockDarklandsgrass extends Block
 	/**
 	 * Retrieves the block texture to use based on the display side. Args: iBlockAccess, x, y, z, side
 	 */
-	public IIcon getIcon(IBlockAccess par1IBlockAccess, int par2, int par3, int par4, int par5)
-	{
+	public IIcon getIcon(IBlockAccess par1IBlockAccess, int par2, int par3, int par4, int par5) {
 		if (par5 == 1)
 			return iconGrassTop;
 		else if (par5 == 0)
@@ -115,8 +96,7 @@ public class BlockDarklandsgrass extends Block
 	 * When this method is called, your block should register all the icons it needs with the given IconRegister. This
 	 * is the only chance you get to register icons.
 	 */
-	public void registerBlockIcons(IIconRegister par1IconRegister)
-	{
+	public void registerBlockIcons(IIconRegister par1IconRegister) {
 		blockIcon = par1IconRegister.registerIcon(AbyssalCraft.modid + ":" + "DLGsides");
 		iconGrassTop = par1IconRegister.registerIcon(AbyssalCraft.modid + ":" + "DLGtop");
 		iconSnowOverlay = par1IconRegister.registerIcon("grass_side_snowed");
@@ -124,8 +104,7 @@ public class BlockDarklandsgrass extends Block
 	}
 
 	@SideOnly(Side.CLIENT)
-	public static IIcon getIconSideOverlay()
-	{
+	public static IIcon getIconSideOverlay() {
 		return iconGrassSideOverlay;
 	}
 }

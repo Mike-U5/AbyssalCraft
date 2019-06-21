@@ -179,4 +179,6 @@ public class EntityDreadSpawn extends EntityMob implements IDreadEntity {
 					hasMerged = false;
 				}
 	}
+	
+	public void heal(float amount) {} /** No Healing! **/
 }

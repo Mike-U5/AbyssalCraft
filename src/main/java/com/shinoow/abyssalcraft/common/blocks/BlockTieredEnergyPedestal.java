@@ -43,16 +43,15 @@ public class BlockTieredEnergyPedestal extends BlockContainer {
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
-	public void getSubBlocks(Item par1, CreativeTabs par2CreativeTabs, List par3List) {
-		par3List.add(new ItemStack(par1, 1, 0));
-		par3List.add(new ItemStack(par1, 1, 1));
-		par3List.add(new ItemStack(par1, 1, 2));
-		par3List.add(new ItemStack(par1, 1, 3));
+	public void getSubBlocks(Item par1, CreativeTabs par2CreativeTabs, List subBlocks) {
+		subBlocks.add(new ItemStack(par1, 1, 0));
+		subBlocks.add(new ItemStack(par1, 1, 1));
+		subBlocks.add(new ItemStack(par1, 1, 2));
+		subBlocks.add(new ItemStack(par1, 1, 3));
 	}
 
 	@Override
 	public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
-
 		return new TileEntityTieredEnergyPedestal();
 	}
 

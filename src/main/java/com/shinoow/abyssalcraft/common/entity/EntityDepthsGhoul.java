@@ -49,7 +49,7 @@ import com.shinoow.abyssalcraft.AbyssalCraft;
 import com.shinoow.abyssalcraft.api.entity.ICoraliumEntity;
 import com.shinoow.abyssalcraft.common.util.EntityUtil;
 
-public class EntityDepthsGhoul extends EntityMob implements ICoraliumEntity {
+public class EntityDepthsGhoul extends ACMob implements ICoraliumEntity {
 
 	private static final UUID babySpeedBoostUUID = UUID.fromString("B9766B59-9566-4402-BC1F-2EE2A276D836");
 	private static final AttributeModifier babySpeedBoostModifier = new AttributeModifier(babySpeedBoostUUID, "Baby speed boost", 0.5D, 1);
@@ -71,6 +71,8 @@ public class EntityDepthsGhoul extends EntityMob implements ICoraliumEntity {
 
 	public EntityDepthsGhoul(World par1World) {
 		super(par1World);
+		setDrop(AbyssalCraft.Corbone, 1.0F);
+		setPushResist(0.25);
 		tasks.addTask(0, new EntityAISwimming(this));
 		tasks.addTask(2, new EntityAIAttackOnCollide(this, EntityPlayer.class, 1.0D, false));
 		tasks.addTask(3, new EntityAIFleeSun(this, 1.0D));
@@ -127,16 +129,14 @@ public class EntityDepthsGhoul extends EntityMob implements ICoraliumEntity {
 	}
 
 	@Override
-	protected void entityInit()
-	{
+	protected void entityInit() {
 		super.entityInit();
 		getDataWatcher().addObject(12, Byte.valueOf((byte)0));
 		getDataWatcher().addObject(13, Byte.valueOf((byte)0));
 	}
 
 	@Override
-	public boolean isChild()
-	{
+	public boolean isChild() {
 		return getDataWatcher().getWatchableObjectByte(12) == 1;
 	}
 
@@ -163,8 +163,8 @@ public class EntityDepthsGhoul extends EntityMob implements ICoraliumEntity {
 		return dataWatcher.getWatchableObjectByte(13);
 	}
 
-	public void setGhoulType(int par1) {
-		dataWatcher.updateObject(13, Byte.valueOf((byte)par1));
+	public void setGhoulType(int type) {
+		dataWatcher.updateObject(13, Byte.valueOf((byte)type));
 	}
 
 	@Override
@@ -202,12 +202,12 @@ public class EntityDepthsGhoul extends EntityMob implements ICoraliumEntity {
 	}
 
 	@Override
-	public void onDeath(DamageSource par1DamageSource) {
-		super.onDeath(par1DamageSource);
+	public void onDeath(DamageSource dmgSrc) {
+		super.onDeath(dmgSrc);
 
-		if (par1DamageSource.getEntity() instanceof EntityPlayer) {
-			EntityPlayer entityplayer = (EntityPlayer)par1DamageSource.getEntity();
-			entityplayer.addStat(AbyssalCraft.killghoul,1);
+		if (dmgSrc.getEntity() instanceof EntityPlayer) {
+			EntityPlayer entityplayer = (EntityPlayer)dmgSrc.getEntity();
+			entityplayer.addStat(AbyssalCraft.killghoul, 1);
 		}
 	}
 
@@ -260,11 +260,6 @@ public class EntityDepthsGhoul extends EntityMob implements ICoraliumEntity {
 	}
 
 	@Override
-	protected Item getDropItem() {
-		return AbyssalCraft.Corbone;
-	}
-
-	@Override
 	public EnumCreatureAttribute getCreatureAttribute() {
 		return EnumCreatureAttribute.UNDEAD;
 	}
@@ -288,26 +283,26 @@ public class EntityDepthsGhoul extends EntityMob implements ICoraliumEntity {
 	}
 
 	@Override
-	public void readEntityFromNBT(NBTTagCompound par1NBTTagCompound) {
-		super.readEntityFromNBT(par1NBTTagCompound);
+	public void readEntityFromNBT(NBTTagCompound tag) {
+		super.readEntityFromNBT(tag);
 
-		if(par1NBTTagCompound.getBoolean("IsBaby"))
+		if(tag.getBoolean("IsBaby"))
 			setChild(true);
 
-		if (par1NBTTagCompound.hasKey("GhoulType")) {
-			byte var2 = par1NBTTagCompound.getByte("GhoulType");
-			setGhoulType(var2);
+		if (tag.hasKey("GhoulType")) {
+			setGhoulType(tag.getByte("GhoulType"));
 		}
 	}
 
 	@Override
-	public void writeEntityToNBT(NBTTagCompound par1NBTTagCompound) {
-		super.writeEntityToNBT(par1NBTTagCompound);
+	public void writeEntityToNBT(NBTTagCompound tag) {
+		super.writeEntityToNBT(tag);
 
-		if(isChild())
-			par1NBTTagCompound.setBoolean("IsBaby", true);
+		if(isChild()) {
+			tag.setBoolean("IsBaby", true);
+		}
 
-		par1NBTTagCompound.setByte("GhoulType", (byte)getGhoulType());
+		tag.setByte("GhoulType", (byte)getGhoulType());
 	}
 
 	@Override
@@ -357,7 +352,7 @@ public class EntityDepthsGhoul extends EntityMob implements ICoraliumEntity {
 		IAttributeInstance attribute1 = getEntityAttribute(SharedMonsterAttributes.maxHealth);
 		Calendar calendar = worldObj.getCurrentDate();
 
-		switch(getGhoulType()){
+		switch(getGhoulType()) {
 		case 0:
 			if(worldObj != null && !worldObj.isRemote)
 				clearModifiers(attribute, attribute1);

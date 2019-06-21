@@ -119,4 +119,6 @@ public class EntityDreadling extends EntityMob implements IDreadEntity {
 	public EnumCreatureAttribute getCreatureAttribute() {
 		return EnumCreatureAttribute.UNDEAD;
 	}
+	
+	public void heal(float amount) {} /** No Healing! **/
 }

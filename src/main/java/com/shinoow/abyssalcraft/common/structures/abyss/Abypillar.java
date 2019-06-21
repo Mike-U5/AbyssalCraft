@@ -24,7 +24,7 @@ public class Abypillar extends WorldGenerator
 {
 	protected Block[] GetValidSpawnBlocks() {
 		return new Block[] {
-				AbyssalCraft.abystone
+			AbyssalCraft.abystone, AbyssalCraft.abyssalsand, AbyssalCraft.fusedabyssalsand
 		};
 	}
 

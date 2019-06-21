@@ -11,18 +11,25 @@
  ******************************************************************************/
 package com.shinoow.abyssalcraft.common.entity;
 
-import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
 
+import com.shinoow.abyssalcraft.AbyssalCraft;
+import com.shinoow.abyssalcraft.api.AbyssalCraftAPI;
+import com.shinoow.abyssalcraft.api.energy.EnergyEnum.DeityType;
+import com.shinoow.abyssalcraft.api.energy.disruption.DisruptionHandler;
+import com.shinoow.abyssalcraft.api.entity.IAntiEntity;
+import com.shinoow.abyssalcraft.api.entity.ICoraliumEntity;
+import com.shinoow.abyssalcraft.api.entity.IDreadEntity;
+import com.shinoow.abyssalcraft.common.util.EntityUtil;
+import com.shinoow.abyssalcraft.common.util.SpecialTextUtil;
+import com.shinoow.abyssalcraft.common.world.TeleporterDarkRealm;
+
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.EnumCreatureAttribute;
-import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.IRangedAttackMob;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIArrowAttack;
 import net.minecraft.entity.ai.EntityAIAttackOnCollide;
@@ -34,7 +41,6 @@ import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
-import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.boss.EntityDragon;
 import net.minecraft.entity.boss.EntityWither;
 import net.minecraft.entity.boss.IBossDisplayData;
@@ -57,19 +63,8 @@ import net.minecraft.util.StatCollector;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
-
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.EnderTeleportEvent;
-import com.shinoow.abyssalcraft.AbyssalCraft;
-import com.shinoow.abyssalcraft.api.energy.disruption.DisruptionHandler;
-import com.shinoow.abyssalcraft.api.energy.EnergyEnum.DeityType;
-import com.shinoow.abyssalcraft.api.AbyssalCraftAPI;
-import com.shinoow.abyssalcraft.api.entity.IAntiEntity;
-import com.shinoow.abyssalcraft.api.entity.ICoraliumEntity;
-import com.shinoow.abyssalcraft.api.entity.IDreadEntity;
-import com.shinoow.abyssalcraft.common.util.EntityUtil;
-import com.shinoow.abyssalcraft.common.util.SpecialTextUtil;
-import com.shinoow.abyssalcraft.common.world.TeleporterDarkRealm;
 
 public class EntityJzahar extends EntityMob implements IBossDisplayData, IRangedAttackMob, IAntiEntity, ICoraliumEntity, IDreadEntity {
 
@@ -158,30 +153,38 @@ public class EntityJzahar extends EntityMob implements IBossDisplayData, IRanged
 	}
 
 	@Override
-	public boolean attackEntityFrom(DamageSource par1DamageSource, float dmg) {
-		if(par1DamageSource == DamageSource.cactus) return false;
-		if(par1DamageSource == DamageSource.lava) return false;
-		if(par1DamageSource == DamageSource.inWall) return false;
-		if(par1DamageSource == DamageSource.drown) return false;
-		if(par1DamageSource == DamageSource.fall) return false;
-				
-		if(dmg > 30) {
-			if(dmg > 500001 || dmg < 500000) {
-				if(dmg > 750001.5F || dmg < 750001) {
-					dmg = 30 + worldObj.rand.nextInt(20);
+	public boolean attackEntityFrom(DamageSource dmgSrc, float dmgAmount) {
+		if (!worldObj.isRemote) {
+			worldObj.playSoundAtEntity(this, "abyssalcraft:jzahar.skill.1", 1, 1);
+			SpecialTextUtil.JzaharGroup(worldObj, StatCollector.translateToLocal("message.jzahar.skill.1"));
+
+			if (dmgSrc.getEntity() instanceof EntityLivingBase) {
+				EntityLivingBase entity = (EntityLivingBase) dmgSrc.getEntity();
+				if (!entity.isPotionActive(54) && (getDistanceToEntity(entity) - 5) > worldObj.rand.nextInt(50)) {
+					entity.addPotionEffect(new PotionEffect(54, 200));
 				}
 			} else {
-				dmg = 30;
+				return false;
+			}
+		}
+				
+		if(dmgAmount > 30) {
+			if(dmgAmount > 500001 || dmgAmount < 500000) {
+				if(dmgAmount > 750001.5F || dmgAmount < 750001) {
+					dmgAmount = 30 + worldObj.rand.nextInt(20);
+				}
+			} else {
+				dmgAmount = 30;
 			}
 		}
 		
-		rage += dmg;
+		rage += dmgAmount;
 		if (rage > 50) {
 			performRageAction();
 			rage -= 50;
 		}
 
-		return super.attackEntityFrom(par1DamageSource, dmg);
+		return super.attackEntityFrom(dmgSrc, dmgAmount);
 	}
 	
 	private void performRageAction() {
@@ -190,24 +193,6 @@ public class EntityJzahar extends EntityMob implements IBossDisplayData, IRanged
 		int z = (int)posZ;
 		
 		switch(skillRotation) {
-			// Insanity
-			case 6 :
-				if (!worldObj.isRemote) {
-					worldObj.playSoundAtEntity(this, "abyssalcraft:jzahar.skill.1", 1, 1);
-					SpecialTextUtil.JzaharGroup(worldObj, StatCollector.translateToLocal("message.jzahar.skill.1"));
-					List<EntityPlayer> players = worldObj.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(x, y, z, x + 1, y + 1, z + 1).expand(16, 16, 16));
-						
-					if(!players.isEmpty()) {
-						for(EntityPlayer player : players) {
-							if(!player.isDead) {
-								player.addPotionEffect(new PotionEffect(54, 300));
-							}
-						}
-					}
-					
-				}
-				break;
-				
 			// Disrupt
 			default:
 				DisruptionHandler.instance().generateDisruption(DeityType.JZAHAR, worldObj, x, y, z, worldObj.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(x, y, z, x + 1, y + 1, z + 1).expand(16, 16, 16)));
@@ -430,15 +415,18 @@ public class EntityJzahar extends EntityMob implements IBossDisplayData, IRanged
 		++deathTicks;
 
 		if(deathTicks <= 800){
-			if(deathTicks == 410)
+			if(deathTicks == 410) {
 				worldObj.playSoundAtEntity(this, "abyssalcraft:jzahar.charge", 1, 1);
-			if(deathTicks < 400)
+			}
+			if(deathTicks < 400) {
 				worldObj.spawnParticle("largesmoke", posX, posY + 2.5D, posZ, 0, 0, 0);
+			}
 			float f = (rand.nextFloat() - 0.5F) * 3.0F;
 			float f1 = (rand.nextFloat() - 0.5F) * 2.0F;
 			float f2 = (rand.nextFloat() - 0.5F) * 3.0F;
-			if(deathTicks >= 100 && deathTicks < 400)
+			if(deathTicks >= 100 && deathTicks < 400) {
 				worldObj.spawnParticle("smoke", posX + f, posY + f1, posZ + f2, 0, 0, 0);
+			}
 			if(deathTicks >= 200 && deathTicks < 400){
 				worldObj.spawnParticle("largesmoke", posX + f, posY + f1, posZ + f2, 0.0D, 0.0D, 0.0D);
 				worldObj.spawnParticle("lava", posX, posY + 2.5D, posZ, 0, 0, 0);
@@ -598,19 +586,6 @@ public class EntityJzahar extends EntityMob implements IBossDisplayData, IRanged
 	@Override
 	public void attackEntityWithRangedAttack(EntityLivingBase par1EntityLivingBase, float par2) {
 		func_82216_a(0, par1EntityLivingBase);
-	}
-
-	@Override
-	public IEntityLivingData onSpawnWithEgg(IEntityLivingData par1EntityLivingData) {
-		par1EntityLivingData = super.onSpawnWithEgg(par1EntityLivingData);
-
-		IAttributeInstance attribute = getEntityAttribute(SharedMonsterAttributes.attackDamage);
-		Calendar calendar = worldObj.getCurrentDate();
-
-		if (calendar.get(2) + 1 == 10 && calendar.get(5) == 31 && rand.nextFloat() < 0.25F)
-			attribute.applyModifier(attackDamageBoost);
-
-		return par1EntityLivingData;
 	}
 	
 }

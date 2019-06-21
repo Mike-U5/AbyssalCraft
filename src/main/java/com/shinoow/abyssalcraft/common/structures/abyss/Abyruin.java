@@ -31,7 +31,7 @@ public class Abyruin extends WorldGenerator
 {
 	protected Block[] GetValidSpawnBlocks() {
 		return new Block[] {
-				AbyssalCraft.abystone
+			AbyssalCraft.abystone, AbyssalCraft.abyssalsand, AbyssalCraft.fusedabyssalsand
 		};
 	}
 
@@ -67,8 +67,9 @@ public class Abyruin extends WorldGenerator
 	@Override
 	public boolean generate(World world, Random rand, int i, int j, int k) {
 		//check that each corner is one of the valid spawn blocks
-		if(!LocationIsValidSpawn(world, i, j, k) || !LocationIsValidSpawn(world, i + 4, j, k) || !LocationIsValidSpawn(world, i + 4, j, k + 8) || !LocationIsValidSpawn(world, i, j, k + 8))
+		if(!LocationIsValidSpawn(world, i, j, k) || !LocationIsValidSpawn(world, i + 4, j, k) || !LocationIsValidSpawn(world, i + 4, j, k + 8) || !LocationIsValidSpawn(world, i, j, k + 8)) {
 			return false;
+		}
 
 		world.setBlock(i - 4, j, k - 6, AbyssalCraft.cstonebrick, 0, 0);
 		world.setBlock(i - 4, j, k - 5, AbyssalCraft.cstonebrick, 0, 0);
@@ -212,7 +213,7 @@ public class Abyruin extends WorldGenerator
 		world.setBlock(i, j - 8, k - 1, AbyssalCraft.cstonebrick, 0, 0);
 		world.setBlock(i, j - 8, k, AbyssalCraft.cstonebrick, 0, 0);
 		world.setBlock(i, j - 7, k - 4, AbyssalCraft.cstonebrick, 0, 0);
-		int rollA = rand.nextInt(30);
+		int rollA = rand.nextInt(50);
 		if (rollA == 0) {
 			world.setBlock(i, j - 7, k - 3, Blocks.anvil, 8, 0);
 		} else if (rollA == 1) {
@@ -223,13 +224,16 @@ public class Abyruin extends WorldGenerator
 			world.setBlock(i, j - 7, k - 3, Blocks.flower_pot, 0, 0);
 		} else if (rollA == 4) {
 			world.setBlock(i, j - 7, k - 3, Blocks.hay_block, 0, 0);
-		} else if (rollA == 4) {
+		} else if (rollA == 5) {
 			world.setBlock(i, j - 7, k - 3, Blocks.furnace, 0, 0);
+		} else if (rollA == 6) {
+			world.setBlock(i, j - 7, k - 3, AbyssalCraft.ODBcore, 0, 0);
 		} else {
 			world.setBlock(i, j - 7, k - 3, Blocks.chest, 0, 0);
 			TileEntityChest tileentitychest = (TileEntityChest)world.getTileEntity(i, j - 7, k - 3);
-			if(tileentitychest != null)
+			if(tileentitychest != null) {
 				WeightedRandomChestContent.generateChestContents(rand, ChestCorridor.strongholdChestContents, tileentitychest, ChestGenHooks.getCount(STRONGHOLD_CORRIDOR, rand));
+			}
 		}
 		world.setBlock(i, j - 7, k + 1, AbyssalCraft.cstonebrick, 0, 0);
 		world.setBlock(i, j - 6, k - 4, AbyssalCraft.cstonebrick, 0, 0);

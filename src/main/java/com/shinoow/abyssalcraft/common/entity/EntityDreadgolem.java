@@ -12,6 +12,7 @@
 package com.shinoow.abyssalcraft.common.entity;
 
 import net.minecraft.block.Block;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackOnCollide;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
@@ -22,13 +23,18 @@ import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
 import com.shinoow.abyssalcraft.AbyssalCraft;
 import com.shinoow.abyssalcraft.api.entity.IDreadEntity;
 
-public class EntityDreadgolem extends EntityMob implements IDreadEntity {
+import cpw.mods.fml.common.registry.GameRegistry;
+
+public class EntityDreadgolem extends ACMob implements IDreadEntity {
 
 	public EntityDreadgolem(World par1World) {
 		super(par1World);
@@ -52,6 +58,12 @@ public class EntityDreadgolem extends EntityMob implements IDreadEntity {
 			getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(40.0D);
 			getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(8.0D);
 		} else getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(4.5D);
+	}
+	
+	@Override
+	public boolean attackEntityAsMob(Entity target) {
+	   this.swingItem();
+	   return super.attackEntityAsMob(target);
 	}
 	
 	@Override
@@ -80,10 +92,13 @@ public class EntityDreadgolem extends EntityMob implements IDreadEntity {
 	}
 
 	@Override
-	public void onDeath(DamageSource par1DamageSource) {
-		if(par1DamageSource.getEntity() instanceof EntityPlayer)
-			dropItem(AbyssalCraft.dreadchunk, worldObj.rand.nextInt(3));
-		super.onDeath(par1DamageSource);
+	protected void dropFewItems(boolean playerKill, int lootLvl) {
+		if (worldObj.rand.nextInt(10) == 0) {
+			entityDropItem(new ItemStack(AbyssalCraft.magicdreadstone, 1), 0);
+			entityDropItem(new ItemStack(AbyssalCraft.dreadstone, 2), 0);
+		} else {
+			entityDropItem(new ItemStack(AbyssalCraft.dreadstone, 3), 0);
+		}
 	}
 
 	@Override

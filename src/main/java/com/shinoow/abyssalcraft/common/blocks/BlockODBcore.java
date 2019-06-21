@@ -73,7 +73,7 @@ public class BlockODBcore extends Block {
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister par1IconRegister) {
 		blockIcon = par1IconRegister.registerIcon(AbyssalCraft.modid + ":" + "materializer_side");
-		ODBcTopIcon = par1IconRegister.registerIcon(AbyssalCraft.modid + ":" + "materializer_top");
+		ODBcTopIcon = par1IconRegister.registerIcon(AbyssalCraft.modid + ":" + "relic");
 		BlockODBcore.iconODBcSideOverlay = par1IconRegister.registerIcon(AbyssalCraft.modid + ":" + "materializer_side");
 	}
 

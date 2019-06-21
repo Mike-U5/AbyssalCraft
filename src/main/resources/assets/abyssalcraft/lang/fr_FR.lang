@@ -752,7 +752,7 @@ fluid.liquidcoralium=Liquide de Coralium
 fluid.liquidantimatter=Liquide d'AntiMatière
 
 #Blocks
-tile.DS.name=Pierre Sombre
+tile.darkstone.name=Pierre Sombre
 tile.DSB.name=Briques de Pierre Sombre
 tile.DSC.name=Roche Sombre
 tile.DSGlow.name=Brique de Pierres Sombre brillantes

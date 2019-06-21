@@ -22,6 +22,7 @@ import net.minecraft.world.EnumDifficulty;
 
 import com.shinoow.abyssalcraft.AbyssalCraft;
 import com.shinoow.abyssalcraft.api.AbyssalCraftAPI;
+import com.shinoow.abyssalcraft.api.entity.ICoraliumEntity;
 import com.shinoow.abyssalcraft.common.entity.EntityAbyssalZombie;
 import com.shinoow.abyssalcraft.common.entity.EntityDepthsGhoul;
 import com.shinoow.abyssalcraft.common.util.EntityUtil;
@@ -42,8 +43,7 @@ public class PotionCplague extends Potion{
 	}
 
 	@Override
-	public void performEffect(EntityLivingBase par1EntityLivingBase, int par2){
-
+	public void performEffect(EntityLivingBase par1EntityLivingBase, int par2) {
 		if(EntityUtil.isEntityCoralium(par1EntityLivingBase))
 			par1EntityLivingBase.removePotionEffect(AbyssalCraft.Cplague.id);
 		else par1EntityLivingBase.attackEntityFrom(AbyssalCraftAPI.coralium, 2);
@@ -88,8 +88,7 @@ public class PotionCplague extends Potion{
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public int getStatusIconIndex()
-	{
+	public int getStatusIconIndex() {
 		Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation("abyssalcraft:textures/misc/potionFX.png"));
 		return 0;
 	}

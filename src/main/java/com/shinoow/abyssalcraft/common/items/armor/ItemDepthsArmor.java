@@ -13,23 +13,18 @@ package com.shinoow.abyssalcraft.common.items.armor;
 
 import java.util.List;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
-
-import org.lwjgl.opengl.GL11;
 
 import thaumcraft.api.IVisDiscountGear;
 import thaumcraft.api.aspects.Aspect;
@@ -47,118 +42,100 @@ import cpw.mods.fml.relauncher.SideOnly;
 @InterfaceList(value = { @Interface(iface = "thaumcraft.api.IVisDiscountGear", modid = "Thaumcraft"),
 		@Interface(iface = "thaumcraft.api.nodes.IRevealer", modid = "Thaumcraft")})
 public class ItemDepthsArmor extends ItemArmor implements IVisDiscountGear, IRevealer {
-	public ItemDepthsArmor(ArmorMaterial par2EnumArmorMaterial, int par3, int par4){
-		super(par2EnumArmorMaterial, par3, par4);
+	
+	private final Item[] armorSet = new Item[] {
+		AbyssalCraft.Depthshelmet,
+		AbyssalCraft.Depthsplate,
+		AbyssalCraft.Depthslegs,
+		AbyssalCraft.Depthsboots
+	};
+	
+	public ItemDepthsArmor(ArmorMaterial armorMaterial, int par3, int slotId) {
+		super(armorMaterial, par3, slotId);
 		setCreativeTab(AbyssalCraft.tabCombat);
 	}
 
 	@Override
-	public String getItemStackDisplayName(ItemStack par1ItemStack) {
-
+	public String getItemStackDisplayName(ItemStack stack) {
 		return EnumChatFormatting.DARK_RED + StatCollector.translateToLocal(this.getUnlocalizedName() + ".name");
 	}
 
 	@Override
-	public String getArmorTexture(ItemStack stack, Entity entity, int slot, String layer)
-	{
-		if(stack.getItem() == AbyssalCraft.Depthshelmet || stack.getItem() == AbyssalCraft.Depthsplate || stack.getItem() == AbyssalCraft.Depthsboots)
+	public String getArmorTexture(ItemStack stack, Entity entity, int slot, String layer) {
+		if(stack.getItem() == AbyssalCraft.Depthshelmet || stack.getItem() == AbyssalCraft.Depthsplate || stack.getItem() == AbyssalCraft.Depthsboots) {
 			return "abyssalcraft:textures/armor/depths_1.png";
-
-		if(stack.getItem() == AbyssalCraft.Depthslegs)
+		}
+			
+		if(stack.getItem() == AbyssalCraft.Depthslegs) {
 			return "abyssalcraft:textures/armor/depths_2.png";
-		else return null;
+		}
+		
+		return null;
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void registerIcons(IIconRegister par1IconRegister)
-	{
+	public void registerIcons(IIconRegister par1IconRegister) {
 		itemIcon = par1IconRegister.registerIcon(AbyssalCraft.modid + ":" + this.getUnlocalizedName().substring(5));
 	}
 
 	@Override
-	public void onArmorTick(World world, EntityPlayer player, ItemStack itemstack) {
-		int setEff = 0;
-		
-		if (player.getCurrentArmor(3) != null && player.getCurrentArmor(3).getItem().equals(AbyssalCraft.Depthshelmet)) {
-			setEff++;
-			if(player.isInWater()) {
-				player.addPotionEffect(new PotionEffect(Potion.nightVision.getId(), 260, 0));
+	public void onArmorTick(World world, EntityPlayer player, ItemStack stack) {		
+		// Applies to every piece
+		if(player.isInWater()) {
+			// Increased Breathe
+			if (player.getAir() < 300 && player.ticksExisted % 16 == 0) {
+				player.setAir(player.getAir() + 1);
+			}
+			// Increased Heal
+			if (player.ticksExisted % 100 == 0) {
+				player.heal(0.25F);
+			}
+			// Increased Swimming
+			final double maxSpeed = 1.3;
+			final double motionX = player.motionX * 1.045;
+			final double motionY = player.motionY * 1.045;
+			final double motionZ = player.motionZ * 1.045;
+			final boolean flying = (player instanceof EntityPlayer && ((EntityPlayer) player).capabilities.isFlying);
+
+			if(Math.abs(motionX) < maxSpeed && !flying) {
+				player.motionX = motionX;
+			}
+			if(Math.abs(motionY) < maxSpeed && !flying) {
+				player.motionY = motionY;
+			}
+			if(Math.abs(motionZ) < maxSpeed && !flying) {
+				player.motionZ = motionZ;
 			}
 		}
 		
-		if (player.getCurrentArmor(2) != null && player.getCurrentArmor(2).getItem().equals(AbyssalCraft.Depthsplate)) {
-			setEff++;
-			if(player.isInWater()) {
-				player.addPotionEffect(new PotionEffect(Potion.resistance.getId(), 10, 0));
+		// Set Effect(s)
+		int setPiecesWorn = 0;
+		for (int i = 0; i < this.armorSet.length; i++) {
+			if (player.getCurrentArmor(i) != null && player.getCurrentArmor(i).getItem().equals(this.armorSet[i])) {
+				setPiecesWorn += 1;
 			}
 		}
 		
-		if (player.getCurrentArmor(1) != null && player.getCurrentArmor(1).getItem().equals(AbyssalCraft.Depthslegs)) {
-			setEff++;
-			if(player.isInWater()) {
-				player.addPotionEffect(new PotionEffect(Potion.regeneration.getId(), 20, 0));
-			}
-		}
 		
-		if (player.getCurrentArmor(0) != null && player.getCurrentArmor(0).getItem().equals(AbyssalCraft.Depthsboots)) {
-			setEff++;
-			if(player.isInWater()) {
-				player.addPotionEffect(new PotionEffect(Potion.moveSpeed.getId(), 10, 3));
-			}
-		}
-		
-		//Set Effect
-		if (setEff >= 3) {
-			player.addPotionEffect(new PotionEffect(Potion.waterBreathing.id, 10, 0));
+		// Plague Resistance
+		if (setPiecesWorn >= 3) {
 			if(player.getActivePotionEffect(AbyssalCraft.Cplague) != null) {
 				player.removePotionEffect(AbyssalCraft.Cplague.getId());
-			}	
+			}
 		}
 		
-		//Remove existing effects
-		if(player.getActivePotionEffect(Potion.regeneration) != null && player.getActivePotionEffect(Potion.regeneration).getDuration() <= 0) {
-			player.removePotionEffect(Potion.regeneration.id);
-		}
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void renderHelmetOverlay(ItemStack stack, EntityPlayer player, ScaledResolution resolution, float partialTicks, boolean hasScreen, int mouseX, int mouseY){
-		final ResourceLocation coraliumBlur = new ResourceLocation("abyssalcraft:textures/misc/coraliumblur.png");
-
-
-		if(Minecraft.getMinecraft().gameSettings.thirdPersonView == 0 && stack != null && stack.getItem() == AbyssalCraft.Depthshelmet) {
-			GL11.glPushAttrib(GL11.GL_ALL_ATTRIB_BITS);
-
-			Tessellator t = Tessellator.instance;
-
-			ScaledResolution scale = new ScaledResolution(Minecraft.getMinecraft(), Minecraft.getMinecraft().displayWidth, Minecraft.getMinecraft().displayHeight);
-			int width = scale.getScaledWidth();
-			int height = scale.getScaledHeight();
-
-			GL11.glDisable(GL11.GL_DEPTH_TEST);
-			GL11.glDepthMask(false);
-			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-			GL11.glDisable(GL11.GL_ALPHA_TEST);
-			Minecraft.getMinecraft().renderEngine.bindTexture(coraliumBlur);
-
-			t.startDrawingQuads();
-			t.addVertexWithUV(0.0D, height, 90.0D, 0.0D, 1.0D);
-			t.addVertexWithUV(width, height, 90.0D, 1.0D, 1.0D);
-			t.addVertexWithUV(width, 0.0D, 90.0D, 1.0D, 0.0D);
-			t.addVertexWithUV(0.0D, 0.0D, 90.0D, 0.0D, 0.0D);
-			t.draw();
-
-			GL11.glPopAttrib();
+		// Damage Reductions
+		if (setPiecesWorn >= 4) {
+			if(player.getActivePotionEffect(Potion.resistance) == null || player.getActivePotionEffect(Potion.resistance).getDuration() == 0) {
+				player.addPotionEffect(new PotionEffect(Potion.resistance.getId(), 2, 0));
+			}
 		}
 	}
 
 	@Override
 	@Method(modid = "Thaumcraft")
-	public int getVisDiscount(ItemStack stack, EntityPlayer player,
-			Aspect aspect) {
+	public int getVisDiscount(ItemStack stack, EntityPlayer player, Aspect aspect) {
 		return stack.getItem() == AbyssalCraft.Depthshelmet ? 5 : stack.getItem() == AbyssalCraft.Depthsplate ? 2 :
 			stack.getItem() == AbyssalCraft.Depthslegs ? 2 : stack.getItem() == AbyssalCraft.Depthsboots ? 1 : 0;
 	}
@@ -181,7 +158,6 @@ public class ItemDepthsArmor extends ItemArmor implements IVisDiscountGear, IRev
 	@Override
 	@Method(modid = "Thaumcraft")
 	public boolean showNodes(ItemStack itemstack, EntityLivingBase player) {
-
 		return itemstack.getItem() == AbyssalCraft.Depthshelmet;
 	}
 }

@@ -37,9 +37,11 @@ public class BlockDLTLog extends BlockRotatedPillar
 	@SideOnly(Side.CLIENT)
 	private static IIcon iconLogSideOverlay;
 
-	public BlockDLTLog()
-	{
+	public BlockDLTLog() {
 		super(Material.wood);
+		setStepSound(Block.soundTypeWood);
+		setHardness(2.0F);
+		setResistance(1.0F);
 		setCreativeTab(AbyssalCraft.tabBlock);
 	}
 

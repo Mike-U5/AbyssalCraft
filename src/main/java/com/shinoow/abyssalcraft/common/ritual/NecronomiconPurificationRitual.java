@@ -11,37 +11,28 @@
  ******************************************************************************/
 package com.shinoow.abyssalcraft.common.ritual;
 
-import java.util.List;
-
-import net.minecraft.block.Block;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.IEntityLivingData;
-import net.minecraft.entity.passive.*;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.world.biome.BiomeGenBase;
-import net.minecraft.world.chunk.Chunk;
-import net.minecraft.world.World;
-import net.minecraft.item.*;
-
-import com.google.common.collect.Lists;
 import com.shinoow.abyssalcraft.AbyssalCraft;
 import com.shinoow.abyssalcraft.api.biome.IDarklandsBiome;
 import com.shinoow.abyssalcraft.api.ritual.NecronomiconRitual;
-import com.shinoow.abyssalcraft.common.entity.EntityLesserShoggoth;
+
+import net.minecraft.block.Block;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
+import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraft.world.chunk.Chunk;
 
 public class NecronomiconPurificationRitual extends NecronomiconRitual {
 
-	private boolean shoggothInfestation;
-
 	public NecronomiconPurificationRitual() {
-		super("purification", 0, 1000F, new Object[]{
-			Item.getItemFromBlock(AbyssalCraft.ODBcore), Item.getItemFromBlock(AbyssalCraft.ODBcore), 
-			Item.getItemFromBlock(AbyssalCraft.ODBcore), Item.getItemFromBlock(AbyssalCraft.ODBcore), 
-			Item.getItemFromBlock(AbyssalCraft.ODBcore), Item.getItemFromBlock(AbyssalCraft.ODBcore), 
-			Item.getItemFromBlock(AbyssalCraft.ODBcore), Item.getItemFromBlock(AbyssalCraft.ODBcore)
+		super("purification", 0, 10000F, new Object[] {
+			Item.getItemFromBlock(AbyssalCraft.ODBcore), new ItemStack(Items.dye, 1, 15), 
+			Item.getItemFromBlock(AbyssalCraft.ODBcore), new ItemStack(Items.dye, 1, 15), 
+			Item.getItemFromBlock(AbyssalCraft.ODBcore), new ItemStack(Items.dye, 1, 15), 
+			Item.getItemFromBlock(AbyssalCraft.ODBcore), new ItemStack(Items.dye, 1, 15)
 		});
 	}
 
@@ -60,8 +51,8 @@ public class NecronomiconPurificationRitual extends NecronomiconRitual {
 	@Override
 	protected void completeRitualServer(World world, int x, int y, int z, EntityPlayer player){
 		if (!world.isRemote) {
-			int range = 24;
-			int biomeID = 1;
+			int range = 48;
+			byte biomeID = (byte)1;
 			
 			for (int iX = 0; iX < (2 * range) + 1; iX++) {
                 for (int iZ = 0; iZ < (2 * range) + 1; iZ++) {
@@ -86,7 +77,7 @@ public class NecronomiconPurificationRitual extends NecronomiconRitual {
                         moduZ = moduZ + 16;
                     }
 
-                    byteArray[moduZ * 16 + moduX] = (byte) biomeID;
+                    byteArray[moduZ * 16 + moduX] = biomeID;
                     chunk.setBiomeArray(byteArray);
                     
                     // Change the blocks
@@ -97,34 +88,72 @@ public class NecronomiconPurificationRitual extends NecronomiconRitual {
 	}
 	
 	private void transformBlocks(World world, int coordX, int coordZ) {
-		for(int iY = 1; iY <= 128; iY++){
+		for(int iY = 1; iY <= 160; iY++) {
+			// Block info
 			Block block = world.getBlock(coordX, iY, coordZ);
-			//Transmute
-			boolean transmute = false;
-			if (block == AbyssalCraft.Darkstone) {
+			int meta = block.getDamageValue(world, coordX, iY, coordZ);
+			
+			// Transmute Stone
+			if (block == AbyssalCraft.Darkstone || block == AbyssalCraft.Darkstoneslab2) {
 				block = Blocks.stone; 
-				transmute = true;
-			} else if (block == AbyssalCraft.Darkstone_cobble) {
+			} else if (block == AbyssalCraft.Darkstone_cobble || block == AbyssalCraft.Darkcobbleslab2) {
 				block = Blocks.cobblestone; 
-				transmute = true;
 			} else if (block == AbyssalCraft.Darkstone_brick) {
 				block = Blocks.stonebrick; 
-				transmute = true;
+			} else if (block == AbyssalCraft.Darkcobbleslab1) {
+				block = Blocks.stone_slab; 
+				meta = 3;
+			} else if (block == AbyssalCraft.Darkstoneslab1) {
+				block = Blocks.stone_slab; 
+				meta = 0;
+			} else if (block == AbyssalCraft.Darkbrickslab1) {
+				block = Blocks.stone_slab; 
+				meta = 5;
+			} else if (block == AbyssalCraft.DBstairs) {
+				block = Blocks.stone_brick_stairs; 
+			} else if (block == AbyssalCraft.DCstairs) {
+				block = Blocks.stone_stairs; 
+			} else if (block == AbyssalCraft.ritualpedestal && meta == 1) {
+				meta = 0;
+			} else if (block == AbyssalCraft.ritualaltar && meta == 1) {
+				meta = 0;
+			// Transmute Plants
 			} else if (block == AbyssalCraft.Darkgrass) {
 				block = Blocks.grass; 
-				transmute = true;
 			} else if (block == AbyssalCraft.DLTLeaves) {
-				block = Blocks.leaves; 
-				transmute = true;
+				block = Blocks.leaves;
+			} else if (block == AbyssalCraft.DLTSapling) {
+				block = Blocks.sapling;
+				meta = 0;
+			// Transmute Wood
 			} else if (block == AbyssalCraft.DLTLog) {
 				block = Blocks.log; 
-				transmute = true;
+			} else if (block == AbyssalCraft.DLTplank || block == AbyssalCraft.DLTslab2) {
+				block = Blocks.planks; 
+				meta = 0;
+			} else if (block == AbyssalCraft.DLTpplate) {
+				block = Blocks.wooden_pressure_plate; 
+			} else if (block == AbyssalCraft.DLTslab1) {
+				block = Blocks.wooden_slab; 
+				meta  = 0;
+			} else if (block == AbyssalCraft.DLTstairs) {
+				block = Blocks.oak_stairs; 
+			} else if (block == AbyssalCraft.DLTbutton) {
+				block = Blocks.wooden_button; 
+			} else if (block == AbyssalCraft.DLTfence) {
+				block = Blocks.fence; 
+			// Misc
+			} else if (block == AbyssalCraft.DSGlow) {
+				block = AbyssalCraft.SGlow; 
+			} else if (block == AbyssalCraft.shoggothBlock) {
+				block = Blocks.dirt; 
+			} else {
+				continue;
 			}
 
-			//Set
-			if (transmute) {
-				world.setBlock(coordX, iY, coordZ, block, 0, 3);
-			}
+			//Transform Blocks and/or metadata
+			world.setBlock(coordX, iY, coordZ, block, 0, 3);
+			world.setBlockMetadataWithNotify(coordX, iY, coordZ, meta, 2);
 		}
 	}
 

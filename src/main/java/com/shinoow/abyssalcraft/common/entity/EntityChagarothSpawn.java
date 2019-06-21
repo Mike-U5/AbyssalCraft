@@ -11,6 +11,9 @@
  ******************************************************************************/
 package com.shinoow.abyssalcraft.common.entity;
 
+import com.shinoow.abyssalcraft.AbyssalCraft;
+import com.shinoow.abyssalcraft.api.entity.IDreadEntity;
+
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -23,20 +26,16 @@ import net.minecraft.entity.ai.EntityAIMoveTowardsRestriction;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
-import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
 
-import com.shinoow.abyssalcraft.AbyssalCraft;
-import com.shinoow.abyssalcraft.api.entity.IDreadEntity;
-
-public class EntityChagarothSpawn extends EntityMob implements IDreadEntity {
+public class EntityChagarothSpawn extends ACMob implements IDreadEntity {
 
 	public EntityChagarothSpawn(World par1World) {
 		super(par1World);
 		setSize(0.6F, 0.6F);
+		setDrop(AbyssalCraft.dreadfragment, 1.0F);
 		tasks.addTask(1, new EntityAIAttackOnCollide(this, EntityPlayer.class, 0.35D, true));
 		tasks.addTask(2, new EntityAIMoveTowardsRestriction(this, 0.35D));
 		tasks.addTask(3, new EntityAIWander(this, 0.35D));
@@ -51,7 +50,6 @@ public class EntityChagarothSpawn extends EntityMob implements IDreadEntity {
 	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
 
-		getEntityAttribute(SharedMonsterAttributes.knockbackResistance).setBaseValue(0.1D);
 		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.45D);
 
 		if(AbyssalCraft.hardcoreMode){
@@ -95,11 +93,6 @@ public class EntityChagarothSpawn extends EntityMob implements IDreadEntity {
 	@Override
 	protected void func_145780_a(int par1, int par2, int par3, Block par4) {
 		worldObj.playSoundAtEntity(this, "mob.zombie.step", 0.15F, 1.0F);
-	}
-
-	@Override
-	protected Item getDropItem() {
-		return AbyssalCraft.dreadfragment;
 	}
 
 	@Override

@@ -12,18 +12,13 @@
 package com.shinoow.abyssalcraft.common.blocks;
 
 import java.util.Random;
-import java.util.ArrayList;
-import cpw.mods.fml.common.registry.*;
-
-import net.minecraft.block.material.Material;
-import net.minecraft.init.Items;
-import net.minecraft.item.Item;
-import net.minecraft.util.MathHelper;
-import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
-import net.minecraftforge.oredict.OreDictionary;
 
 import com.shinoow.abyssalcraft.AbyssalCraft;
+
+import cpw.mods.fml.common.registry.GameRegistry;
+import net.minecraft.block.material.Material;
+import net.minecraft.item.Item;
+import net.minecraft.world.IBlockAccess;
 
 public class BlockInfusedDreadstone extends BlockACBasic {
 	
@@ -44,12 +39,17 @@ public class BlockInfusedDreadstone extends BlockACBasic {
 	
 	@Override
 	public int damageDropped(int meta) {
+		// Small change to drop a balanced shard
+		if (rand.nextInt(25) == 0) {
+			return 6;
+		}
+		// Or a random regular shard
 	    return rand.nextInt(6);
 	}
 
 	@Override
 	public int quantityDropped(int meta, int fortune, Random rand) {
-		return 2 + rand.nextInt(fortune+1);
+		return 2 + rand.nextInt(fortune + 1);
 	}
 
 	@Override

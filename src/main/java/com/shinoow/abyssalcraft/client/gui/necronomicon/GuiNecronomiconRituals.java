@@ -16,6 +16,7 @@ import java.util.List;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.item.Item;
 import net.minecraft.util.StatCollector;
 import org.lwjgl.input.Keyboard;
 
@@ -32,7 +33,22 @@ public class GuiNecronomiconRituals extends GuiNecronomicon {
 
 	private ButtonNextPage buttonPreviousPage;
 	private GuiButton buttonDone;
-	private ButtonCategory info, ritual0, ritual1, ritual2, ritual3, ritual4;
+	private ButtonCategory info;
+	private ButtonCategory ritual[] = new ButtonCategory[5];
+	private final Item[] icons = new Item[] {
+		AbyssalCraft.necronomicon,
+		AbyssalCraft.necronomicon_cor,
+		AbyssalCraft.necronomicon_dre,
+		AbyssalCraft.necronomicon_omt,
+		AbyssalCraft.abyssalnomicon
+	};
+	private final String[] labels = new String[] {
+		NecronomiconText.LABEL_NORMAL,
+		NecronomiconText.LABEL_INFORMATION_ABYSSAL_WASTELAND,
+		NecronomiconText.LABEL_INFORMATION_DREADLANDS,
+		NecronomiconText.LABEL_INFORMATION_OMOTHOL,
+		StatCollector.translateToLocal(AbyssalCraft.abyssalnomicon.getUnlocalizedName() + ".name")
+	};
 
 	public GuiNecronomiconRituals(int bookType){
 		super(bookType);
@@ -46,19 +62,16 @@ public class GuiNecronomiconRituals extends GuiNecronomicon {
 
 		buttonList.add(buttonDone = new GuiButton(0, width / 2 - 100, 4 + guiHeight, 200, 20, I18n.format("gui.done", new Object[0])));
 
-		int i = (width - guiWidth) / 2;
+		int w = (width - guiWidth) / 2;
 		byte b0 = 2;
-		buttonList.add(buttonPreviousPage = new ButtonNextPage(1, i + 18, b0 + 154, false));
-		buttonList.add(info = new ButtonCategory(2, i + 14, b0 + 24, this, NecronomiconText.LABEL_INFO, AbyssalCraft.necronomicon));
-		buttonList.add(ritual0 = new ButtonCategory(3, i + 14, b0 + 41, this, NecronomiconText.LABEL_NORMAL, hasRituals(0) ? AbyssalCraft.necronomicon : AbyssalCraft.OC));
-		if(getBookType() >= 1)
-			buttonList.add(ritual1 = new ButtonCategory(4, i + 14, b0 + 58, this, NecronomiconText.LABEL_INFORMATION_ABYSSAL_WASTELAND, hasRituals(1) ? AbyssalCraft.necronomicon_cor : AbyssalCraft.OC));
-		if(getBookType() >= 2)
-			buttonList.add(ritual2 = new ButtonCategory(5, i + 14, b0 + 75, this, NecronomiconText.LABEL_INFORMATION_DREADLANDS, hasRituals(2) ? AbyssalCraft.necronomicon_dre : AbyssalCraft.OC));
-		if(getBookType() >= 3)
-			buttonList.add(ritual3 = new ButtonCategory(6, i + 14, b0 + 92, this, NecronomiconText.LABEL_INFORMATION_OMOTHOL, hasRituals(3) ? AbyssalCraft.necronomicon_omt : AbyssalCraft.OC));
-		if(getBookType() == 4)
-			buttonList.add(ritual4 = new ButtonCategory(7, i + 14, b0 + 109, this, StatCollector.translateToLocal(AbyssalCraft.abyssalnomicon.getUnlocalizedName() + ".name"), hasRituals(4) ? AbyssalCraft.abyssalnomicon : AbyssalCraft.OC));
+		buttonList.add(buttonPreviousPage = new ButtonNextPage(1, w + 18, b0 + 154, false));
+		buttonList.add(info = new ButtonCategory(2, w + 14, b0 + 24, this, NecronomiconText.LABEL_INFO, AbyssalCraft.necronomicon));
+		
+		for (int i = 0; i < ritual.length && i <= getBookType(); i++) {
+			buttonList.add(ritual[i] = new ButtonCategory(3 + i, w + 14, b0 + 41 + (i * 17), this, labels[i], hasRituals(i) ? icons[i] : AbyssalCraft.OC));
+			ritual[i].visible = true;
+		}
+		
 		updateButtons();
 	}
 
@@ -66,54 +79,35 @@ public class GuiNecronomiconRituals extends GuiNecronomicon {
 		buttonPreviousPage.visible = true;
 		buttonDone.visible = true;
 		info.visible = true;
-		ritual0.visible = true;
-		if(getBookType() >= 1)
-			ritual1.visible = true;
-		if(getBookType() >= 2)
-			ritual2.visible = true;
-		if(getBookType() >= 3)
-			ritual3.visible = true;
-		if(getBookType() == 4)
-			ritual4.visible = true;
-
 	}
 
 	@Override
 	protected void actionPerformed(GuiButton button) {
 		if (button.enabled) {
-			if(button.id == 0)
+			if(button.id == 0) {
 				mc.displayGuiScreen((GuiScreen)null);
-			else if(button.id == 1)
+			} else if(button.id == 1) {
 				mc.displayGuiScreen(new GuiNecronomicon(getBookType()));
-			else if(button.id == 2)
+			} else if(button.id == 2) {
 				mc.displayGuiScreen(new GuiNecronomiconEntry(getBookType(), AbyssalCraftAPI.getInternalNDHandler().getInternalNecroData("rituals"), this, AbyssalCraft.necronomicon));
-			else if(button.id == 3){
-				if(hasRituals(0))
-					mc.displayGuiScreen(new GuiNecronomiconRitualEntry(getBookType(), this, 0));
-			} else if(button.id == 4){
-				if(hasRituals(1))
-					mc.displayGuiScreen(new GuiNecronomiconRitualEntry(getBookType(), this, 1));
-			} else if(button.id == 5){
-				if(hasRituals(2))
-					mc.displayGuiScreen(new GuiNecronomiconRitualEntry(getBookType(), this, 2));
-			} else if(button.id == 6){
-				if(hasRituals(3))
-					mc.displayGuiScreen(new GuiNecronomiconRitualEntry(getBookType(), this, 3));
-			} else if(button.id == 7)
-				if(hasRituals(4))
-					mc.displayGuiScreen(new GuiNecronomiconRitualEntry(getBookType(), this, 4));
+			} else if(button.id >= 3) {
+				int bookId = button.id - 3;
+				if(hasRituals(bookId)) {
+					mc.displayGuiScreen(new GuiNecronomiconRitualEntry(getBookType(), this, bookId));
+				}
+			}
 
 			updateButtons();
 		}
 	}
 
-	private boolean hasRituals(int book){
-
+	private boolean hasRituals(int book) {
 		List<NecronomiconRitual> rituals = Lists.newArrayList();
-		for(NecronomiconRitual ritual : RitualRegistry.instance().getRituals())
-			if(ritual.getBookType() == book)
+		for(NecronomiconRitual ritual : RitualRegistry.instance().getRituals()) {
+			if(ritual.getBookType() == book) {
 				rituals.add(ritual);
-
+			}
+		}
 		return !rituals.isEmpty();
 	}
 

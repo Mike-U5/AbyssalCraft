@@ -23,7 +23,6 @@ import net.minecraft.world.gen.feature.WorldGenerator;
 public class WorldGenDreadlandsStalagmite extends WorldGenerator {
 	
 	private boolean purified = false;
-	private boolean infusedCanGen = true;
 
 	@Override
 	public boolean generate(World world, Random rand, int x, int y, int z) {
@@ -64,9 +63,6 @@ public class WorldGenDreadlandsStalagmite extends WorldGenerator {
 	private Block rollStalagBlock(Random rand) {
 		if(this.purified) {
 			return AbyssalCraft.abydreadstone;
-		} else if (this.infusedCanGen && rand.nextInt(200) == 0) {
-			this.infusedCanGen = false;
-			return AbyssalCraft.magicdreadstone;
 		} else {
 			return AbyssalCraft.dreadstone;
 		}

@@ -20,6 +20,7 @@ import net.minecraft.world.World;
 import com.shinoow.abyssalcraft.AbyssalCraft;
 import com.shinoow.abyssalcraft.client.gui.*;
 import com.shinoow.abyssalcraft.client.gui.necronomicon.GuiNecronomicon;
+import com.shinoow.abyssalcraft.client.gui.necronomicon.GuiNecronomiconInformation;
 import com.shinoow.abyssalcraft.common.blocks.tile.*;
 import com.shinoow.abyssalcraft.common.inventory.*;
 import com.shinoow.abyssalcraft.common.items.ItemNecronomicon;
@@ -90,7 +91,8 @@ public class CommonProxy implements IGuiHandler {
 			switch(ID){
 			case AbyssalCraft.necronmiconGuiID:
 				if(stack.getItem() instanceof ItemNecronomicon)
-					return new GuiNecronomicon(((ItemNecronomicon)stack.getItem()).getBookType());
+					///return new GuiNecronomicon(((ItemNecronomicon)stack.getItem()).getBookType());
+					return new GuiNecronomiconInformation(((ItemNecronomicon)stack.getItem()).getBookType());
 				break;
 			case AbyssalCraft.crystalbagGuiID:
 				return new GuiCrystalBag(new ContainerCrystalBag(player.inventory, new InventoryCrystalBag(player.getHeldItem())));

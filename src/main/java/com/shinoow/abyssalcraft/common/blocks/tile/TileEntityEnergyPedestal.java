@@ -13,16 +13,15 @@ package com.shinoow.abyssalcraft.common.blocks.tile;
 
 import java.util.Random;
 
+import com.shinoow.abyssalcraft.api.energy.IEnergyContainer;
+import com.shinoow.abyssalcraft.api.energy.IEnergyTransporter;
+
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
-
-import com.shinoow.abyssalcraft.api.energy.IEnergyContainer;
-import com.shinoow.abyssalcraft.api.energy.IEnergyTransporter;
-import com.shinoow.abyssalcraft.common.util.ISingletonInventory;
 
 public class TileEntityEnergyPedestal extends TileEntity implements IEnergyContainer {
 
@@ -31,26 +30,29 @@ public class TileEntityEnergyPedestal extends TileEntity implements IEnergyConta
 	private float energy;
 	Random rand = new Random();
 	private boolean isDirty;
-	private int particleTimer = 0;
-
-	@Override
-	public void readFromNBT(NBTTagCompound nbttagcompound) {
-		super.readFromNBT(nbttagcompound);
-		NBTTagCompound nbtItem = nbttagcompound.getCompoundTag("Item");
-		item = ItemStack.loadItemStackFromNBT(nbtItem);
-		rot = nbttagcompound.getInteger("Rot");
-		energy = nbttagcompound.getFloat("PotEnergy");
+	
+	protected int getTier() {
+		return 1;
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound nbttagcompound) {
-		super.writeToNBT(nbttagcompound);
+	public void readFromNBT(NBTTagCompound nbtData) {
+		super.readFromNBT(nbtData);
+		NBTTagCompound nbtItem = nbtData.getCompoundTag("Item");
+		item = ItemStack.loadItemStackFromNBT(nbtItem);
+		rot = nbtData.getInteger("Rot");
+		energy = nbtData.getFloat("PotEnergy");
+	}
+
+	@Override
+	public void writeToNBT(NBTTagCompound nbtData) {
+		super.writeToNBT(nbtData);
 		NBTTagCompound nbtItem = new NBTTagCompound();
 		if(item != null)
 			item.writeToNBT(nbtItem);
-		nbttagcompound.setTag("Item", nbtItem);
-		nbttagcompound.setInteger("Rot", rot);
-		nbttagcompound.setFloat("PotEnergy", energy);
+		nbtData.setTag("Item", nbtItem);
+		nbtData.setInteger("Rot", rot);
+		nbtData.setFloat("PotEnergy", energy);
 	}
 
 	@Override
@@ -80,22 +82,20 @@ public class TileEntityEnergyPedestal extends TileEntity implements IEnergyConta
 			rot++;
 
 		if(item != null) {
-			if(item.getItem() instanceof IEnergyTransporter)
-				if(getContainedEnergy() > 0 && ((IEnergyTransporter) item.getItem()).getContainedEnergy(item) < ((IEnergyTransporter) item.getItem()).getMaxEnergy(item)){
-					((IEnergyTransporter) item.getItem()).addEnergy(item, 1);
-					consumeEnergy(1);
+			if(item.getItem() instanceof IEnergyTransporter) {
+				IEnergyTransporter energyItem = (IEnergyTransporter)item.getItem();
+				int energySpace = (energyItem.getMaxEnergy(item) - (int)energyItem.getContainedEnergy(item));
+				if(getContainedEnergy() > 0 && energySpace > 0) {
+					int energyStored = (int)Math.max(10, getContainedEnergy());
+					int transferAmount = Math.min(energyStored, energySpace);
+					energyItem.addEnergy(item, transferAmount);
+					consumeEnergy(transferAmount);
 				}
-		}
-		
-		particleTimer++;
-		int particleRate = Math.round(getContainedEnergy()/getMaxEnergy())*40;
-		if (getContainedEnergy() >= 1 && particleTimer > (40 - particleRate)) {
-			worldObj.spawnParticle("reddust", xCoord + 0.5, yCoord + 0.95, zCoord + 0.5, 0, 0, 0);
-			particleTimer = 0;
+			}
 		}
 	}
 
-	public int getRotation(){
+	public int getRotation() {
 		return rot;
 	}
 
@@ -115,11 +115,23 @@ public class TileEntityEnergyPedestal extends TileEntity implements IEnergyConta
 
 	@Override
 	public int getMaxEnergy() {
-		return 5000;
+		switch(getTier()) {
+			case 2: return 7500;
+			case 3: return 10000;
+			case 4: return 12500;
+			case 5: return 15000;
+			default: return 5000;
+		}
 	}
 
 	@Override
 	public void addEnergy(float energy) {
+		switch(getTier()) {
+			case 2: energy *= 1.2; break;
+			case 3: energy *= 1.3; break;
+			case 4: energy *= 1.6; break;
+			case 5: energy *= 1.8; break;
+		}
 		this.energy += energy;
 	}
 
@@ -130,6 +142,6 @@ public class TileEntityEnergyPedestal extends TileEntity implements IEnergyConta
 
 	@Override
 	public boolean canAcceptPE() {
-		return true;
+		return (this.getContainedEnergy() < this.getMaxEnergy());
 	}
 }

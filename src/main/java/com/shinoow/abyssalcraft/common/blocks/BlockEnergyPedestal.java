@@ -22,6 +22,8 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 
 public class BlockEnergyPedestal extends BlockContainer {
@@ -38,8 +40,7 @@ public class BlockEnergyPedestal extends BlockContainer {
 	}
 
 	@Override
-	public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
-
+	public TileEntity createNewTileEntity(World world, int p_149915_2_) {
 		return new TileEntityEnergyPedestal();
 	}
 
@@ -56,10 +57,18 @@ public class BlockEnergyPedestal extends BlockContainer {
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int meta, float hitX, float hitY, float hitZ) {
 		TileEntity tile = world.getTileEntity(x, y, z);
-		if(tile != null && tile instanceof TileEntityEnergyPedestal)
-			if(((TileEntityEnergyPedestal)tile).getItem() != null){
-				player.inventory.addItemStackToInventory(((TileEntityEnergyPedestal)tile).getItem());
-				((TileEntityEnergyPedestal)tile).setItem(null);
+		if(tile != null && tile instanceof TileEntityEnergyPedestal) {
+			TileEntityEnergyPedestal pedestal = (TileEntityEnergyPedestal)tile; 
+			if (player.isSneaking() && player.getHeldItem() == null) {
+				if (!player.worldObj.isRemote) {
+					String message = "PE: " + (int)pedestal.getContainedEnergy() + "/" + pedestal.getMaxEnergy();
+		            player.addChatMessage(new ChatComponentText(message));
+				}
+				return false;
+			}
+			if(pedestal.getItem() != null) {
+				player.inventory.addItemStackToInventory(pedestal.getItem());
+				pedestal.setItem(null);
 				world.playSoundEffect(x + 0.5, y + 0.5, z + 0.5, "random.pop", 0.5F, world.rand.nextFloat() - world.rand.nextFloat() * 0.2F + 1);
 				return true;
 			} else {
@@ -67,12 +76,13 @@ public class BlockEnergyPedestal extends BlockContainer {
 				if(heldItem != null){
 					ItemStack newItem = heldItem.copy();
 					newItem.stackSize = 1;
-					((TileEntityEnergyPedestal)tile).setItem(newItem);
+					pedestal.setItem(newItem);
 					player.inventory.decrStackSize(player.inventory.currentItem, 1);
 					world.playSoundEffect(x + 0.5, y + 0.5, z + 0.5, "random.pop", 0.5F, world.rand.nextFloat() - world.rand.nextFloat() * 0.2F + 1);
 					return true;
 				}
 			}
+		}
 		return false;
 	}
 

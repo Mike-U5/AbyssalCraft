@@ -24,6 +24,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
@@ -31,6 +32,8 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldSettings.GameType;
 
 import com.google.common.collect.Multimap;
+import com.shinoow.abyssalcraft.api.energy.EnergyEnum.DeityType;
+import com.shinoow.abyssalcraft.api.energy.disruption.DisruptionHandler;
 import com.shinoow.abyssalcraft.common.entity.EntityJzahar;
 
 public class AbyssalCraftTool extends Item {
@@ -73,29 +76,37 @@ public class AbyssalCraftTool extends Item {
 
 	@Override
 	@SuppressWarnings("rawtypes")
-	public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer) {
+	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
 
-		par3EntityPlayer.setItemInUse(par1ItemStack, getMaxItemUseDuration(par1ItemStack));
+		player.setItemInUse(stack, getMaxItemUseDuration(stack));
 
-		List list = par3EntityPlayer.worldObj.getEntitiesWithinAABBExcludingEntity(par3EntityPlayer, par3EntityPlayer.boundingBox.expand(40D, 40D, 40D));
+		List list = player.worldObj.getEntitiesWithinAABBExcludingEntity(player, player.boundingBox.expand(40D, 40D, 40D));
 
+		if (player.isSneaking()) {
+			final int x = (int)player.posX;
+			final int y = (int)player.posY;
+			final int z = (int)player.posZ;
+			DisruptionHandler.instance().generateDisruption(DeityType.JZAHAR, world, x, y, z, world.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(x, y, z, x + 1, y + 1, z + 1).expand(16, 16, 16)));
+			return stack;
+		}
+		
 		if(list != null)
 			for(int k2 = 0; k2 < list.size(); k2++) {
 				Entity entity = (Entity)list.get(k2);
 
 				if(entity instanceof EntityLiving && !entity.isDead)
-					entity.attackEntityFrom(DamageSource.causePlayerDamage(par3EntityPlayer), 50000);
+					entity.attackEntityFrom(DamageSource.causePlayerDamage(player), 50000);
 				else if(entity instanceof EntityPlayer && !entity.isDead)
-					entity.attackEntityFrom(DamageSource.causePlayerDamage(par3EntityPlayer), 50000);
+					entity.attackEntityFrom(DamageSource.causePlayerDamage(player), 50000);
 				if(entity instanceof EntityJzahar) {
-					par3EntityPlayer.setGameType(GameType.SURVIVAL);
-					par3EntityPlayer.attackTargetEntityWithCurrentItem(par3EntityPlayer);
+					player.setGameType(GameType.SURVIVAL);
+					player.attackTargetEntityWithCurrentItem(player);
 					((EntityJzahar)entity).heal(Float.MAX_VALUE);
-					if(par2World.isRemote)
+					if(world.isRemote)
 						Minecraft.getMinecraft().thePlayer.sendChatMessage("I really thought I could do that, didn't I?");
 				}
 			}
-		return par1ItemStack;
+		return stack;
 	}
 
 	@Override

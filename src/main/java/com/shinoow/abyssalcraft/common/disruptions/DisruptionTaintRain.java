@@ -13,15 +13,14 @@ package com.shinoow.abyssalcraft.common.disruptions;
 
 import java.util.List;
 
+import com.shinoow.abyssalcraft.api.energy.disruption.DisruptionEntry;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityLargeFireball;
-import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
-
 import thaumcraft.api.ThaumcraftApiHelper;
-import com.shinoow.abyssalcraft.api.energy.disruption.DisruptionEntry;
 
 public class DisruptionTaintRain extends DisruptionEntry {
 
@@ -56,17 +55,13 @@ public class DisruptionTaintRain extends DisruptionEntry {
 			world.spawnEntityInWorld(tainter3);
 			world.spawnEntityInWorld(tainter4);
 		}
-		
-		//Apply warp to players
-		if(!players.isEmpty()) {
-			for(EntityPlayer player : players) {
-				ThaumcraftApiHelper.addWarpToPlayer(player, 10, true);
-			}
-		}
 	}
 
 	private Entity EntityProjectile(World world, double x, double y, double z, double accx, double accy, double accz){
 		Entity projectile = EntityList.createEntityByName("Thaumcraft.BottleTaint", world);
+		if (projectile == null) {
+			projectile = new EntityLargeFireball(world);
+		}
 		projectile.setLocationAndAngles(x, y, z, projectile.rotationYaw, projectile.rotationPitch);
 		projectile.setPosition(x, y, z);
 

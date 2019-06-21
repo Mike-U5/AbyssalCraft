@@ -38,10 +38,10 @@ import com.shinoow.abyssalcraft.common.entity.demon.*;
 import com.shinoow.abyssalcraft.common.util.EntityUtil;
 import com.shinoow.abyssalcraft.common.world.gen.WorldGenShoggothMonolith;
 
-public class EntityLesserShoggoth extends EntityMob implements ICoraliumEntity, IDreadEntity {
+public class EntityLesserShoggoth extends ACMob implements ICoraliumEntity, IDreadEntity {
 
 	private static final UUID babySpeedBoostUUID = UUID.fromString("B9766B59-9566-4402-BC1F-2EE2A276D836");
-	private static final AttributeModifier babySpeedBoostModifier = new AttributeModifier(babySpeedBoostUUID, "Baby speed boost", 0.5D, 1);
+	private static final AttributeModifier babySpeedBoostModifier = new AttributeModifier(babySpeedBoostUUID, "Baby speed boost", 0.3D, 1);
 
 	private static List<Class<? extends EntityLivingBase>> noms = new ArrayList<Class<? extends EntityLivingBase>>();
 
@@ -51,10 +51,13 @@ public class EntityLesserShoggoth extends EntityMob implements ICoraliumEntity, 
 
 	public EntityLesserShoggoth(World par1World) {
 		super(par1World);
+		setDrop(AbyssalCraft.shoggothFlesh, 1.0F);
+		setPushResist(isChild() ? 0 : 0.3);
 		tasks.addTask(0, new EntityAISwimming(this));
 		tasks.addTask(2, new EntityAIAttackOnCollide(this, EntityPlayer.class, 0.35D, true));
-		for(int i = 0; i < noms.size(); i++)
+		for(int i = 0; i < noms.size(); i++) {
 			tasks.addTask(2, new EntityAIAttackOnCollide(this, noms.get(i), 0.40D, true));
+		}
 		tasks.addTask(3, new EntityAIFleeSun(this, 0.35D));
 		tasks.addTask(4, new EntityAIMoveTowardsRestriction(this, 0.35D));
 		tasks.addTask(5, new EntityAIWander(this, 0.35D));
@@ -76,16 +79,15 @@ public class EntityLesserShoggoth extends EntityMob implements ICoraliumEntity, 
 		tasks.addTask(7, new EntityAIWatchClosest(this, EntityGatekeeperMinion.class, 8.0F));
 		targetTasks.addTask(1, new EntityAIHurtByTarget(this, false));
 		targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true));
-		for(int i = 0; i < noms.size(); i++)
+		for(int i = 0; i < noms.size(); i++) {
 			targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, noms.get(i), 0, true));
+		}
 		setSize(1.5F, 2.6F);
 	}
 
 	@Override
 	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
-
-		getEntityAttribute(SharedMonsterAttributes.knockbackResistance).setBaseValue(0.1D);
 
 		if(AbyssalCraft.hardcoreMode){
 			getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(200.0D);
@@ -114,8 +116,9 @@ public class EntityLesserShoggoth extends EntityMob implements ICoraliumEntity, 
 	public void onUpdate() {
 		super.onUpdate();
 
-		if (!worldObj.isRemote)
+		if (!worldObj.isRemote) {
 			setBesideClimbableBlock(isCollidedHorizontally);
+		}
 	}
 
 	@Override
@@ -123,17 +126,19 @@ public class EntityLesserShoggoth extends EntityMob implements ICoraliumEntity, 
 		return getDataWatcher().getWatchableObjectByte(12) == 1;
 	}
 
-	public void setChild(boolean par1) {
-		getDataWatcher().updateObject(12, Byte.valueOf((byte)(par1 ? 1 : 0)));
+	public void setChild(boolean isChild) {
+		getDataWatcher().updateObject(12, Byte.valueOf((byte)(isChild ? 1 : 0)));
 
 		if (worldObj != null && !worldObj.isRemote) {
 			IAttributeInstance attributeinstance = getEntityAttribute(SharedMonsterAttributes.movementSpeed);
 			attributeinstance.removeModifier(babySpeedBoostModifier);
 
-			if (par1)
+			if (isChild) {
 				attributeinstance.applyModifier(babySpeedBoostModifier);
+			}
 		}
-		setChildSize(par1);
+		setPushResist(isChild() ? 0 : 0.3);
+		setChildSize(isChild);
 	}
 
 	@Override
@@ -145,19 +150,19 @@ public class EntityLesserShoggoth extends EntityMob implements ICoraliumEntity, 
 		return dataWatcher.getWatchableObjectByte(14);
 	}
 
-	public void setShoggothType(int par1) {
-		dataWatcher.updateObject(14, Byte.valueOf((byte)par1));
+	public void setShoggothType(int typeId) {
+		dataWatcher.updateObject(14, Byte.valueOf((byte)typeId));
 	}
 
-	public void setFoodLevel(int par1){
-		dataWatcher.updateObject(16, Byte.valueOf((byte)par1));
+	public void setFoodLevel(int foodLvl){
+		dataWatcher.updateObject(16, Byte.valueOf((byte)foodLvl));
 	}
 
 	public int getFoodLevel(){
 		return dataWatcher.getWatchableObjectByte(16);
 	}
 
-	public void feed(){
+	public void feed() {
 		int food = getFoodLevel() + 1;
 		dataWatcher.updateObject(16, Byte.valueOf((byte)food));
 	}
@@ -176,54 +181,53 @@ public class EntityLesserShoggoth extends EntityMob implements ICoraliumEntity, 
 		else monolithTimer = 0;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void onLivingUpdate() {
 		super.onLivingUpdate();
 
-		if(worldObj.isRemote)
+		if(worldObj.isRemote) {
 			setChildSize(isChild());
+		}
 
 		monolithTimer++;
 
-		if(getFoodLevel() == 3 && !worldObj.isRemote){
+		if(getFoodLevel() == 4 && !worldObj.isRemote) {
 			setFoodLevel(0);
-			if(!isChild()){
+			if(!isChild()) {
 				EntityLesserShoggoth shoggoth = new EntityLesserShoggoth(worldObj);
 				shoggoth.copyLocationAndAnglesFrom(this);
 				shoggoth.onSpawnWithEgg((IEntityLivingData)null);
 				shoggoth.setChild(true);
 				worldObj.spawnEntityInWorld(shoggoth);
 				playSound("mob.chicken.plop", 1.0F, (rand.nextFloat() - rand.nextFloat()) * 0.2F + 1.0F);
+			} else {
+				setChild(false);
 			}
-			else setChild(false);
 		}
 
 		if(!worldObj.isRemote){
-			for (int l = 0; l < 4; ++l) {
-				int x = MathHelper.floor_double(posX + (l % 2 * 2 - 1) * 0.25F);
-				int y = MathHelper.floor_double(posY);
-				int z = MathHelper.floor_double(posZ + (l / 2 % 2 * 2 - 1) * 0.25F);
-				
-				if (posY % 1 >= 0.7F) {
-					y++;
-				}
-
-				spawnOoze(x, y, z);
-				if(!isChild()){
-					spawnOoze(x - l, y - 1, z);
-					spawnOoze(x, y, z - l);
-					spawnOoze(x - l, y, z - 1);
-				}
+			int x = (int)posX;
+			int y = (int)(posY - 0.6);
+			int z = (int)posZ;
+			
+			spawnOoze(x, y, z);
+			if(!isChild()) {
+				spawnOoze(x - 1, y, z);
+				spawnOoze(x, y, z - 1);
+				spawnOoze(x - 1, y, z - 1);
 			}
 		}
 
-		if(monolithTimer >= 1800){
+		if(monolithTimer >= 1800) {
 			monolithTimer = 0;
 			if(worldObj.getEntitiesWithinAABB(getClass(), boundingBox.expand(32D, 32D, 32D)).size() > 5 && !isChild()){
-				for(EntityLesserShoggoth shoggoth : (List<EntityLesserShoggoth>)worldObj.getEntitiesWithinAABB(getClass(), boundingBox.expand(32D, 32D, 32D)))
+				for(EntityLesserShoggoth shoggoth : (List<EntityLesserShoggoth>)worldObj.getEntitiesWithinAABB(getClass(), boundingBox.expand(32D, 32D, 32D))) {
 					shoggoth.reduceMonolithTimer();
-				if(!worldObj.isRemote)
+				}
+				if(!worldObj.isRemote) {
 					new WorldGenShoggothMonolith().generate(worldObj, rand, MathHelper.floor_double(posX) + 3, MathHelper.floor_double(posY), MathHelper.floor_double(posZ) + 3);
+				}
 			}
 		}
 	}
@@ -235,9 +239,10 @@ public class EntityLesserShoggoth extends EntityMob implements ICoraliumEntity, 
 	 * @param z Z-coord
 	 */
 	private void spawnOoze(int x, int y, int z) {
-		if(AbyssalCraft.shoggothOoze)
-			if(AbyssalCraft.shoggothBlock.canPlaceBlockAt(worldObj, x, y, z))
-				worldObj.setBlock(x, y, z, AbyssalCraft.shoggothBlock);
+		if(AbyssalCraft.shoggothBlock.canPlaceBlockAt(worldObj, x, y, z)) {
+			worldObj.setBlock(x, y, z, AbyssalCraft.shoggothBlock);
+			return;
+		}
 	}
 
 	/**
@@ -264,40 +269,43 @@ public class EntityLesserShoggoth extends EntityMob implements ICoraliumEntity, 
 	}
 
 	@Override
-	public boolean attackEntityAsMob(Entity par1Entity) {
-		if (super.attackEntityAsMob(par1Entity))
-			if (par1Entity instanceof EntityLivingBase)
-				if(worldObj.provider.dimensionId == AbyssalCraft.configDimId1 &&
-				!EntityUtil.isEntityCoralium((EntityLivingBase)par1Entity))
-					((EntityLivingBase)par1Entity).addPotionEffect(new PotionEffect(AbyssalCraft.Cplague.id, 100));
-				else if(worldObj.provider.dimensionId == AbyssalCraft.configDimId2 &&
-						!EntityUtil.isEntityDread((EntityLivingBase)par1Entity))
-					((EntityLivingBase)par1Entity).addPotionEffect(new PotionEffect(AbyssalCraft.Dplague.id, 100));
-				else if(worldObj.provider.dimensionId == AbyssalCraft.configDimId3)
-					((EntityLivingBase)par1Entity).addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 100));
-				else if(worldObj.provider.dimensionId == AbyssalCraft.configDimId4)
-					((EntityLivingBase)par1Entity).addPotionEffect(new PotionEffect(Potion.blindness.id, 100));
-
-		return super.attackEntityAsMob(par1Entity);
+	public boolean attackEntityAsMob(Entity entity) {
+		if (getDistanceToEntity(entity) > 3) {
+			return false;
+		}
+		if (super.attackEntityAsMob(entity) && entity instanceof EntityLivingBase) {
+			EntityLivingBase victim = (EntityLivingBase) entity;
+			if(getShoggothType() == 1 && !EntityUtil.isEntityCoralium(victim)) {
+				victim.addPotionEffect(new PotionEffect(AbyssalCraft.Cplague.id, 100));
+			} else if(getShoggothType() == 2 && !EntityUtil.isEntityDread(victim)) {
+				victim.addPotionEffect(new PotionEffect(AbyssalCraft.Dplague.id, 100));
+			} else if(getShoggothType() == 3) {
+				victim.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 100));
+			} else if(getShoggothType() == 4) {
+				victim.addPotionEffect(new PotionEffect(Potion.blindness.id, 100));
+			}
+		}
+		return super.attackEntityAsMob(entity);
 	}
 
 	@Override
-	public boolean attackEntityFrom(DamageSource par1DamageSource, float par2) {
-		if(par1DamageSource.isProjectile()){
+	public boolean attackEntityFrom(DamageSource dmgSrc, float damage) {
+		if(dmgSrc.isProjectile()) {
 			playSound("mob.slime.small", getSoundVolume(), ((rand.nextFloat() - rand.nextFloat()) * 0.2F + 1.0F) / 0.8F);
 			return false;
 		}
-		if(par1DamageSource == DamageSource.cactus) return false;
+		if (dmgSrc == DamageSource.cactus) return false;
+		if (dmgSrc == DamageSource.drown) return false;
+		if (dmgSrc == DamageSource.lava) return false;
+		if (dmgSrc == DamageSource.fall) return false;
+		if (dmgSrc == DamageSource.inWall) return false;
+		if (dmgSrc == DamageSource.fallingBlock) return false;
 		
-		if (par1DamageSource == DamageSource.lava) {
-			par2 *= 0.85;
-		}
-		
-		if(par1DamageSource.isFireDamage() && par1DamageSource != DamageSource.lava) {
-			par2 *= 1.5;
+		if(dmgSrc.isFireDamage() && dmgSrc != DamageSource.lava) {
+			damage *= 1.5;
 		}
 
-		return super.attackEntityFrom(par1DamageSource, par2);
+		return super.attackEntityFrom(dmgSrc, damage);
 	}
 
 	@Override
@@ -337,46 +345,46 @@ public class EntityLesserShoggoth extends EntityMob implements ICoraliumEntity, 
 	}
 
 	@Override
-	public void readEntityFromNBT(NBTTagCompound par1NBTTagCompound) {
-		super.readEntityFromNBT(par1NBTTagCompound);
+	public void readEntityFromNBT(NBTTagCompound compound) {
+		super.readEntityFromNBT(compound);
 
-		if(par1NBTTagCompound.getBoolean("IsBaby")) {
+		if(compound.getBoolean("IsBaby")) {
 			setChild(true);
 		}
 
-		if (par1NBTTagCompound.hasKey("ShoggothType")) {
-			byte var2 = par1NBTTagCompound.getByte("ShoggothType");
-			setShoggothType(var2);
+		if (compound.hasKey("ShoggothType")) {
+			byte typeId = compound.getByte("ShoggothType");
+			setShoggothType(typeId);
 		}
 
-		if(par1NBTTagCompound.hasKey("FoodLevel")) {
-			byte var2 = par1NBTTagCompound.getByte("FoodLevel");
-			setFoodLevel(var2);
+		if(compound.hasKey("FoodLevel")) {
+			byte foodLvl = compound.getByte("FoodLevel");
+			setFoodLevel(foodLvl);
 		}
 
-		monolithTimer = par1NBTTagCompound.getInteger("MonolithTimer");
+		monolithTimer = compound.getInteger("MonolithTimer");
 	}
 
 	@Override
-	public void writeEntityToNBT(NBTTagCompound par1NBTTagCompound) {
-		super.writeEntityToNBT(par1NBTTagCompound);
+	public void writeEntityToNBT(NBTTagCompound compound) {
+		super.writeEntityToNBT(compound);
 
-		if (isChild())
-			par1NBTTagCompound.setBoolean("IsBaby", true);
+		if (isChild()) {
+			compound.setBoolean("IsBaby", true);
+		}
 
-		par1NBTTagCompound.setByte("ShoggothType", (byte)getShoggothType());
-
-		par1NBTTagCompound.setByte("FoodLevel", (byte)getFoodLevel());
-
-		par1NBTTagCompound.setInteger("MonolithTimer", monolithTimer);
+		compound.setByte("ShoggothType", (byte)getShoggothType());
+		compound.setByte("FoodLevel", (byte)getFoodLevel());
+		compound.setInteger("MonolithTimer", monolithTimer);
 	}
 
 	@Override
-	public void onKillEntity(EntityLivingBase par1EntityLivingBase) {
-		super.onKillEntity(par1EntityLivingBase);
+	public void onKillEntity(EntityLivingBase victim) {
+		super.onKillEntity(victim);
 
-		if(isFood(par1EntityLivingBase))
+		if(isFood(victim)) {
 			feed();
+		}
 	}
 
 	@Override
@@ -407,22 +415,24 @@ public class EntityLesserShoggoth extends EntityMob implements ICoraliumEntity, 
 		return (IEntityLivingData)data;
 	}
 
-	public void setChildSize(boolean p_146071_1_) {
-		multiplySize(p_146071_1_ ? 0.5F : 1.0F);
+	public void setChildSize(boolean isChild) {
+		float size = isChild ? 0.6F : 1.0F;
+		multiplySize(size, size);
 	}
 
 	@Override
-	protected final void setSize(float p_70105_1_, float p_70105_2_) {
+	protected final void setSize(float sWidth, float sHeight) {
 		boolean flag = shoggothWidth > 0.0F && shoggothHeight > 0.0F;
-		shoggothWidth = p_70105_1_;
-		shoggothHeight = p_70105_2_;
+		shoggothWidth = sWidth;
+		shoggothHeight = sHeight;
 
-		if (!flag)
-			multiplySize(1.0F);
+		if (!flag) {
+			multiplySize(1.0F, 1.0F);
+		}
 	}
 
-	protected final void multiplySize(float p_146069_1_) {
-		super.setSize(shoggothWidth * p_146069_1_, shoggothHeight * p_146069_1_);
+	protected final void multiplySize(float widthMod, float heightMod) {
+		super.setSize(shoggothWidth * widthMod, shoggothHeight * heightMod);
 	}
 
 	static {
@@ -445,12 +455,32 @@ public class EntityLesserShoggoth extends EntityMob implements ICoraliumEntity, 
 		return noms.contains(par1.getClass()) ? true : noms.contains(par1.getClass().getSuperclass()) ? true :
 			noms.contains(par1.getClass().getSuperclass().getSuperclass()) ? true : false;
 	}
+	
+	/** Better knockback **/
+	@Override
+    public void knockBack(Entity p_70653_1_, float p_70653_2_, double pushX, double pushZ) {
+		double force = isChild() ? 0.4F : 0.28F;
+		this.isAirBorne = true;
+        double base = MathHelper.sqrt_double(pushX * pushX + pushZ * pushZ);
+        double motionDiv = 2.0D;
+        this.motionX /= motionDiv;
+        this.motionY /= motionDiv;
+        this.motionZ /= motionDiv;
+        this.motionX -= (pushX / base) * force;
+        this.motionY += force;
+        this.motionZ -= (pushZ / base) * force;
+        if (this.motionY > 0.4000000059604645D) {
+            this.motionY = 0.4000000059604645D;
+        }
+    }
+	
+	public void heal(float amount) {} /** No Healing! **/
 
 	class GroupData implements IEntityLivingData {
 		public boolean isBaby;
-		private GroupData(boolean par2) {
+		private GroupData(boolean isBab) {
 			isBaby = false;
-			isBaby = par2;
+			isBaby = isBab;
 		}
 
 		GroupData(boolean par2, Object par4EntityLesserShoggothINNER1) {

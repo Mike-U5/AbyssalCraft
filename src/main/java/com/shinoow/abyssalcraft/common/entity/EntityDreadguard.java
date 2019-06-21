@@ -34,6 +34,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.MathHelper;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
 import com.shinoow.abyssalcraft.AbyssalCraft;
@@ -87,11 +89,17 @@ public class EntityDreadguard extends EntityMob implements IDreadEntity {
 	}
 
 	@Override
-	public boolean attackEntityAsMob(Entity par1Entity) {
-		if (super.attackEntityAsMob(par1Entity))
-			if (par1Entity instanceof EntityLivingBase)
-				((EntityLivingBase)par1Entity).addPotionEffect(new PotionEffect(AbyssalCraft.Dplague.id, 100));
-		return super.attackEntityAsMob(par1Entity);
+	public boolean attackEntityAsMob(Entity target) {
+		if (super.attackEntityAsMob(target)) {
+			if (target instanceof EntityLivingBase) {
+				Vec3 vec = this.getLookVec();
+				target.motionX = vec.xCoord;
+				target.motionY = vec.yCoord;
+				target.motionZ = vec.zCoord;
+				///((EntityLivingBase)par1Entity).addPotionEffect(new PotionEffect(AbyssalCraft.Dplague.id, 100));
+			}
+		}
+		return super.attackEntityAsMob(target);
 	}
 
 	@Override
@@ -164,4 +172,24 @@ public class EntityDreadguard extends EntityMob implements IDreadEntity {
 
 		return par1EntityLivingData;
 	}
+	
+	/** Better knockback **/
+	@Override
+    public void knockBack(Entity p_70653_1_, float p_70653_2_, double pushX, double pushZ) {
+		double force = 0.28F;
+		this.isAirBorne = true;
+        double base = MathHelper.sqrt_double(pushX * pushX + pushZ * pushZ);
+        double motionDiv = 2.0D;
+        this.motionX /= motionDiv;
+        this.motionY /= motionDiv;
+        this.motionZ /= motionDiv;
+        this.motionX -= (pushX / base) * force;
+        this.motionY += force;
+        this.motionZ -= (pushZ / base) * force;
+        if (this.motionY > 0.4000000059604645D) {
+            this.motionY = 0.4000000059604645D;
+        }
+    }
+	
+	public void heal(float amount) {} /** No Healing! **/
 }

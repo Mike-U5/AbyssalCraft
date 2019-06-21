@@ -375,7 +375,9 @@ public class EntityRemnant extends EntityMob implements IMerchant, IAntiEntity, 
 					if (rand.nextFloat() < 0.5F) {
 						list.add(new MerchantRecipe(relic, null, statue));
 					} else {
-						list.add(new MerchantRecipe(statue, null, relic));
+						int greed = 1 + (int)rand.nextFloat()*11;
+						ItemStack coin = new ItemStack(AbyssalCraft.elderCoin, greed, 0);
+						list.add(new MerchantRecipe(statue, coin, relic));
 					}
 				}
 				
@@ -391,16 +393,6 @@ public class EntityRemnant extends EntityMob implements IMerchant, IAntiEntity, 
 				addCoinTrade(list, AbyssalCraft.necronomicon, rand, adjustProbability(0.3F));
 				addCoinTrade(list, AbyssalCraft.necronomicon_cor, rand, adjustProbability(0.2F));
 				addCoinTrade(list, AbyssalCraft.necronomicon_dre, rand, adjustProbability(0.1F));
-				if (GameRegistry.findItem("GalacticraftMars", "item.schematic") != null) {
-					ItemStack elcoin = new ItemStack(AbyssalCraft.elderCoin, 4);
-					Item schematicCore = GameRegistry.findItem("GalacticraftCore", "item.schematic");
-					Item schematicMars = GameRegistry.findItem("GalacticraftMars", "item.schematic");
-					list.add(new MerchantRecipe(new ItemStack(schematicCore, 1, 0), elcoin, new ItemStack(schematicCore, 1, 1)));
-					list.add(new MerchantRecipe(new ItemStack(schematicCore, 1, 1), elcoin, new ItemStack(schematicCore, 1, 0)));
-					list.add(new MerchantRecipe(new ItemStack(schematicMars, 1, 0), elcoin, new ItemStack(schematicMars, 1, 1)));
-					list.add(new MerchantRecipe(new ItemStack(schematicMars, 1, 1), elcoin, new ItemStack(schematicMars, 1, 2)));
-					list.add(new MerchantRecipe(new ItemStack(schematicMars, 1, 2), elcoin, new ItemStack(schematicMars, 1, 0)));
-				}
 
 				if (rand.nextFloat() < adjustProbability(0.07F)) {
 					Enchantment enchantment = Enchantment.enchantmentsBookList[rand.nextInt(Enchantment.enchantmentsBookList.length)];
@@ -469,11 +461,6 @@ public class EntityRemnant extends EntityMob implements IMerchant, IAntiEntity, 
 				addItemTrade(list, AbyssalCraft.omotholFlesh, rand, adjustProbability(0.7F));
 				addItemTrade(list, AbyssalCraft.antiFlesh, rand, adjustProbability(0.3F));
 				addItemTrade(list, Items.cooked_fished, rand, adjustProbability(0.4F));
-				if (GameRegistry.findItem("ThaumicHorizons", "crystalTH") != null && GameRegistry.findItem("Thaumcraft", "ItemResource") != null) {
-					Item salisMundus = GameRegistry.findItem("Thaumcraft", "ItemResource");
-					Item soulCrystal = GameRegistry.findItem("ThaumicHorizons", "crystalTH");
-					list.add(new MerchantRecipe(new ItemStack(soulCrystal, 1, 3), new ItemStack(salisMundus, 4, 14)));
-				}
 				break;
 			case 5:
 				addCoinTrade(list, AbyssalCraft.elderCoin, 8, AbyssalCraft.cthulhuCoin, 1);
@@ -722,4 +709,24 @@ public class EntityRemnant extends EntityMob implements IMerchant, IAntiEntity, 
 	public EnumCreatureAttribute getCreatureAttribute() {
 		return AbyssalCraftAPI.SHADOW;
 	}
+	
+	/** Better knockback **/
+	@Override
+    public void knockBack(Entity p_70653_1_, float p_70653_2_, double pushX, double pushZ) {
+		double force = 0.32F;
+		this.isAirBorne = true;
+        double base = MathHelper.sqrt_double(pushX * pushX + pushZ * pushZ);
+        double motionDiv = 2.0D;
+        this.motionX /= motionDiv;
+        this.motionY /= motionDiv;
+        this.motionZ /= motionDiv;
+        this.motionX -= (pushX / base) * force;
+        this.motionY += force;
+        this.motionZ -= (pushZ / base) * force;
+        if (this.motionY > 0.4000000059604645D) {
+            this.motionY = 0.4000000059604645D;
+        }
+    }
+	
+	public void heal(float amount) {} /** No Healing! **/
 }

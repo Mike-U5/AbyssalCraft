@@ -39,6 +39,7 @@ public class TileEntitySacrificialAltar extends TileEntity implements IEnergyCon
 	private int collectionLimit;
 	private int coolDown;
 	private boolean isDirty;
+	protected final int tier = 0;
 
 	@Override
 	public void readFromNBT(NBTTagCompound nbttagcompound)
@@ -74,14 +75,12 @@ public class TileEntitySacrificialAltar extends TileEntity implements IEnergyCon
 	}
 
 	@Override
-	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity packet)
-	{
+	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity packet) {
 		readFromNBT(packet.func_148857_g());
 	}
 
 	@Override
-	public void updateEntity()
-	{
+	public void updateEntity() {
 		super.updateEntity();
 
 		if(isDirty){
@@ -89,19 +88,22 @@ public class TileEntitySacrificialAltar extends TileEntity implements IEnergyCon
 			isDirty = false;
 		}
 
-		if(rot == 360)
+		if(rot == 360) {
 			rot = 0;
-		if(item != null)
+		}
+		if(item != null) { 
 			rot++;
+		}
 
-		if(isCoolingDown())
+		if(isCoolingDown()) {
 			coolDown--;
+		}
 
 		if(item != null)
 			if(item.getItem() instanceof IEnergyTransporter)
 				if(getContainedEnergy() > 0 && ((IEnergyTransporter) item.getItem()).getContainedEnergy(item) < ((IEnergyTransporter) item.getItem()).getMaxEnergy(item)){
-					((IEnergyTransporter) item.getItem()).addEnergy(item, 1);
-					consumeEnergy(1);
+					((IEnergyTransporter) item.getItem()).addEnergy(item, 5);
+					consumeEnergy(5);
 				}
 
 		if(entity == null){
@@ -117,31 +119,35 @@ public class TileEntitySacrificialAltar extends TileEntity implements IEnergyCon
 							}
 		}
 
-		if(entity != null){
+		if(entity != null) {
 			if(getContainedEnergy() < getMaxEnergy())
 				worldObj.spawnParticle("largesmoke", entity.posX, entity.posY, entity.posZ, 0, 0, 0);
 			if(!entity.isEntityAlive()){
 				float num = entity.getMaxHealth();
 				entity = null;
 				if(!isCoolingDown() && getContainedEnergy() < getMaxEnergy()){
-					//				if(entity.getLastAttacker() instanceof EntityPlayer){
 					addEnergy(num);
-					//				}
 					collectionLimit += num;
 				}
 			}
 		}
+		
 		if(collectionLimit >= 1000){
 			collectionLimit = 0;
-			coolDown = 1200;
+			coolDown = getCooldown();
 		}
 
-		if(getContainedEnergy() > getMaxEnergy())
+		if(getContainedEnergy() > getMaxEnergy()) {
 			energy = getMaxEnergy();
+		}
 	}
 
-	public int getRotation(){
+	public int getRotation() {
 		return rot;
+	}
+	
+	protected int getCooldown() {
+		return 1200;
 	}
 
 	@Override
@@ -162,6 +168,10 @@ public class TileEntitySacrificialAltar extends TileEntity implements IEnergyCon
 	public boolean isCoolingDown(){
 		return coolDown > 0;
 	}
+	
+	protected int getTier() {
+		return 1;
+	}
 
 	@Override
 	public float getContainedEnergy() {
@@ -171,13 +181,33 @@ public class TileEntitySacrificialAltar extends TileEntity implements IEnergyCon
 
 	@Override
 	public int getMaxEnergy() {
-
-		return 5000;
+		switch(getTier()) {
+			case 2: return 7500;
+			case 3: return 10000;
+			case 4: return 12500;
+			case 5: return 15000;
+			default: return 5000;
+		}
 	}
 
 	@Override
 	public void addEnergy(float energy) {
-		this.energy += energy;
+		float multiplier = 1.0F;
+		switch(getTier()) {
+		case 2:
+			multiplier = 1.25F;
+			break;
+		case 3:
+			multiplier = 1.5F;
+			break;
+		case 4:
+			multiplier = 1.75F;
+			break;
+		case 5:
+			multiplier = 2.0F;
+			break;
+		}
+		this.energy += energy * multiplier;
 	}
 
 	@Override

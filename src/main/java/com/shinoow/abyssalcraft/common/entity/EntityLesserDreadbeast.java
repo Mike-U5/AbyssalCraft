@@ -226,4 +226,24 @@ public class EntityLesserDreadbeast extends EntityMob implements IDreadEntity, I
 		playSound("random.bow", 1.0F, 1.0F / (getRNG().nextFloat() * 0.4F + 0.8F));
 		worldObj.spawnEntityInWorld(entitydreadslug);
 	}
+	
+	/** Better knockback **/
+	@Override
+    public void knockBack(Entity p_70653_1_, float p_70653_2_, double pushX, double pushZ) {
+		double force = 0.24F;
+		this.isAirBorne = true;
+        double base = MathHelper.sqrt_double(pushX * pushX + pushZ * pushZ);
+        double motionDiv = 2.0D;
+        this.motionX /= motionDiv;
+        this.motionY /= motionDiv;
+        this.motionZ /= motionDiv;
+        this.motionX -= (pushX / base) * force;
+        this.motionY += force;
+        this.motionZ -= (pushZ / base) * force;
+        if (this.motionY > 0.4000000059604645D) {
+            this.motionY = 0.4000000059604645D;
+        }
+    }
+	
+	public void heal(float amount) {} /** No Healing! **/
 }

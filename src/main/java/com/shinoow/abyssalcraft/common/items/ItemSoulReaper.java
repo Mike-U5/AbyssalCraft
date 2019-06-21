@@ -58,31 +58,29 @@ public class ItemSoulReaper extends Item {
 	}
 
 	/** Increases the amount of souls by 1 */
-	public int increaseSouls(ItemStack par1ItemStack){
-		if(!par1ItemStack.hasTagCompound())
-			par1ItemStack.setTagCompound(new NBTTagCompound());
-		par1ItemStack.stackTagCompound.setInteger("souls", getSouls(par1ItemStack) + 1);
-		return getSouls(par1ItemStack);
+	public int increaseSouls(ItemStack stack){
+		if(!stack.hasTagCompound())
+			stack.setTagCompound(new NBTTagCompound());
+		stack.stackTagCompound.setInteger("souls", getSouls(stack) + 1);
+		return getSouls(stack);
 	}
 
 	/** Sets the amount of souls */
-	public int setSouls(int par1, ItemStack par2ItemStack){
-		par2ItemStack.stackTagCompound.setInteger("souls", par1);
-		return getSouls(par2ItemStack);
+	public int setSouls(int newAmount, ItemStack stack) {
+		stack.stackTagCompound.setInteger("souls", newAmount);
+		return getSouls(stack);
 	}
 
-	public int getSouls(ItemStack par1ItemStack)
-	{
-		return par1ItemStack.hasTagCompound() && par1ItemStack.stackTagCompound.hasKey("souls") ? (int)par1ItemStack.stackTagCompound.getInteger("souls") : 0;
+	public int getSouls(ItemStack stack) {
+		return stack.hasTagCompound() && stack.stackTagCompound.hasKey("souls") ? (int)stack.stackTagCompound.getInteger("souls") : 0;
 	}
 
 	@Override
-	public boolean hitEntity(ItemStack par1ItemStack, EntityLivingBase par2EntityLivingBase, EntityLivingBase par3EntityLivingBase)
-	{
-		par1ItemStack.damageItem(1, par3EntityLivingBase);
-		if(par2EntityLivingBase.getHealth() == 0){
-			increaseSouls(par1ItemStack);
-			par3EntityLivingBase.heal(1.0F);
+	public boolean hitEntity(ItemStack weapon, EntityLivingBase target, EntityLivingBase holder) {
+		weapon.damageItem(1, holder);
+		if(target.getHealth() == 0){
+			increaseSouls(weapon);
+			holder.heal(1.0F);
 			return true;
 		}
 		return true;
@@ -104,9 +102,8 @@ public class ItemSoulReaper extends Item {
 	}
 
 	@Override
-	public boolean getIsRepairable(ItemStack par1ItemStack, ItemStack par2ItemStack)
-	{
-		return AbyssalCraft.shadowgem == par2ItemStack.getItem() ? true : super.getIsRepairable(par1ItemStack, par2ItemStack);
+	public boolean getIsRepairable(ItemStack par1ItemStack, ItemStack par2ItemStack) {
+		return false;
 	}
 
 	@Override

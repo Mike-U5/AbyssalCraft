@@ -64,19 +64,19 @@ public class BlockOhead extends BlockContainer implements IInfusionStabiliser {
 
 
 	@Override
-	public void onBlockPlacedBy(World par1World, int par2, int par3, int par4, EntityLivingBase par5EntityLivingBase, ItemStack par6ItemStack)
+	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase placer, ItemStack par6ItemStack)
 	{
-		if (par5EntityLivingBase == null)
+		if (placer == null) {
 			return;
+		}
 
-		TileEntityOhead tile = (TileEntityOhead) par1World.getTileEntity(par2, par3, par4);
-		tile.direction = MathHelper.floor_double(par5EntityLivingBase.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
+		TileEntityOhead tile = (TileEntityOhead) world.getTileEntity(x, y, z);
+		tile.direction = MathHelper.floor_double(placer.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
 	}
 
 	@Override
 	@Method(modid = "Thaumcraft")
 	public boolean canStabaliseInfusion(World world, int x, int y, int z) {
-
 		return true;
 	}
 }

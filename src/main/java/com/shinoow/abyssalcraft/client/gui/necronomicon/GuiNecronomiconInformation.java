@@ -11,12 +11,6 @@
  ******************************************************************************/
 package com.shinoow.abyssalcraft.client.gui.necronomicon;
 
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.StatCollector;
-
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
@@ -27,15 +21,38 @@ import com.shinoow.abyssalcraft.client.gui.necronomicon.buttons.ButtonNextPage;
 import com.shinoow.abyssalcraft.client.lib.NecronomiconResources;
 import com.shinoow.abyssalcraft.client.lib.NecronomiconText;
 
-public class GuiNecronomiconInformation extends GuiNecronomicon {
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.resources.I18n;
+import net.minecraft.item.Item;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.StatCollector;
 
+enum InfoType {ABYSSALCRAFT, ABOUTTHISBOOK, PATRONS, GREATOLDONES, OUTERGODS};
+
+public class GuiNecronomiconInformation extends GuiNecronomicon {
 	private ButtonNextPage buttonNextPage, buttonPreviousPage;
-	private ButtonCategory buttonCat1, buttonCat2, buttonCat3, buttonCat4,
-	buttonCat5, buttonCat6, buttonCat7, buttonCat8, buttonCat9, buttonCat10;
+	private ButtonCategory[] buttonCat = new ButtonCategory[8];
+	private final int[] buttonBooks = new int[] {0,0,0,0,1,2,3,4};
+	private final Item[] itemBooks = new Item[] {
+		AbyssalCraft.necronomicon,
+		AbyssalCraft.necronomicon_cor,
+		AbyssalCraft.necronomicon_dre,
+		AbyssalCraft.necronomicon_omt,
+		AbyssalCraft.abyssalnomicon
+	};
+	private final String[] buttonText = new String[] {
+		NecronomiconText.LABEL_INFORMATION_ABYSSALCRAFT,
+		NecronomiconText.LABEL_INFORMATION_GREAT_OLD_ONES,
+		NecronomiconText.LABEL_HUH,
+		NecronomiconText.LABEL_INFORMATION_OVERWORLD,
+		NecronomiconText.LABEL_INFORMATION_ABYSSAL_WASTELAND,
+		NecronomiconText.LABEL_INFORMATION_DREADLANDS,
+		NecronomiconText.LABEL_INFORMATION_OMOTHOL,
+		NecronomiconText.LABEL_INFORMATION_DARK_REALM
+	};
 	private GuiButton buttonDone;
-	private boolean isAC = false;
-	private boolean isAN = false;
-	private boolean isP = false;
+	private InfoType infoType;
 
 	public GuiNecronomiconInformation(int bookType){
 		super(bookType);
@@ -49,92 +66,78 @@ public class GuiNecronomiconInformation extends GuiNecronomicon {
 
 		buttonList.add(buttonDone = new GuiButton(0, width / 2 - 100, 4 + guiHeight, 200, 20, I18n.format("gui.done", new Object[0])));
 
-		int i = (width - guiWidth) / 2;
+		int w = (width - guiWidth) / 2;
 		byte b0 = 2;
-		buttonList.add(buttonNextPage = new ButtonNextPage(1, i + 215, b0 + 154, true));
-		buttonList.add(buttonPreviousPage = new ButtonNextPage(2, i + 18, b0 + 154, false));
-		buttonList.add(buttonCat1 = new ButtonCategory(3, i + 14, b0 + 24, this, NecronomiconText.LABEL_INFORMATION_ABYSSALCRAFT, AbyssalCraft.necronomicon));
-		buttonList.add(buttonCat2 = new ButtonCategory(4, i + 14, b0 + 41, this, NecronomiconText.LABEL_INFORMATION_GREAT_OLD_ONES, AbyssalCraft.necronomicon));
-		buttonList.add(buttonCat3 = new ButtonCategory(5, i + 14, b0 + 58, this, NecronomiconText.LABEL_INFORMATION_ABYSSALNOMICON, AbyssalCraft.abyssalnomicon));
-		buttonList.add(buttonCat5 = new ButtonCategory(7, i + 14, b0 + 75, this, NecronomiconText.LABEL_INFORMATION_MACHINES, getBookType() >= 1 ? AbyssalCraft.necronomicon : AbyssalCraft.OC));
-		buttonList.add(buttonCat6 = new ButtonCategory(8, i + 14, b0 + 92, this, NecronomiconText.LABEL_INFORMATION_OVERWORLD, AbyssalCraft.necronomicon));
-		if(getBookType() >= 1)
-			buttonList.add(buttonCat7 = new ButtonCategory(9, i + 14, b0 + 109, this, NecronomiconText.LABEL_INFORMATION_ABYSSAL_WASTELAND, AbyssalCraft.necronomicon_cor));
-		if(getBookType() >= 2)
-			buttonList.add(buttonCat8 = new ButtonCategory(10, i + 132, b0 + 24, this, NecronomiconText.LABEL_INFORMATION_DREADLANDS, AbyssalCraft.necronomicon_dre));
-		if(getBookType() >= 3)
-			buttonList.add(buttonCat9 = new ButtonCategory(11, i + 132, b0 + 41, this, NecronomiconText.LABEL_INFORMATION_OMOTHOL, AbyssalCraft.necronomicon_omt));
-		if(getBookType() == 4)
-			buttonList.add(buttonCat10 = new ButtonCategory(12, i + 132, b0 + 58, this, NecronomiconText.LABEL_INFORMATION_DARK_REALM, AbyssalCraft.necronomicon_omt));
-
+		
+		buttonList.add(buttonNextPage = new ButtonNextPage(1, w + 215, b0 + 154, true));
+		buttonList.add(buttonPreviousPage = new ButtonNextPage(2, w + 18, b0 + 154, false));
+		
+		for (int i = 0; i < buttonCat.length; i++) {
+			int xPos = w + 14;
+			int yPos = b0 + 24 + (i * 17);
+			// Left or Right Page?
+			if (i >= 5) {
+				xPos += 118;
+				yPos -= 85;
+			}
+			// Icon
+			final Item icon = itemBooks[buttonBooks[i]];
+			// Add
+			if(getBookType() >= buttonBooks[i]) {
+				buttonList.add(buttonCat[i] = new ButtonCategory(3 + i, xPos, yPos, this, buttonText[i], icon));
+				buttonCat[i].visible = true;
+			}
+		}
 		updateButtons();
 	}
 
 	private void updateButtons() {
-		buttonNextPage.visible = currTurnup < getTurnupLimit() - 1 && isInfo && !isAN && !isP;
+		buttonNextPage.visible = (currTurnup < getTurnupLimit() - 1 && isInfo && infoType == InfoType.ABYSSALCRAFT);
 		buttonPreviousPage.visible = true;
 		buttonDone.visible = true;
-		buttonCat1.visible = true;
-		buttonCat2.visible = true;
-		buttonCat3.visible = true;
-		buttonCat5.visible = true;
-		buttonCat6.visible = true;
-		if(getBookType() >= 1)
-			buttonCat7.visible = true;
-		if(getBookType() >= 2)
-			buttonCat8.visible = true;
-		if(getBookType() >= 3)
-			buttonCat9.visible = true;
-		if(getBookType() == 4)
-			buttonCat10.visible = true;
-
 	}
 
 	@Override
 	protected void actionPerformed(GuiButton button) {
 		if (button.enabled) {
-			if (button.id == 0)
+			// Controls
+			if (button.id == 0) {
 				mc.displayGuiScreen((GuiScreen)null);
-			else if(button.id == 1){
-				if (currTurnup < getTurnupLimit() -1)
+			} else if(button.id == 1) {
+				if (currTurnup < getTurnupLimit() -1) {
 					++currTurnup;
-			} else if (button.id == 2){
-				if(currTurnup == 0 && !isInfo)
+				}
+			} else if (button.id == 2) {
+				if(currTurnup == 0 && !isInfo) {
 					mc.displayGuiScreen(new GuiNecronomicon(getBookType()));
-				else if(currTurnup == 0 && isInfo){
+				} else if(currTurnup == 0 && isInfo) {
 					initGui();
-					isInfo = isAC = isAN = isP = false;
+					isInfo = false;
 					setTurnupLimit(2);
-				} else if (currTurnup > 0)
+				} else if (currTurnup > 0) {
 					--currTurnup;
+				}
+			// Categories
 			} else if(button.id == 3) {
 				isInfo = true;
-				isAC = true;
+				infoType = InfoType.ABYSSALCRAFT;
 				drawButtons();
 			} else if(button.id == 4) {
 				mc.displayGuiScreen(new GuiNecronomiconEntry(getBookType(), AbyssalCraftAPI.getInternalNDHandler().getInternalNecroData("greatoldones"), this, AbyssalCraft.necronomicon));
 			} else if(button.id == 5) {
 				isInfo = true;
-				isAN = true;
+				infoType = InfoType.ABOUTTHISBOOK;
 				drawButtons();
 			} else if(button.id == 6) {
-				isInfo = true;
-				isP = true;
-				drawButtons();
-			} else if(button.id == 7) {
-				if(getBookType() >= 1) {
-					mc.displayGuiScreen(new GuiNecronomiconMachines(getBookType()));
-				}
-			} else if(button.id == 8) {
 				mc.displayGuiScreen(new GuiNecronomiconEntry(getBookType(), AbyssalCraftAPI.getInternalNDHandler().getInternalNecroData("overworld"), this, AbyssalCraft.necronomicon));
-			} else if(button.id == 9) { 
+			} else if(button.id == 7) { 
 				mc.displayGuiScreen(new GuiNecronomiconEntry(getBookType(), AbyssalCraftAPI.getInternalNDHandler().getInternalNecroData("abyssalwasteland"), this, AbyssalCraft.necronomicon_cor));
-			} else if(button.id == 10) {
+			} else if(button.id == 8) {
 				mc.displayGuiScreen(new GuiNecronomiconEntry(getBookType(), AbyssalCraftAPI.getInternalNDHandler().getInternalNecroData("dreadlands"), this, AbyssalCraft.necronomicon_dre));
-			} else if(button.id == 11) {
+			} else if(button.id == 9) {
 				mc.displayGuiScreen(new GuiNecronomiconEntry(getBookType(), AbyssalCraftAPI.getInternalNDHandler().getInternalNecroData("omothol"), this, AbyssalCraft.necronomicon_omt));
-			} else if(button.id == 12) {
-				mc.displayGuiScreen(new GuiNecronomiconEntry(getBookType(), AbyssalCraftAPI.getInternalNDHandler().getInternalNecroData("darkrealm"), this, AbyssalCraft.necronomicon_omt));
+			} else if(button.id == 10) {
+				mc.displayGuiScreen(new GuiNecronomiconEntry(getBookType(), AbyssalCraftAPI.getInternalNDHandler().getInternalNecroData("darkrealm"), this, AbyssalCraft.abyssalnomicon));
 			}
 			updateButtons();
 		}
@@ -155,43 +158,43 @@ public class GuiNecronomiconInformation extends GuiNecronomicon {
 	protected void drawInformationText(int x, int y){
 		int k = (width - guiWidth) / 2;
 		byte b0 = 2;
-		String stuff;
-		if(isAC){
-			stuff = StatCollector.translateToLocal(NecronomiconText.LABEL_INFORMATION_ABYSSALCRAFT);
-			fontRendererObj.drawSplitString(stuff, k + 20, b0 + 16, 116, 0xC40000);
+		if(infoType == InfoType.ABYSSALCRAFT) {
 			setTurnupLimit(3);
-			if(currTurnup == 0){
+			String title = StatCollector.translateToLocal(NecronomiconText.LABEL_INFORMATION_ABYSSALCRAFT);
+			fontRendererObj.drawSplitString(title, k + 20, b0 + 16, 116, 0xC40000);
+			if(currTurnup == 0) {
 				writeText(1, NecronomiconText.INFORMATION_ABYSSALCRAFT_PAGE_1, 100);
 				writeText(2, NecronomiconText.INFORMATION_ABYSSALCRAFT_PAGE_2, 100);
-				GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-				mc.renderEngine.bindTexture(NecronomiconResources.ABYSSALCRAFT_1);
-				drawTexturedModalRect(k, b0, 0, 0, 256, 256);
-			} else if(currTurnup == 1){
+				renderPicture(NecronomiconResources.ABYSSALCRAFT_1, k, b0);
+			} else if(currTurnup == 1) {
 				writeText(1, NecronomiconText.INFORMATION_ABYSSALCRAFT_PAGE_3, 100);
 				writeText(2, NecronomiconText.INFORMATION_ABYSSALCRAFT_PAGE_4, 100);
-				GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-				mc.renderEngine.bindTexture(NecronomiconResources.ABYSSALCRAFT_2);
-				drawTexturedModalRect(k, b0, 0, 0, 256, 256);
-			} else if(currTurnup == 2){
+				renderPicture(NecronomiconResources.ABYSSALCRAFT_2, k, b0);
+			} else if(currTurnup == 2) {
 				writeText(1, NecronomiconText.INFORMATION_ABYSSALCRAFT_PAGE_5, 100);
 				writeText(2, NecronomiconText.INFORMATION_ABYSSALCRAFT_PAGE_6, 100);
-				GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-				mc.renderEngine.bindTexture(NecronomiconResources.ABYSSALCRAFT_3);
-				drawTexturedModalRect(k, b0, 0, 0, 256, 256);
+				renderPicture(NecronomiconResources.ABYSSALCRAFT_3, k, b0);
 			}
-		} else if(isAN){
-			stuff = StatCollector.translateToLocal(NecronomiconText.LABEL_INFORMATION_ABYSSALNOMICON);
-			fontRendererObj.drawSplitString(stuff, k + 20, b0 + 16, 116, 0xC40000);
-			setTurnupLimit(1);
-			writeText(1, NecronomiconText.INFORMATION_ABYSSALNOMICON);
-		} else if(isP){
-			stuff = "Patrons";
-			fontRendererObj.drawSplitString(stuff, k + 20, b0 + 16, 116, 0xC40000);
-			setTurnupLimit(1);
-			writeText(1, "Saice Shoop", 100);
-			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-			mc.renderEngine.bindTexture(new ResourceLocation("abyssalcraft", "textures/gui/necronomicon/patreon/saice.png"));
-			drawTexturedModalRect(k, b0, 0, 0, 256, 256);
+		} else if(infoType == InfoType.ABOUTTHISBOOK) {
+			setTurnupLimit(getBookType() == 4 ? 1 : 2);
+			String title = StatCollector.translateToLocal(NecronomiconText.LABEL_HUH);
+			fontRendererObj.drawSplitString(title, k + 20, b0 + 16, 116, 0xC40000);
+			if (getBookType() == 4) {
+				writeText(1, NecronomiconText.ABYSSALNOMICON_PAGE_1);
+				writeText(2, NecronomiconText.ABYSSALNOMICON_PAGE_2);
+			} else if (currTurnup == 0) {
+				writeText(1, NecronomiconText.NECRONOMICON_PAGE_1);
+				writeText(2, NecronomiconText.NECRONOMICON_PAGE_2);
+			} else if (currTurnup == 1) {
+				writeText(1, NecronomiconText.NECRONOMICON_PAGE_3);
+				writeText(2, NecronomiconText.NECRONOMICON_PAGE_4);
+			}
 		}
+	}
+	
+	private void renderPicture(ResourceLocation srcLoc, int x, int y) {
+		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+		mc.renderEngine.bindTexture(srcLoc);
+		drawTexturedModalRect(x, y, 0, 0, 256, 256);
 	}
 }

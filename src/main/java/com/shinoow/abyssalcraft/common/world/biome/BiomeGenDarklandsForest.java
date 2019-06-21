@@ -59,68 +59,57 @@ public class BiomeGenDarklandsForest extends BiomeGenBase implements IDarklandsB
 	}
 
 	@Override
-	public void decorate(World par1World, Random par2Random, int par3, int par4)
-	{
-		super.decorate(par1World, par2Random, par3, par4);
-		int var5 = 3 + par2Random.nextInt(6);
+	public void decorate(World world, Random rand, int par3, int par4) {
+		super.decorate(world, rand, par3, par4);
 
+		// Abyssalnite
 		if(AbyssalCraft.generateAbyssalniteOre)
-			for (int rarity = 0; rarity < var5; ++rarity)
-			{
-				int veinSize = 1 + par2Random.nextInt(3);
-				int x = par3 + par2Random.nextInt(16);
-				int y = par2Random.nextInt(28) + 4;
-				int z = par4 + par2Random.nextInt(16);
+			for (int i = 0; i < 6; i++) {
+				int veinSize = 1 + rand.nextInt(3);
+				int x = par3 + rand.nextInt(16);
+				int y = rand.nextInt(28) + 4;
+				int z = par4 + rand.nextInt(16);
 
-				new WorldGenMinable(AbyssalCraft.abyore, veinSize).generate(par1World, par2Random, x, y, z);
+				new WorldGenMinable(AbyssalCraft.abyore, veinSize).generate(world, rand, x, y, z);
 			}
 
-		for (int rarity = 0; rarity < 7; ++rarity)
-		{
-			int x = par3 + par2Random.nextInt(16);
-			int y = par2Random.nextInt(64);
-			int z = par4 + par2Random.nextInt(16);
-			new WorldGenMinable(AbyssalCraft.Darkstone, 20).generate(par1World, par2Random, x, y, z);
+		// Darkstone
+		for (int i = 0; i < 7; i++) {
+			int x = par3 + rand.nextInt(16);
+			int y = rand.nextInt(64);
+			int z = par4 + rand.nextInt(16);
+			new WorldGenMinable(AbyssalCraft.Darkstone, 20).generate(world, rand, x, y, z);
 		}
 
-		for (int rarity = 0; rarity < 7; ++rarity)
-		{
-			int x = par3 + par2Random.nextInt(16);
-			int y = par2Random.nextInt(64);
-			int z = par4 + par2Random.nextInt(16);
-			new WorldGenMinable(AbyssalCraft.abydreadstone, 1).generate(par1World, par2Random, x, y, z);
-		}
 		//Coralium Ore
-		int amount = 3 + par2Random.nextInt(6);
-		for (int i = 0; i < amount; ++i) {
-			int var7 = par3 + par2Random.nextInt(16);
-			int var8 = par2Random.nextInt(28) + 4;
-			int var9 = par4 + par2Random.nextInt(16);
-			Block block = par1World.getBlock(var7, var8, var9);
+		for (int i = 0; i < 6; i++) {
+			int var7 = par3 + rand.nextInt(16);
+			int var8 = rand.nextInt(28) + 4;
+			int var9 = par4 + rand.nextInt(16);
+			Block block = world.getBlock(var7, var8, var9);
 
-			if (block != null && block.isReplaceableOreGen(par1World, var7, var8, var9, Blocks.stone) || block == Blocks.iron_ore || block == Blocks.coal_ore)
-				par1World.setBlock(var7, var8, var9, AbyssalCraft.Coraliumore, 0, 2);
+			if (block != null && block.isReplaceableOreGen(world, var7, var8, var9, Blocks.stone) || block == Blocks.iron_ore || block == Blocks.coal_ore)
+				world.setBlock(var7, var8, var9, AbyssalCraft.Coraliumore, 0, 2);
 		}
-		for(int rarity = 0; rarity < 6; rarity++) {
+		
+		for(int i = 0; i < 9; i++) {
 			int veinSize = 4;
-			int x = par3 + par2Random.nextInt(16);
-			int y = par2Random.nextInt(40);
-			int z = par4 + par2Random.nextInt(16);
+			int x = par3 + rand.nextInt(16);
+			int y = rand.nextInt(63);
+			int z = par4 + rand.nextInt(16);
 
-			new WorldGenMinable(AbyssalCraft.Coraliumore, veinSize).generate(par1World, par2Random, x, y, z);
+			new WorldGenMinable(AbyssalCraft.Coraliumore, veinSize).generate(world, rand, x, y, z);
 		}
 	}
 
 	@Override
-	public WorldGenAbstractTree func_150567_a(Random par1Random)
-	{
-		return par1Random.nextInt(5) == 0 ? worldGeneratorTrees : par1Random.nextInt(10) == 0 ? WorldGenDarkTrees : worldGeneratorTrees;
+	public WorldGenAbstractTree func_150567_a(Random rand) {
+		return rand.nextInt(5) == 0 ? worldGeneratorTrees : rand.nextInt(10) == 0 ? WorldGenDarkTrees : worldGeneratorTrees;
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public int getSkyColorByTemp(float par1)
-	{
+	public int getSkyColorByTemp(float par1) {
 		return 0;
 	}
 }

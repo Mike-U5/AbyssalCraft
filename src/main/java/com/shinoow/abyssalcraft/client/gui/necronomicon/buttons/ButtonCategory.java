@@ -32,6 +32,7 @@ public class ButtonCategory extends GuiButton {
 		super(par1, par2, par3, 110, 16, label);
 		this.gui = gui;
 		this.icon = icon;
+		this.visible = true;
 	}
 
 	@Override

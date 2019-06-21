@@ -12,6 +12,7 @@
 package com.shinoow.abyssalcraft.common.entity;
 
 import net.minecraft.block.Block;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackOnCollide;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
@@ -22,6 +23,7 @@ import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 
@@ -52,6 +54,12 @@ public class EntityAbygolem extends EntityMob {
 	}
 	
 	@Override
+	public boolean attackEntityAsMob(Entity target) {
+	   this.swingItem();
+	   return super.attackEntityAsMob(target);
+	}
+	
+	@Override
 	protected float getSoundPitch() {
 		return (rand.nextFloat() * 0.15F) + 1.0F;
 	}
@@ -75,12 +83,10 @@ public class EntityAbygolem extends EntityMob {
 	protected String getDeathSound() {
 		return "abyssalcraft:dreadgolem.death";
 	}
-
+	
 	@Override
-	public void onDeath(DamageSource par1DamageSource) {
-		if(par1DamageSource.getEntity() instanceof EntityPlayer)
-			dropItem(AbyssalCraft.abychunk, worldObj.rand.nextInt(3));
-		super.onDeath(par1DamageSource);
+	protected void dropFewItems(boolean playerKill, int lootLvl) {
+		entityDropItem(new ItemStack(AbyssalCraft.abydreadstone, 3), 0);
 	}
 
 	@Override

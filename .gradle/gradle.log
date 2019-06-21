@@ -13,76 +13,28 @@
 :apiClasses UP-TO-DATE
 :sourceMainJava
 :compileJavawarning: [options] bootstrap class path not set in conjunction with -source 1.7
-F:\gitLegacy\workspace\AbyssalCraft\build\sources\java\com\shinoow\abyssalcraft\common\world\biome\BiomeGenAbywasteland.java:161: error: cannot find symbol
-	public void genTerrainBlocks(World worldIn, Random rand, ChunkPrimer chunkPrimerIn, int p_180622_4_, int p_180622_5_, double p_180622_6_)
-	                                                         ^
-  symbol:   class ChunkPrimer
-  location: class BiomeGenAbywasteland
-F:\gitLegacy\workspace\AbyssalCraft\build\sources\java\com\shinoow\abyssalcraft\common\world\biome\BiomeGenAbywasteland.java:166: error: cannot find symbol
-	public final void generateAbyssalWastelandTerrain(World worldIn, Random rand, ChunkPrimer chunkPrimerIn, int p_180628_4_, int p_180628_5_, double p_180628_6_)
-	                                                                              ^
-  symbol:   class ChunkPrimer
-  location: class BiomeGenAbywasteland
-F:\gitLegacy\workspace\AbyssalCraft\build\sources\java\com\shinoow\abyssalcraft\common\world\biome\BiomeGenAbywasteland.java:160: error: method does not override or implement a method from a supertype
-	@Override
-	^
-F:\gitLegacy\workspace\AbyssalCraft\build\sources\java\com\shinoow\abyssalcraft\common\world\biome\BiomeGenAbywasteland.java:168: error: cannot find symbol
-		int i = worldIn.getSeaLevel();
-		               ^
-  symbol:   method getSeaLevel()
-  location: variable worldIn of type World
-F:\gitLegacy\workspace\AbyssalCraft\build\sources\java\com\shinoow\abyssalcraft\common\world\biome\BiomeGenAbywasteland.java:169: error: cannot find symbol
-		IBlockState iblockstate = topBlock;
-		^
-  symbol:   class IBlockState
-  location: class BiomeGenAbywasteland
-F:\gitLegacy\workspace\AbyssalCraft\build\sources\java\com\shinoow\abyssalcraft\common\world\biome\BiomeGenAbywasteland.java:170: error: cannot find symbol
-		IBlockState iblockstate1 = fillerBlock;
-		^
-  symbol:   class IBlockState
-  location: class BiomeGenAbywasteland
-F:\gitLegacy\workspace\AbyssalCraft\build\sources\java\com\shinoow\abyssalcraft\common\world\biome\BiomeGenAbywasteland.java:175: error: package BlockPos does not exist
-		new BlockPos.MutableBlockPos();
-		            ^
-F:\gitLegacy\workspace\AbyssalCraft\build\sources\java\com\shinoow\abyssalcraft\common\world\biome\BiomeGenAbywasteland.java:179: error: cannot find symbol
-				chunkPrimerIn.setBlockState(i1, j1, l, Blocks.bedrock.getDefaultState());
-				                                                     ^
-  symbol:   method getDefaultState()
-  location: variable bedrock of type Block
-F:\gitLegacy\workspace\AbyssalCraft\build\sources\java\com\shinoow\abyssalcraft\common\world\biome\BiomeGenAbywasteland.java:182: error: cannot find symbol
-				IBlockState iblockstate2 = chunkPrimerIn.getBlockState(i1, j1, l);
-				^
-  symbol:   class IBlockState
-  location: class BiomeGenAbywasteland
-F:\gitLegacy\workspace\AbyssalCraft\build\sources\java\com\shinoow\abyssalcraft\common\world\biome\BiomeGenAbywasteland.java:186: error: cannot find symbol
-				else if (iblockstate2.getBlock() == ACBlocks.abyssal_stone)
-				                                    ^
-  symbol:   variable ACBlocks
-  location: class BiomeGenAbywasteland
-F:\gitLegacy\workspace\AbyssalCraft\build\sources\java\com\shinoow\abyssalcraft\common\world\biome\BiomeGenAbywasteland.java:192: error: package ACBlocks does not exist
-							iblockstate1 = ACBlocks.abyssal_stone.getDefaultState();
-							                       ^
-F:\gitLegacy\workspace\AbyssalCraft\build\sources\java\com\shinoow\abyssalcraft\common\world\biome\BiomeGenAbywasteland.java:207: error: package ACBlocks does not exist
-							iblockstate1 = ACBlocks.abyssal_stone.getDefaultState();
-							                       ^
-F:\gitLegacy\workspace\AbyssalCraft\build\sources\java\com\shinoow\abyssalcraft\common\world\biome\BiomeGenAbywasteland.java:208: error: package ACBlocks does not exist
-							chunkPrimerIn.setBlockState(i1, j1, l, ACBlocks.abyssal_stone.getDefaultState());
-							                                               ^
 Note: Some input files use unchecked or unsafe operations.
 Note: Recompile with -Xlint:unchecked for details.
-13 errors
 1 warning
- FAILED
 
-FAILURE: Build failed with an exception.
+:processResources UP-TO-DATE
+:classes
+:devJar
+:jar
+:compileTestJava UP-TO-DATE
+:processTestResources UP-TO-DATE
+:testClasses UP-TO-DATE
+:test UP-TO-DATE
+:extractMcpData UP-TO-DATE
+:getVersionJson
+:extractUserDev UP-TO-DATE
+:genSrgs SKIPPED
+:reobf
+:srcJar
+:assemble
+:check UP-TO-DATE
+:build
 
-* What went wrong:
-Execution failed for task ':compileJava'.
-> Compilation failed; see the compiler error output for details.
+BUILD SUCCESSFUL
 
-* Try:
-Run with --stacktrace option to get the stack trace. Run with --info or --debug option to get more log output.
-
-BUILD FAILED
-
-Total time: 1 mins 15.827 secs
+Total time: 42.829 secs

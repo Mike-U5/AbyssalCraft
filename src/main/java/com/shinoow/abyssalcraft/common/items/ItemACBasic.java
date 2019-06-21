@@ -20,10 +20,10 @@ import com.shinoow.abyssalcraft.AbyssalCraft;
 
 public class ItemACBasic extends Item {
 
-	public ItemACBasic(String par1) {
+	public ItemACBasic(String name) {
 		super();
-		setUnlocalizedName(par1);
-		setTextureName("abyssalcraft:" + par1);
+		setUnlocalizedName(name);
+		setTextureName("abyssalcraft:" + name);
 		setCreativeTab(AbyssalCraft.tabItems);
 	}
 

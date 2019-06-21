@@ -37,17 +37,18 @@ public class DisruptionTeleportRandomly extends DisruptionEntry {
 
 	protected boolean teleportRandomly(EntityPlayer player, World world)
 	{
-		double d0 = player.posX + (world.rand.nextDouble() - 0.5D) * 64.0D;
-		double d1 = player.posY + (world.rand.nextInt(64) - 32);
-		double d2 = player.posZ + (world.rand.nextDouble() - 0.5D) * 64.0D;
-		return teleportTo(d0, d1, d2, player, world);
+		double locX = player.posX + (world.rand.nextDouble() - 0.5D) * 256.0D;
+		double locY = player.posY + (world.rand.nextInt(64) - 32);
+		double locZ = player.posZ + (world.rand.nextDouble() - 0.5D) * 256.0D;
+		return teleportTo(locX, locY, locZ, player, world);
 	}
 
 	protected boolean teleportTo(double par1, double par3, double par5, EntityPlayer player, World world)
 	{
 		EnderTeleportEvent event = new EnderTeleportEvent(player, par1, par3, par5, 0);
-		if (MinecraftForge.EVENT_BUS.post(event))
+		if (MinecraftForge.EVENT_BUS.post(event)) {
 			return false;
+		}
 		double d3 = player.posX;
 		double d4 = player.posY;
 		double d5 = player.posZ;
@@ -63,35 +64,30 @@ public class DisruptionTeleportRandomly extends DisruptionEntry {
 		{
 			boolean flag1 = false;
 
-			while (!flag1 && j > 0)
-			{
+			while (!flag1 && j > 0) {
 				Block block = world.getBlock(i, j - 1, k);
 
-				if (block.getMaterial().blocksMovement())
+				if (block.getMaterial().blocksMovement()) {
 					flag1 = true;
-				else
-				{
+				} else {
 					--player.posY;
 					--j;
 				}
 			}
 
-			if (flag1)
-			{
+			if (flag1) {
 				player.setPosition(player.posX, player.posY, player.posZ);
 
-				if (world.getCollidingBoundingBoxes(player, player.boundingBox).isEmpty() && !world.isAnyLiquid(player.boundingBox))
+				if (world.getCollidingBoundingBoxes(player, player.boundingBox).isEmpty() && !world.isAnyLiquid(player.boundingBox)) {
 					flag = true;
+				}
 			}
 		}
 
-		if (!flag)
-		{
+		if (!flag) {
 			player.setPosition(d3, d4, d5);
 			return false;
-		}
-		else
-		{
+		} else {
 			short short1 = 128;
 
 			for (int l = 0; l < short1; ++l)

@@ -88,7 +88,7 @@ processResources
     }
 }
 	
-	curse {
+curse {
     apiKey = project.hasProperty('curseForgeApiKey') ? project.curseForgeApiKey : '' // gradle curse -Pcurseforge_key=your-api-key
     projectId   = "53686" // http://minecraft.curseforge.com/mc-mods/"xxxxxx"-projectname
     releaseType = project.props.release_type //alpha beta release
@@ -97,24 +97,24 @@ processResources
 	additionalArtifact "$project.buildDir/distributions/AbyssalCraft-" + project.version + "-api.zip"
 }
 	
-	task srcJar(type: Jar) {
+task srcJar(type: Jar) {
     from sourceSets.main.allSource
 	
 	extension = 'jar'
 	classifier = 'src'
 }
 
-	task devJar(type: Jar, dependsOn: 'classes') {
+task devJar(type: Jar, dependsOn: 'classes') {
     from(sourceSets.main.output) {
         include '**'
     }
-
+	
     extension = 'jar'
     classifier = 'dev'
 }
 
-	task apiZip(type: Zip) {
-		from(sourceSets.main.java){
+task apiZip(type: Zip) {
+	from(sourceSets.main.java) {
 		include 'com/shinoow/abyssalcraft/api/**'
 	}
 	
@@ -122,6 +122,6 @@ processResources
 	classifier = 'api'
 }
 
-	artifacts {
+artifacts {
     archives srcJar, devJar, apiZip
 }

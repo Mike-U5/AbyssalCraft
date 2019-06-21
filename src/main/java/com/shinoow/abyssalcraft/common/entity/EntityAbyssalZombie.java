@@ -11,8 +11,11 @@
  ******************************************************************************/
 package com.shinoow.abyssalcraft.common.entity;
 
-import java.util.Calendar;
 import java.util.UUID;
+
+import com.shinoow.abyssalcraft.AbyssalCraft;
+import com.shinoow.abyssalcraft.api.entity.ICoraliumEntity;
+import com.shinoow.abyssalcraft.common.util.EntityUtil;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
@@ -31,13 +34,10 @@ import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
-import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
@@ -47,22 +47,17 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldProviderEnd;
 import net.minecraftforge.common.ForgeModContainer;
 
-import com.shinoow.abyssalcraft.AbyssalCraft;
-import com.shinoow.abyssalcraft.api.entity.ICoraliumEntity;
-import com.shinoow.abyssalcraft.common.util.EntityUtil;
-
-public class EntityAbyssalZombie extends EntityMob implements ICoraliumEntity {
+public class EntityAbyssalZombie extends ACMob implements ICoraliumEntity {
 
 	private static final UUID babySpeedBoostUUID = UUID.fromString("B9766B59-9566-4402-BC1F-2EE2A276D836");
 	private static final AttributeModifier babySpeedBoostModifier = new AttributeModifier(babySpeedBoostUUID, "Baby speed boost", 0.5D, 1);
-	private static final UUID attackDamageBoostUUID = UUID.fromString("648D7064-6A60-4F59-8ABE-C2C23A6DD7A9");
-	private static final AttributeModifier attackDamageBoostModifier = new AttributeModifier(attackDamageBoostUUID, "Attack Damage Boost", 3.0D, 0);
 
 	private float zombieWidth = -1.0F;
 	private float zombieHeight;
 
-	public EntityAbyssalZombie(World par1World) {
-		super(par1World);
+	public EntityAbyssalZombie(World world) {
+		super(world);
+		setDrop(AbyssalCraft.Corflesh, 1.0F);
 		tasks.addTask(0, new EntityAISwimming(this));
 		tasks.addTask(2, new EntityAIAttackOnCollide(this, EntityZombie.class, 1.0D, true));
 		tasks.addTask(3, new EntityAIAttackOnCollide(this, EntityPlayer.class, 1.0D, false));
@@ -99,8 +94,7 @@ public class EntityAbyssalZombie extends EntityMob implements ICoraliumEntity {
 	}
 
 	@Override
-	protected void entityInit()
-	{
+	protected void entityInit() {
 		super.entityInit();
 		getDataWatcher().addObject(12, Byte.valueOf((byte)0));
 		getDataWatcher().addObject(14, Byte.valueOf((byte)0));
@@ -112,83 +106,65 @@ public class EntityAbyssalZombie extends EntityMob implements ICoraliumEntity {
 	}
 
 	@Override
-	public boolean isChild()
-	{
+	public boolean isChild() {
 		return getDataWatcher().getWatchableObjectByte(12) == 1;
 	}
 
 	@Override
-	protected float getSoundPitch()
-	{
+	protected float getSoundPitch() {
 		return isChild() ? rand.nextFloat() - rand.nextFloat() * 0.2F + 1.3F : 0.9F;
 	}
 
 	/**
 	 * Set whether this zombie is a child.
 	 */
-	public void setChild(boolean par1)
-	{
+	public void setChild(boolean par1) {
 		getDataWatcher().updateObject(12, Byte.valueOf((byte)(par1 ? 1 : 0)));
 
-		if (worldObj != null && !worldObj.isRemote)
-		{
+		if (worldObj != null && !worldObj.isRemote) {
 			IAttributeInstance attributeinstance = getEntityAttribute(SharedMonsterAttributes.movementSpeed);
 			attributeinstance.removeModifier(babySpeedBoostModifier);
 
-			if (par1)
+			if (par1) {
 				attributeinstance.applyModifier(babySpeedBoostModifier);
+			}
 		}
 
 		setChildSize(par1);
 	}
 
 	@Override
-	public int getTotalArmorValue()
-	{
-		int var1 = super.getTotalArmorValue() + 2;
-
-		if (var1 > 20)
-			var1 = 20;
-
-		return var1;
+	public int getTotalArmorValue() {
+		return 3;
 	}
 
 	@Override
-	protected boolean isAIEnabled()
-	{
+	protected boolean isAIEnabled() {
 		return true;
 	}
 
-	public int getZombieType()
-	{
+	public int getZombieType() {
 		return dataWatcher.getWatchableObjectByte(14);
 	}
 
-	public void setZombieType(int par1)
-	{
+	public void setZombieType(int par1) {
 		dataWatcher.updateObject(14, Byte.valueOf((byte)par1));
 	}
 
 	@Override
-	public void onLivingUpdate()
-	{
-		if (worldObj.isDaytime() && !worldObj.isRemote && !isChild() && worldObj.provider.dimensionId != AbyssalCraft.configDimId1)
-		{
+	public void onLivingUpdate() {
+		if (worldObj.isDaytime() && !worldObj.isRemote && !isChild() && worldObj.provider.dimensionId != AbyssalCraft.configDimId1) {
 			float var1 = getBrightness(1.0F);
 
-			if (var1 > 0.5F && rand.nextFloat() * 30.0F < (var1 - 0.4F) * 2.0F && worldObj.canBlockSeeTheSky(MathHelper.floor_double(posX), MathHelper.floor_double(posY), MathHelper.floor_double(posZ)))
-			{
+			if (var1 > 0.5F && rand.nextFloat() * 30.0F < (var1 - 0.4F) * 2.0F && worldObj.canBlockSeeTheSky(MathHelper.floor_double(posX), MathHelper.floor_double(posY), MathHelper.floor_double(posZ))) {
 				boolean var2 = true;
 				ItemStack var3 = getEquipmentInSlot(4);
 
-				if (var3 != null)
-				{
-					if (var3.isItemStackDamageable())
-					{
+				if (var3 != null) {
+					if (var3.isItemStackDamageable()) {
 						var3.setItemDamage(var3.getItemDamageForDisplay() + rand.nextInt(2));
 
-						if (var3.getItemDamageForDisplay() >= var3.getMaxDamage())
-						{
+						if (var3.getItemDamageForDisplay() >= var3.getMaxDamage()) {
 							renderBrokenItemStack(var3);
 							setCurrentItemOrArmor(4, (ItemStack)null);
 						}
@@ -197,20 +173,21 @@ public class EntityAbyssalZombie extends EntityMob implements ICoraliumEntity {
 					var2 = false;
 				}
 
-				if (var2)
+				if (var2) {
 					setFire(16);
+				}
 			}
 		}
 
-		if(worldObj.isRemote)
+		if(worldObj.isRemote) {
 			setChildSize(isChild());
+		}
 
 		super.onLivingUpdate();
 	}
 
 	@Override
-	public boolean attackEntityAsMob(Entity par1Entity)
-	{
+	public boolean attackEntityAsMob(Entity par1Entity) {
 
 		if (super.attackEntityAsMob(par1Entity))
 			if (par1Entity instanceof EntityLivingBase)
@@ -248,22 +225,13 @@ public class EntityAbyssalZombie extends EntityMob implements ICoraliumEntity {
 	}
 
 	@Override
-	protected Item getDropItem()
-	{
-		return AbyssalCraft.Corflesh;
-	}
-
-	@Override
-	public EnumCreatureAttribute getCreatureAttribute()
-	{
+	public EnumCreatureAttribute getCreatureAttribute() {
 		return EnumCreatureAttribute.UNDEAD;
 	}
 
 	@Override
-	protected void dropRareDrop(int par1)
-	{
-		switch (rand.nextInt(3))
-		{
+	protected void dropRareDrop(int par1) {
+		switch (rand.nextInt(3)) {
 		case 0:
 			dropItem(Items.bone, 1);
 			break;
@@ -276,66 +244,63 @@ public class EntityAbyssalZombie extends EntityMob implements ICoraliumEntity {
 	}
 
 	@Override
-	public void readEntityFromNBT(NBTTagCompound par1NBTTagCompound)
-	{
-		super.readEntityFromNBT(par1NBTTagCompound);
+	public void readEntityFromNBT(NBTTagCompound nbtTag) {
+		super.readEntityFromNBT(nbtTag);
 
-		if(par1NBTTagCompound.getBoolean("IsBaby"))
-			setChild(true);;
-			if (par1NBTTagCompound.hasKey("ZombieType"))
-			{
-				byte var2 = par1NBTTagCompound.getByte("ZombieType");
-				setZombieType(var2);
+		if(nbtTag.getBoolean("IsBaby")) {
+			setChild(true);
+			if (nbtTag.hasKey("ZombieType")) {
+				setZombieType(nbtTag.getByte("ZombieType"));
 			}
+		}
 	}
 
 	@Override
-	public void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
-	{
-		super.writeEntityToNBT(par1NBTTagCompound);
+	public void writeEntityToNBT(NBTTagCompound nbtTag) {
+		super.writeEntityToNBT(nbtTag);
 
-		if (isChild())
-			par1NBTTagCompound.setBoolean("IsBaby", true);
+		if (isChild()) {
+			nbtTag.setBoolean("IsBaby", true);
+		}
 
-		par1NBTTagCompound.setByte("ZombieType", (byte)getZombieType());
+		nbtTag.setByte("ZombieType", (byte)getZombieType());
 	}
 
 
 
 	@Override
-	public void onKillEntity(EntityLivingBase par1EntityLivingBase)
-	{
-		super.onKillEntity(par1EntityLivingBase);
+	public void onKillEntity(EntityLivingBase victim) {
+		super.onKillEntity(victim);
 
 		if (worldObj.difficultySetting == EnumDifficulty.NORMAL || worldObj.difficultySetting == EnumDifficulty.HARD
-				&& par1EntityLivingBase instanceof EntityZombie) {
+				&& victim instanceof EntityZombie) {
 
 			if (rand.nextBoolean())
 				return;
 
 			EntityAbyssalZombie EntityDephsZombie = new EntityAbyssalZombie(worldObj);
-			EntityDephsZombie.copyLocationAndAnglesFrom(par1EntityLivingBase);
-			worldObj.removeEntity(par1EntityLivingBase);
+			EntityDephsZombie.copyLocationAndAnglesFrom(victim);
+			worldObj.removeEntity(victim);
 			EntityDephsZombie.onSpawnWithEgg((IEntityLivingData)null);
 
-			if (par1EntityLivingBase.isChild())
+			if (victim.isChild())
 				EntityDephsZombie.setChild(true);
 
 			worldObj.spawnEntityInWorld(EntityDephsZombie);
 			worldObj.playAuxSFXAtEntity((EntityPlayer)null, 1016, (int)posX, (int)posY, (int)posZ, 0);
 		}
 		else if (worldObj.difficultySetting == EnumDifficulty.NORMAL || worldObj.difficultySetting == EnumDifficulty.HARD
-				&& par1EntityLivingBase instanceof EntityPlayer) {
+				&& victim instanceof EntityPlayer) {
 
 			if (rand.nextBoolean())
 				return;
 
 			EntityAbyssalZombie EntityDephsZombie = new EntityAbyssalZombie(worldObj);
-			EntityDephsZombie.copyLocationAndAnglesFrom(par1EntityLivingBase);
-			worldObj.removeEntity(par1EntityLivingBase);
+			EntityDephsZombie.copyLocationAndAnglesFrom(victim);
+			worldObj.removeEntity(victim);
 			EntityDephsZombie.onSpawnWithEgg((IEntityLivingData)null);
 
-			if (par1EntityLivingBase.isChild())
+			if (victim.isChild())
 				EntityDephsZombie.setChild(true);
 
 			worldObj.spawnEntityInWorld(EntityDephsZombie);
@@ -344,81 +309,57 @@ public class EntityAbyssalZombie extends EntityMob implements ICoraliumEntity {
 	}
 
 	@Override
-	public IEntityLivingData onSpawnWithEgg(IEntityLivingData par1EntityLivingData)
-	{
-		Object data = super.onSpawnWithEgg(par1EntityLivingData);
+	public IEntityLivingData onSpawnWithEgg(IEntityLivingData spawnedEntity) {
+		Object data = super.onSpawnWithEgg(spawnedEntity);
 
-		if (worldObj.provider instanceof WorldProviderEnd)
+		if (worldObj.provider instanceof WorldProviderEnd) {
 			setZombieType(2);
+		}
 
-		float f = worldObj.func_147462_b(posX, posY, posZ);
-		setCanPickUpLoot(rand.nextFloat() < 0.55F * f);
+		setCanPickUpLoot(false);
 
-		if (data == null)
+		if (data == null) {
 			data = new EntityAbyssalZombie.GroupData(worldObj.rand.nextFloat() < ForgeModContainer.zombieBabyChance, null);
-
-		if (data instanceof EntityAbyssalZombie.GroupData)
-		{
+		}
+		
+		if (data instanceof EntityAbyssalZombie.GroupData) {
 			EntityAbyssalZombie.GroupData groupdata = (EntityAbyssalZombie.GroupData)data;
 
-			if (groupdata.isBaby)
+			if (groupdata.isBaby) {
 				setChild(true);
-		}
-
-		addRandomArmor();
-		enchantEquipment();
-
-		if (getEquipmentInSlot(4) == null)
-		{
-			Calendar calendar = worldObj.getCurrentDate();
-
-			if (calendar.get(2) + 1 == 10 && calendar.get(5) == 31 && rand.nextFloat() < 0.25F)
-			{
-				setCurrentItemOrArmor(4, new ItemStack(rand.nextFloat() < 0.1F ? Blocks.lit_pumpkin : Blocks.pumpkin));
-				equipmentDropChances[4] = 0.0F;
 			}
 		}
-
-		IAttributeInstance attribute = getEntityAttribute(SharedMonsterAttributes.attackDamage);
-		Calendar calendar = worldObj.getCurrentDate();
-		if (calendar.get(2) + 1 == 10 && calendar.get(5) == 31 && rand.nextFloat() < 0.25F)
-			attribute.applyModifier(attackDamageBoostModifier);
 
 		return (IEntityLivingData)data;
 	}
 
-	public void setChildSize(boolean p_146071_1_)
-	{
-		multiplySize(p_146071_1_ ? 0.5F : 1.0F);
+	public void setChildSize(boolean isChild) {
+		multiplySize(isChild ? 0.5F : 1.0F);
 	}
 
 	@Override
-	protected final void setSize(float p_70105_1_, float p_70105_2_)
-	{
+	protected final void setSize(float widthMod, float heightMod) {
 		boolean flag = zombieWidth > 0.0F && zombieHeight > 0.0F;
-		zombieWidth = p_70105_1_;
-		zombieHeight = p_70105_2_;
+		zombieWidth = widthMod;
+		zombieHeight = heightMod;
 
-		if (!flag)
+		if (!flag) {
 			multiplySize(1.0F);
+		}
 	}
 
-	protected final void multiplySize(float p_146069_1_)
-	{
-		super.setSize(zombieWidth * p_146069_1_, zombieHeight * p_146069_1_);
+	protected final void multiplySize(float sizeMod) {
+		super.setSize(zombieWidth * sizeMod, zombieHeight * sizeMod);
 	}
 
-	class GroupData implements IEntityLivingData
-	{
+	class GroupData implements IEntityLivingData {
 		public boolean isBaby;
-		private GroupData(boolean par2)
-		{
+		private GroupData(boolean par2) {
 			isBaby = false;
 			isBaby = par2;
 		}
 
-		GroupData(boolean par2, Object par4EntityZombieINNER1)
-		{
+		GroupData(boolean par2, Object par4EntityZombieINNER1) {
 			this(par2);
 		}
 	}

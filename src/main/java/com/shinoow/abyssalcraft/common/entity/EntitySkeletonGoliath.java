@@ -12,6 +12,7 @@
 package com.shinoow.abyssalcraft.common.entity;
 
 import net.minecraft.block.Block;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackOnCollide;
@@ -33,11 +34,12 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
 import com.shinoow.abyssalcraft.AbyssalCraft;
+import com.shinoow.abyssalcraft.api.entity.ICoraliumEntity;
 
-public class EntitySkeletonGoliath extends EntityMob {
+public class EntitySkeletonGoliath extends EntityMob implements ICoraliumEntity {
 
-	public EntitySkeletonGoliath(World par1World) {
-		super(par1World);
+	public EntitySkeletonGoliath(World world) {
+		super(world);
 		setSize(1.0F, 4.5F);
 		tasks.addTask(2, new EntityAIAttackOnCollide(this, EntityPlayer.class, 1.0D, true));
 		tasks.addTask(3, new EntityAIMoveTowardsRestriction(this, 1.0D));
@@ -52,6 +54,7 @@ public class EntitySkeletonGoliath extends EntityMob {
 		tasks.addTask(7, new EntityAIWatchClosest(this, EntitySkeletonGoliath.class, 8.0F));
 		targetTasks.addTask(1, new EntityAIHurtByTarget(this, false));
 		targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true));
+		this.setCurrentItemOrArmor(0, new ItemStack(AbyssalCraft.cudgel));
 	}
 
 	@Override
@@ -114,12 +117,6 @@ public class EntitySkeletonGoliath extends EntityMob {
 	}
 
 	@Override
-	public ItemStack getHeldItem(){
-		return new ItemStack(AbyssalCraft.cudgel);
-
-	}
-
-	@Override
 	protected void dropRareDrop(int par1)
 	{
 		dropItem(AbyssalCraft.cudgel, 1);
@@ -148,4 +145,24 @@ public class EntitySkeletonGoliath extends EntityMob {
 		}
 		super.onLivingUpdate();
 	}
+	
+public void heal(float amount) {} /** No Healing! **/
+	
+	/** Better knockback **/
+	@Override
+    public void knockBack(Entity p_70653_1_, float p_70653_2_, double pushX, double pushZ) {
+		double force = 0.28F;
+    	this.isAirBorne = true;
+        double base = MathHelper.sqrt_double(pushX * pushX + pushZ * pushZ);
+        double motionDiv = 2.0D;
+        this.motionX /= motionDiv;
+        this.motionY /= motionDiv;
+        this.motionZ /= motionDiv;
+        this.motionX -= (pushX / base) * force;
+        this.motionY += force;
+        this.motionZ -= (pushZ / base) * force;
+        if (this.motionY > 0.4000000059604645D) {
+            this.motionY = 0.4000000059604645D;
+        }
+    }
 }

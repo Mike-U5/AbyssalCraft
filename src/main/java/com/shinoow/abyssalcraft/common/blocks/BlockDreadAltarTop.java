@@ -13,6 +13,7 @@ package com.shinoow.abyssalcraft.common.blocks;
 
 import java.util.Random;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
@@ -41,6 +42,9 @@ public class BlockDreadAltarTop extends BlockContainer {
 		super(Material.rock);
 		setHarvestLevel("pickaxe", 6);
 		setBlockBounds(0.2F, 0.0F, 0.2F, 0.8F, 0.7F, 0.8F);
+		setHardness(30.0F);
+		setResistance(300.0F);
+		setStepSound(Block.soundTypeStone);
 	}
 
 	@Override

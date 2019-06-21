@@ -46,6 +46,9 @@ public class BlockDLTLeaves extends BlockLeavesBase implements IShearable {
 		super(Material.leaves , false);
 		setTickRandomly(true);
 		setCreativeTab(AbyssalCraft.tabDecoration);
+		setStepSound(Block.soundTypeGrass);
+		setHardness(0.2F);
+		setResistance(1.0F);
 	}
 
 	@Override
