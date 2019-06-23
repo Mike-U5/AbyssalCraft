@@ -44,13 +44,13 @@ public class InternalNecroDataHandler extends DummyNecroDataHandler {
 			new Chapter("specialmaterials", NecronomiconText.LABEL_INFORMATION_SPECIAL_MATERIALS),
 			new Chapter("armortools", NecronomiconText.LABEL_INFORMATION_ARMOR_TOOLS)
 		));
-		///internalNecroData.add(new NecroData("overworld", NecronomiconText.LABEL_INFORMATION_OVERWORLD_TITLE, NecronomiconText.INFORMATION_OVERWORLD, overworldmaterials, overworldprogression, overworldentities, overworldspecialmaterials, overworldarmortools));
-		Chapter abyssalwastelandmaterials = new Chapter("materials", NecronomiconText.LABEL_INFORMATION_MATERIALS);
-		Chapter abyssalwastelandprogression = new Chapter("progression", NecronomiconText.LABEL_INFORMATION_PROGRESSION);
-		Chapter abyssalwastelandentities = new Chapter("entities", NecronomiconText.LABEL_INFORMATION_ENTITIES);
-		Chapter abyssalwastelandspecialmaterials = new Chapter("specialmaterials", NecronomiconText.LABEL_INFORMATION_SPECIAL_MATERIALS);
-		Chapter abyssalwastelandarmortools = new Chapter("armortools", NecronomiconText.LABEL_INFORMATION_ARMOR_TOOLS);
-		internalNecroData.add(new NecroData("abyssalwasteland", NecronomiconText.LABEL_INFORMATION_ABYSSAL_WASTELAND_TITLE, NecronomiconText.INFORMATION_ABYSSAL_WASTELAND, abyssalwastelandmaterials, abyssalwastelandprogression, abyssalwastelandentities, abyssalwastelandspecialmaterials, abyssalwastelandarmortools));
+		internalNecroData.add(new NecroData("abyssalwasteland", NecronomiconText.LABEL_INFORMATION_ABYSSAL_WASTELAND_TITLE, NecronomiconText.INFORMATION_ABYSSAL_WASTELAND,
+			new Chapter("materials", NecronomiconText.LABEL_INFORMATION_MATERIALS),
+			new Chapter("progression", NecronomiconText.LABEL_INFORMATION_PROGRESSION),
+			new Chapter("entities", NecronomiconText.LABEL_INFORMATION_ENTITIES),
+			new Chapter("specialmaterials", NecronomiconText.LABEL_INFORMATION_SPECIAL_MATERIALS),
+			new Chapter("armortools", NecronomiconText.LABEL_INFORMATION_ARMOR_TOOLS)
+		));
 		Chapter dreadlandsmaterials = new Chapter("materials", NecronomiconText.LABEL_INFORMATION_MATERIALS);
 		Chapter dreadlandsprogression = new Chapter("progression", NecronomiconText.LABEL_INFORMATION_PROGRESSION);
 		Chapter dreadlandsentities = new Chapter("entities", NecronomiconText.LABEL_INFORMATION_ENTITIES);
@@ -158,20 +158,20 @@ public class InternalNecroDataHandler extends DummyNecroDataHandler {
 			new Page(6, NecronomiconText.JZAHAR_2)
 		);
 		addPages("overworld", "materials", 
-			new Page(1, new ItemStack(AbyssalCraft.abyore), NecronomiconText.MATERIAL_ABYSSALNITE_1),
-			new Page(2, NecronomiconText.MATERIAL_ABYSSALNITE_2),
+			//new Page(1, new ItemStack(AbyssalCraft.abyore), NecronomiconText.MATERIAL_ABYSSALNITE_1),
+			//new Page(2, NecronomiconText.MATERIAL_ABYSSALNITE_2),
 			//new Page(3, new ItemStack(AbyssalCraft.Darkstone), NecronomiconText.MATERIAL_DARKSTONE_1),
 			//new Page(4, NecronomiconText.MATERIAL_DARKSTONE_2),
-			new Page(3, new ItemStack(AbyssalCraft.Coraliumore), NecronomiconText.MATERIAL_CORALIUM_1),
-			new Page(4, NecronomiconText.MATERIAL_CORALIUM_2),
+			new Page(1, new ItemStack(AbyssalCraft.Coraliumore), NecronomiconText.MATERIAL_CORALIUM_1),
+			new Page(2, NecronomiconText.MATERIAL_CORALIUM_2)
 			//new Page(7, new ItemStack(AbyssalCraft.DLTSapling), NecronomiconText.MATERIAL_DARKLANDS_OAK_1),
 			//new Page(8, NecronomiconText.MATERIAL_DARKLANDS_OAK_2),
 			//new Page(9, new ItemStack(AbyssalCraft.nitreOre), NecronomiconText.MATERIAL_NITRE_1),
 			//new Page(10, NecronomiconText.MATERIAL_NITRE_2),
 			//new Page(13, new ItemStack(AbyssalCraft.Darkgrass), NecronomiconText.MATERIAL_DARKLANDS_GRASS_1),
 			//new Page(14, NecronomiconText.MATERIAL_DARKLANDS_GRASS_2));
-			new Page(5, new ItemStack(AbyssalCraft.anticwater), NecronomiconText.MATERIAL_LIQUID_ANTIMATTER_1),
-			new Page(6, NecronomiconText.MATERIAL_LIQUID_ANTIMATTER_2)
+			//new Page(5, new ItemStack(AbyssalCraft.anticwater), NecronomiconText.MATERIAL_LIQUID_ANTIMATTER_1),
+			//new Page(6, NecronomiconText.MATERIAL_LIQUID_ANTIMATTER_2)
 		);
 		addPages("overworld", "progression", 
 			new Page(1, NecronomiconText.PROGRESSION_OVERWORLD_1),

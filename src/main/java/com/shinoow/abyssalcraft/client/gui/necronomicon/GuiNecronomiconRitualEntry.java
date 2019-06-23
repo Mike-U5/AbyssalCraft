@@ -122,7 +122,7 @@ public class GuiNecronomiconRitualEntry extends GuiNecronomicon {
 		if(ritual.canRemnantAid()) {
 			fontRendererObj.drawSplitString(NecronomiconText.LABEL_REMNANT_HELP, k + 138, 164, 107, 0xC40000);
 		}
-		writeText(1, NecronomiconText.LABEL_REQUIRED_ENERGY + ": " + ritual.getReqEnergy() + " PE", 125);
+		writeText(1, NecronomiconText.LABEL_REQUIRED_ENERGY + ": " + (int)ritual.getReqEnergy() + " PE", 125);
 		writeText(2, NecronomiconText.LABEL_LOCATION + ": " + getDimension(ritual.getDimension()));
 		writeText(2, ritual.getDescription(), 48);
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
@@ -167,8 +167,9 @@ public class GuiNecronomiconRitualEntry extends GuiNecronomicon {
 		//center
 		renderItem(k + 58, b0 + 66, getStack(ritual.getSacrifice()), x, y);
 
-		if(ritual instanceof NecronomiconCreationRitual)
+		if(ritual instanceof NecronomiconCreationRitual) {
 			renderItem(k + 58, b0 + 139, ((NecronomiconCreationRitual) ritual).getItem(), x, y);
+		}
 
 		if(tooltipStack != null) {
 			List<String> tooltipData = tooltipStack.getTooltip(Minecraft.getMinecraft().thePlayer, false);
@@ -208,7 +209,7 @@ public class GuiNecronomiconRitualEntry extends GuiNecronomicon {
 
 	private String getDimension(int dim){
 		if(!dimToString.containsKey(dim)) {
-			dimToString.put(dim, "DIM"+dim);
+			dimToString.put(dim, "DIM "  +dim);
 		}
 		return dimToString.get(dim);
 	}

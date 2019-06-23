@@ -258,13 +258,13 @@ necronomicon.information.enchantments=Enchantments
 #The following text example has the letter limit:
 #Lorem ipsum dolor sit amet, nam an mutat eripuit temporibus. Eu eius luptatum similique eam. Erat euismod bonorum cu vis, malis salutatus neglegentur mea no. His et abhorreant conclusionemque, has prima movet dignissim an, vitae deleniti theophrastus ad mea. Est no offendit incorrupte, ferri illum labores qui ut. Sanctus adipisci eum ex, cu falli virtute dissentias.
 #Anything longer than that will trigger a crash when you try to read it
-necronomicon.text.necronomicon.1=This is the Necronomicon, a book written by Abdul Alhazred, also known as "The Mad Arab". The book contains knowledge about The Great Old Ones, their names and how to summon them. There is also information about spells and rituals the book can perform.
+necronomicon.text.necronomicon.1=This is the Necronomicon, a book written by Abdul Alhazred, also known as "The Mad Arab". The book contains knowledge about The Great Old Ones, their names and how to summon them. There is also information about rituals the book can perform.
 necronomicon.text.necronomicon.2=The Necronomicon itself is a chapter of the Abyssalnomicon, which was read to Alhazred by a demon known as J'zahar, who had composed the Abyssalnomicon from infinite knowledge known to The Great Old Ones.
-necronomicon.text.necronomicon.3=There are 4 types of Necronomicons within the Abyssalnomicon: The Necronomicon, The Abyssal Wasteland Necronomicon, The Dreadlands Necronomicon and The Omothol Necronomicon, each with knowledge bound to a specific dimension.
+necronomicon.text.necronomicon.3=All previous Necronomicons are within the Abyssalnomicon, each with knowledge bound to a specific dimension.
 necronomicon.text.necronomicon.4=In order to unlock the knowledge, one must travel to said dimension and empower the Necronomicon with the flesh of that world. The Abyssalnomicon contains additional knowledge known only to J'zahar, knowledge man was not meant to obtain.
 
-necronomicon.text.abyssalnomicon.1=This is the Abyssalnomicon, a book written by J'zahar, Gatekeeper of The Abyss. The book contains the knowledge of the 4 Necronomicons, as they are in fact chapters of this book. There is also extensive knowledge not mentioned in the others.
-necronomicon.text.abyssalnomicon.2=As the knowledge about spells and rituals is limited to the specified dimension (and previous ones, depending on the Necronomicon type), the Abyssalnomcion has all knowledge collected in one place, with additions.
+necronomicon.text.abyssalnomicon.1=This is the Abyssalnomicon, a book written by J'zahar, Gatekeeper of The Abyss. The book contains the knowledge of the all four Necronomicons. There is also extensive knowledge not mentioned in the others.
+necronomicon.text.abyssalnomicon.2=As the knowledge about rituals is limited to the specified dimension (and previous ones, depending on the Necronomicon type), the Abyssalnomcion has all knowledge collected in one place, with additions.
 
 necronomicon.text.abyssalcraft.1=AbyssalCraft is the mod which this book is used to guide you through. It's mainly focused on exploration, with 4 new dimensions you can explore.
 necronomicon.text.abyssalcraft.2=The dimensions are reached through the use of "Gateway Keys", which are keys designed to create portals between dimensions (the 4th dimension is reached by falling out of the 3rd).
