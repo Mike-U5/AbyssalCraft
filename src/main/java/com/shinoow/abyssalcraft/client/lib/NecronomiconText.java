@@ -49,6 +49,8 @@ public class NecronomiconText {
 	public static String HASTUR_2 = translate("necronomicon.text.hastur.2");
 	public static String JZAHAR_1 = translate("necronomicon.text.jzahar.1");
 	public static String JZAHAR_2 = translate("necronomicon.text.jzahar.2");
+	public static String DAGON_1 = translate("necronomicon.text.dagon.1");
+	public static String DAGON_2 = translate("necronomicon.text.dagon.2");
 
 	public static String INFORMATION_GREAT_OLD_ONES = translate("necronomicon.text.greatoldones");
 

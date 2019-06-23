@@ -29,6 +29,7 @@ import com.shinoow.abyssalcraft.api.necronomicon.NecroData.Page;
 import com.shinoow.abyssalcraft.api.ritual.NecronomiconRitual;
 import com.shinoow.abyssalcraft.api.ritual.RitualRegistry;
 import com.shinoow.abyssalcraft.client.gui.necronomicon.buttons.ButtonCategory;
+import com.shinoow.abyssalcraft.client.gui.necronomicon.buttons.ButtonHome;
 import com.shinoow.abyssalcraft.client.gui.necronomicon.buttons.ButtonNextPage;
 import com.shinoow.abyssalcraft.client.lib.GuiRenderHelper;
 import com.shinoow.abyssalcraft.client.lib.NecronomiconResources;
@@ -50,6 +51,7 @@ public class GuiNecronomiconEntry extends GuiNecronomicon {
 
 	private ButtonNextPage buttonNextPage;
 	private ButtonNextPage buttonPreviousPage;
+	private ButtonHome buttonHome;
 	private GuiButton buttonDone;
 	private final ButtonCategory[] buttons;
 	private final NecroData data;
@@ -79,13 +81,14 @@ public class GuiNecronomiconEntry extends GuiNecronomicon {
 		byte b0 = 2;
 		buttonList.add(buttonNextPage = new ButtonNextPage(1, w + 215, b0 + 154, true));
 		buttonList.add(buttonPreviousPage = new ButtonNextPage(2, w + 18, b0 + 154, false));
+		buttonList.add(buttonHome = new ButtonHome(3, w + 119, b0 + 167, false));
 		
 		int posX = w + 14;
 		int posY = b0 + 24;
 		if(data != null) {
 			// Place Chapters
 			for(int i = 0; i < data.getChapters().length; i++) {
-				buttonList.add(buttons[i] = new ButtonCategory(3 + i, posX, posY, this, data.getChapters()[i].getTitle(), icon));
+				buttonList.add(buttons[i] = new ButtonCategory(4 + i, posX, posY, this, data.getChapters()[i].getTitle(), icon));
 				posY += 17;
 			}
 			
@@ -141,13 +144,15 @@ public class GuiNecronomiconEntry extends GuiNecronomicon {
 				} else if (currTurnup > 0) {
 					--currTurnup;
 				}
+			} else if (button.id == 3) {
+				mc.displayGuiScreen(parent);
 			} else if (button.id == 42) {
 				if(hasRituals(dimId)) {
 					mc.displayGuiScreen(new GuiNecronomiconRitualEntry(getBookType(), this, dimId));
 				}
 			// Categories
-			} else if (button.id >= 3) {
-				chapterId = button.id - 3;
+			} else if (button.id >= 4) {
+				chapterId = button.id - 4;
 				isInfo = true;
 				drawButtons();
 			}

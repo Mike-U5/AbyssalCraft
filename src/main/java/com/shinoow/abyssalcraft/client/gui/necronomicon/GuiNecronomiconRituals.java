@@ -13,11 +13,6 @@ package com.shinoow.abyssalcraft.client.gui.necronomicon;
 
 import java.util.List;
 
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.item.Item;
-import net.minecraft.util.StatCollector;
 import org.lwjgl.input.Keyboard;
 
 import com.google.common.collect.Lists;
@@ -28,6 +23,12 @@ import com.shinoow.abyssalcraft.api.ritual.RitualRegistry;
 import com.shinoow.abyssalcraft.client.gui.necronomicon.buttons.ButtonCategory;
 import com.shinoow.abyssalcraft.client.gui.necronomicon.buttons.ButtonNextPage;
 import com.shinoow.abyssalcraft.client.lib.NecronomiconText;
+
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.resources.I18n;
+import net.minecraft.item.Item;
+import net.minecraft.util.StatCollector;
 
 public class GuiNecronomiconRituals extends GuiNecronomicon {
 

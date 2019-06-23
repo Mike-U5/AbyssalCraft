@@ -970,10 +970,10 @@ public class AbyssalCraft {
 		ethPlate = registerItem(new ItemEthaxiumArmor(AbyssalCraftAPI.ethaxiumArmor, 5, 1).setUnlocalizedName("AEC").setTextureName(modid + ":" + "AEC"), "ethaxiumplate");
 		ethLegs = registerItem(new ItemEthaxiumArmor(AbyssalCraftAPI.ethaxiumArmor, 5, 2).setUnlocalizedName("AEP").setTextureName(modid + ":" + "AEP"), "ethaxiumlegs");
 
-		//Upgrade kits
+		//Upgrade kits. Iron needs to be registered for Abyssal Integration to work.
+		IronU = registerItem(new ItemUpgradeKit("Cobblestone", "Iron").setCreativeTab(tabItems).setUnlocalizedName("IroU").setTextureName(modid + ":" + "IroU"), "ironu");
 		if (!disableUpgradeKits) {
 			CobbleU = registerItem(new ItemUpgradeKit("Wood", "Cobblestone").setCreativeTab(tabItems).setUnlocalizedName("CobU").setTextureName(modid + ":" + "CobU"), "cobbleu");
-			IronU = registerItem(new ItemUpgradeKit("Cobblestone", "Iron").setCreativeTab(tabItems).setUnlocalizedName("IroU").setTextureName(modid + ":" + "IroU"), "ironu");
 			GoldU = registerItem(new ItemUpgradeKit("Iron", "Gold").setCreativeTab(tabItems).setUnlocalizedName("GolU").setTextureName(modid + ":" + "GolU"), "goldu");
 			DiamondU = registerItem(new ItemUpgradeKit("Gold", "Diamond").setCreativeTab(tabItems).setUnlocalizedName("DiaU").setTextureName(modid + ":" + "DiaU"), "diamondu");
 			AbyssalniteU = registerItem(new ItemUpgradeKit("Diamond", "Abyssalnite").setCreativeTab(tabItems).setUnlocalizedName("AbyU").setTextureName(modid + ":" + "AbyU"), "abyssalniteu");

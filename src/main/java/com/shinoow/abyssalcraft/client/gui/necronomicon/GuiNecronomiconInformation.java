@@ -11,12 +11,15 @@
  ******************************************************************************/
 package com.shinoow.abyssalcraft.client.gui.necronomicon;
 
+import java.util.Random;
+
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
 import com.shinoow.abyssalcraft.AbyssalCraft;
 import com.shinoow.abyssalcraft.api.AbyssalCraftAPI;
 import com.shinoow.abyssalcraft.client.gui.necronomicon.buttons.ButtonCategory;
+import com.shinoow.abyssalcraft.client.gui.necronomicon.buttons.ButtonHome;
 import com.shinoow.abyssalcraft.client.gui.necronomicon.buttons.ButtonNextPage;
 import com.shinoow.abyssalcraft.client.lib.NecronomiconResources;
 import com.shinoow.abyssalcraft.client.lib.NecronomiconText;
@@ -25,6 +28,7 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.Item;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 
@@ -32,8 +36,9 @@ enum InfoType {ABYSSALCRAFT, ABOUTTHISBOOK, PATRONS, GREATOLDONES, OUTERGODS};
 
 public class GuiNecronomiconInformation extends GuiNecronomicon {
 	private ButtonNextPage buttonNextPage, buttonPreviousPage;
+	private ButtonHome buttonHome;
 	private ButtonCategory[] buttonCat = new ButtonCategory[9];
-	private final int[] buttonBooks = new int[] {0,0,0,0,0,1,2,3,4};
+	private final int[] buttonBooks = new int[] {0, 0, 0, 0, 0, 1, 2, 3, 4};
 	private final Item[] itemBooks = new Item[] {
 		AbyssalCraft.necronomicon,
 		AbyssalCraft.necronomicon_cor,
@@ -80,6 +85,7 @@ public class GuiNecronomiconInformation extends GuiNecronomicon {
 		
 		buttonList.add(buttonNextPage = new ButtonNextPage(1, w + 215, b0 + 154, true));
 		buttonList.add(buttonPreviousPage = new ButtonNextPage(2, w + 18, b0 + 154, false));
+		buttonList.add(buttonHome = new ButtonHome(3, w + 119, b0 + 167, false));
 		
 		for (int i = 0; i < buttonCat.length; i++) {
 			int xPos = w + 14;
@@ -96,7 +102,7 @@ public class GuiNecronomiconInformation extends GuiNecronomicon {
 			}
 			// Add to list
 			if(getBookType() >= buttonBooks[i]) {
-				buttonList.add(buttonCat[i] = new ButtonCategory(3 + i, xPos, yPos, this, buttonText[i], icon));	
+				buttonList.add(buttonCat[i] = new ButtonCategory(4 + i, xPos, yPos, this, buttonText[i], icon));	
 				buttonCat[i].enabled = true;
 			} else {
 				buttonList.add(buttonCat[i] = new ButtonCategory(-1, xPos, yPos, this, "???????", AbyssalCraft.OC));
@@ -111,6 +117,7 @@ public class GuiNecronomiconInformation extends GuiNecronomicon {
 		boolean isJzaharsBook = (getBookType() == 4 && infoType == InfoType.ABOUTTHISBOOK);
 		buttonNextPage.visible = (currTurnup < getTurnupLimit() - 1 && isInfo && !isJzaharsBook);
 		buttonPreviousPage.visible = isInfo;
+		buttonHome.visible = true;
 		buttonDone.visible = true;
 	}
 
@@ -134,34 +141,40 @@ public class GuiNecronomiconInformation extends GuiNecronomicon {
 				} else if (currTurnup > 0) {
 					--currTurnup;
 				}
-			// Categories
 			} else if(button.id == 3) {
+				if (isInfo) {
+					mc.displayGuiScreen(new GuiNecronomiconInformation(getBookType()));
+				} else {
+					mc.displayGuiScreen((GuiScreen)null);
+				}
+			// Categories
+			} else if(button.id == 4) {
 				isInfo = true;
 				infoType = InfoType.GREATOLDONES;
 				drawButtons();
-			} else if(button.id == 4) {
+			} else if(button.id == 5) {
 				isInfo = true;
 				infoType = InfoType.OUTERGODS;
 				drawButtons();
-			} else if(button.id == 5) {
+			} else if(button.id == 6) {
 				isInfo = true;
 				infoType = InfoType.ABOUTTHISBOOK;
 				drawButtons();
-			} else if(button.id == 6) {
-				mc.displayGuiScreen(new GuiNecronomiconEntry(getBookType(), AbyssalCraftAPI.getInternalNDHandler().getInternalNecroData("rituals"), this, AbyssalCraft.necronomicon));
 			} else if(button.id == 7) {
+				mc.displayGuiScreen(new GuiNecronomiconEntry(getBookType(), AbyssalCraftAPI.getInternalNDHandler().getInternalNecroData("rituals"), this, AbyssalCraft.necronomicon));
+			} else if(button.id == 8) {
 				mc.displayGuiScreen(new GuiNecronomiconEntry(getBookType(), AbyssalCraftAPI.getInternalNDHandler().getInternalNecroData("overworld"), this, AbyssalCraft.necronomicon));
-			} else if(button.id == 8) { 
+			} else if(button.id == 9) { 
 				mc.displayGuiScreen(new GuiNecronomiconEntry(getBookType(), AbyssalCraftAPI.getInternalNDHandler().getInternalNecroData("abyssalwasteland"), this, AbyssalCraft.necronomicon_cor));
-			} else if(button.id == 9) {
-				mc.displayGuiScreen(new GuiNecronomiconEntry(getBookType(), AbyssalCraftAPI.getInternalNDHandler().getInternalNecroData("dreadlands"), this, AbyssalCraft.necronomicon_dre));
 			} else if(button.id == 10) {
-				mc.displayGuiScreen(new GuiNecronomiconEntry(getBookType(), AbyssalCraftAPI.getInternalNDHandler().getInternalNecroData("omothol"), this, AbyssalCraft.necronomicon_omt));
+				mc.displayGuiScreen(new GuiNecronomiconEntry(getBookType(), AbyssalCraftAPI.getInternalNDHandler().getInternalNecroData("dreadlands"), this, AbyssalCraft.necronomicon_dre));
 			} else if(button.id == 11) {
+				mc.displayGuiScreen(new GuiNecronomiconEntry(getBookType(), AbyssalCraftAPI.getInternalNDHandler().getInternalNecroData("omothol"), this, AbyssalCraft.necronomicon_omt));
+			} else if(button.id == 12) {
 				mc.displayGuiScreen(new GuiNecronomiconEntry(getBookType(), AbyssalCraftAPI.getInternalNDHandler().getInternalNecroData("darkrealm"), this, AbyssalCraft.abyssalnomicon));
 			}
-			updateButtons();
 		}
+		updateButtons();
 	}
 
 	@SuppressWarnings("unchecked")
@@ -193,8 +206,8 @@ public class GuiNecronomiconInformation extends GuiNecronomicon {
 				renderPicture(NecronomiconResources.ABYSSALCRAFT_2, k, b0);
 			} else if(currTurnup == 2) {
 				writeText(1, NecronomiconText.INFORMATION_ABYSSALCRAFT_PAGE_5, 0);
-				///writeText(2, NecronomiconText.INFORMATION_ABYSSALCRAFT_PAGE_6, 100);
-				///renderPicture(NecronomiconResources.ABYSSALCRAFT_3, k, b0);
+				writeText(2, NecronomiconText.INFORMATION_ABYSSALCRAFT_PAGE_6, 100);
+				renderPicture(NecronomiconResources.ABYSSALCRAFT_3, k, b0);
 			}
 		} else if(infoType == InfoType.ABOUTTHISBOOK) {
 			setTurnupLimit(getBookType() == 4 ? 1 : 2);
@@ -211,49 +224,90 @@ public class GuiNecronomiconInformation extends GuiNecronomicon {
 				writeText(2, NecronomiconText.NECRONOMICON_PAGE_4);
 			}
 		} else if (infoType == InfoType.GREATOLDONES) {
-			setTurnupLimit(3);
+			setTurnupLimit(4);
 			switch (currTurnup) {
 				case 0: 
 					writeText(1, NecronomiconText.CTHULHU_1, 100);
 					writeText(2, NecronomiconText.CTHULHU_2);
 					renderPicture(NecronomiconResources.CTHULHU_SEAL, k, b0);
-					break;
+				break;
 				case 1: 
 					writeText(1, NecronomiconText.HASTUR_1, 100);
 					writeText(2, NecronomiconText.HASTUR_2);
 					renderPicture(NecronomiconResources.HASTUR_SEAL, k, b0);
-					break;
+				break;
 				case 2: 
+					writeText(1, NecronomiconText.DAGON_1, 100);
+					writeText(2, NecronomiconText.DAGON_2);
+					renderPicture(NecronomiconResources.DAGON_SEAL, k, b0);
+				break;
+				case 3: 
 					writeText(1, NecronomiconText.JZAHAR_1, 100);
 					writeText(2, NecronomiconText.JZAHAR_2);
 					renderPicture(NecronomiconResources.JZAHAR_SEAL, k, b0);
-					break;
+				break;
 			}
 		} else if (infoType == InfoType.OUTERGODS) {
 			setTurnupLimit(4);
 			switch (currTurnup) {
 				case 0: 
-					writeText(1, NecronomiconText.NYARLATHOTEP_1, 100);
-					writeText(2, NecronomiconText.NYARLATHOTEP_2);
 					renderPicture(NecronomiconResources.NYARLATHOTEP_SEAL, k, b0);
+					if (getBookType() > 0) {
+						writeText(1, NecronomiconText.NYARLATHOTEP_1, 100);
+						writeText(2, NecronomiconText.NYARLATHOTEP_2);
+					} else {
+						writeText(1, obfuscate(NecronomiconText.NYARLATHOTEP_1), 100);
+						writeText(2, obfuscate(NecronomiconText.NYARLATHOTEP_2));
+					}
 				break;
-				case 1: 
-					writeText(1, NecronomiconText.YOG_SOTHOTH_1, 100);
-					writeText(2, NecronomiconText.YOG_SOTHOTH_2);
+				case 1:
+					renderPicture(NecronomiconResources.SHUB_NIGGURATH_SEAL, k, b0);
+					if (getBookType() > 1) {
+						writeText(1, NecronomiconText.SHUB_NIGGURATH_1, 100);
+						writeText(2, NecronomiconText.SHUB_NIGGURATH_2);
+					} else {
+						writeText(1, obfuscate(NecronomiconText.SHUB_NIGGURATH_1), 100);
+						writeText(2, obfuscate(NecronomiconText.SHUB_NIGGURATH_2));
+					}
+				break;
+				case 2: 
+					if (getBookType() > 2) {
+						writeText(1, NecronomiconText.YOG_SOTHOTH_1, 100);
+						writeText(2, NecronomiconText.YOG_SOTHOTH_2);
+					} else {
+						writeText(1, obfuscate(NecronomiconText.YOG_SOTHOTH_1), 100);
+						writeText(2, obfuscate(NecronomiconText.YOG_SOTHOTH_2));
+					}
 					renderPicture(NecronomiconResources.YOG_SOTHOTH_SEAL, k, b0);
 				break;
-				case 2:
-					writeText(1, NecronomiconText.SHUB_NIGGURATH_1, 100);
-					writeText(2, NecronomiconText.SHUB_NIGGURATH_2);
-					renderPicture(NecronomiconResources.SHUB_NIGGURATH_SEAL, k, b0);
-				break;
 				case 3: 
-					writeText(1, NecronomiconText.AZATHOTH_1, 100);
-					writeText(2, NecronomiconText.AZATHOTH_2);
+					if (getBookType() > 3) {
+						writeText(1, NecronomiconText.AZATHOTH_1, 100);
+						writeText(2, NecronomiconText.AZATHOTH_2);
+					} else {
+						writeText(1, obfuscate(NecronomiconText.AZATHOTH_1), 100);
+						writeText(2, obfuscate(NecronomiconText.AZATHOTH_2));
+					}
 					renderPicture(NecronomiconResources.AZATHOTH_SEAL, k, b0);
 				break;
 			}
 		}
+	}
+	
+	private String obfuscate(String str) {
+		final Random rnd = new Random();
+		final String junk = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()_+-=,./";
+		String newStr = EnumChatFormatting.DARK_GRAY+"";
+		
+		for (int i = 0; i < str.length(); i++) {
+			char c = str.charAt(i);
+			if (c == ' ') {
+				newStr = newStr + ' ';
+			} else {
+				newStr = newStr + junk.charAt(rnd.nextInt(junk.length()));
+			}
+		}
+		return newStr;
 	}
 	
 	private void renderPicture(ResourceLocation srcLoc, int x, byte y) {

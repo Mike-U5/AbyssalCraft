@@ -23,6 +23,7 @@ import org.lwjgl.opengl.GL11;
 import com.shinoow.abyssalcraft.AbyssalCraft;
 import com.shinoow.abyssalcraft.api.AbyssalCraftAPI;
 import com.shinoow.abyssalcraft.client.gui.necronomicon.buttons.ButtonCategory;
+import com.shinoow.abyssalcraft.client.gui.necronomicon.buttons.ButtonHome;
 import com.shinoow.abyssalcraft.client.gui.necronomicon.buttons.ButtonNextPage;
 import com.shinoow.abyssalcraft.client.lib.NecronomiconText;
 
@@ -38,6 +39,7 @@ public class GuiNecronomicon extends GuiScreen {
 	private int bookTotalTurnups = 2;
 	/** Current turn-up, use to switch text between multiple pages */
 	protected int currTurnup;
+	private ButtonHome buttonHome;
 	private ButtonNextPage buttonNextPage;
 	private ButtonNextPage buttonPreviousPage;
 	private ButtonCategory[] buttonCat = new ButtonCategory[4];
@@ -97,15 +99,16 @@ public class GuiNecronomicon extends GuiScreen {
 
 		buttonList.add(buttonDone = new GuiButton(0, width / 2 - 100, 4 + guiHeight, 200, 20, I18n.format("gui.done", new Object[0])));
 
-		int i = (width - guiWidth) / 2;
+		int w = (width - guiWidth) / 2;
 		byte b0 = 2;
-		buttonList.add(buttonNextPage = new ButtonNextPage(1, i + 215, b0 + 154, true));
-		buttonList.add(buttonPreviousPage = new ButtonNextPage(2, i + 18, b0 + 154, false));
+		buttonList.add(buttonNextPage = new ButtonNextPage(1, w + 215, b0 + 154, true));
+		buttonList.add(buttonPreviousPage = new ButtonNextPage(2, w + 18, b0 + 154, false));
+		buttonList.add(buttonHome = new ButtonHome(3, w + 119, b0 + 167, false));
 		
 		// Category Buttons
 		for (int c = 0; c < buttonCat.length; c++) {
 			Item icon = (c == 2 && bookType == 4) ? AbyssalCraft.abyssalnomicon : AbyssalCraft.necronomicon;
-			buttonList.add(buttonCat[c] = new ButtonCategory(3 + c, i + 14, b0 + 24 + (c*17), this, buttonLabels[c], icon));
+			buttonList.add(buttonCat[c] = new ButtonCategory(4 + c, w + 14, b0 + 24 + (c*17), this, buttonLabels[c], icon));
 		}
 		updateButtons();
 	}
@@ -124,8 +127,9 @@ public class GuiNecronomicon extends GuiScreen {
 	}
 
 	private void updateButtons() {
-		buttonNextPage.visible = currTurnup < bookTotalTurnups - 1 && isInfo;
-		buttonPreviousPage.visible = isInfo;
+		buttonNextPage.visible = (currTurnup < bookTotalTurnups - 1 && isInfo);
+		buttonPreviousPage.visible = (currTurnup > 0 && isInfo);
+		buttonHome.visible = true;
 		buttonDone.visible = true;
 	}
 
@@ -147,19 +151,21 @@ public class GuiNecronomicon extends GuiScreen {
 				} else if (currTurnup > 0) {
 					--currTurnup;
 				}
-			// Category Buttons
 			} else if (button.id == 3) {
-				mc.displayGuiScreen(new GuiNecronomiconInformation(bookType));
+				mc.displayGuiScreen((GuiScreen)null);
+			// Category Buttons
 			} else if (button.id == 4) {
-				mc.displayGuiScreen(new GuiNecronomiconRituals(bookType));
+				mc.displayGuiScreen(new GuiNecronomiconInformation(bookType));
 			} else if (button.id == 5) {
+				mc.displayGuiScreen(new GuiNecronomiconRituals(bookType));
+			} else if (button.id == 6) {
 				isInfo = true;
 				isNecroInfo = true;
 				bookTotalTurnups = (bookType == 4) ? 1 : 2;
 				drawButtons();
-			} else if(button.id == 6) {
+			} else if(button.id == 7) {
 				mc.displayGuiScreen(new GuiNecronomiconEntry(bookType, AbyssalCraftAPI.getInternalNDHandler().getInternalNecroData("miscinfo"), this, AbyssalCraft.necronomicon));
-			} else if (button.id == 7) {
+			} else if (button.id == 8) {
 				mc.displayGuiScreen(new GuiNecronomiconOther(bookType));
 			}
 			updateButtons();
@@ -305,7 +311,7 @@ public class GuiNecronomicon extends GuiScreen {
 			throw new IndexOutOfBoundsException("Text is longer than 368 characters ("+text.length()+")!");
 		} else {
 			final int extraWidth =  (page == 1) ? 20 : 138;
-			fontRendererObj.drawSplitString(text, k + extraWidth + width, height, 107, 0);
+			fontRendererObj.drawSplitString(text, k + extraWidth + width, height, 90, 0);
 		}
 	}
 }

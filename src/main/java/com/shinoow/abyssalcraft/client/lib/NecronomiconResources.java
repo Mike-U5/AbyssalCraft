@@ -73,6 +73,7 @@ public class NecronomiconResources {
 	public static final ResourceLocation CTHULHU_SEAL = new ResourceLocation("abyssalcraft", "textures/gui/necronomicon/cthulhu.png");
 	public static final ResourceLocation HASTUR_SEAL = new ResourceLocation("abyssalcraft", "textures/gui/necronomicon/hastur.png");
 	public static final ResourceLocation JZAHAR_SEAL = new ResourceLocation("abyssalcraft", "textures/gui/necronomicon/j-zahar.png");
+	public static final ResourceLocation DAGON_SEAL = new ResourceLocation("abyssalcraft", "textures/gui/necronomicon/dagon.png");
 
 	//Crafting grid
 	public static final ResourceLocation CRAFTING = new ResourceLocation("abyssalcraft", "textures/gui/necronomicon/crafting.png");

@@ -273,18 +273,20 @@ necronomicon.text.abyssalcraft.4=There's also 5 new types of stone and 15 new or
 necronomicon.text.abyssalcraft.5=Apart from exploring, AbyssalCraft introduces it's own type of magic, through the use of rituals in order to worship The Great Old Ones.
 necronomicon.text.abyssalcraft.6=Apart from magic and exploration, there's also machines, allowing you to transmute, crystallize and materialize objects. There's also a coin engraver.
 
-necronomicon.text.azathoth.1=Azathoth, The Daemon Sultan, is the ruler and possibly creator of all existence. 
-necronomicon.text.azathoth.2=It resides outside of the universe, sedated by the eternal sound of pipes and drums. Despite that, it has a will of it's own, and issues commands to Nyarlathotep.
+necronomicon.text.azathoth.1=Azathoth, The Daemon Sultan, is the ruler and creator of all existence. 
+necronomicon.text.azathoth.2=It resides outside of the universe, sedated by the eternal sound of pipes and drums. When it awakens, all that exists will cease to be.
 necronomicon.text.nyarlathotep.1=Nyarlathotep, The Crawling Chaos, is an Outer God who isn't exiled nor imprisoned.
 necronomicon.text.nyarlathotep.2=He walks the earth hidden among the humans, spreading madness. Apart from serving cults of the Outer Gods, he fulfills the wishes of Azathoth, whom he serves.
 necronomicon.text.yog-sothoth.1=Yog-Sothoth, The Lurker at the Threshold, is an Outer God, and the offspring of the Nameless Mist.
-necronomicon.text.yog-sothoth.2=It is heavily implied, if not outright stated, that Yog-Sothoth is omniscient, and is locked outside the universe, meaning he knows and can see all of space-time all at once, that there is no secret hidden from Yog-Sothoth.
+necronomicon.text.yog-sothoth.2=Yog-Sothoth is the key and guardian of the gate. Past, present, future, all are one in Yog-Sothoth. He knows where the Old Ones broke through of old, and where They shall break through again. He knows where They have trod earth's fields, and where They still tread them, and why no one can behold Them as They tread.
 necronomicon.text.shub-niggurath.1=Shub-Niggurath, The Black Goat of the Woods with a Thousand Young, is an Outer God in the pantheon.
 necronomicon.text.shub-niggurath.2=She is a perverse fertility deity, said to appear as an enormous cloudy mass which extrudes black tentacles, slime-dripping mouths, and short, writhing goat legs. Small creatures are continually spat forth by the monstrosity, which are reconsumed or escape
 necronomicon.text.cthulhu.1=Cthulhu is a Great Old One, trapped in a endless sleep underneath the sea in the city R'lyeh.
 necronomicon.text.cthulhu.2=He has the head of a octopus, and a scaly body with wings on his back. His state of endless sleep comes from a war against the Elder Beings, which ended with R'lyeh sinking to the bottom of the sea. One day he will rise to rule over the earth.
 necronomicon.text.hastur.1=Hastur, The Unspeakable, is a Great Old One and Cthulhu's half-brother.
 necronomicon.text.hastur.2=Not much is known about Hastur, but he is known to take the form of a king in yellow robes, wearing a mask. Like most Great Old Ones, he is capable of taking any form he desires.
+necronomicon.text.dagon.1=Father Dagon, also known as "The Fish God" or "The Drowned God" is an enormous specimen of Deep One. 
+necronomicon.text.dagon.2=Dagon has been mentioned in texts since ancient times. It is a Great Old One who presides over the Deep Ones, an amphibious humanoid race indigenous to Earth's oceans. It is worshiped by a devout cult of humans and Deep Ones, who revere it as their deity.
 necronomicon.text.jzahar.1=J'zahar, Gatekeeper of The Abyss, is the bastard offspring of Hastur.
 necronomicon.text.jzahar.2=Having a desire for power, and not wanting exile to the stars, J'zahar reached out beyond time and space to achieve his freedom. The results were similar powers to those of Hastur himself, and the punishment of eternally guarding his imprisoned fellow deities.
 
@@ -346,7 +348,7 @@ necronomicon.text.materials.ethaxium.1=Ethaxium is a new material most commonly 
 necronomicon.text.materials.ethaxium.2=Ethaxium is said to be what souls are made out of, which likely explains why it's almost indestructible. No wonder J'zahar built his temple city from this.
 necronomicon.text.materials.darkethaxium.1=Dark Ethaxium is a stronger version of Ethaxium created by combining regular Ethaxium with Omothol Stone. This kind of Ethaxium is harder than it's normal counterpart.
 necronomicon.text.materials.darkethaxium.2=This material is only used in one structure, the Temple of J'zahar.
-necronomicon.text.materials.ritualaltar.1=The Ritual Altar is the main component in performing rituals. It's used by shift right-clicking on it with a Necronomicon that has sufficient Potential Energy. For successful rituals, the nearby Ritual Pedestals will need the correct offerings placed on them.
+necronomicon.text.materials.ritualaltar.1=The Ritual Altar is the main component in performing rituals. It's used by right-clicking on it with a Necronomicon that has sufficient Potential Energy. For successful rituals, the nearby Ritual Pedestals will need the correct offerings placed on them.
 necronomicon.text.materials.ritualpedestal.1=Ritual Pedestals are used to place offerings when performing rituals. This is done by interacting with the pedestal while holding the offering you wish to place.
 necronomicon.text.materials.monolithstone.1=Monolith Stone is a material used to some extent with Potential Energy. It's origins are unknown, other than that Shoggoths are capable of creating it. It can be obtained from Monoliths or Shoggoth Lairs scattered about.
 
@@ -515,19 +517,19 @@ necronomicon.text.rituals.4=After that, you can start performing rituals! In ord
 necronomicon.text.rituals.5=When peforming, the pedestals project smoke towards the altar. Rituals where you gain objects always end with a bolt of lightning striking the altar.
 necronomicon.text.rituals.6=Potential Energy is required in order to perform rituals (each ritual entry shows how much you need). Potential Energy is a pure form of untapped energy originating from a higher plane of existence. It's mainly used to fuel sacrifices made to The Great Old Ones (any ritual). Statues placed on Shoggoth Monoliths are said to be capable of draining it.
 
-necronomicon.text.pe.1=Potential Energy (PE) is a new form of energy presented in AbyssalCraft. It originates from a higher plane of existence (where no mortal has wandered), and can only be collected by tapping into Ley Lines using various methods. There exist objects capable of doing so, which will be explained here.
+necronomicon.text.pe.1=Potential Energy (PE) is a new form of energy presented in AbyssalCraft. It originates from a higher plane of existence and can only be collected by tapping into Ley Lines using various methods. There exist objects capable of doing so, which will be explained here.
 necronomicon.text.pe.2=A good place to start obtaining materials required to create some of the PE collecting objects is Shoggoth Lairs, found in swamps and rivers.
-necronomicon.text.pe.3=Shoggoth Monoliths are also constructed with Monolith Stone (hence the name), while having statues placed on them. These statues can collect PE.
-necronomicon.text.pe.4=It should be noted that the Lesser Shoggoths only build these monoliths under certain conditions. Theorists claim it has to do with power positions (but they're genderless, and don't understand the concept of hieracrchy). If 6 (or more) Lesser Shoggoths are within 32 blocks of each other, one is prone to rise a monolith out of the ooze.
+necronomicon.text.pe.3=Shoggoth Monoliths are monuments constructed with Monolith Stone. The statues on top of them can collect PE.
+necronomicon.text.pe.4=Lesser Shoggoths build these monoliths under certain conditions. Theorists claim it has to do with power positions (but they're genderless, and don't understand the concept of hieracrchy). If 5 or more Lesser Shoggoths are within 32 blocks of each other, one is prone to rise a monolith out of the ooze.
 necronomicon.text.pe.5=You should take into account that the Lesser Shoggoths have no limit on how many monoliths they construct, leading to a possible infestation.
 necronomicon.text.pe.6=If you notice Shoggoth activity near your homestead, it is highly adviced that you immediately evacuate your land, or construct a large wall (or other defensive measures) to ensure the infestation doesn't spread onto your land. Recovering your land from a Shoggoth infestation is quite difficult, so be cautious.
-necronomicon.text.pe.7=The statues come in different shapes, all depicting Great Old Ones. Standing close to one while holding a Necronomicon allows it to transport PE to you.
-necronomicon.text.pe.8=It should be noted that you harvesting PE isn't appreciated. This causes disruptions to occur (displayed by a bolt of lightning striking the statue, or other PE manipulator). Disruptions are random events that can affect the player, other entities or the environment. Their purpose is to punish those who tries to drain PE from the higher plane.
+necronomicon.text.pe.7=The statues come in different shapes, all depicting Great Old Ones or Outer Gods. Standing close to one while holding a Necronomicon allows it to transport PE to you.
+necronomicon.text.pe.8=It should be noted that you harvesting PE isn't appreciated. This causes disruptions to occur. Disruptions are random events that can affect the player, other entities or the environment. Their purpose is to punish those who tries to drain PE from the higher plane.
 necronomicon.text.pe.9=One way to boost the efficiency of statues (and other PE manipulators) is through the use of Ritual Charms. They can boost various stats (check the tooltip).
-necronomicon.text.pe.10=You can also craft a Energy Pedestal, which can collect PE from statues (and other PE manipulators) that are placed 3 blocks from the pedestal.
+necronomicon.text.pe.10=You can also craft a Energy Pedestal, which can collect PE from statues and other PE manipulators. 
 necronomicon.text.pe.11=Along with the Energy Pedestal there's the Sacrificial Altar, which can convert life-force from dying entities into PE (targeted entities emit smoke).
 necronomicon.text.pe.12=If the PE production still is too slow, you can also upgrade Energy Pedestals and Sacrificial Altars through infusion rituals.
-necronomicon.text.pe.13=Upon reaching Omothol, you will be able to create deity-specific Ritual Charms (with an Abyssalnomicon), or buy them from Remnant Priests. Those charms will give an additional boost if used on manipulators associated with the same deity as the one displayed on the charm.
+necronomicon.text.pe.13=Upon reaching Omothol, you will be able to create deity-specific Ritual Charms or buy them from Remnant Priests. These charms will give an additional boost if used on manipulators associated with the same deity as the one displayed on the charm.
 
 necronomicon.text.machines.info=Check the information section for information regarding the different machines, or the other sections for all recipes for the specified machine. The recipes aren't sorted in any way.
 

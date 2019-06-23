@@ -36,6 +36,7 @@ import com.google.common.collect.Maps;
 import com.shinoow.abyssalcraft.api.ritual.NecronomiconCreationRitual;
 import com.shinoow.abyssalcraft.api.ritual.NecronomiconRitual;
 import com.shinoow.abyssalcraft.api.ritual.RitualRegistry;
+import com.shinoow.abyssalcraft.client.gui.necronomicon.buttons.ButtonHome;
 import com.shinoow.abyssalcraft.client.gui.necronomicon.buttons.ButtonNextPage;
 import com.shinoow.abyssalcraft.client.lib.GuiRenderHelper;
 import com.shinoow.abyssalcraft.client.lib.NecronomiconResources;
@@ -43,6 +44,7 @@ import com.shinoow.abyssalcraft.client.lib.NecronomiconText;
 
 public class GuiNecronomiconRitualEntry extends GuiNecronomicon {
 
+	private ButtonHome buttonHome;
 	private ButtonNextPage buttonNextPage;
 	private ButtonNextPage buttonPreviousPage;
 	private GuiButton buttonDone;
@@ -65,38 +67,44 @@ public class GuiNecronomiconRitualEntry extends GuiNecronomicon {
 		buttonList.clear();
 		Keyboard.enableRepeatEvents(true);
 
+		int w = (width - guiWidth) / 2;
+		byte b0 = 2;	
+		
 		buttonList.add(buttonDone = new GuiButton(0, width / 2 - 100, 4 + guiHeight, 200, 20, I18n.format("gui.done", new Object[0])));
-
-		int i = (width - guiWidth) / 2;
-		byte b0 = 2;
-		buttonList.add(buttonNextPage = new ButtonNextPage(1, i + 215, b0 + 154, true));
-		buttonList.add(buttonPreviousPage = new ButtonNextPage(2, i + 18, b0 + 154, false));
+		buttonList.add(buttonNextPage = new ButtonNextPage(1, w + 220, b0 + 154, true));
+		buttonList.add(buttonPreviousPage = new ButtonNextPage(2, w + 18, b0 + 154, false));
+		buttonList.add(buttonHome = new ButtonHome(3, w + 119, b0 + 167, false));
 
 		updateButtons();
 	}
 
-	private void updateButtons()
-	{
-		buttonNextPage.visible = currTurnup < getTurnupLimit() - 1;
+	private void updateButtons() {
+		buttonHome.visible = true;
+		buttonNextPage.visible = (currTurnup < getTurnupLimit() - 1);
 		buttonPreviousPage.visible = true;
 		buttonDone.visible = true;
 	}
 
 	@Override
-	protected void actionPerformed(GuiButton button)
-	{
-		if (button.enabled)
-			if (button.id == 0)
+	protected void actionPerformed(GuiButton button) {
+		if (button.enabled) {
+			if (button.id == 0) {
 				mc.displayGuiScreen((GuiScreen)null);
-			else if(button.id == 1){
-				if (currTurnup < getTurnupLimit() -1)
+			} else if(button.id == 1) {
+				if (currTurnup < getTurnupLimit() -1) {
 					++currTurnup;
-			} else if (button.id == 2)
-				if(currTurnup == 0){
+				}
+			} else if (button.id == 2) {
+				if(currTurnup == 0) {
 					isInfo = false;
 					mc.displayGuiScreen(parent);
-				} else if (currTurnup > 0)
+				} else if (currTurnup > 0) {
 					--currTurnup;
+				}
+			} else if (button.id == 3) {
+				mc.displayGuiScreen(parent);
+			}
+		}
 		updateButtons();
 	}
 
@@ -111,18 +119,20 @@ public class GuiNecronomiconRitualEntry extends GuiNecronomicon {
 		String title = ritual.getLocalizedName();
 		fontRendererObj.drawSplitString(title, k + 20, b0 + 16, 116, 0xC40000);
 
-		if(ritual.canRemnantAid())
+		if(ritual.canRemnantAid()) {
 			fontRendererObj.drawSplitString(NecronomiconText.LABEL_REMNANT_HELP, k + 138, 164, 107, 0xC40000);
+		}
 		writeText(1, NecronomiconText.LABEL_REQUIRED_ENERGY + ": " + ritual.getReqEnergy() + " PE", 125);
 		writeText(2, NecronomiconText.LABEL_LOCATION + ": " + getDimension(ritual.getDimension()));
 		writeText(2, ritual.getDescription(), 48);
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		mc.renderEngine.bindTexture(NecronomiconResources.RITUAL);
 		drawTexturedModalRect(k, b0, 0, 0, 256, 256);
-		if(ritual.getSacrifice() != null){
+		if(ritual.getSacrifice() != null) {
 			mc.renderEngine.bindTexture(NecronomiconResources.RITUAL_INFUSION);
 			drawTexturedModalRect(k, b0, 0, 0, 256, 256);
-		} if(ritual instanceof NecronomiconCreationRitual){
+		} 
+		if(ritual instanceof NecronomiconCreationRitual){
 			mc.renderEngine.bindTexture(NecronomiconResources.RITUAL_CREATION);
 			drawTexturedModalRect(k, b0, 0, 0, 256, 256);
 		}
@@ -130,10 +140,13 @@ public class GuiNecronomiconRitualEntry extends GuiNecronomicon {
 		tooltipStack = null;
 
 		ItemStack[] offerings = new ItemStack[8];
-		if(ritual.getOfferings().length < 8)
-			for(int i = 0; i < ritual.getOfferings().length; i++)
+		if(ritual.getOfferings().length < 8) {
+			for(int i = 0; i < ritual.getOfferings().length; i++) {
 				offerings[i] = getStack(ritual.getOfferings()[i]);
-		else offerings = getStacks(ritual.getOfferings());
+			}
+		} else {
+			offerings = getStacks(ritual.getOfferings());
+		}
 
 		//north
 		renderItem(k + 58, b0 + 30, offerings[0], x, y);
@@ -157,17 +170,16 @@ public class GuiNecronomiconRitualEntry extends GuiNecronomicon {
 		if(ritual instanceof NecronomiconCreationRitual)
 			renderItem(k + 58, b0 + 139, ((NecronomiconCreationRitual) ritual).getItem(), x, y);
 
-		if(tooltipStack != null)
-		{
+		if(tooltipStack != null) {
 			List<String> tooltipData = tooltipStack.getTooltip(Minecraft.getMinecraft().thePlayer, false);
 			List<String> parsedTooltip = new ArrayList();
 			boolean first = true;
 
-			for(String s : tooltipData)
-			{
+			for(String s : tooltipData) {
 				String s_ = s;
-				if(!first)
+				if(!first) {
 					s_ = EnumChatFormatting.GRAY + s;
+				}
 				parsedTooltip.add(s_);
 				first = false;
 			}
@@ -188,23 +200,25 @@ public class GuiNecronomiconRitualEntry extends GuiNecronomicon {
 	}
 	private ItemStack[] getStacks(Object[] objects){
 		ItemStack[] stacks = new ItemStack[objects.length];
-		for(int i = 0; i < objects.length; i++)
+		for(int i = 0; i < objects.length; i++) {
 			stacks[i] = getStack(objects[i]);
+		}
 		return stacks;
 	}
 
 	private String getDimension(int dim){
-		if(!dimToString.containsKey(dim))
+		if(!dimToString.containsKey(dim)) {
 			dimToString.put(dim, "DIM"+dim);
+		}
 		return dimToString.get(dim);
 	}
 
 	private ItemStack tooltipStack;
-	public void renderItem(int xPos, int yPos, ItemStack stack, int mx, int my)
-	{
+	public void renderItem(int xPos, int yPos, ItemStack stack, int mx, int my) {
 		RenderItem render = new RenderItem();
-		if(mx > xPos && mx < xPos+16 && my > yPos && my < yPos+16)
+		if(mx > xPos && mx < xPos+16 && my > yPos && my < yPos+16) {
 			tooltipStack = stack;
+		}
 
 		GL11.glPushMatrix();
 		GL11.glEnable(GL11.GL_BLEND);
@@ -224,9 +238,11 @@ public class GuiNecronomiconRitualEntry extends GuiNecronomicon {
 		dimToString.put(-1, NecronomiconText.LABEL_ANYWHERE);
 		dimToString.putAll(RitualRegistry.instance().getDimensionNameMappings());
 
-		for(NecronomiconRitual ritual : RitualRegistry.instance().getRituals())
-			if(ritual.getBookType() == ritualnum)
+		for(NecronomiconRitual ritual : RitualRegistry.instance().getRituals()) {
+			if(ritual.getBookType() == ritualnum) {
 				rituals.add(ritual);
+			}
+		}
 		setTurnupLimit(rituals.size());
 	}
 }

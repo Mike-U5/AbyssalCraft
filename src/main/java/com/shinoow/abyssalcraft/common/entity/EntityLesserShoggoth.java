@@ -176,9 +176,11 @@ public class EntityLesserShoggoth extends ACMob implements ICoraliumEntity, IDre
 	 * Reduces this Shoggoth's monolith timer
 	 */
 	public void reduceMonolithTimer() {
-		if(monolithTimer - 200 >= 200)
+		if(monolithTimer - 200 >= 200) {
 			monolithTimer -= 200;
-		else monolithTimer = 0;
+		} else  {
+			monolithTimer = 0;
+		}
 	}
 
 	@SuppressWarnings("unchecked")
@@ -221,7 +223,7 @@ public class EntityLesserShoggoth extends ACMob implements ICoraliumEntity, IDre
 
 		if(monolithTimer >= 1800) {
 			monolithTimer = 0;
-			if(worldObj.getEntitiesWithinAABB(getClass(), boundingBox.expand(32D, 32D, 32D)).size() > 5 && !isChild()){
+			if(worldObj.getEntitiesWithinAABB(getClass(), boundingBox.expand(32D, 32D, 32D)).size() >= 5 && !isChild()){
 				for(EntityLesserShoggoth shoggoth : (List<EntityLesserShoggoth>)worldObj.getEntitiesWithinAABB(getClass(), boundingBox.expand(32D, 32D, 32D))) {
 					shoggoth.reduceMonolithTimer();
 				}

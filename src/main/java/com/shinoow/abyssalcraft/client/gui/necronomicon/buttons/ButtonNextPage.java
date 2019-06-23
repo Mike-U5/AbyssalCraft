@@ -23,35 +23,35 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class ButtonNextPage extends GuiButton
 {
-	private final boolean field_146151_o;
+	private final boolean leftOrRight;
 
-	public ButtonNextPage(int par1, int par2, int par3, boolean par4)
+	public ButtonNextPage(int par1, int par2, int par3, boolean leftOrRight)
 	{
 		super(par1, par2, par3, 23, 13, "");
-		field_146151_o = par4;
+		this.leftOrRight = leftOrRight;
 	}
 
 	/**
 	 * Draws this button to the screen.
 	 */
 	@Override
-	public void drawButton(Minecraft p_146112_1_, int p_146112_2_, int p_146112_3_)
-	{
-		if (visible)
-		{
-			boolean flag = p_146112_2_ >= xPosition && p_146112_3_ >= yPosition && p_146112_2_ < xPosition + width && p_146112_3_ < yPosition + height;
+	public void drawButton(Minecraft mc, int mX, int mY) {
+		if (visible) {
+			final boolean hoveringOver = mX >= xPosition && mY >= yPosition && mX < xPosition + width && mY < yPosition + height;
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-			p_146112_1_.getTextureManager().bindTexture(new ResourceLocation("abyssalcraft:textures/gui/necronomicon.png"));
-			int k = 0;
-			int l = 192;
+			mc.getTextureManager().bindTexture(new ResourceLocation("abyssalcraft:textures/gui/necronomicon.png"));
+			int startX = 0;
+			int startY = 192;
 
-			if (flag)
-				k += 23;
+			if (hoveringOver) {
+				startX += 23;
+			}
 
-			if (!field_146151_o)
-				l += 13;
+			if (!leftOrRight) {
+				startY += 13;
+			}
 
-			drawTexturedModalRect(xPosition, yPosition, k, l, 23, 13);
+			drawTexturedModalRect(xPosition, yPosition, startX, startY, 23, 13);
 		}
 	}
 }
