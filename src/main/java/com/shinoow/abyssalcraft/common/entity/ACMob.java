@@ -6,6 +6,7 @@ import com.shinoow.abyssalcraft.api.entity.IOmotholEntity;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.boss.IBossDisplayData;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -37,27 +38,6 @@ public abstract class ACMob extends EntityMob {
 		}
 	}
 	
-	/*@Override
-    public void knockBack(Entity entity, float unused, double xRatio, double zRatio) {
-		final double strength = getBaseKnockbackRate() * (1 - this.getEntityAttribute(SharedMonsterAttributes.knockbackResistance).getAttributeValue());
-		final double momentumDiv = 2.0D;
-		
-		if (strength > 0) {
-            this.isAirBorne = true;
-            float f = MathHelper.sqrt_double(xRatio * xRatio + zRatio * zRatio);
-            this.motionX /= momentumDiv;
-            this.motionY /= momentumDiv;
-            this.motionZ /= momentumDiv;
-            this.motionX -= xRatio / (double)f * (double)strength;
-            this.motionY += (double)strength;
-            this.motionZ -= zRatio / (double)f * (double)strength;
-
-        	if (this.motionY > 0.4000000059604645D) {
-                this.motionY = 0.4000000059604645D;
-            }
-        }
-    }*/
-	
 	/**
      * knocks back this entity
      */
@@ -84,19 +64,17 @@ public abstract class ACMob extends EntityMob {
 	
 	@Override
 	public void heal(float amount) {
-		if (this instanceof ICoraliumEntity) {
-			return;
-		}
-		if (this instanceof IDreadEntity) {
-			return;
-		}
-		if (this instanceof IOmotholEntity) {
-			return;
+		if (!(this instanceof IBossDisplayData)) {
+			if (this instanceof ICoraliumEntity) {
+				return;
+			}
+			if (this instanceof IDreadEntity) {
+				return;
+			}
+			if (this instanceof IOmotholEntity) {
+				return;
+			}
 		}
 		super.heal(amount);
-	}
-	
-	protected double getBaseKnockbackRate() {
-		return 0.4;
 	}
 }

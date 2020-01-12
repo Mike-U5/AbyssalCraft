@@ -42,7 +42,9 @@ public class EntityLesserShoggoth extends ACMob implements ICoraliumEntity, IDre
 
 	private static final UUID babySpeedBoostUUID = UUID.fromString("B9766B59-9566-4402-BC1F-2EE2A276D836");
 	private static final AttributeModifier babySpeedBoostModifier = new AttributeModifier(babySpeedBoostUUID, "Baby speed boost", 0.3D, 1);
-
+	private static final UUID babyPushVulnUUID = UUID.fromString("648D7064-6A60-4F59-8ABE-C2C23A6DD7A9");
+	private static final AttributeModifier babyPushVulnModifier = new AttributeModifier(babyPushVulnUUID, "Baby push vulnerability", -0.3D, 0);
+	
 	private static List<Class<? extends EntityLivingBase>> noms = new ArrayList<Class<? extends EntityLivingBase>>();
 
 	private int monolithTimer;
@@ -71,7 +73,6 @@ public class EntityLesserShoggoth extends ACMob implements ICoraliumEntity, IDre
 		tasks.addTask(7, new EntityAIWatchClosest(this, EntityDreadSpawn.class, 8.0F));
 		tasks.addTask(7, new EntityAIWatchClosest(this, EntityDemonPig.class, 8.0F));
 		tasks.addTask(7, new EntityAIWatchClosest(this, EntityDreadguard.class, 8.0F));
-		tasks.addTask(7, new EntityAIWatchClosest(this, EntityOmotholWarden.class, 8.0F));
 		tasks.addTask(7, new EntityAIWatchClosest(this, EntityOmotholGhoul.class, 8.0F));
 		tasks.addTask(7, new EntityAIWatchClosest(this, EntityRemnant.class, 8.0F));
 		tasks.addTask(7, new EntityAIWatchClosest(this, EntityLesserShoggoth.class, 8.0F));
@@ -89,6 +90,7 @@ public class EntityLesserShoggoth extends ACMob implements ICoraliumEntity, IDre
 		super.applyEntityAttributes();
 		
 		// Adult shoggots a have a reduced default knockback rate
+		getEntityAttribute(SharedMonsterAttributes.knockbackResistance).setBaseValue(0.3D);
 
 		if(AbyssalCraft.hardcoreMode){
 			getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(200.0D);
@@ -131,11 +133,15 @@ public class EntityLesserShoggoth extends ACMob implements ICoraliumEntity, IDre
 		getDataWatcher().updateObject(12, Byte.valueOf((byte)(isChild ? 1 : 0)));
 
 		if (worldObj != null && !worldObj.isRemote) {
-			IAttributeInstance attributeinstance = getEntityAttribute(SharedMonsterAttributes.movementSpeed);
-			attributeinstance.removeModifier(babySpeedBoostModifier);
-
+			IAttributeInstance attribSpeed = getEntityAttribute(SharedMonsterAttributes.movementSpeed);
+			IAttributeInstance attribPushResist = getEntityAttribute(SharedMonsterAttributes.knockbackResistance);
+			
+			attribPushResist.removeModifier(babySpeedBoostModifier);
+			attribPushResist.removeModifier(babyPushVulnModifier);
+			
 			if (isChild) {
-				attributeinstance.applyModifier(babySpeedBoostModifier);
+				attribSpeed.applyModifier(babySpeedBoostModifier);
+				attribPushResist.applyModifier(babyPushVulnModifier);
 			}
 		}
 		setChildSize(isChild);
@@ -170,6 +176,11 @@ public class EntityLesserShoggoth extends ACMob implements ICoraliumEntity, IDre
 	@Override
 	public boolean isOnLadder() {
 		return isBesideClimbableBlock();
+	}
+	
+	@Override
+	public boolean isPushedByWater() {
+		return isChild();
 	}
 
 	/**
@@ -208,7 +219,7 @@ public class EntityLesserShoggoth extends ACMob implements ICoraliumEntity, IDre
 			}
 		}
 
-		if(!worldObj.isRemote){
+		if(!worldObj.isRemote) {
 			int x = (int)posX;
 			int y = (int)(posY - 0.6);
 			int z = (int)posZ;
@@ -410,15 +421,16 @@ public class EntityLesserShoggoth extends ACMob implements ICoraliumEntity, IDre
 		if (data instanceof EntityLesserShoggoth.GroupData) {
 			EntityLesserShoggoth.GroupData groupdata = (EntityLesserShoggoth.GroupData)data;
 
-			if (groupdata.isBaby)
+			if (groupdata.isBaby) {
 				setChild(true);
+			}
 		}
 
 		return (IEntityLivingData)data;
 	}
 
 	public void setChildSize(boolean isChild) {
-		float size = isChild ? 0.6F : 1.0F;
+		final float size = isChild ? 0.6F : 1.0F;
 		multiplySize(size, size);
 	}
 
@@ -457,13 +469,6 @@ public class EntityLesserShoggoth extends ACMob implements ICoraliumEntity, IDre
 		return noms.contains(par1.getClass()) ? true : noms.contains(par1.getClass().getSuperclass()) ? true :
 			noms.contains(par1.getClass().getSuperclass().getSuperclass()) ? true : false;
 	}
-	
-	
-	@Override
-	protected double getBaseKnockbackRate() {
-		return this.isChild() ? 0.4 : 0.3;
-	}
-
 
 	class GroupData implements IEntityLivingData {
 		public boolean isBaby;

@@ -497,6 +497,11 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IRangedAtta
 		}
 	}
 	
+	@Override
+	public boolean isPushedByWater() {
+		return false;
+	}
+	
 	@SuppressWarnings("unchecked")
 	private void blackHole(double power) {
 		float size = 32F;
