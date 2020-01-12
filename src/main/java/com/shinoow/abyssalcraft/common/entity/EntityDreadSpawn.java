@@ -12,7 +12,9 @@
 package com.shinoow.abyssalcraft.common.entity;
 
 import java.util.List;
-import java.lang.Math;
+
+import com.shinoow.abyssalcraft.AbyssalCraft;
+import com.shinoow.abyssalcraft.api.entity.IDreadEntity;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
@@ -26,17 +28,12 @@ import net.minecraft.entity.ai.EntityAIMoveTowardsRestriction;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
-import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
 
-import com.shinoow.abyssalcraft.AbyssalCraft;
-import com.shinoow.abyssalcraft.api.entity.IDreadEntity;
-
-public class EntityDreadSpawn extends EntityMob implements IDreadEntity {
+public class EntityDreadSpawn extends ACMob implements IDreadEntity {
 	private static boolean hasMerged;
 
 	public EntityDreadSpawn(World par1World) {
@@ -160,15 +157,16 @@ public class EntityDreadSpawn extends EntityMob implements IDreadEntity {
 		return EnumCreatureAttribute.ARTHROPOD;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void onLivingUpdate() {
 		super.onLivingUpdate();
 
 		List<EntityDreadSpawn> dreadspawns = worldObj.getEntitiesWithinAABB(getClass(), boundingBox.expand(2D, 2D, 2D));
 
-		if(!worldObj.isRemote)
-			if(!dreadspawns.isEmpty())
-				if(dreadspawns.size() >= 5 && !hasMerged){
+		if(!worldObj.isRemote) {
+			if(!dreadspawns.isEmpty()) {
+				if(dreadspawns.size() >= 5 && !hasMerged) {
 					hasMerged = true;
 					for(int i = 0; i < 5; i++)
 						worldObj.removeEntity(dreadspawns.get(i));
@@ -178,7 +176,7 @@ public class EntityDreadSpawn extends EntityMob implements IDreadEntity {
 					worldObj.spawnEntityInWorld(greaterspawn);
 					hasMerged = false;
 				}
+			}
+		}
 	}
-	
-	public void heal(float amount) {} /** No Healing! **/
 }

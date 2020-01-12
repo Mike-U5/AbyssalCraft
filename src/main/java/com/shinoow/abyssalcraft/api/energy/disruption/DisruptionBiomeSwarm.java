@@ -11,18 +11,12 @@
  ******************************************************************************/
 package com.shinoow.abyssalcraft.api.energy.disruption;
 
-import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import com.shinoow.abyssalcraft.api.energy.EnergyEnum.DeityType;
 
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.EnumCreatureType;
-import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.WeightedRandom;
 import net.minecraft.world.World;
@@ -36,8 +30,6 @@ import net.minecraft.world.biome.BiomeGenBase.SpawnListEntry;
  * @since 1.5
  */
 public class DisruptionBiomeSwarm extends DisruptionEntry {
-
-	private Class<? extends EntityLivingBase>[] entities;
 
 	/**
 	 * A Spawning Disruption Entry
@@ -65,8 +57,8 @@ public class DisruptionBiomeSwarm extends DisruptionEntry {
 					EntityLiving entity = (EntityLiving) entry.entityClass.getConstructor(World.class).newInstance(world);
 					x += 1 + world.rand.nextInt(6);
 					z += 1 + world.rand.nextInt(6);
-					entity.setLocationAndAngles(x, y + world.rand.nextInt(4), z, entity.rotationYaw, entity.rotationPitch);
-					//entity.onInitialSpawn(world.getDifficultyForLocation(pos1), (IEntityLivingData)null);
+					entity.capturedDrops.clear();
+					entity.setLocationAndAngles(x, y + world.rand.nextInt(4), z, entity.rotationYaw, entity.rotationPitch);					
 					world.spawnEntityInWorld(entity);
 				} catch(Exception e) {
 					e.printStackTrace();

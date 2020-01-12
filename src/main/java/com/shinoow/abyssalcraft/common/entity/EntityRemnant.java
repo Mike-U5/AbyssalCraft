@@ -11,36 +11,61 @@
  ******************************************************************************/
 package com.shinoow.abyssalcraft.common.entity;
 
-import java.util.*;
-
-import net.minecraft.block.Block;
-import net.minecraft.enchantment.*;
-import net.minecraft.entity.*;
-import net.minecraft.entity.ai.*;
-import net.minecraft.entity.monster.EntityMob;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-import net.minecraft.item.*;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.potion.*;
-import net.minecraft.util.*;
-import net.minecraft.village.*;
-import net.minecraft.world.World;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
 
 import com.shinoow.abyssalcraft.AbyssalCraft;
-import com.shinoow.abyssalcraft.api.AbyssalCraftAPI;
 import com.shinoow.abyssalcraft.api.APIUtils;
-import com.shinoow.abyssalcraft.api.entity.*;
+import com.shinoow.abyssalcraft.api.AbyssalCraftAPI;
 import com.shinoow.abyssalcraft.common.items.ItemDrainStaff;
 import com.shinoow.abyssalcraft.common.items.ItemNecronomicon;
 import com.shinoow.abyssalcraft.common.util.EntityUtil;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import cpw.mods.fml.common.registry.*;
+import net.minecraft.block.Block;
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.EnchantmentData;
+import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.EnumCreatureAttribute;
+import net.minecraft.entity.IEntityLivingData;
+import net.minecraft.entity.IMerchant;
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.EntityAIAttackOnCollide;
+import net.minecraft.entity.ai.EntityAIHurtByTarget;
+import net.minecraft.entity.ai.EntityAILookIdle;
+import net.minecraft.entity.ai.EntityAIMoveTowardsRestriction;
+import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
+import net.minecraft.entity.ai.EntityAIOpenDoor;
+import net.minecraft.entity.ai.EntityAISwimming;
+import net.minecraft.entity.ai.EntityAIWander;
+import net.minecraft.entity.ai.EntityAIWatchClosest;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemArmor;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemTool;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.MathHelper;
+import net.minecraft.util.StatCollector;
+import net.minecraft.util.Tuple;
+import net.minecraft.village.MerchantRecipe;
+import net.minecraft.village.MerchantRecipeList;
+import net.minecraft.world.World;
 
-public class EntityRemnant extends EntityMob implements IMerchant, IAntiEntity, ICoraliumEntity, IDreadEntity {
+public class EntityRemnant extends ACMob implements IMerchant {
 
 	private EntityPlayer tradingPlayer;
 	private MerchantRecipeList tradingList;
@@ -53,8 +78,8 @@ public class EntityRemnant extends EntityMob implements IMerchant, IAntiEntity, 
 	public static final Map<Item, Tuple> itemSellingList = new HashMap<Item, Tuple>();
 	public static final Map<Item, Tuple> coinSellingList = new HashMap<Item, Tuple>();
 
-	public EntityRemnant(World par1World) {
-		super(par1World);
+	public EntityRemnant(World world) {
+		super(world);
 		tasks.addTask(0, new EntityAISwimming(this));
 		tasks.addTask(3, new EntityAIAttackOnCollide(this, EntityLivingBase.class, 0.35D, false));
 		tasks.addTask(4, new EntityAIMoveTowardsRestriction(this, 0.35D));
@@ -68,8 +93,7 @@ public class EntityRemnant extends EntityMob implements IMerchant, IAntiEntity, 
 	}
 
 	@Override
-	protected void applyEntityAttributes()
-	{
+	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
 
 		getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(64.0D);
@@ -85,8 +109,7 @@ public class EntityRemnant extends EntityMob implements IMerchant, IAntiEntity, 
 	}
 
 	@Override
-	protected boolean isAIEnabled()
-	{
+	protected boolean isAIEnabled() {
 		return true;
 	}
 
@@ -96,10 +119,9 @@ public class EntityRemnant extends EntityMob implements IMerchant, IAntiEntity, 
 	}
 
 	@Override
-	public boolean attackEntityAsMob(Entity par1Entity)
-	{
+	public boolean attackEntityAsMob(Entity target) {
 		swingItem();
-		boolean flag = super.attackEntityAsMob(par1Entity);
+		boolean flag = super.attackEntityAsMob(target);
 
 		return flag;
 	}
@@ -136,19 +158,24 @@ public class EntityRemnant extends EntityMob implements IMerchant, IAntiEntity, 
 	}
 
 	@Override
-	public boolean interact(EntityPlayer par1EntityPlayer) {
-		if(isEntityAlive() && !par1EntityPlayer.isSneaking() && !isAngry)
-			if(EntityUtil.hasNecronomicon(par1EntityPlayer)){
-				if(!isTrading()){
-					if(!worldObj.isRemote){
-						setCustomer(par1EntityPlayer);
-						par1EntityPlayer.displayGUIMerchant(this, StatCollector.translateToLocal("entity.abyssalcraft.remnant.name"));
+	public boolean interact(EntityPlayer player) {
+		if(isEntityAlive() && !player.isSneaking() && !isAngry) {
+			if(EntityUtil.hasNecronomicon(player)) {
+				if(!isTrading()) {
+					if(!worldObj.isRemote) {
+						setCustomer(player);
+						player.displayGUIMerchant(this, StatCollector.translateToLocal("entity.abyssalcraft.remnant.name"));
 						return true;
 					}
-				} else par1EntityPlayer.addChatMessage(new ChatComponentText(getCommandSenderName()+": "+StatCollector.translateToLocal("message.remnant.busy")));
-			} else insult(par1EntityPlayer);
+				} else {
+					player.addChatMessage(new ChatComponentText(getCommandSenderName()+": "+StatCollector.translateToLocal("message.remnant.busy")));
+				}
+			} else {
+				insult(player);
+			}
+		}
 
-		return super.interact(par1EntityPlayer);
+		return super.interact(player);
 	}
 
 	@Override
@@ -161,6 +188,7 @@ public class EntityRemnant extends EntityMob implements IMerchant, IAntiEntity, 
 	 * Used by Remnants to insult oblivious Players
 	 * @param player The target to insult
 	 */
+	@SuppressWarnings("unchecked")
 	private void insult(EntityPlayer player){
 		int insultNum = worldObj.rand.nextInt(3);
 		String insult = getCommandSenderName()+": "+String.format(getInsult(insultNum), player.getCommandSenderName());
@@ -171,10 +199,12 @@ public class EntityRemnant extends EntityMob implements IMerchant, IAntiEntity, 
 			if(players != null){
 				Iterator<EntityPlayer> i = players.iterator();
 				while(i.hasNext()){
-					EntityPlayer player1 = i.next();
-					if(EntityUtil.hasNecronomicon(player1))
-						player1.addChatMessage(new ChatComponentText(translated));
-					else player1.addChatMessage(new ChatComponentText(insult));
+					EntityPlayer plr = i.next();
+					if(EntityUtil.hasNecronomicon(plr)) {
+						plr.addChatMessage(new ChatComponentText(translated));
+					} else {
+						plr.addChatMessage(new ChatComponentText(insult));
+					}
 				}
 			}
 		}
@@ -213,6 +243,7 @@ public class EntityRemnant extends EntityMob implements IMerchant, IAntiEntity, 
 	 * Ever wanted to see a angry Remnant? No you don't.
 	 * @param call If the Remnant should call for backup
 	 */
+	@SuppressWarnings("unchecked")
 	public void enrage(boolean call){
 		if(call){
 			List<EntityRemnant> friends = worldObj.getEntitiesWithinAABB(getClass(), boundingBox.expand(16D, 16D, 16D));
@@ -226,8 +257,9 @@ public class EntityRemnant extends EntityMob implements IMerchant, IAntiEntity, 
 
 		isAngry = true;
 		timer = 0;
-		if(entityToAttack != null)
+		if(entityToAttack != null) {
 			targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, entityToAttack.getClass(), 0, true));
+		}
 	}
 
 	@Override
@@ -237,8 +269,11 @@ public class EntityRemnant extends EntityMob implements IMerchant, IAntiEntity, 
 				entityToAttack = par1DamageSource.getEntity();
 				enrage(true, (EntityLivingBase) entityToAttack);
 			}
-			if(!isAngry) enrage(true);
-			else enrage(rand.nextInt(10) == 0);
+			if(!isAngry) {
+				enrage(true);
+			} else {
+				enrage(rand.nextInt(10) == 0);
+			}
 		}
 		return super.attackEntityFrom(par1DamageSource, par2);
 	}
@@ -246,14 +281,16 @@ public class EntityRemnant extends EntityMob implements IMerchant, IAntiEntity, 
 	@Override
 	public void onLivingUpdate(){
 		super.onLivingUpdate();
-		if(isAngry){
-			if(entityToAttack != null)
+		if(isAngry) {
+			if(entityToAttack != null) {
 				targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, entityToAttack.getClass(), 0, true));
+			}
 			timer++;
-			if(timer == 2400){
+			if(timer == 2400) {
 				isAngry = false;
-				if(entityToAttack != null)
+				if(entityToAttack != null) {
 					targetTasks.removeTask(new EntityAINearestAttackableTarget(this, entityToAttack.getClass(), 0, true));
+				}
 			}
 		}
 	}
@@ -348,10 +385,6 @@ public class EntityRemnant extends EntityMob implements IMerchant, IAntiEntity, 
 	  }
 	}
 	
-	private ItemStack blockStack(Block block) {
-		return new ItemStack(Item.getItemFromBlock(block), 1);
-	}
-
 	@SuppressWarnings("unchecked")
 	private void addDefaultEquipmentAndRecipies(int par1) {
 		if (tradingList != null)
@@ -435,7 +468,6 @@ public class EntityRemnant extends EntityMob implements IMerchant, IAntiEntity, 
 				}
 			case 3:
 				addItemTrade(list, Items.coal, rand, adjustProbability(0.7F));
-				addItemTrade(list, AbyssalCraft.abyingot, rand, adjustProbability(0.5F));
 				addItemTrade(list, AbyssalCraft.Cingot, rand, adjustProbability(0.5F));
 				addItemTrade(list, AbyssalCraft.dreadiumingot, rand, adjustProbability(0.5F));
 				addItemTrade(list, AbyssalCraft.ethaxiumIngot, rand, adjustProbability(0.3F));
@@ -459,8 +491,10 @@ public class EntityRemnant extends EntityMob implements IMerchant, IAntiEntity, 
 				addItemTrade(list, Items.rotten_flesh, rand, adjustProbability(0.7F));
 				addItemTrade(list, AbyssalCraft.Corflesh, rand, adjustProbability(0.7F));
 				addItemTrade(list, AbyssalCraft.omotholFlesh, rand, adjustProbability(0.7F));
-				addItemTrade(list, AbyssalCraft.antiFlesh, rand, adjustProbability(0.3F));
 				addItemTrade(list, Items.cooked_fished, rand, adjustProbability(0.4F));
+				if (rand.nextFloat() < adjustProbability(0.3F)) {
+					list.add(new MerchantRecipe(new ItemStack(AbyssalCraft.portalPlacer), new ItemStack(AbyssalCraft.oblivionshard, 4), new ItemStack(AbyssalCraft.elderCoin, 5 + rand.nextInt(26))));
+				}
 				break;
 			case 5:
 				addCoinTrade(list, AbyssalCraft.elderCoin, 8, AbyssalCraft.cthulhuCoin, 1);
@@ -488,7 +522,6 @@ public class EntityRemnant extends EntityMob implements IMerchant, IAntiEntity, 
 
 			case 6:
 				addItemTrade(list, Items.coal, rand, adjustProbability(0.7F));
-				addItemTrade(list, AbyssalCraft.abyingot, rand, adjustProbability(0.5F));
 				addItemTrade(list, AbyssalCraft.Cingot, rand, adjustProbability(0.5F));
 				addItemTrade(list, AbyssalCraft.dreadiumingot, rand, adjustProbability(0.5F));
 				addItemTrade(list, AbyssalCraft.ethaxiumIngot, rand, adjustProbability(0.3F));
@@ -523,11 +556,13 @@ public class EntityRemnant extends EntityMob implements IMerchant, IAntiEntity, 
 
 		Collections.shuffle(list);
 
-		if (tradingList == null)
+		if (tradingList == null) {
 			tradingList = new MerchantRecipeList();
+		}
 
-		for (int l = 0; l < par1 && l < list.size(); ++l)
+		for (int l = 0; l < par1 && l < list.size(); ++l) {
 			tradingList.addToListWithCheck((MerchantRecipe)list.get(l));
+		}
 	}
 
 	@Override
@@ -636,7 +671,6 @@ public class EntityRemnant extends EntityMob implements IMerchant, IAntiEntity, 
 
 	static {
 		itemSellingList.put(Items.coal, new Tuple(Integer.valueOf(16), Integer.valueOf(24)));
-		itemSellingList.put(AbyssalCraft.abyingot, new Tuple(Integer.valueOf(8), Integer.valueOf(10)));
 		itemSellingList.put(AbyssalCraft.Cingot, new Tuple(Integer.valueOf(8), Integer.valueOf(10)));
 		itemSellingList.put(AbyssalCraft.dreadiumingot, new Tuple(Integer.valueOf(8), Integer.valueOf(10)));
 		itemSellingList.put(AbyssalCraft.ethaxiumIngot, new Tuple(Integer.valueOf(4), Integer.valueOf(6)));
@@ -709,24 +743,4 @@ public class EntityRemnant extends EntityMob implements IMerchant, IAntiEntity, 
 	public EnumCreatureAttribute getCreatureAttribute() {
 		return AbyssalCraftAPI.SHADOW;
 	}
-	
-	/** Better knockback **/
-	@Override
-    public void knockBack(Entity p_70653_1_, float p_70653_2_, double pushX, double pushZ) {
-		double force = 0.32F;
-		this.isAirBorne = true;
-        double base = MathHelper.sqrt_double(pushX * pushX + pushZ * pushZ);
-        double motionDiv = 2.0D;
-        this.motionX /= motionDiv;
-        this.motionY /= motionDiv;
-        this.motionZ /= motionDiv;
-        this.motionX -= (pushX / base) * force;
-        this.motionY += force;
-        this.motionZ -= (pushZ / base) * force;
-        if (this.motionY > 0.4000000059604645D) {
-            this.motionY = 0.4000000059604645D;
-        }
-    }
-	
-	public void heal(float amount) {} /** No Healing! **/
 }

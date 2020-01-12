@@ -11,6 +11,10 @@
  ******************************************************************************/
 package com.shinoow.abyssalcraft.common.entity;
 
+import com.shinoow.abyssalcraft.AbyssalCraft;
+import com.shinoow.abyssalcraft.api.entity.IDreadEntity;
+
+import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -23,18 +27,13 @@ import net.minecraft.entity.ai.EntityAIMoveTowardsRestriction;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
-import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
 
-import cpw.mods.fml.common.registry.*;
-import com.shinoow.abyssalcraft.AbyssalCraft;
-import com.shinoow.abyssalcraft.api.entity.IDreadEntity;
-
-public class EntityDreadling extends EntityMob implements IDreadEntity {
+public class EntityDreadling extends ACMob implements IDreadEntity {
 
 	public EntityDreadling(World par1World) {
 		super(par1World);
@@ -119,6 +118,4 @@ public class EntityDreadling extends EntityMob implements IDreadEntity {
 	public EnumCreatureAttribute getCreatureAttribute() {
 		return EnumCreatureAttribute.UNDEAD;
 	}
-	
-	public void heal(float amount) {} /** No Healing! **/
 }

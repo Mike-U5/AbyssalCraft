@@ -18,22 +18,24 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
 
 import com.google.common.collect.Multimap;
 import com.shinoow.abyssalcraft.AbyssalCraft;
+import com.shinoow.abyssalcraft.api.AbyssalCraftAPI;
 
 public class ItemDreadiumKatana extends Item {
 
 	private float weaponDamage;
 
-	public ItemDreadiumKatana(String par1Str, float par2, int par3){
+	public ItemDreadiumKatana(String name, float dmg, int durability){
 		super();
-		setUnlocalizedName(par1Str);
+		setUnlocalizedName(name);
 		setCreativeTab(AbyssalCraft.tabCombat);
-		setTextureName("abyssalcraft:" + par1Str);
-		weaponDamage = par2;
-		setMaxDamage(par3);
+		setTextureName("abyssalcraft:" + name);
+		weaponDamage = dmg;
+		setMaxDamage(durability);
 		setMaxStackSize(1);
 	}
 
@@ -53,9 +55,9 @@ public class ItemDreadiumKatana extends Item {
 	}
 
 	@Override
-	public boolean hitEntity(ItemStack par1ItemStack, EntityLivingBase par2EntityLivingBase, EntityLivingBase par3EntityLivingBase)
-	{
-		par1ItemStack.damageItem(1, par3EntityLivingBase);
+	public boolean hitEntity(ItemStack stack, EntityLivingBase target, EntityLivingBase user) {
+		stack.damageItem(1, user);
+		target.addPotionEffect(new PotionEffect(AbyssalCraft.Dplague.id, 120));
 		return true;
 	}
 
@@ -70,7 +72,7 @@ public class ItemDreadiumKatana extends Item {
 	@Override
 	public boolean getIsRepairable(ItemStack par1ItemStack, ItemStack par2ItemStack)
 	{
-		return new ItemStack(AbyssalCraft.crystal, 1, 14) == par2ItemStack ? true : super.getIsRepairable(par1ItemStack, par2ItemStack);
+		return new ItemStack(AbyssalCraft.essence, 1, 14) == par2ItemStack ? true : super.getIsRepairable(par1ItemStack, par2ItemStack);
 	}
 
 	@Override

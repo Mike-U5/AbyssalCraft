@@ -14,30 +14,23 @@ package com.shinoow.abyssalcraft.common.blocks;
 import java.util.List;
 import java.util.Random;
 
-import com.shinoow.abyssalcraft.AbyssalCraft;
 import com.shinoow.abyssalcraft.common.blocks.tile.TileEntityTieredEnergyPedestal;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockContainer;
-import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 
-public class BlockTieredEnergyPedestal extends BlockContainer {
+public class BlockTieredEnergyPedestal extends BlockEnergyPedestal {
 
 	public BlockTieredEnergyPedestal() {
-		super(Material.rock);
+		super();
 		setBlockName("tieredEnergyPedestal");
-		setHardness(6.0F);
-		setResistance(12.0F);
-		setStepSound(Block.soundTypeStone);
-		setCreativeTab(AbyssalCraft.tabDecoration);
-		setBlockBounds(0.25F, 0.0F, 0.25F, 0.75F, 1.0F, 0.75F);
 		setBlockTextureName("anvil_top_damaged_0");
 	}
 
@@ -61,20 +54,18 @@ public class BlockTieredEnergyPedestal extends BlockContainer {
 	}
 
 	@Override
-	public boolean renderAsNormalBlock(){
-		return false;
-	}
-
-	@Override
-	public int damageDropped(int meta) {
-		return meta;
-	}
-
-	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int meta, float hitX, float hitY, float hitZ) {
 		TileEntity tile = world.getTileEntity(x, y, z);
-		if(tile != null && tile instanceof TileEntityTieredEnergyPedestal)
-			if(((TileEntityTieredEnergyPedestal)tile).getItem() != null){
+		if(tile != null && tile instanceof TileEntityTieredEnergyPedestal) {
+			TileEntityTieredEnergyPedestal pedestal = (TileEntityTieredEnergyPedestal)tile; 
+			if (player.isSneaking() && player.getHeldItem() == null) {
+				if (!player.worldObj.isRemote) {
+					String message = "PE: " + (int)pedestal.getContainedEnergy() + "/" + pedestal.getMaxEnergy();
+		            player.addChatMessage(new ChatComponentText(message));
+				}
+				return false;
+			}
+			if(((TileEntityTieredEnergyPedestal)tile).getItem() != null) {
 				player.inventory.addItemStackToInventory(((TileEntityTieredEnergyPedestal)tile).getItem());
 				((TileEntityTieredEnergyPedestal)tile).setItem(null);
 				world.playSoundEffect(x + 0.5, y + 0.5, z + 0.5, "random.pop", 0.5F, world.rand.nextFloat() - world.rand.nextFloat() * 0.2F + 1);
@@ -90,22 +81,17 @@ public class BlockTieredEnergyPedestal extends BlockContainer {
 					return true;
 				}
 			}
+		}
 		return false;
 	}
 
 	@Override
-	public int getRenderType() {
-		return -10;
-	}
-
-	@Override
-	public void breakBlock(World world, int x, int y, int z, Block block, int meta)
-	{
+	public void breakBlock(World world, int x, int y, int z, Block block, int meta) {
 		Random rand = new Random();
 		TileEntityTieredEnergyPedestal pedestal = (TileEntityTieredEnergyPedestal) world.getTileEntity(x, y, z);
 
 		if(pedestal != null)
-			if(pedestal.getItem() != null){
+			if(pedestal.getItem() != null) {
 				float f = rand.nextFloat() * 0.8F + 0.1F;
 				float f1 = rand.nextFloat() * 0.8F + 0.1F;
 				float f2 = rand.nextFloat() * 0.8F + 0.1F;

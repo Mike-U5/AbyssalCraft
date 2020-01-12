@@ -13,13 +13,9 @@ package com.shinoow.abyssalcraft.common.entity;
 
 import java.util.Iterator;
 import java.util.List;
-import java.util.UUID;
 
 import com.shinoow.abyssalcraft.AbyssalCraft;
 import com.shinoow.abyssalcraft.api.AbyssalCraftAPI;
-import com.shinoow.abyssalcraft.api.entity.IAntiEntity;
-import com.shinoow.abyssalcraft.api.entity.ICoraliumEntity;
-import com.shinoow.abyssalcraft.api.entity.IDreadEntity;
 import com.shinoow.abyssalcraft.api.item.ACItems;
 
 import net.minecraft.block.Block;
@@ -35,19 +31,13 @@ import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
-import net.minecraft.entity.ai.attributes.AttributeModifier;
-import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 
-public class EntityGatekeeperMinion extends EntityMob implements ICoraliumEntity, IDreadEntity, IAntiEntity {
+public class EntityGatekeeperMinion extends ACMob {
 
-	private static final UUID dashSpeedBoostUUID = UUID.fromString("B9766B59-9566-4402-BC1F-2EE2A276D893");
-	private static final AttributeModifier dashSpeedBoostModifier = new AttributeModifier(dashSpeedBoostUUID, "Dash speed boost", 0.5D, 1);
-	private int stamina = 0;
-	
 	public EntityGatekeeperMinion(World world) {
 		super(world);
 		tasks.addTask(0, new EntityAISwimming(this));
@@ -112,6 +102,7 @@ public class EntityGatekeeperMinion extends EntityMob implements ICoraliumEntity
 		playSound("mob.spider.step", 0.15F, 1.0F);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public boolean attackEntityFrom(DamageSource par1DamageSource, float par2) {
 		EntityLivingBase enemy = null;

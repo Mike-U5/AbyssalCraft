@@ -52,7 +52,6 @@ public class EntityLesserShoggoth extends ACMob implements ICoraliumEntity, IDre
 	public EntityLesserShoggoth(World par1World) {
 		super(par1World);
 		setDrop(AbyssalCraft.shoggothFlesh, 1.0F);
-		setPushResist(isChild() ? 0 : 0.3);
 		tasks.addTask(0, new EntityAISwimming(this));
 		tasks.addTask(2, new EntityAIAttackOnCollide(this, EntityPlayer.class, 0.35D, true));
 		for(int i = 0; i < noms.size(); i++) {
@@ -82,12 +81,14 @@ public class EntityLesserShoggoth extends ACMob implements ICoraliumEntity, IDre
 		for(int i = 0; i < noms.size(); i++) {
 			targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, noms.get(i), 0, true));
 		}
-		setSize(1.5F, 2.6F);
+		setSize(2.4F, 2.6F);
 	}
 
 	@Override
 	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
+		
+		// Adult shoggots a have a reduced default knockback rate
 
 		if(AbyssalCraft.hardcoreMode){
 			getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(200.0D);
@@ -137,7 +138,6 @@ public class EntityLesserShoggoth extends ACMob implements ICoraliumEntity, IDre
 				attributeinstance.applyModifier(babySpeedBoostModifier);
 			}
 		}
-		setPushResist(isChild() ? 0 : 0.3);
 		setChildSize(isChild);
 	}
 
@@ -458,25 +458,12 @@ public class EntityLesserShoggoth extends ACMob implements ICoraliumEntity, IDre
 			noms.contains(par1.getClass().getSuperclass().getSuperclass()) ? true : false;
 	}
 	
-	/** Better knockback **/
-	@Override
-    public void knockBack(Entity p_70653_1_, float p_70653_2_, double pushX, double pushZ) {
-		double force = isChild() ? 0.4F : 0.28F;
-		this.isAirBorne = true;
-        double base = MathHelper.sqrt_double(pushX * pushX + pushZ * pushZ);
-        double motionDiv = 2.0D;
-        this.motionX /= motionDiv;
-        this.motionY /= motionDiv;
-        this.motionZ /= motionDiv;
-        this.motionX -= (pushX / base) * force;
-        this.motionY += force;
-        this.motionZ -= (pushZ / base) * force;
-        if (this.motionY > 0.4000000059604645D) {
-            this.motionY = 0.4000000059604645D;
-        }
-    }
 	
-	public void heal(float amount) {} /** No Healing! **/
+	@Override
+	protected double getBaseKnockbackRate() {
+		return this.isChild() ? 0.4 : 0.3;
+	}
+
 
 	class GroupData implements IEntityLivingData {
 		public boolean isBaby;

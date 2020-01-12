@@ -20,7 +20,6 @@ import net.minecraft.entity.EntityList;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityLargeFireball;
 import net.minecraft.world.World;
-import thaumcraft.api.ThaumcraftApiHelper;
 
 public class DisruptionTaintRain extends DisruptionEntry {
 

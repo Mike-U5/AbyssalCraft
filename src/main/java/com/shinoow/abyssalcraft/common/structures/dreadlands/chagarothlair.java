@@ -689,7 +689,7 @@ public class chagarothlair extends WorldGenerator {
 		world.setBlock(i - 13, j + 5, k - 36, AbyssalCraft.dreadbrick, 0, 2);
 		world.setBlock(i - 13, j + 5, k - 30, AbyssalCraft.dreadbrick, 0, 2);
 		world.setBlock(i - 13, j + 5, k - 27, AbyssalCraft.dreadbrick, 0, 2);
-		world.setBlock(i - 13, j + 5, k - 26, AbyssalCraft.crystallizer, 4, 2);
+		world.setBlock(i - 13, j + 5, k - 26, Blocks.coal_block, 0, 0);
 		world.setBlock(i - 13, j + 5, k - 25, AbyssalCraft.dreadbrick, 0, 2);
 		world.setBlock(i - 13, j + 5, k - 22, AbyssalCraft.dreadbrick, 0, 2);
 		world.setBlock(i - 13, j + 6, k - 41, AbyssalCraft.dreadbrick, 0, 2);
@@ -3755,27 +3755,7 @@ public class chagarothlair extends WorldGenerator {
 				tileentitychest.decrStackSize(13, 1);
 
 			tileentitychest.setInventorySlotContents(13, new ItemStack(Blocks.dirt, 1).setStackDisplayName(EnumChatFormatting.GOLD +"The Legendary Treasure of The Dreadlands"));
-			if(world.rand.nextInt(100) == 0){
-				tileentitychest.setInventorySlotContents(0, new ItemStack(AbyssalCraft.crystal, 1, 0));
-				tileentitychest.setInventorySlotContents(1, new ItemStack(AbyssalCraft.crystal, 1, 1));
-				tileentitychest.setInventorySlotContents(2, new ItemStack(AbyssalCraft.crystal, 1, 2));
-				tileentitychest.setInventorySlotContents(3, new ItemStack(AbyssalCraft.crystal, 1, 3));
-				tileentitychest.setInventorySlotContents(4, new ItemStack(AbyssalCraft.crystal, 1, 4));
-				tileentitychest.setInventorySlotContents(5, new ItemStack(AbyssalCraft.crystal, 1, 5));
-				tileentitychest.setInventorySlotContents(6, new ItemStack(AbyssalCraft.crystal, 1, 6));
-				tileentitychest.setInventorySlotContents(7, new ItemStack(AbyssalCraft.crystal, 1, 7));
-				tileentitychest.setInventorySlotContents(8, new ItemStack(AbyssalCraft.crystal, 1, 8));
-				tileentitychest.setInventorySlotContents(9, new ItemStack(AbyssalCraft.crystal, 1, 11));
-				tileentitychest.setInventorySlotContents(10, new ItemStack(AbyssalCraft.crystal, 1, 12));
-				tileentitychest.setInventorySlotContents(11, new ItemStack(AbyssalCraft.crystal, 1, 13));
-				tileentitychest.setInventorySlotContents(12, new ItemStack(AbyssalCraft.crystal, 1, 14));
-				tileentitychest.setInventorySlotContents(14, new ItemStack(AbyssalCraft.crystal, 1, 15));
-				tileentitychest.setInventorySlotContents(15, new ItemStack(AbyssalCraft.crystal, 1, 16));
-				tileentitychest.setInventorySlotContents(16, new ItemStack(AbyssalCraft.crystal, 1, 17));
-				tileentitychest.setInventorySlotContents(17, new ItemStack(AbyssalCraft.crystal, 1, 18));
-				tileentitychest.setInventorySlotContents(18, new ItemStack(AbyssalCraft.crystal, 1, 19));
-				tileentitychest.setInventorySlotContents(19, new ItemStack(AbyssalCraft.crystal, 1, 20));
-				tileentitychest.setInventorySlotContents(20, new ItemStack(AbyssalCraft.crystal, 1, 24));
+			if(world.rand.nextInt(75) == 0){
 				tileentitychest.setInventorySlotContents(21, new ItemStack(AbyssalCraft.OC, 1));
 			}
 		}

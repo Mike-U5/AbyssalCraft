@@ -1,11 +1,11 @@
 /*******************************************************************************
  * AbyssalCraft
- * Copyright (c) 2012 - 2016 Shinoow.
+ * Copyright (c) 2012 - 2018 Shinoow.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the GNU Lesser Public License v3
  * which accompanies this distribution, and is available at
  * http://www.gnu.org/licenses/lgpl-3.0.txt
- * 
+ *
  * Contributors:
  *     Shinoow -  implementation
  ******************************************************************************/
@@ -568,6 +568,9 @@ public class ModelLesserShoggoth extends ModelBase
 
 
 		if(isChild){
+			GL11.glPushMatrix();
+			GL11.glScalef(0.75F, 0.75F, 0.75F);
+			GL11.glTranslatef(0.0F, 8.0F * par7, -0.5F);
 			jaw1.render(par7);
 			head1.render(par7);
 			body1.render(par7);
@@ -593,19 +596,11 @@ public class ModelLesserShoggoth extends ModelBase
 			head4.render(par7);
 			head5.render(par7);
 			head6.render(par7);
-			eye2.render(par7);
-			eye3.render(par7);
 			head7.render(par7);
 			head8.render(par7);
-			eye7.render(par7);
-			eye5.render(par7);
-			eye6.render(par7);
-			eye4.render(par7);
-			eye1.render(par7);
 			headtentbase.render(par7);
 			tentacle1.render(par7);
 			body2.render(par7);
-			eye8.render(par7);
 			body3.render(par7);
 			body5.render(par7);
 			body4.render(par7);
@@ -621,6 +616,19 @@ public class ModelLesserShoggoth extends ModelBase
 			buldge2.render(par7);
 			buldge3.render(par7);
 			buldge4.render(par7);
+			GL11.glPopMatrix();
+			GL11.glPushMatrix();
+			GL11.glTranslatef(0.0F, 5.5F * par7, -0.25F);
+			eye2.render(par7);
+			eye3.render(par7);
+			eye7.render(par7);
+			eye5.render(par7);
+			eye6.render(par7);
+			eye4.render(par7);
+			eye1.render(par7);
+			GL11.glTranslatef(0.0F, 1.0F * par7, -0.05F);
+			eye8.render(par7);
+			GL11.glPopMatrix();
 		} else {
 			GL11.glPushMatrix();
 			GL11.glScalef(1.5F, 1.5F, 1.5F);

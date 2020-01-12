@@ -13,6 +13,9 @@ package com.shinoow.abyssalcraft.common.entity;
 
 import java.util.List;
 
+import com.shinoow.abyssalcraft.AbyssalCraft;
+import com.shinoow.abyssalcraft.api.entity.IDreadEntity;
+
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -27,19 +30,14 @@ import net.minecraft.entity.ai.EntityAIMoveTowardsRestriction;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
-import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
-import com.shinoow.abyssalcraft.AbyssalCraft;
-import com.shinoow.abyssalcraft.api.entity.IDreadEntity;
-
-public class EntityGreaterDreadSpawn extends EntityMob implements IDreadEntity, IRangedAttackMob {
+public class EntityGreaterDreadSpawn extends ACMob implements IDreadEntity, IRangedAttackMob {
 
 	private static boolean hasMerged;
 
@@ -168,6 +166,7 @@ public class EntityGreaterDreadSpawn extends EntityMob implements IDreadEntity, 
 		return EnumCreatureAttribute.ARTHROPOD;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void onLivingUpdate() {
 		super.onLivingUpdate();
@@ -225,24 +224,4 @@ public class EntityGreaterDreadSpawn extends EntityMob implements IDreadEntity, 
 		playSound("random.bow", 1.0F, 1.0F / (getRNG().nextFloat() * 0.4F + 0.8F));
 		worldObj.spawnEntityInWorld(entitydreadslug);
 	}
-	
-	public void heal(float amount) {} /** No Healing! **/
-	
-	/** Better knockback **/
-	@Override
-    public void knockBack(Entity p_70653_1_, float p_70653_2_, double pushX, double pushZ) {
-		double force = isChild() ? 0.4F : 0.32F;
-		this.isAirBorne = true;
-        double base = MathHelper.sqrt_double(pushX * pushX + pushZ * pushZ);
-        double motionDiv = 2.0D;
-        this.motionX /= motionDiv;
-        this.motionY /= motionDiv;
-        this.motionZ /= motionDiv;
-        this.motionX -= (pushX / base) * force;
-        this.motionY += force;
-        this.motionZ -= (pushZ / base) * force;
-        if (this.motionY > 0.4000000059604645D) {
-            this.motionY = 0.4000000059604645D;
-        }
-    }
 }

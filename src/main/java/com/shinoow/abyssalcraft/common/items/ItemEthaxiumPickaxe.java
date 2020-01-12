@@ -23,7 +23,7 @@ import com.shinoow.abyssalcraft.AbyssalCraft;
 
 public class ItemEthaxiumPickaxe extends ItemACPickaxe {
 
-	private static Set<Block> effectiveBlocks = Sets.newHashSet( new Block[] {AbyssalCraft.ethaxium, AbyssalCraft.ethaxiumbrick, AbyssalCraft.ethaxiumpillar, AbyssalCraft.ethaxiumfence, AbyssalCraft.ethaxiumslab1, AbyssalCraft.ethaxiumslab2, AbyssalCraft.ethaxiumstairs, AbyssalCraft.ethaxiumblock, AbyssalCraft.materializer, AbyssalCraft.darkethaxiumbrick, AbyssalCraft.darkethaxiumpillar, AbyssalCraft.darkethaxiumstairs, AbyssalCraft.darkethaxiumslab1, AbyssalCraft.darkethaxiumslab2, AbyssalCraft.darkethaxiumfence});
+	private static Set<Block> effectiveBlocks = Sets.newHashSet( new Block[] {AbyssalCraft.ethaxium, AbyssalCraft.ethaxiumbrick, AbyssalCraft.ethaxiumpillar, AbyssalCraft.ethaxiumfence, AbyssalCraft.ethaxiumslab1, AbyssalCraft.ethaxiumslab2, AbyssalCraft.ethaxiumstairs, AbyssalCraft.ethaxiumblock, AbyssalCraft.darkethaxiumbrick, AbyssalCraft.darkethaxiumpillar, AbyssalCraft.darkethaxiumstairs, AbyssalCraft.darkethaxiumslab1, AbyssalCraft.darkethaxiumslab2, AbyssalCraft.darkethaxiumfence});
 
 	public ItemEthaxiumPickaxe(ToolMaterial mat, String name)
 	{

@@ -14,12 +14,14 @@ package com.shinoow.abyssalcraft.common.entity;
 import java.util.Iterator;
 import java.util.List;
 
+import com.shinoow.abyssalcraft.AbyssalCraft;
+import com.shinoow.abyssalcraft.api.entity.ICoraliumEntity;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IEntityMultiPart;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.boss.EntityDragonPart;
-import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.util.DamageSource;
@@ -28,10 +30,7 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 
-import com.shinoow.abyssalcraft.AbyssalCraft;
-import com.shinoow.abyssalcraft.api.entity.ICoraliumEntity;
-
-public class EntityDragonMinion extends EntityMob implements IEntityMultiPart, ICoraliumEntity
+public class EntityDragonMinion extends ACMob implements IEntityMultiPart, ICoraliumEntity
 {
 
 	public static final float innerRotation = 0;

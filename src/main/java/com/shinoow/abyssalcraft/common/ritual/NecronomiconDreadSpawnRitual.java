@@ -30,7 +30,7 @@ public class NecronomiconDreadSpawnRitual extends NecronomiconRitual {
 
 	public NecronomiconDreadSpawnRitual() {
 		super("dreadSpawn", 2, 500F, new Object[]{AbyssalCraft.dreadfragment, AbyssalCraft.dreadstone, AbyssalCraft.abydreadstone,
-				AbyssalCraft.abychunk, AbyssalCraft.dreadchunk, Items.rotten_flesh, AbyssalCraft.Dreadshard, AbyssalCraft.abyingot});
+				AbyssalCraft.abybrick, AbyssalCraft.dreadstone, Items.rotten_flesh, AbyssalCraft.Dreadshard, AbyssalCraft.abydreadstone});
 	}
 
 	@Override

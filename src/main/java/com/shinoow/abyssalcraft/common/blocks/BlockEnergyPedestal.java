@@ -23,7 +23,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 
 public class BlockEnergyPedestal extends BlockContainer {
@@ -40,7 +39,7 @@ public class BlockEnergyPedestal extends BlockContainer {
 	}
 
 	@Override
-	public TileEntity createNewTileEntity(World world, int p_149915_2_) {
+	public TileEntity createNewTileEntity(World world, int number) {
 		return new TileEntityEnergyPedestal();
 	}
 
@@ -73,7 +72,7 @@ public class BlockEnergyPedestal extends BlockContainer {
 				return true;
 			} else {
 				ItemStack heldItem = player.getHeldItem();
-				if(heldItem != null){
+				if(heldItem != null) {
 					ItemStack newItem = heldItem.copy();
 					newItem.stackSize = 1;
 					pedestal.setItem(newItem);
@@ -92,8 +91,7 @@ public class BlockEnergyPedestal extends BlockContainer {
 	}
 
 	@Override
-	public void breakBlock(World world, int x, int y, int z, Block block, int meta)
-	{
+	public void breakBlock(World world, int x, int y, int z, Block block, int meta) {
 		Random rand = new Random();
 		TileEntityEnergyPedestal pedestal = (TileEntityEnergyPedestal) world.getTileEntity(x, y, z);
 

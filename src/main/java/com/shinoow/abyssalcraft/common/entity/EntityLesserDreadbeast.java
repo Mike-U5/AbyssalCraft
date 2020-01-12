@@ -25,9 +25,7 @@ import net.minecraft.entity.ai.EntityAIMoveTowardsRestriction;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
-import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
@@ -37,7 +35,7 @@ import net.minecraft.world.World;
 import com.shinoow.abyssalcraft.AbyssalCraft;
 import com.shinoow.abyssalcraft.api.entity.IDreadEntity;
 
-public class EntityLesserDreadbeast extends EntityMob implements IDreadEntity, IRangedAttackMob {
+public class EntityLesserDreadbeast extends ACMob implements IDreadEntity, IRangedAttackMob {
 
 	private EntityAIArrowAttack arrowAttack = new EntityAIArrowAttack(this, 1.0D, 20, 60, 15.0F);
 	private EntityAIAttackOnCollide attackOnCollide = new EntityAIAttackOnCollide(this, EntityPlayer.class, 0.35D, true);
@@ -215,8 +213,7 @@ public class EntityLesserDreadbeast extends EntityMob implements IDreadEntity, I
 	}
 
 	@Override
-	public void attackEntityWithRangedAttack(EntityLivingBase p_82196_1_,
-			float p_82196_2_) {
+	public void attackEntityWithRangedAttack(EntityLivingBase p_82196_1_, float p_82196_2_) {
 		EntityDreadSlug entitydreadslug = new EntityDreadSlug(worldObj, this);
 		double d0 = p_82196_1_.posX - posX;
 		double d1 = p_82196_1_.posY + p_82196_1_.getEyeHeight() - 1.100000023841858D - entitydreadslug.posY;
@@ -226,24 +223,4 @@ public class EntityLesserDreadbeast extends EntityMob implements IDreadEntity, I
 		playSound("random.bow", 1.0F, 1.0F / (getRNG().nextFloat() * 0.4F + 0.8F));
 		worldObj.spawnEntityInWorld(entitydreadslug);
 	}
-	
-	/** Better knockback **/
-	@Override
-    public void knockBack(Entity p_70653_1_, float p_70653_2_, double pushX, double pushZ) {
-		double force = 0.24F;
-		this.isAirBorne = true;
-        double base = MathHelper.sqrt_double(pushX * pushX + pushZ * pushZ);
-        double motionDiv = 2.0D;
-        this.motionX /= motionDiv;
-        this.motionY /= motionDiv;
-        this.motionZ /= motionDiv;
-        this.motionX -= (pushX / base) * force;
-        this.motionY += force;
-        this.motionZ -= (pushZ / base) * force;
-        if (this.motionY > 0.4000000059604645D) {
-            this.motionY = 0.4000000059604645D;
-        }
-    }
-	
-	public void heal(float amount) {} /** No Healing! **/
 }

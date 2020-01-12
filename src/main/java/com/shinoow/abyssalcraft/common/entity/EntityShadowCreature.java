@@ -13,9 +13,7 @@ package com.shinoow.abyssalcraft.common.entity;
 
 import com.shinoow.abyssalcraft.AbyssalCraft;
 import com.shinoow.abyssalcraft.api.AbyssalCraftAPI;
-import com.shinoow.abyssalcraft.api.entity.IAntiEntity;
-import com.shinoow.abyssalcraft.api.entity.ICoraliumEntity;
-import com.shinoow.abyssalcraft.api.entity.IDreadEntity;
+import com.shinoow.abyssalcraft.api.entity.IOmotholEntity;
 
 import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -30,7 +28,7 @@ import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 
-public class EntityShadowCreature extends ACMob implements IAntiEntity, ICoraliumEntity, IDreadEntity {
+public class EntityShadowCreature extends ACMob implements IOmotholEntity {
 
 	public EntityShadowCreature(World world) {
 		super(world);

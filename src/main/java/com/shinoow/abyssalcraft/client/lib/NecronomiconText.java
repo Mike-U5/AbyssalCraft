@@ -225,6 +225,8 @@ public class NecronomiconText {
 	public static String ENTITY_ANTI_2 = translate("necronomicon.text.entity.anti.2");
 	public static String ENTITY_EVIL_ANIMALS_1 = translate("necronomicon.text.entity.evilanimals.1");
 	public static String ENTITY_EVIL_ANIMALS_2 = translate("necronomicon.text.entity.evilanimals.2");
+	public static String DAOLOTH_1 = translate("necronomicon.text.entity.doaloth.1");
+	public static String DAOLOTH_2 = translate("necronomicon.text.entity.doaloth.2");
 	public static String ENTITY_ABYSSAL_ZOMBIE_1 = translate("necronomicon.text.entity.abyssalzombie.1");
 	public static String ENTITY_ABYSSAL_ZOMBIE_2 = translate("necronomicon.text.entity.abyssalzombie.2");
 	public static String ENTITY_DEPTHS_GHOUL_1 = translate("necronomicon.text.entity.depthsghoul.1");

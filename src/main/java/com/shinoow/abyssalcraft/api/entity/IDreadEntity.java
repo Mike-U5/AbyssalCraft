@@ -18,6 +18,4 @@ package com.shinoow.abyssalcraft.api.entity;
  *
  * @since 1.0
  */
-public interface IDreadEntity {
-
-}
+public interface IDreadEntity {}

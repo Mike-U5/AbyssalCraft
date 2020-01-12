@@ -38,8 +38,13 @@ public class IntegrationHandler {
 
 		fetchModIntegrations(asmDataTable);
 
-		if(!temp.isEmpty())
+		if(!temp.isEmpty()) {
 			ACLogger.info("Preliminary integration search complete: found %d possible mod integration(s)!", temp.size());
+		} 
+		
+		for (int i = 0; i < temp.size(); i++) {
+			ACLogger.info("Loaded Integration for: %s", temp.get(i).getModName());
+		}
 	}
 
 	private static void fetchModIntegrations(ASMDataTable asmDataTable){

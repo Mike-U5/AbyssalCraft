@@ -12,12 +12,9 @@
 package com.shinoow.abyssalcraft.common.entity;
 
 import java.util.List;
-import java.util.UUID;
 
 import com.shinoow.abyssalcraft.AbyssalCraft;
 import com.shinoow.abyssalcraft.api.AbyssalCraftAPI;
-import com.shinoow.abyssalcraft.api.energy.EnergyEnum.DeityType;
-import com.shinoow.abyssalcraft.api.energy.disruption.DisruptionHandler;
 import com.shinoow.abyssalcraft.api.entity.IAntiEntity;
 import com.shinoow.abyssalcraft.api.entity.ICoraliumEntity;
 import com.shinoow.abyssalcraft.api.entity.IDreadEntity;
@@ -40,13 +37,11 @@ import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
-import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.boss.EntityDragon;
 import net.minecraft.entity.boss.EntityWither;
 import net.minecraft.entity.boss.IBossDisplayData;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.item.EntityXPOrb;
-import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.projectile.EntityWitherSkull;
@@ -55,7 +50,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
@@ -66,19 +60,15 @@ import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.EnderTeleportEvent;
 
-public class EntityJzahar extends EntityMob implements IBossDisplayData, IRangedAttackMob, IAntiEntity, ICoraliumEntity, IDreadEntity {
+public class EntityJzahar extends ACMob implements IBossDisplayData, IRangedAttackMob, IAntiEntity, ICoraliumEntity, IDreadEntity {
 
-	private static final UUID attackDamageBoostUUID = UUID.fromString("648D7064-6A60-4F59-8ABE-C2C23A6DD7A9");
-	private static final AttributeModifier attackDamageBoost = new AttributeModifier(attackDamageBoostUUID, "Halloween Attack Damage Boost", 10.0D, 0);
 	public int deathTicks;
 	private int talkTimer;
 	private int skullTimer = 600;
-	private int rage = 0;
-	private int skillRotation = 1;
 	private boolean that = false;
 
-	public EntityJzahar(World par1World) {
-		super(par1World);
+	public EntityJzahar(World world) {
+		super(world);
 		setSize(1.5F, 5.7F);
 		tasks.addTask(0, new EntityAISwimming(this));
 		tasks.addTask(2, new EntityAIAttackOnCollide(this, EntityPlayer.class, 0.35D, true));
@@ -107,6 +97,7 @@ public class EntityJzahar extends EntityMob implements IBossDisplayData, IRanged
 			getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(666.0D);
 			getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(40.0D);
 		}
+		getEntityAttribute(SharedMonsterAttributes.knockbackResistance).setBaseValue(0.8D);
 	}
 
 	@Override
@@ -145,29 +136,13 @@ public class EntityJzahar extends EntityMob implements IBossDisplayData, IRanged
 	}
 
 	@Override
-	public boolean attackEntityAsMob(Entity par1Entity) {
+	public boolean attackEntityAsMob(Entity target) {
 		swingItem();
-		boolean flag = super.attackEntityAsMob(par1Entity);
-
-		return flag;
+		return super.attackEntityAsMob(target);
 	}
 
 	@Override
 	public boolean attackEntityFrom(DamageSource dmgSrc, float dmgAmount) {
-		if (!worldObj.isRemote) {
-			worldObj.playSoundAtEntity(this, "abyssalcraft:jzahar.skill.1", 1, 1);
-			SpecialTextUtil.JzaharGroup(worldObj, StatCollector.translateToLocal("message.jzahar.skill.1"));
-
-			if (dmgSrc.getEntity() instanceof EntityLivingBase) {
-				EntityLivingBase entity = (EntityLivingBase) dmgSrc.getEntity();
-				if (!entity.isPotionActive(54) && (getDistanceToEntity(entity) - 5) > worldObj.rand.nextInt(50)) {
-					entity.addPotionEffect(new PotionEffect(54, 200));
-				}
-			} else {
-				return false;
-			}
-		}
-				
 		if(dmgAmount > 30) {
 			if(dmgAmount > 500001 || dmgAmount < 500000) {
 				if(dmgAmount > 750001.5F || dmgAmount < 750001) {
@@ -177,34 +152,10 @@ public class EntityJzahar extends EntityMob implements IBossDisplayData, IRanged
 				dmgAmount = 30;
 			}
 		}
-		
-		rage += dmgAmount;
-		if (rage > 50) {
-			performRageAction();
-			rage -= 50;
-		}
 
 		return super.attackEntityFrom(dmgSrc, dmgAmount);
 	}
 	
-	private void performRageAction() {
-		int x = (int)posX;
-		int y = (int)posY;
-		int z = (int)posZ;
-		
-		switch(skillRotation) {
-			// Disrupt
-			default:
-				DisruptionHandler.instance().generateDisruption(DeityType.JZAHAR, worldObj, x, y, z, worldObj.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(x, y, z, x + 1, y + 1, z + 1).expand(16, 16, 16)));
-		}
-		
-		skillRotation++;
-		if (skillRotation > 6) {
-			skillRotation = 1;
-		}
-		
-	}
-
 	@Override
 	public EnumCreatureAttribute getCreatureAttribute() {
 		return AbyssalCraftAPI.SHADOW;
@@ -219,11 +170,12 @@ public class EntityJzahar extends EntityMob implements IBossDisplayData, IRanged
 
 	protected boolean teleportTo(double par1, double par3, double par5) {
 		EnderTeleportEvent event = new EnderTeleportEvent(this, par1, par3, par5, 0);
-		if (MinecraftForge.EVENT_BUS.post(event))
+		if (MinecraftForge.EVENT_BUS.post(event)) {
 			return false;
-		double d3 = posX;
-		double d4 = posY;
-		double d5 = posZ;
+		}
+		double dX = posX;
+		double dY = posY;
+		double dZ = posZ;
 		posX = event.targetX;
 		posY = event.targetY;
 		posZ = event.targetZ;
@@ -249,13 +201,14 @@ public class EntityJzahar extends EntityMob implements IBossDisplayData, IRanged
 			if (flag1) {
 				setPosition(posX, posY, posZ);
 
-				if (worldObj.getCollidingBoundingBoxes(this, boundingBox).isEmpty() && !worldObj.isAnyLiquid(boundingBox))
+				if (worldObj.getCollidingBoundingBoxes(this, boundingBox).isEmpty() && !worldObj.isAnyLiquid(boundingBox)) {
 					flag = true;
+				}
 			}
 		}
 
 		if (!flag) {
-			setPosition(d3, d4, d5);
+			setPosition(dX, dY, dZ);
 			return false;
 		} else {
 			short short1 = 128;
@@ -265,24 +218,27 @@ public class EntityJzahar extends EntityMob implements IBossDisplayData, IRanged
 				float f = (rand.nextFloat() - 0.5F) * 0.2F;
 				float f1 = (rand.nextFloat() - 0.5F) * 0.2F;
 				float f2 = (rand.nextFloat() - 0.5F) * 0.2F;
-				double d7 = d3 + (posX - d3) * d6 + (rand.nextDouble() - 0.5D) * width * 2.0D;
-				double d8 = d4 + (posY - d4) * d6 + rand.nextDouble() * height;
-				double d9 = d5 + (posZ - d5) * d6 + (rand.nextDouble() - 0.5D) * width * 2.0D;
-				if(AbyssalCraft.particleEntity)
+				double d7 = dX + (posX - dX) * d6 + (rand.nextDouble() - 0.5D) * width * 2.0D;
+				double d8 = dY + (posY - dY) * d6 + rand.nextDouble() * height;
+				double d9 = dZ + (posZ - dZ) * d6 + (rand.nextDouble() - 0.5D) * width * 2.0D;
+				if(AbyssalCraft.particleEntity) {
 					worldObj.spawnParticle("largesmoke", d7, d8, d9, f, f1, f2);
+				}
 			}
 
-			worldObj.playSoundEffect(d3, d4, d5, "mob.endermen.portal", 1.0F, 1.0F);
+			worldObj.playSoundEffect(dX, dY, dZ, "mob.endermen.portal", 1.0F, 1.0F);
 			playSound("mob.endermen.portal", 1.0F, 1.0F);
 			return true;
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void onDeath(DamageSource par1DamageSource) {
 		List<EntityPlayer> players = worldObj.getEntitiesWithinAABB(EntityPlayer.class, boundingBox.expand(10, 10, 10));
-		for(EntityPlayer player : players)
+		for(EntityPlayer player : players) {
 			player.addStat(AbyssalCraft.killJzahar, 1);
+		}
 		super.onDeath(par1DamageSource);
 	}
 
@@ -384,6 +340,7 @@ public class EntityJzahar extends EntityMob implements IBossDisplayData, IRanged
 				}
 			}
 		
+		// Prevents J'zhar falling to it's untimely demise
 		if (posY <= 0) {
 			teleportRandomly();
 		}
@@ -395,20 +352,17 @@ public class EntityJzahar extends EntityMob implements IBossDisplayData, IRanged
 	public void writeEntityToNBT(NBTTagCompound nbt) {
 		super.writeEntityToNBT(nbt);
 		nbt.setInteger("DeathTicks", deathTicks);
-		nbt.setInteger("Rage", rage);
-		nbt.setInteger("SkillRotation", skillRotation);
 	}
 
 	@Override
 	public void readEntityFromNBT(NBTTagCompound nbt) {
 		super.readEntityFromNBT(nbt);
 		deathTicks = nbt.getInteger("DeathTicks");
-		rage = nbt.getInteger("Rage");
-		skillRotation = nbt.getInteger("SkillRotation");
 	}
 
 	private double speed = 0.05D;
 
+	@SuppressWarnings("unchecked")
 	@Override
 	protected void onDeathUpdate() {
 		motionX = motionY = motionZ = 0;
@@ -454,7 +408,6 @@ public class EntityJzahar extends EntityMob implements IBossDisplayData, IRanged
 					i -= j;
 					worldObj.spawnEntityInWorld(new EntityXPOrb(worldObj, posX, posY, posZ, j));
 					if(deathTicks == 700 || deathTicks == 720 || deathTicks == 740 || deathTicks == 760 || deathTicks == 780){
-						worldObj.spawnEntityInWorld(new EntityItem(worldObj, posX + posneg(3), posY + rand.nextInt(3), posZ + posneg(3), new ItemStack(AbyssalCraft.abyingot)));
 						worldObj.spawnEntityInWorld(new EntityItem(worldObj, posX + posneg(3), posY + rand.nextInt(3), posZ + posneg(3), new ItemStack(AbyssalCraft.Cingot)));
 						worldObj.spawnEntityInWorld(new EntityItem(worldObj, posX + posneg(3), posY + rand.nextInt(3), posZ + posneg(3), new ItemStack(AbyssalCraft.dreadiumingot)));
 						worldObj.spawnEntityInWorld(new EntityItem(worldObj, posX + posneg(3), posY + rand.nextInt(3), posZ + posneg(3), new ItemStack(AbyssalCraft.ethaxiumIngot)));
@@ -544,6 +497,7 @@ public class EntityJzahar extends EntityMob implements IBossDisplayData, IRanged
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
 	private void blackHole(double power) {
 		float size = 32F;
 
@@ -575,8 +529,9 @@ public class EntityJzahar extends EntityMob implements IBossDisplayData, IRanged
 		double d7 = par4 - d4;
 		double d8 = par6 - d5;
 		EntityWitherSkull entitywitherskull = new EntityWitherSkull(worldObj, this, d6, d7, d8);
-		if (par8)
+		if (par8) {
 			entitywitherskull.setInvulnerable(true);
+		}
 		entitywitherskull.posY = d4;
 		entitywitherskull.posX = d3;
 		entitywitherskull.posZ = d5;
@@ -587,5 +542,4 @@ public class EntityJzahar extends EntityMob implements IBossDisplayData, IRanged
 	public void attackEntityWithRangedAttack(EntityLivingBase par1EntityLivingBase, float par2) {
 		func_82216_a(0, par1EntityLivingBase);
 	}
-	
 }

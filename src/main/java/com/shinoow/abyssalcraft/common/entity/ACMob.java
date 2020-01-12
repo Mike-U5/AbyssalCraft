@@ -1,6 +1,11 @@
 package com.shinoow.abyssalcraft.common.entity;
 
+import com.shinoow.abyssalcraft.api.entity.ICoraliumEntity;
+import com.shinoow.abyssalcraft.api.entity.IDreadEntity;
+import com.shinoow.abyssalcraft.api.entity.IOmotholEntity;
+
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -10,7 +15,6 @@ import net.minecraft.world.World;
 public abstract class ACMob extends EntityMob {
 	protected Item dropItem;
 	protected float dropRate = 0;
-	protected double pushForce = 0.4D;
 	
 	public ACMob(World world) {
 		super(world);
@@ -19,10 +23,6 @@ public abstract class ACMob extends EntityMob {
 	public void setDrop(Item item, float rate) {
 		this.dropItem = item;
 		this.dropRate = rate;
-	}
-	
-	public void setPushResist(double pushResist) {
-		this.pushForce = 0.4D - (pushResist * 0.4);
 	}
 	
 	@Override
@@ -37,22 +37,66 @@ public abstract class ACMob extends EntityMob {
 		}
 	}
 	
+	/*@Override
+    public void knockBack(Entity entity, float unused, double xRatio, double zRatio) {
+		final double strength = getBaseKnockbackRate() * (1 - this.getEntityAttribute(SharedMonsterAttributes.knockbackResistance).getAttributeValue());
+		final double momentumDiv = 2.0D;
+		
+		if (strength > 0) {
+            this.isAirBorne = true;
+            float f = MathHelper.sqrt_double(xRatio * xRatio + zRatio * zRatio);
+            this.motionX /= momentumDiv;
+            this.motionY /= momentumDiv;
+            this.motionZ /= momentumDiv;
+            this.motionX -= xRatio / (double)f * (double)strength;
+            this.motionY += (double)strength;
+            this.motionZ -= zRatio / (double)f * (double)strength;
+
+        	if (this.motionY > 0.4000000059604645D) {
+                this.motionY = 0.4000000059604645D;
+            }
+        }
+    }*/
+	
+	/**
+     * knocks back this entity
+     */
 	@Override
-    public void knockBack(Entity p_70653_1_, float p_70653_2_, double pushX, double pushZ) {
-    	this.isAirBorne = true;
-        double base = MathHelper.sqrt_double(pushX * pushX + pushZ * pushZ);
-        double motionDiv = 2.0D;
-        this.motionX /= motionDiv;
-        this.motionY /= motionDiv;
-        this.motionZ /= motionDiv;
-        this.motionX -= (pushX / base) * pushForce;
-        this.motionY += pushForce;
-        this.motionZ -= (pushZ / base) * pushForce;
+    public void knockBack(Entity entity, float unused, double xRatio, double zRatio) {
+		float modifier = (float)(1 - this.getEntityAttribute(SharedMonsterAttributes.knockbackResistance).getAttributeValue());
+		modifier = Math.min(1, Math.max(0, modifier));
+		System.out.println("KNOCKPACK POWAH: " + modifier);
+		
+        this.isAirBorne = true;
+        final float f = MathHelper.sqrt_double(xRatio * xRatio + zRatio * zRatio);
+        final float strength = 0.4F * modifier;
+        this.motionX /= 2.0D;
+        this.motionY /= 2.0D;
+        this.motionZ /= 2.0D;
+        this.motionX -= xRatio / (double)f * (double)strength;
+        this.motionY += 0.1D + (strength * 0.75);
+        this.motionZ -= zRatio / (double)f * (double)strength;
+
         if (this.motionY > 0.4000000059604645D) {
             this.motionY = 0.4000000059604645D;
         }
     }
 	
 	@Override
-	public void heal(float amount) {}
+	public void heal(float amount) {
+		if (this instanceof ICoraliumEntity) {
+			return;
+		}
+		if (this instanceof IDreadEntity) {
+			return;
+		}
+		if (this instanceof IOmotholEntity) {
+			return;
+		}
+		super.heal(amount);
+	}
+	
+	protected double getBaseKnockbackRate() {
+		return 0.4;
+	}
 }

@@ -122,7 +122,7 @@ public class GuiNecronomiconRitualEntry extends GuiNecronomicon {
 		if(ritual.canRemnantAid()) {
 			fontRendererObj.drawSplitString(NecronomiconText.LABEL_REMNANT_HELP, k + 138, 164, 107, 0xC40000);
 		}
-		writeText(1, NecronomiconText.LABEL_REQUIRED_ENERGY + ": " + (int)ritual.getReqEnergy() + " PE", 125);
+		writeText(1, NecronomiconText.LABEL_REQUIRED_ENERGY + ": " + (int)ritual.getReqEnergy(), 125);
 		writeText(2, NecronomiconText.LABEL_LOCATION + ": " + getDimension(ritual.getDimension()));
 		writeText(2, ritual.getDescription(), 48);
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);

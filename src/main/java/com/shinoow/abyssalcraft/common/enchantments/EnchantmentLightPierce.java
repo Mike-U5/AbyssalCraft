@@ -21,50 +21,43 @@ import com.shinoow.abyssalcraft.api.AbyssalCraftAPI;
 
 public class EnchantmentLightPierce extends EnchantmentDamage {
 
-	public EnchantmentLightPierce(int par1)
-	{
+	public EnchantmentLightPierce(int par1) {
 		super(par1, 5, 3);
 	}
 
 	@Override
-	public int getMinEnchantability(int par1)
-	{
+	public int getMinEnchantability(int par1) {
 		return 5 + (par1 - 1) * 8;
 	}
 
 	@Override
-	public int getMaxEnchantability(int par1)
-	{
+	public int getMaxEnchantability(int par1) {
 		return getMinEnchantability(par1) + 20;
 	}
 
 	@Override
-	public int getMaxLevel()
-	{
+	public int getMaxLevel() {
 		return 5;
 	}
 
 	@Override
-	public float func_152376_a(int par1, EnumCreatureAttribute par2CreatureAttribute)
-	{
-		return par2CreatureAttribute == AbyssalCraftAPI.SHADOW ? par1 * 2.5F : 0.0F;
+	public float func_152376_a(int dmg, EnumCreatureAttribute attrib) {
+		
+		return attrib == AbyssalCraftAPI.SHADOW ? dmg * 2.5F : 0.0F;
 	}
 
 	@Override
-	public String getName()
-	{
+	public String getName() {
 		return "enchantment.damage.shadow";
 	}
 
 	@Override
-	public boolean canApplyTogether(Enchantment par1Enchantment)
-	{
+	public boolean canApplyTogether(Enchantment par1Enchantment) {
 		return !(par1Enchantment instanceof EnchantmentDamage);
 	}
 
 	@Override
-	public boolean canApply(ItemStack par1ItemStack)
-	{
+	public boolean canApply(ItemStack par1ItemStack) {
 		return par1ItemStack.getItem() instanceof ItemAxe ? true : super.canApply(par1ItemStack);
 	}
 }

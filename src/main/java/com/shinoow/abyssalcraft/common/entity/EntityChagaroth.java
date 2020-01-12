@@ -11,20 +11,19 @@
  ******************************************************************************/
 package com.shinoow.abyssalcraft.common.entity;
 
-import java.util.Calendar;
-import java.util.UUID;
+import com.shinoow.abyssalcraft.AbyssalCraft;
+import com.shinoow.abyssalcraft.api.entity.IDreadEntity;
+import com.shinoow.abyssalcraft.common.util.SpecialTextUtil;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.IEntityLivingData;
+import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackOnCollide;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAILookIdle;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
-import net.minecraft.entity.ai.attributes.AttributeModifier;
-import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.boss.IBossDisplayData;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.item.EntityXPOrb;
@@ -36,22 +35,15 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
-import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
-
-import com.shinoow.abyssalcraft.AbyssalCraft;
-import com.shinoow.abyssalcraft.api.entity.IDreadEntity;
-import com.shinoow.abyssalcraft.common.util.SpecialTextUtil;
 
 public class EntityChagaroth extends EntityMob implements IBossDisplayData, IDreadEntity {
 
-	private static final UUID attackDamageBoostUUID = UUID.fromString("648D7064-6A60-4F59-8ABE-C2C23A6DD7A9");
-	private static final AttributeModifier attackDamageBoost = new AttributeModifier(attackDamageBoostUUID, "Halloween Attack Damage Boost", 8D, 0);
 	public int deathTicks;
 
 	public EntityChagaroth(World par1World) {
 		super(par1World);
-		setSize(2.0F, 4.8F);
+		setSize(3.0F, 4.8F);
 		tasks.addTask(2, new EntityAIAttackOnCollide(this, EntityPlayer.class, 0.0D, true));
 		tasks.addTask(3, new EntityAILookIdle(this));
 		tasks.addTask(3, new EntityAIWatchClosest(this, EntityPlayer.class, 16.0F));
@@ -140,49 +132,30 @@ public class EntityChagaroth extends EntityMob implements IBossDisplayData, IDre
 	{
 		return false;
 	}
-	
-	private void spitMob(EntityMob mob) {
-		mob.copyLocationAndAnglesFrom(this);
-		mob.posY += 4;
-		
-		Vec3 vec = this.getLookVec();
-		float force = 2;
-		
-		mob.motionX = vec.xCoord * force;
-		mob.motionY = vec.yCoord * force;
-		mob.motionZ = vec.zCoord * force;
-		worldObj.spawnEntityInWorld(mob);
-	}
 
 	@Override
 	public void onLivingUpdate()
 	{
 		EntityPlayer player = worldObj.getClosestPlayerToEntity(this, 32D);
 		if(!worldObj.isRemote && deathTicks == 0){
-			if(rand.nextInt(100) == 0 && player != null){
+			if(rand.nextInt(600) == 0 && player != null) {
 				EntityChagarothSpawn mob = new EntityChagarothSpawn(worldObj);
-				//mob.copyLocationAndAnglesFrom(player);
-				//worldObj.spawnEntityInWorld(mob);
-				spitMob(mob);
+				mob.copyLocationAndAnglesFrom(player);
+				worldObj.spawnEntityInWorld(mob);
 			}
-			if(rand.nextInt(1000) == 0){
+			if(rand.nextInt(600) == 0) {
 				EntityDreadSpawn mob = new EntityDreadSpawn(worldObj);
-				//mob.copyLocationAndAnglesFrom(this);
-				//worldObj.spawnEntityInWorld(mob);
-				spitMob(mob);
-
-				EntityChagarothSpawn spawn = new EntityChagarothSpawn(worldObj);
-				spawn.copyLocationAndAnglesFrom(this);
-				worldObj.spawnEntityInWorld(spawn);
+				mob.copyLocationAndAnglesFrom(this);
+				worldObj.spawnEntityInWorld(mob);
 			}
 			EntityChagarothFist fist = new EntityChagarothFist(worldObj);
 			fist.copyLocationAndAnglesFrom(this);
 			EntityDreadguard dreadGuard = new EntityDreadguard(worldObj);
 			dreadGuard.copyLocationAndAnglesFrom(fist);
-			if(rand.nextInt(3600) == 0)
+			if(rand.nextInt(3600) == 0) {
 				worldObj.spawnEntityInWorld(fist);
-			if(rand.nextInt(7200) == 0)
-				worldObj.spawnEntityInWorld(dreadGuard);
+			}
+
 			if(player != null)
 				switch((int)getHealth()){
 				case 900:
@@ -297,7 +270,6 @@ public class EntityChagaroth extends EntityMob implements IBossDisplayData, IDre
 					worldObj.spawnEntityInWorld(new EntityXPOrb(worldObj, posX, posY, posZ, j));
 					if(deathTicks == 100 || deathTicks == 120 || deathTicks == 140 || deathTicks == 160 || deathTicks == 180){
 						worldObj.spawnEntityInWorld(new EntityItem(worldObj, posX + posneg(3), posY + rand.nextInt(3), posZ + posneg(3), new ItemStack(AbyssalCraft.dreadfragment, 4)));
-						worldObj.spawnEntityInWorld(new EntityItem(worldObj, posX + posneg(3), posY + rand.nextInt(3), posZ + posneg(3), new ItemStack(AbyssalCraft.dreadchunk, 2)));
 						worldObj.spawnEntityInWorld(new EntityItem(worldObj, posX + posneg(3), posY + rand.nextInt(3), posZ + posneg(3), new ItemStack(AbyssalCraft.Dreadshard)));
 						worldObj.spawnEntityInWorld(new EntityItem(worldObj, posX + posneg(3), posY + rand.nextInt(3), posZ + posneg(3), new ItemStack(AbyssalCraft.dreadiumingot)));
 					}
@@ -319,18 +291,9 @@ public class EntityChagaroth extends EntityMob implements IBossDisplayData, IDre
 	private int posneg(int num){
 		return rand.nextBoolean() ? rand.nextInt(num) : -1 * rand.nextInt(num);
 	}
-
+	
 	@Override
-	public IEntityLivingData onSpawnWithEgg(IEntityLivingData par1EntityLivingData)
-	{
-		par1EntityLivingData = super.onSpawnWithEgg(par1EntityLivingData);
-
-		IAttributeInstance attribute = getEntityAttribute(SharedMonsterAttributes.attackDamage);
-		Calendar calendar = worldObj.getCurrentDate();
-
-		if (calendar.get(2) + 1 == 10 && calendar.get(5) == 31 && rand.nextFloat() < 0.25F)
-			attribute.applyModifier(attackDamageBoost);
-
-		return par1EntityLivingData;
+	public EnumCreatureAttribute getCreatureAttribute() {
+		return EnumCreatureAttribute.ARTHROPOD;
 	}
 }

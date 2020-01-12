@@ -11,17 +11,13 @@
  ******************************************************************************/
 package com.shinoow.abyssalcraft.common.entity;
 
+import com.shinoow.abyssalcraft.api.item.ACItems;
+
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.item.ItemExpireEvent;
-
-import com.shinoow.abyssalcraft.api.item.ACItems;
-
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class EntityGatekeeperEssence extends EntityItem {
 

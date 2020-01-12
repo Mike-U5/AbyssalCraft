@@ -24,7 +24,7 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.fluids.BlockFluidClassic;
+import net.minecraftforge.fluids.BlockFluidFinite;
 
 import com.shinoow.abyssalcraft.AbyssalCraft;
 import com.shinoow.abyssalcraft.common.util.EntityUtil;
@@ -32,7 +32,7 @@ import com.shinoow.abyssalcraft.common.util.EntityUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class BlockAntiliquid extends BlockFluidClassic {
+public class BlockAntiliquid extends BlockFluidFinite {
 
 	public static final MaterialLiquid antimatter = new MaterialLiquid(MapColor.silverColor);
 
@@ -64,41 +64,47 @@ public class BlockAntiliquid extends BlockFluidClassic {
 
 	@Override
 	public boolean canDisplace(IBlockAccess world, int x, int y, int z) {
-		if(world.getBlock(x, y, z) == AbyssalCraft.Cwater || world.getBlock(x, y, z).getMaterial() == Material.water && world.getBlock(x, y, z) != AbyssalCraft.Cwater && world.getBlock(x, y, z) != this || world.getBlock(x, y, z).getMaterial() == Material.lava)
+		if(world.getBlock(x, y, z) == AbyssalCraft.Cwater || world.getBlock(x, y, z).getMaterial() == Material.water && world.getBlock(x, y, z) != AbyssalCraft.Cwater && world.getBlock(x, y, z) != this || world.getBlock(x, y, z).getMaterial() == Material.lava) {
 			return true;
+		}
 		return super.canDisplace(world, x, y, z);
 	}
 
 	@Override
 	public boolean displaceIfPossible(World world, int x, int y, int z) {
 
-		if(!world.isRemote && world.getBlock(x, y, z) == AbyssalCraft.Cwater)
+		if(!world.isRemote && world.getBlock(x, y, z) == AbyssalCraft.Cwater) {
 			world.setBlock(x, y, z, AbyssalCraft.cstone);
+		}
 
-		if(!world.isRemote && world.getBlock(x, y, z).getMaterial() == Material.water && world.getBlock(x, y, z) != AbyssalCraft.Cwater && world.getBlock(x, y, z) != this)
+		if(!world.isRemote && world.getBlock(x, y, z).getMaterial() == Material.water && world.getBlock(x, y, z) != AbyssalCraft.Cwater && world.getBlock(x, y, z) != this) {
 			world.setBlock(x, y, z, Blocks.packed_ice);
+		}
 
-		if(!world.isRemote && world.getBlock(x, y, z).getMaterial() == Material.lava)
+		if(!world.isRemote && world.getBlock(x, y, z).getMaterial() == Material.lava) {
 			world.setBlock(x, y, z, Blocks.obsidian);
+		}
 
 		return super.displaceIfPossible(world, x, y, z);
 	}
 
 	@Override
-	public void onEntityCollidedWithBlock(World par1World, int par2, int par3, int par4, Entity par5Entity) {
-		super.onEntityCollidedWithBlock(par1World, par2, par3, par4, par5Entity);
+	public void onEntityCollidedWithBlock(World par1World, int par2, int par3, int par4, Entity entity) {
+		super.onEntityCollidedWithBlock(par1World, par2, par3, par4, entity);
 
-		if(par5Entity instanceof EntityLivingBase && !EntityUtil.isEntityAnti((EntityLivingBase)par5Entity)){
-			((EntityLivingBase)par5Entity).addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 400));
-			///((EntityLivingBase)par5Entity).addPotionEffect(new PotionEffect(Potion.blindness.id, 400));
-			((EntityLivingBase)par5Entity).addPotionEffect(new PotionEffect(Potion.weakness.id, 400));
-			((EntityLivingBase)par5Entity).addPotionEffect(new PotionEffect(Potion.hunger.id, 400));
-			((EntityLivingBase)par5Entity).addPotionEffect(new PotionEffect(Potion.nightVision.id, 400));
-			if(((EntityLivingBase)par5Entity).getActivePotionEffect(AbyssalCraft.antiMatter) == null || ((EntityLivingBase)par5Entity).getActivePotionEffect(AbyssalCraft.antiMatter).getDuration() < 196) {
-				((EntityLivingBase)par5Entity).addPotionEffect(new PotionEffect(AbyssalCraft.antiMatter.id, 200));
+		if(entity instanceof EntityLivingBase && !EntityUtil.isEntityAnti((EntityLivingBase)entity)){
+			EntityLivingBase livingEntity = (EntityLivingBase)entity;
+			livingEntity.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 400));
+			livingEntity.addPotionEffect(new PotionEffect(Potion.weakness.id, 400));
+			livingEntity.addPotionEffect(new PotionEffect(Potion.hunger.id, 400));
+			livingEntity.addPotionEffect(new PotionEffect(Potion.nightVision.id, 400));
+			livingEntity.addPotionEffect(new PotionEffect(Potion.digSlowdown.id, 400));
+			if(livingEntity.getActivePotionEffect(AbyssalCraft.antiMatter) == null || livingEntity.getActivePotionEffect(AbyssalCraft.antiMatter).getDuration() < 196) {
+				livingEntity.addPotionEffect(new PotionEffect(AbyssalCraft.antiMatter.id, 200));
 			}
 		}
-		if(par5Entity instanceof EntityItem && AbyssalCraft.antiItemDisintegration)
-			par5Entity.setDead();
+		if(entity instanceof EntityItem && AbyssalCraft.antiItemDisintegration) {
+			entity.setDead();
+		}
 	}
 }

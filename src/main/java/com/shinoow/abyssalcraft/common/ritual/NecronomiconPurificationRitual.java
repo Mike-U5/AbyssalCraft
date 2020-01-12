@@ -28,7 +28,7 @@ import net.minecraft.world.chunk.Chunk;
 public class NecronomiconPurificationRitual extends NecronomiconRitual {
 
 	public NecronomiconPurificationRitual() {
-		super("purification", 0, 10000F, new Object[] {
+		super("purification", 4, 10000F, new Object[] {
 			Item.getItemFromBlock(AbyssalCraft.ODBcore), new ItemStack(Items.dye, 1, 15), 
 			Item.getItemFromBlock(AbyssalCraft.ODBcore), new ItemStack(Items.dye, 1, 15), 
 			Item.getItemFromBlock(AbyssalCraft.ODBcore), new ItemStack(Items.dye, 1, 15), 

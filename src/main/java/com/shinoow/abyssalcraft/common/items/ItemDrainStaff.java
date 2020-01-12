@@ -18,6 +18,7 @@ import com.shinoow.abyssalcraft.api.AbyssalCraftAPI;
 import com.shinoow.abyssalcraft.api.entity.IAntiEntity;
 import com.shinoow.abyssalcraft.api.entity.ICoraliumEntity;
 import com.shinoow.abyssalcraft.api.entity.IDreadEntity;
+import com.shinoow.abyssalcraft.api.entity.IOmotholEntity;
 
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.boss.IBossDisplayData;
@@ -116,7 +117,7 @@ public class ItemDrainStaff extends Item {
 						if(target.attackEntityFrom(srcDmg, trueDmg)) {
 							increaseEnergy(stack, "Dread", trueDmg);
 						}
-					} else if(world.provider.dimensionId == AbyssalCraft.configDimId3 && target instanceof ICoraliumEntity && target instanceof IDreadEntity && target instanceof IAntiEntity) {
+					} else if(world.provider.dimensionId == AbyssalCraft.configDimId3 && target instanceof IOmotholEntity) {
 						if(target.attackEntityFrom(srcDmg, trueDmg)) {
 							increaseEnergy(stack, "Omothol", trueDmg);
 						}

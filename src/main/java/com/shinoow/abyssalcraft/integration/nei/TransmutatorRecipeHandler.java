@@ -20,20 +20,16 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import com.shinoow.abyssalcraft.api.recipe.TransmutatorRecipes;
+
+import codechicken.nei.NEIServerUtils;
+import codechicken.nei.PositionedStack;
+import codechicken.nei.recipe.TemplateRecipeHandler;
 import net.minecraft.block.Block;
-import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.StatCollector;
-import codechicken.nei.ItemList;
-import codechicken.nei.NEIServerUtils;
-import codechicken.nei.PositionedStack;
-import codechicken.nei.recipe.TemplateRecipeHandler;
-
-import com.shinoow.abyssalcraft.api.recipe.TransmutatorRecipes;
-import com.shinoow.abyssalcraft.client.gui.GuiTransmutator;
-import com.shinoow.abyssalcraft.common.blocks.tile.TileEntityTransmutator;
 
 public class TransmutatorRecipeHandler extends TemplateRecipeHandler
 {
@@ -85,20 +81,8 @@ public class TransmutatorRecipeHandler extends TemplateRecipeHandler
 	}
 
 	@Override
-	public Class<? extends GuiContainer> getGuiClass() {
-		return GuiTransmutator.class;
-	}
-
-	@Override
 	public String getRecipeName() {
 		return StatCollector.translateToLocal("container.abyssalcraft.transmutator.nei");
-	}
-
-	@Override
-	public TemplateRecipeHandler newInstance() {
-		if (afuels == null)
-			findFuels();
-		return super.newInstance();
 	}
 
 	@Override
@@ -158,17 +142,6 @@ public class TransmutatorRecipeHandler extends TemplateRecipeHandler
 		efuels.add(Item.getItemFromBlock(Blocks.wooden_door));
 		efuels.add(Item.getItemFromBlock(Blocks.trapped_chest));
 		return efuels;
-	}
-
-	private static void findFuels() {
-		afuels = new ArrayList<FuelPair>();
-		Set<Item> efuels = excludedFuels();
-		for (ItemStack item : ItemList.items)
-			if (!efuels.contains(item.getItem())) {
-				int burnTime = TileEntityTransmutator.getItemBurnTime(item);
-				if (burnTime > 0)
-					afuels.add(new FuelPair(item.copy(), burnTime));
-			}
 	}
 
 	@Override

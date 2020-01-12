@@ -13,6 +13,14 @@ package com.shinoow.abyssalcraft.common.world.biome;
 
 import java.util.Random;
 
+import com.shinoow.abyssalcraft.AbyssalCraft;
+import com.shinoow.abyssalcraft.api.block.ACBlocks;
+import com.shinoow.abyssalcraft.common.entity.EntityAbyssalZombie;
+import com.shinoow.abyssalcraft.common.entity.EntityDepthsGhoul;
+import com.shinoow.abyssalcraft.common.entity.EntitySkeletonGoliath;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.monster.EntitySkeleton;
@@ -21,16 +29,6 @@ import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.gen.feature.WorldGenMinable;
-
-import com.shinoow.abyssalcraft.AbyssalCraft;
-import com.shinoow.abyssalcraft.api.block.ACBlocks;
-import com.shinoow.abyssalcraft.common.entity.EntityAbyssalZombie;
-import com.shinoow.abyssalcraft.common.entity.EntityDepthsGhoul;
-import com.shinoow.abyssalcraft.common.entity.EntityDragonMinion;
-import com.shinoow.abyssalcraft.common.entity.EntitySkeletonGoliath;
-
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class BiomeGenAbywasteland extends BiomeGenBase {
 

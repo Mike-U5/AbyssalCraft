@@ -14,7 +14,6 @@ package com.shinoow.abyssalcraft.common.handlers;
 import com.shinoow.abyssalcraft.AbyssalCraft;
 import com.shinoow.abyssalcraft.api.biome.ACBiomes;
 import com.shinoow.abyssalcraft.api.biome.IDarklandsBiome;
-import com.shinoow.abyssalcraft.api.entity.IDreadEntity;
 import com.shinoow.abyssalcraft.api.event.ACEvents.RitualEvent;
 import com.shinoow.abyssalcraft.api.item.ItemUpgradeKit;
 import com.shinoow.abyssalcraft.api.ritual.NecronomiconCreationRitual;
@@ -25,20 +24,14 @@ import com.shinoow.abyssalcraft.api.ritual.NecronomiconSummonRitual;
 import com.shinoow.abyssalcraft.common.blocks.BlockDLTSapling;
 import com.shinoow.abyssalcraft.common.blocks.BlockDreadSapling;
 import com.shinoow.abyssalcraft.common.entity.EntityJzahar;
-import com.shinoow.abyssalcraft.common.items.ItemCrystalBag;
 import com.shinoow.abyssalcraft.common.items.ItemNecronomicon;
 import com.shinoow.abyssalcraft.common.ritual.NecronomiconBreedingRitual;
 import com.shinoow.abyssalcraft.common.ritual.NecronomiconDreadSpawnRitual;
-import com.shinoow.abyssalcraft.common.util.EntityUtil;
 import com.shinoow.abyssalcraft.common.util.SpecialTextUtil;
 
 import cpw.mods.fml.common.eventhandler.Event.Result;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent;
-import net.minecraft.block.Block;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -47,13 +40,10 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
-import net.minecraftforge.common.util.BlockSnapshot;
 import net.minecraftforge.event.entity.living.EnderTeleportEvent;
-import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.player.BonemealEvent;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.event.terraingen.BiomeEvent;
@@ -146,17 +136,11 @@ public class AbyssalCraftEventHooks {
 			event.entityPlayer.addStat(AbyssalCraft.GK2, 1);
 		if(event.item.getEntityItem().getItem() == AbyssalCraft.portalPlacerJzh)
 			event.entityPlayer.addStat(AbyssalCraft.GK3, 1);
-		if(event.item.getEntityItem().getItem() == Item.getItemFromBlock(AbyssalCraft.transmutator))
-			event.entityPlayer.addStat(AbyssalCraft.makeTransmutator, 1);
-		if(event.item.getEntityItem().getItem() == Item.getItemFromBlock(AbyssalCraft.crystallizer))
-			event.entityPlayer.addStat(AbyssalCraft.makeCrystallizer, 1);
-		if(event.item.getEntityItem().getItem() == Item.getItemFromBlock(AbyssalCraft.materializer))
-			event.entityPlayer.addStat(AbyssalCraft.makeMaterializer, 1);
 		if(event.item.getEntityItem().getItem() == Item.getItemFromBlock(AbyssalCraft.engraver))
 			event.entityPlayer.addStat(AbyssalCraft.makeEngraver, 1);
 	}
 
-	@SubscribeEvent
+	/*@SubscribeEvent
 	public void enchantmentEffects(LivingAttackEvent event){
 		if(event.source instanceof EntityDamageSource){
 			Entity entity = ((EntityDamageSource)event.source).getEntity();
@@ -174,7 +158,7 @@ public class AbyssalCraftEventHooks {
 				}
 			}
 		}
-	}
+	}*/
 
 	/*@SubscribeEvent
 	public void darkRealm(LivingUpdateEvent event){
@@ -213,25 +197,6 @@ public class AbyssalCraftEventHooks {
 								if(l.stackTagCompound == null)
 									l.stackTagCompound = compound;
 								l.stackTagCompound.setTag("ench", tag);
-
-								event.craftMatrix.setInventorySlotContents(i, l);
-							}
-						}
-						else if(k.getItem() != null && k.getItem() instanceof ItemCrystalBag){
-							NBTTagCompound compound = new NBTTagCompound();
-							NBTTagList items = new NBTTagList();
-
-							if(k.stackTagCompound == null)
-								k.stackTagCompound = compound;
-							items = k.stackTagCompound.getTagList("ItemInventory", 10);
-
-							ItemStack l = event.crafting;
-
-							if(l.getItem() instanceof ItemCrystalBag){
-								((ItemCrystalBag)l.getItem()).setInventorySize(l);
-								if(l.stackTagCompound == null)
-									l.stackTagCompound = compound;
-								l.stackTagCompound.setTag("ItemInventory", items);
 
 								event.craftMatrix.setInventorySlotContents(i, l);
 							}
@@ -277,19 +242,8 @@ public class AbyssalCraftEventHooks {
 			event.player.addStat(AbyssalCraft.necrou3, 1);
 		if(event.crafting.getItem() == AbyssalCraft.abyssalnomicon)
 			event.player.addStat(AbyssalCraft.abyssaln, 1);
-		if(event.crafting.getItem() == Item.getItemFromBlock(AbyssalCraft.transmutator))
-			event.player.addStat(AbyssalCraft.makeTransmutator, 1);
-		if(event.crafting.getItem() == Item.getItemFromBlock(AbyssalCraft.crystallizer))
-			event.player.addStat(AbyssalCraft.makeCrystallizer, 1);
-		if(event.crafting.getItem() == Item.getItemFromBlock(AbyssalCraft.materializer))
-			event.player.addStat(AbyssalCraft.makeMaterializer, 1);
 		if(event.crafting.getItem() == Item.getItemFromBlock(AbyssalCraft.engraver))
 			event.player.addStat(AbyssalCraft.makeEngraver, 1);
-		if(event.crafting.getItem() == AbyssalCraft.crystalbag_s ||
-				event.crafting.getItem() == AbyssalCraft.crystalbag_m ||
-				event.crafting.getItem() == AbyssalCraft.crystalbag_l ||
-				event.crafting.getItem() == AbyssalCraft.crystalbag_h)
-			event.player.addStat(AbyssalCraft.makeCrystalBag, 1);
 	}
 
 	@SubscribeEvent

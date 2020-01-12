@@ -11,25 +11,20 @@
  ******************************************************************************/
 package com.shinoow.abyssalcraft.common.items.armor;
 
-import java.util.List;
+import com.shinoow.abyssalcraft.AbyssalCraft;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
-
-import com.shinoow.abyssalcraft.AbyssalCraft;
-
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemCoraliumPArmor extends ItemArmor {
 	public ItemCoraliumPArmor(ArmorMaterial par2EnumArmorMaterial, int par3, int par4){
@@ -60,12 +55,9 @@ public class ItemCoraliumPArmor extends ItemArmor {
 		itemIcon = par1IconRegister.registerIcon(AbyssalCraft.modid + ":" + this.getUnlocalizedName().substring(5));
 	}
 
-	@SuppressWarnings("rawtypes")
 	@Override
 	public void onArmorTick(World world, EntityPlayer player, ItemStack itemstack) {
 		int setEff = 0;
-		boolean plateWorn = false;
-		
 		if (player.getCurrentArmor(3) != null && player.getCurrentArmor(3).getItem().equals(AbyssalCraft.CorhelmetP)) {
 			setEff++;
 			player.addPotionEffect(new PotionEffect(Potion.nightVision.getId(), 260, 0));

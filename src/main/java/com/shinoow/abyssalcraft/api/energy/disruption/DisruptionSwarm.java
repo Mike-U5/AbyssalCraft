@@ -57,6 +57,7 @@ public class DisruptionSwarm extends DisruptionEntry {
 					try {
 						EntityLivingBase entity = clazz.getConstructor(World.class).newInstance(world);
 						entity.setLocationAndAngles(x + randomNum(world.rand), y + 1, z + randomNum(world.rand), entity.rotationYaw, entity.rotationPitch);
+						entity.capturedDrops.clear();
 						((EntityLiving) entity).onSpawnWithEgg((IEntityLivingData)null);
 						world.spawnEntityInWorld(entity);
 					} catch (InstantiationException | IllegalAccessException

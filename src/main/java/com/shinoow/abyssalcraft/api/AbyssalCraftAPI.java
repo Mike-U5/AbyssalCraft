@@ -99,12 +99,12 @@ public class AbyssalCraftAPI {
 	public static ArmorMaterial dreadiumSamuraiArmor = EnumHelper.addArmorMaterial("DreadiumS", 45, new int[]{3, 8, 6, 3}, 20);
 	public static ArmorMaterial ethaxiumArmor = EnumHelper.addArmorMaterial("Ethaxium", 50, new int[]{3, 8, 6, 3}, 25);
 
-	public static ToolMaterial darkstoneTool = EnumHelper.addToolMaterial("DARKSTONE", 1, 180, 5.0F, 1F, 5);
+	public static ToolMaterial darkstoneTool = EnumHelper.addToolMaterial("DARKSTONE", 1, 131, 4.8F, 2F, 2);
 	public static ToolMaterial abyssalniteTool = EnumHelper.addToolMaterial("ABYSSALNITE", 4, 1261, 10.0F, 2F, 13);
 	public static ToolMaterial refinedCoraliumTool = EnumHelper.addToolMaterial("CORALIUM", 5, 1800, 12.0F, 3F, 14);
 	public static ToolMaterial dreadiumTool = EnumHelper.addToolMaterial("DREADIUM", 6, 2300, 14.0F, 4F, 15);
 	public static ToolMaterial ethaxiumTool = EnumHelper.addToolMaterial("ETHAXIUM", 8, 2800, 15.5F, 5F, 19);
-	public static ToolMaterial souliumTool = EnumHelper.addToolMaterial("SOULIUM", 9, 3000, 16.5F, 6F, 21);
+	public static ToolMaterial katanaTool = EnumHelper.addToolMaterial("KATANA", 9, 3000, 16.5F, 6F, 21);
 
 	private static IInternalNecroDataHandler internalNDHandler = new DummyNecroDataHandler();
 

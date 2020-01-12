@@ -43,6 +43,7 @@ public class TileEntityJzaharSpawner extends TileEntity {
 								activatingRangeFromPlayer).posY >= yCoord -1;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void updateEntity() {
 		if (!worldObj.isRemote && isActivated()) {

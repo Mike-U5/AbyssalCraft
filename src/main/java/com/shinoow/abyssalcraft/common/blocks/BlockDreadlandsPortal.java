@@ -31,10 +31,8 @@ import com.shinoow.abyssalcraft.common.world.TeleporterDreadlands;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class BlockDreadlandsPortal extends BlockBreakable
-{
-	public BlockDreadlandsPortal()
-	{
+public class BlockDreadlandsPortal extends BlockBreakable {
+	public BlockDreadlandsPortal() {
 		super("DG", Material.portal , false);
 		setTickRandomly(true);
 		setHardness(-1.0F);
@@ -44,24 +42,20 @@ public class BlockDreadlandsPortal extends BlockBreakable
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void registerBlockIcons(IIconRegister par1IconRegister)
-	{
+	public void registerBlockIcons(IIconRegister par1IconRegister) {
 		blockIcon = par1IconRegister.registerIcon(AbyssalCraft.modid + ":" + "DG");
 	}
 
 	@Override
-	public AxisAlignedBB getCollisionBoundingBoxFromPool(World par1World, int par2, int par3, int par4)
-	{
+	public AxisAlignedBB getCollisionBoundingBoxFromPool(World par1World, int par2, int par3, int par4) {
 		return null;
 	}
 
 	@Override
-	public void setBlockBoundsBasedOnState(IBlockAccess par1BlockAccess, int par2, int par3, int par4)
-	{
+	public void setBlockBoundsBasedOnState(IBlockAccess par1BlockAccess, int par2, int par3, int par4){
 		int l = func_149999_b(par1BlockAccess.getBlockMetadata(par2, par3, par4));
 
-		if (l == 0)
-		{
+		if (l == 0) {
 			if (par1BlockAccess.getBlock(par2 - 1, par3, par4) != this && par1BlockAccess.getBlock(par2 + 1, par3, par4) != this)
 				l = 2;
 			else

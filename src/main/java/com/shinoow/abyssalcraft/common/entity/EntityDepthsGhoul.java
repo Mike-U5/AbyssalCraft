@@ -14,6 +14,10 @@ package com.shinoow.abyssalcraft.common.entity;
 import java.util.Calendar;
 import java.util.UUID;
 
+import com.shinoow.abyssalcraft.AbyssalCraft;
+import com.shinoow.abyssalcraft.api.entity.ICoraliumEntity;
+import com.shinoow.abyssalcraft.common.util.EntityUtil;
+
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -31,7 +35,6 @@ import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
-import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.player.EntityPlayer;
@@ -44,10 +47,6 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeModContainer;
-
-import com.shinoow.abyssalcraft.AbyssalCraft;
-import com.shinoow.abyssalcraft.api.entity.ICoraliumEntity;
-import com.shinoow.abyssalcraft.common.util.EntityUtil;
 
 public class EntityDepthsGhoul extends ACMob implements ICoraliumEntity {
 
@@ -72,7 +71,6 @@ public class EntityDepthsGhoul extends ACMob implements ICoraliumEntity {
 	public EntityDepthsGhoul(World par1World) {
 		super(par1World);
 		setDrop(AbyssalCraft.Corbone, 1.0F);
-		setPushResist(0.25);
 		tasks.addTask(0, new EntityAISwimming(this));
 		tasks.addTask(2, new EntityAIAttackOnCollide(this, EntityPlayer.class, 1.0D, false));
 		tasks.addTask(3, new EntityAIFleeSun(this, 1.0D));
@@ -95,7 +93,7 @@ public class EntityDepthsGhoul extends ACMob implements ICoraliumEntity {
 		super.applyEntityAttributes();
 
 		getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(64.0D);
-		getEntityAttribute(SharedMonsterAttributes.knockbackResistance).setBaseValue(0.3D);
+		getEntityAttribute(SharedMonsterAttributes.knockbackResistance).setBaseValue(0.25D);
 		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.23000000417232513D);
 
 		if(AbyssalCraft.hardcoreMode){

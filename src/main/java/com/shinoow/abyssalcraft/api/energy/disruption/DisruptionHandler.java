@@ -36,7 +36,7 @@ public class DisruptionHandler {
 
 	private static final DisruptionHandler instance = new DisruptionHandler();
 
-	public static DisruptionHandler instance(){
+	public static DisruptionHandler instance() {
 		return instance;
 	}
 
@@ -84,17 +84,7 @@ public class DisruptionHandler {
 	 * @since 1.5
 	 */
 	public void generateDisruption(DeityType deity, World world, int x, int y, int z, List<EntityPlayer> players){
-		List<DisruptionEntry> dis = Lists.newArrayList();
-
-		if(deity == null){
-			for(DisruptionEntry entry : disruptions)
-				if(entry.getDeity() == null)
-					dis.add(entry);
-		} else
-			for(DisruptionEntry entry : disruptions)
-				if(entry.getDeity() == deity || entry.getDeity() == null)
-					dis.add(entry);
-
-		dis.get(world.rand.nextInt(dis.size())).disrupt(world, x, y, z, players);
+		final int dis = world.rand.nextInt(disruptions.size());
+		disruptions.get(dis).disrupt(world, x, y, z, players);
 	}
 }

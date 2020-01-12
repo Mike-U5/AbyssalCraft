@@ -123,5 +123,6 @@ task apiZip(type: Zip) {
 }
 
 artifacts {
-    archives srcJar, devJar, apiZip
+    //archives srcJar, devJar, apiZip
+	archives apiZip
 }

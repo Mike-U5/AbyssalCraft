@@ -47,7 +47,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldProviderEnd;
 import net.minecraftforge.common.ForgeModContainer;
 
-public class EntityAbyssalZombie extends ACMob implements ICoraliumEntity {
+public class EntityAbyssalZombie extends CoraliumEntity implements ICoraliumEntity {
 
 	private static final UUID babySpeedBoostUUID = UUID.fromString("B9766B59-9566-4402-BC1F-2EE2A276D836");
 	private static final AttributeModifier babySpeedBoostModifier = new AttributeModifier(babySpeedBoostUUID, "Baby speed boost", 0.5D, 1);

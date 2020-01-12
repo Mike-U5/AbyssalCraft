@@ -13,6 +13,9 @@ package com.shinoow.abyssalcraft.common.items;
 
 import java.util.List;
 
+import com.google.common.collect.Multimap;
+import com.shinoow.abyssalcraft.AbyssalCraft;
+
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
@@ -21,13 +24,8 @@ import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
-
-import com.google.common.collect.Multimap;
-import com.shinoow.abyssalcraft.AbyssalCraft;
 
 public class ItemSoulReaper extends Item {
 

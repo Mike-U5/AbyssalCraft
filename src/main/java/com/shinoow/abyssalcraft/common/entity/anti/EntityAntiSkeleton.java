@@ -11,11 +11,12 @@
  ******************************************************************************/
 package com.shinoow.abyssalcraft.common.entity.anti;
 
-import net.minecraft.block.Block;
+import com.shinoow.abyssalcraft.AbyssalCraft;
+import com.shinoow.abyssalcraft.api.entity.IAntiEntity;
+import com.shinoow.abyssalcraft.common.entity.WardenProjectile;
+
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.entity.IEntityLivingData;
@@ -29,24 +30,17 @@ import net.minecraft.entity.ai.EntityAIRestrictSun;
 import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
-import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
-import net.minecraft.init.Items;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
-import com.shinoow.abyssalcraft.AbyssalCraft;
-import com.shinoow.abyssalcraft.api.entity.IAntiEntity;
-
-public class EntityAntiSkeleton extends EntityMob implements IRangedAttackMob, IAntiEntity {
+public class EntityAntiSkeleton extends EntitySkeleton implements IRangedAttackMob, IAntiEntity {
 
 	private EntityAIArrowAttack aiArrowAttack = new EntityAIArrowAttack(this, 1.0D, 20, 60, 15.0F);
 
-	public EntityAntiSkeleton(World par1World){
-		super(par1World);
+	public EntityAntiSkeleton(World world){
+		super(world);
 		tasks.addTask(1, new EntityAISwimming(this));
 		tasks.addTask(2, new EntityAIRestrictSun(this));
 		tasks.addTask(5, new EntityAIWander(this, 1.0D));
@@ -58,125 +52,59 @@ public class EntityAntiSkeleton extends EntityMob implements IRangedAttackMob, I
 	}
 
 	@Override
-	protected void applyEntityAttributes()
-	{
+	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
-
-		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.25D);
-		if(AbyssalCraft.hardcoreMode) getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(80.0D);
-		else getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(40.0D);
+		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.0D);
+		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(80.0D);
 	}
+	
+	@Override
+	protected void addRandomArmor(){}
+	
+	@Override
+	public void setCombatTask() {}
 
 	@Override
-	protected void entityInit()
-	{
-		super.entityInit();
-		dataWatcher.addObject(13, new Byte((byte)0));
-	}
-
-	@Override
-	public boolean isAIEnabled()
-	{
-		return true;
-	}
-
-	@Override
-	protected String getLivingSound()
-	{
+	protected String getLivingSound() {
 		return "mob.skeleton.say";
 	}
 
 	@Override
-	protected String getHurtSound()
-	{
+	protected String getHurtSound() {
 		return "mob.skeleton.hurt";
 	}
 
 	@Override
-	protected String getDeathSound()
-	{
+	protected String getDeathSound() {
 		return "mob.skeleton.death";
 	}
 
 	@Override
-	protected void func_145780_a(int par1, int par2, int par3, Block par4Block)
-	{
-		playSound("mob.skeleton.step", 0.15F, 1.0F);
-	}
-
-	@Override
-	public EnumCreatureAttribute getCreatureAttribute()
-	{
+	public EnumCreatureAttribute getCreatureAttribute() {
 		return EnumCreatureAttribute.UNDEAD;
 	}
 
 	@Override
-	public void updateRidden()
-	{
-		super.updateRidden();
-
-		if (ridingEntity instanceof EntityCreature)
-		{
-			EntityCreature entitycreature = (EntityCreature)ridingEntity;
-			renderYawOffset = entitycreature.renderYawOffset;
+	protected void dropFewItems(boolean playerKill, int fortune) {
+		if (rand.nextInt(6) < 3 + fortune) {
+			dropItem(AbyssalCraft.ethaxium_brick, 1);
 		}
 	}
 
 	@Override
-	protected Item getDropItem()
-	{
-		return Items.arrow;
-	}
-
-	@Override
-	protected void dropFewItems(boolean par1, int par2)
-	{
-		int j;
-		int k;
-
-		j = rand.nextInt(3 + par2);
-
-		for (k = 0; k < j; ++k)
-			dropItem(Items.arrow, 1);
-
-		j = rand.nextInt(3 + par2);
-
-		for (k = 0; k < j; ++k)
-			dropItem(AbyssalCraft.antiBone, 1);
-	}
-
-	@Override
-	protected void collideWithEntity(Entity par1Entity)
-	{
-		if(!worldObj.isRemote && par1Entity instanceof EntitySkeleton){
-			boolean flag = worldObj.getGameRules().getGameRuleBooleanValue("mobGriefing");
-			worldObj.createExplosion(this, posX, posY, posZ, 5, flag);
-			setDead();
-		}
-		else par1Entity.applyEntityCollision(this);
-	}
-
-	@Override
-	public IEntityLivingData onSpawnWithEgg(IEntityLivingData par1EntityLivingData)
-	{
-		par1EntityLivingData = super.onSpawnWithEgg(par1EntityLivingData);
-
+	public IEntityLivingData onSpawnWithEgg(IEntityLivingData entity) {
+		entity = super.onSpawnWithEgg(entity);
 		tasks.addTask(4, aiArrowAttack);
-		setCurrentItemOrArmor(0, new ItemStack(Items.bow));
-		enchantEquipment();
-
-		setCanPickUpLoot(rand.nextFloat() < 0.55F * worldObj.func_147462_b(posX, posY, posZ));
-
-		return par1EntityLivingData;
+		setCanPickUpLoot(false);
+		return entity;
 	}
 
 	/**
 	 * Attack the specified entity using a ranged attack.
 	 */
 	@Override
-	public void attackEntityWithRangedAttack(EntityLivingBase par1EntityLivingBase, float par2)
-	{
-		EntityArrow entityarrow = new EntityArrow(worldObj, this, par1EntityLivingBase, 1.6F, 14 - worldObj.difficultySetting.getDifficultyId() * 4);
+	public void attackEntityWithRangedAttack(EntityLivingBase entity, float par2) {
+		EntityArrow entityarrow = new WardenProjectile(worldObj, this, entity, 1.6F, 14 - worldObj.difficultySetting.getDifficultyId() * 4);
 		int i = EnchantmentHelper.getEnchantmentLevel(Enchantment.power.effectId, getHeldItem());
 		int j = EnchantmentHelper.getEnchantmentLevel(Enchantment.punch.effectId, getHeldItem());
 		entityarrow.setDamage(par2 * 2.0F + rand.nextGaussian() * 0.25D + worldObj.difficultySetting.getDifficultyId() * 0.11F);
@@ -193,11 +121,4 @@ public class EntityAntiSkeleton extends EntityMob implements IRangedAttackMob, I
 		playSound("random.bow", 1.0F, 1.0F / (getRNG().nextFloat() * 0.4F + 0.8F));
 		worldObj.spawnEntityInWorld(entityarrow);
 	}
-
-	@Override
-	public double getYOffset()
-	{
-		return super.getYOffset() - 0.5D;
-	}
-
 }

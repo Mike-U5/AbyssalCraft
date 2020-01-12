@@ -18,22 +18,15 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 
-import net.minecraft.block.Block;
-import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.StatCollector;
-import codechicken.nei.ItemList;
+import com.shinoow.abyssalcraft.api.recipe.CrystallizerRecipes;
+
 import codechicken.nei.NEIServerUtils;
 import codechicken.nei.PositionedStack;
 import codechicken.nei.recipe.TemplateRecipeHandler;
-
-import com.shinoow.abyssalcraft.api.recipe.CrystallizerRecipes;
-import com.shinoow.abyssalcraft.client.gui.GuiCrystallizer;
-import com.shinoow.abyssalcraft.common.blocks.tile.TileEntityCrystallizer;
+import net.minecraft.block.Block;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.StatCollector;
 
 public class CrystallizerRecipeHandler extends TemplateRecipeHandler
 {
@@ -95,20 +88,8 @@ public class CrystallizerRecipeHandler extends TemplateRecipeHandler
 	}
 
 	@Override
-	public Class<? extends GuiContainer> getGuiClass() {
-		return GuiCrystallizer.class;
-	}
-
-	@Override
 	public String getRecipeName() {
 		return StatCollector.translateToLocal("container.abyssalcraft.crystallizer.nei");
-	}
-
-	@Override
-	public TemplateRecipeHandler newInstance() {
-		if (afuels == null)
-			findFuels();
-		return super.newInstance();
 	}
 
 	@Override
@@ -157,28 +138,6 @@ public class CrystallizerRecipeHandler extends TemplateRecipeHandler
 	public void drawExtras(int recipe) {
 		drawProgressBar(51, 25, 176, 0, 14, 14, 48, 7);
 		drawProgressBar(74, 23, 176, 14, 24, 16, 48, 0);
-	}
-
-	private static Set<Item> excludedFuels() {
-		Set<Item> efuels = new HashSet<Item>();
-		efuels.add(Item.getItemFromBlock(Blocks.brown_mushroom));
-		efuels.add(Item.getItemFromBlock(Blocks.red_mushroom));
-		efuels.add(Item.getItemFromBlock(Blocks.standing_sign));
-		efuels.add(Item.getItemFromBlock(Blocks.wall_sign));
-		efuels.add(Item.getItemFromBlock(Blocks.wooden_door));
-		efuels.add(Item.getItemFromBlock(Blocks.trapped_chest));
-		return efuels;
-	}
-
-	private static void findFuels() {
-		afuels = new ArrayList<FuelPair>();
-		Set<Item> efuels = excludedFuels();
-		for (ItemStack item : ItemList.items)
-			if (!efuels.contains(item.getItem())) {
-				int burnTime = TileEntityCrystallizer.getCrystallizationTime(item);
-				if (burnTime > 0)
-					afuels.add(new FuelPair(item.copy(), burnTime));
-			}
 	}
 
 	@Override

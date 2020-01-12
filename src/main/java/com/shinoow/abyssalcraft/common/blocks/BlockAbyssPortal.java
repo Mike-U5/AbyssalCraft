@@ -33,8 +33,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockAbyssPortal extends BlockBreakable
 {
-	public BlockAbyssPortal()
-	{
+	public BlockAbyssPortal() {
 		super("AG", Material.portal , false);
 		setTickRandomly(true);
 		setHardness(-1.0F);
@@ -44,14 +43,12 @@ public class BlockAbyssPortal extends BlockBreakable
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void registerBlockIcons(IIconRegister par1IconRegister)
-	{
-		blockIcon = par1IconRegister.registerIcon(AbyssalCraft.modid + ":" + "AG");
+	public void registerBlockIcons(IIconRegister iconRegister) {
+		blockIcon = iconRegister.registerIcon(AbyssalCraft.modid + ":" + "AG");
 	}
 
 	@Override
-	public AxisAlignedBB getCollisionBoundingBoxFromPool(World par1World, int par2, int par3, int par4)
-	{
+	public AxisAlignedBB getCollisionBoundingBoxFromPool(World par1World, int par2, int par3, int par4) {
 		return null;
 	}
 
@@ -60,8 +57,7 @@ public class BlockAbyssPortal extends BlockBreakable
 	{
 		int l = func_149999_b(par1BlockAccess.getBlockMetadata(par2, par3, par4));
 
-		if (l == 0)
-		{
+		if (l == 0) {
 			if (par1BlockAccess.getBlock(par2 - 1, par3, par4) != this && par1BlockAccess.getBlock(par2 + 1, par3, par4) != this)
 				l = 2;
 			else
@@ -74,39 +70,37 @@ public class BlockAbyssPortal extends BlockBreakable
 		float f = 0.125F;
 		float f1 = 0.125F;
 
-		if (l == 1)
+		if (l == 1) {
 			f = 0.5F;
+		}
 
-		if (l == 2)
+		if (l == 2) {
 			f1 = 0.5F;
+		}
 
 		setBlockBounds(0.5F - f, 0.0F, 0.5F - f1, 0.5F + f, 1.0F, 0.5F + f1);
 	}
 
 	@Override
-	public boolean isOpaqueCube()
-	{
+	public boolean isOpaqueCube() {
 		return false;
 	}
 
 	@Override
-	public boolean renderAsNormalBlock()
-	{
+	public boolean renderAsNormalBlock() {
 		return false;
 	}
 
-	public static boolean tryToCreatePortal(World par1World, int par2, int par3, int par4)
-	{
+	public static boolean tryToCreatePortal(World par1World, int par2, int par3, int par4) {
 		byte b0 = 0;
 		byte b1 = 0;
 		if (par1World.getBlock(par2 - 1, par3, par4) == AbyssalCraft.abystone || par1World.getBlock(par2 + 1, par3, par4) == AbyssalCraft.abystone)
 			b0 = 1;
 		if (par1World.getBlock(par2, par3, par4 - 1) == AbyssalCraft.abystone || par1World.getBlock(par2, par3, par4 + 1) == AbyssalCraft.abystone)
 			b1 = 1;
-		if (b0 == b1)
+		if (b0 == b1) {
 			return false;
-		else
-		{
+		} else {
 			if (par1World.getBlock(par2 - b0, par3, par4 - b1) == Blocks.air)
 			{
 				par2 -= b0;
@@ -130,16 +124,17 @@ public class BlockAbyssPortal extends BlockBreakable
 							return false;
 					}
 				}
-			for (l = 0; l < 2; ++l)
-				for (i1 = 0; i1 < 3; ++i1)
+			for (l = 0; l < 2; ++l) {
+				for (i1 = 0; i1 < 3; ++i1) {
 					par1World.setBlock(par2 + b0 * l, par3 + i1, par4 + b1 * l, AbyssalCraft.portal, 0, 2);
+				}
+			}
 			return true;
 		}
 	}
 
 	@Override
-	public void onNeighborBlockChange(World par1World, int par2, int par3, int par4, Block par5)
-	{
+	public void onNeighborBlockChange(World par1World, int par2, int par3, int par4, Block par5) {
 		byte b0 = 0;
 		byte b1 = 1;
 		if (par1World.getBlock(par2 - 1, par3, par4) == this || par1World.getBlock(par2 + 1, par3, par4) == this)
@@ -200,17 +195,14 @@ public class BlockAbyssPortal extends BlockBreakable
 	}
 
 	@Override
-	public int quantityDropped(Random par1Random)
-	{
+	public int quantityDropped(Random par1Random) {
 		return 0;
 	}
 
 	@Override
-	public void onEntityCollidedWithBlock(World par1World, int par2, int par3, int par4, Entity par5Entity)
-	{
+	public void onEntityCollidedWithBlock(World par1World, int par2, int par3, int par4, Entity par5Entity) {
 
-		if (par5Entity.ridingEntity == null && par5Entity.riddenByEntity == null && par5Entity instanceof EntityPlayerMP)
-		{
+		if (par5Entity.ridingEntity == null && par5Entity.riddenByEntity == null && par5Entity instanceof EntityPlayerMP) {
 			EntityPlayerMP thePlayer = (EntityPlayerMP)par5Entity;
 			thePlayer.addStat(AbyssalCraft.enterabyss, 1);
 			if (thePlayer.timeUntilPortal > 0)

@@ -11,18 +11,11 @@
  ******************************************************************************/
 package com.shinoow.abyssalcraft.common.entity;
 
-import java.util.List;
-
 import com.shinoow.abyssalcraft.AbyssalCraft;
 import com.shinoow.abyssalcraft.api.AbyssalCraftAPI;
-import com.shinoow.abyssalcraft.api.entity.IAntiEntity;
-import com.shinoow.abyssalcraft.api.entity.ICoraliumEntity;
-import com.shinoow.abyssalcraft.api.entity.IDreadEntity;
+import com.shinoow.abyssalcraft.api.entity.IOmotholEntity;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -35,25 +28,19 @@ import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.Vec3;
-import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 
 enum BarfStatus {COOLDOWN, GURGLING, BARFING};
 
-public class EntityShadowBeast extends ACMob implements IAntiEntity, ICoraliumEntity, IDreadEntity {
-	
-	private BarfStatus barfStatus = BarfStatus.COOLDOWN;
-	private int breathTimer = 100;
+public class EntityShadowBeast extends ACMob implements IOmotholEntity {
 	
 	public EntityShadowBeast(World world) {
 		super(world);
 		setSize(1.0F, 2.8F);
 		setDrop(AbyssalCraft.shadowgem, 1.0F);
-		setPushResist(0.2);
 		tasks.addTask(2, new EntityAIAttackOnCollide(this, EntityPlayer.class, 0.35D, true));
 		tasks.addTask(3, new EntityAIMoveTowardsRestriction(this, 0.35D));
 		tasks.addTask(4, new EntityAIWander(this, 0.35D));
@@ -67,6 +54,8 @@ public class EntityShadowBeast extends ACMob implements IAntiEntity, ICoraliumEn
 	@Override
 	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
+		
+		getEntityAttribute(SharedMonsterAttributes.knockbackResistance).setBaseValue(0.3D);
 		
 		if(AbyssalCraft.hardcoreMode){
 			getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(200.0D);
@@ -109,66 +98,15 @@ public class EntityShadowBeast extends ACMob implements IAntiEntity, ICoraliumEn
 	public EnumCreatureAttribute getCreatureAttribute() {
 		return AbyssalCraftAPI.SHADOW;
 	}
-	
-	private int breathTimer() {
-		return (ticksExisted % 400) - 300;
-	}
 
-	@Override
-	public void onLivingUpdate() {
-		// Run twice per second
-		if (this.ticksExisted % 10 == 0) {
-			// Apply blindness
-			List<EntityPlayer> list = this.worldObj.getEntitiesWithinAABB(EntityPlayer.class, this.boundingBox.expand(4D, 4D, 4D));
-			if (list != null) {
-				for (int i = 0; i < list.size(); i++) {
-					Entity entity = (Entity)list.get(i);
-					if ((Entity)list.get(i) instanceof EntityPlayer && !entity.isDead && this.canEntityBeSeen(entity)) {
-						((EntityLivingBase)entity).addPotionEffect(new PotionEffect(Potion.blindness.getId(), 30));
-					}
-				}
-			}
-		}
-		/*if (getAttackTarget() != null && getDistanceSqToEntity(getAttackTarget()) <= 64D && breathTimer <= -300) {
-			breathTimer = 100;
-		}
-
-		if (breathTimer > 0) {
-			motionX *= 0.05D;
-			motionZ *= 0.05D;
-			worldObj.setEntityState(this, (byte)23);
-			if (ticksExisted % 5 == 0) {
-				worldObj.playSound(posX + 0.5D, posY + getEyeHeight(), posZ + 0.5D, "mob.ghast.fireball", 0.9F, getRNG().nextFloat() * 0.7F + 0.3F, true);
-			}
-			Entity target = this.getAttackTarget();
-			if (target != null) {
-				barfStatus = BarfStatus.BARFING;
-				if(target instanceof EntityLivingBase) {
-					addScalingDebuff((EntityLivingBase)target, Potion.moveSlowdown, 1, 4, 300);
-				}
-			}
-		} else {
-			barfStatus = BarfStatus.COOLDOWN;
-		}
-
-		--breathTimer;*/
-		super.onLivingUpdate();
-	}
-	
-	@Override
-	public void onUpdate() {
-        if (barfStatus == BarfStatus.BARFING) {
-        	addMouthParticles();
-        }
-        super.onUpdate();
-    }
-	
+	/*
 	@SideOnly(Side.CLIENT)
 	public void handleStatusUpdate(byte id) {
 		if (id == 23) {
 			addMouthParticles();
 		}
 	}
+	*/
 	
 	protected void addScalingDebuff(EntityLivingBase target, Potion potion, int amplifier, int increment, int maxDuration) {
 		PotionEffect effect = target.getActivePotionEffect(potion);
@@ -217,7 +155,7 @@ public class EntityShadowBeast extends ACMob implements IAntiEntity, ICoraliumEn
 		return true;
 	}
 	
-	@Override
+	/*@Override
 	public void writeEntityToNBT(NBTTagCompound nbt) {
 		super.writeEntityToNBT(nbt);
 		nbt.setInteger("BreathTimer", breathTimer);
@@ -227,5 +165,5 @@ public class EntityShadowBeast extends ACMob implements IAntiEntity, ICoraliumEn
 	public void readEntityFromNBT(NBTTagCompound nbt) {
 		super.readEntityFromNBT(nbt);
 		breathTimer = nbt.getInteger("BreathTimer");
-	}
+	}*/
 }

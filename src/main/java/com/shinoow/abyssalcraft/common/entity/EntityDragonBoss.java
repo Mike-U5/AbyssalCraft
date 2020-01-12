@@ -14,6 +14,11 @@ package com.shinoow.abyssalcraft.common.entity;
 import java.util.Iterator;
 import java.util.List;
 
+import com.shinoow.abyssalcraft.AbyssalCraft;
+import com.shinoow.abyssalcraft.api.entity.ICoraliumEntity;
+import com.shinoow.abyssalcraft.client.lib.ParticleEffects;
+import com.shinoow.abyssalcraft.common.util.SpecialTextUtil;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.EnumCreatureAttribute;
@@ -24,7 +29,6 @@ import net.minecraft.entity.boss.EntityDragonPart;
 import net.minecraft.entity.boss.IBossDisplayData;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.item.EntityXPOrb;
-import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -35,12 +39,7 @@ import net.minecraft.util.StatCollector;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
-import com.shinoow.abyssalcraft.AbyssalCraft;
-import com.shinoow.abyssalcraft.api.entity.ICoraliumEntity;
-import com.shinoow.abyssalcraft.client.lib.ParticleEffects;
-import com.shinoow.abyssalcraft.common.util.SpecialTextUtil;
-
-public class EntityDragonBoss extends EntityMob implements IBossDisplayData, IEntityMultiPart, ICoraliumEntity
+public class EntityDragonBoss extends ACMob implements IBossDisplayData, IEntityMultiPart, ICoraliumEntity
 {
 
 	public double targetX;

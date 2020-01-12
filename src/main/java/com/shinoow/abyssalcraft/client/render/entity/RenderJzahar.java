@@ -15,6 +15,11 @@ import java.util.Random;
 
 import org.lwjgl.opengl.GL11;
 
+import com.shinoow.abyssalcraft.client.model.entity.ModelJzahar;
+import com.shinoow.abyssalcraft.common.entity.EntityJzahar;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderLiving;
@@ -22,13 +27,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.boss.BossStatus;
 import net.minecraft.util.ResourceLocation;
-
-import com.shinoow.abyssalcraft.client.model.entity.ModelJzahar;
-import com.shinoow.abyssalcraft.common.entity.EntityDragonBoss;
-import com.shinoow.abyssalcraft.common.entity.EntityJzahar;
-
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class RenderJzahar extends RenderLiving {

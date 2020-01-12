@@ -11,24 +11,16 @@
  ******************************************************************************/
 package com.shinoow.abyssalcraft.common.potion;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.IEntityLivingData;
-import net.minecraft.entity.monster.EntityZombie;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.potion.Potion;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.EnumDifficulty;
-
 import com.shinoow.abyssalcraft.AbyssalCraft;
 import com.shinoow.abyssalcraft.api.AbyssalCraftAPI;
-import com.shinoow.abyssalcraft.api.entity.ICoraliumEntity;
-import com.shinoow.abyssalcraft.common.entity.EntityAbyssalZombie;
-import com.shinoow.abyssalcraft.common.entity.EntityDepthsGhoul;
 import com.shinoow.abyssalcraft.common.util.EntityUtil;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.potion.Potion;
+import net.minecraft.util.ResourceLocation;
 
 public class PotionCplague extends Potion{
 
@@ -43,47 +35,20 @@ public class PotionCplague extends Potion{
 	}
 
 	@Override
-	public void performEffect(EntityLivingBase par1EntityLivingBase, int par2) {
-		if(EntityUtil.isEntityCoralium(par1EntityLivingBase))
-			par1EntityLivingBase.removePotionEffect(AbyssalCraft.Cplague.id);
-		else par1EntityLivingBase.attackEntityFrom(AbyssalCraftAPI.coralium, 2);
-
-		if(!par1EntityLivingBase.isEntityAlive() && !par1EntityLivingBase.worldObj.isRemote)
-			if(par1EntityLivingBase instanceof EntityZombie){
-				if(par1EntityLivingBase.worldObj.getWorldInfo().isHardcoreModeEnabled() && par1EntityLivingBase.worldObj.rand.nextInt(10) == 0) {
-					EntityDepthsGhoul ghoul = new EntityDepthsGhoul(par1EntityLivingBase.worldObj);
-					ghoul.copyLocationAndAnglesFrom(par1EntityLivingBase);
-					ghoul.onSpawnWithEgg((IEntityLivingData)null);
-					par1EntityLivingBase.worldObj.removeEntity(par1EntityLivingBase);
-					ghoul.setGhoulType(0);
-					par1EntityLivingBase.worldObj.spawnEntityInWorld(ghoul);
-				}
-				else if(par1EntityLivingBase.worldObj.difficultySetting == EnumDifficulty.HARD && par1EntityLivingBase.worldObj.rand.nextBoolean()
-						|| par1EntityLivingBase.worldObj.rand.nextInt(8) == 0) {
-					EntityAbyssalZombie entityzombie = new EntityAbyssalZombie(par1EntityLivingBase.worldObj);
-					entityzombie.copyLocationAndAnglesFrom(par1EntityLivingBase);
-					entityzombie.onSpawnWithEgg((IEntityLivingData)null);
-					if(par1EntityLivingBase.isChild())
-						entityzombie.setChild(true);
-					par1EntityLivingBase.worldObj.removeEntity(par1EntityLivingBase);
-					par1EntityLivingBase.worldObj.spawnEntityInWorld(entityzombie);
-				}
-			} else if(par1EntityLivingBase instanceof EntityPlayer)
-				if(par1EntityLivingBase.worldObj.difficultySetting == EnumDifficulty.HARD && par1EntityLivingBase.worldObj.rand.nextBoolean()
-				|| par1EntityLivingBase.worldObj.rand.nextInt(8) == 0) {
-					EntityAbyssalZombie entityzombie = new EntityAbyssalZombie(par1EntityLivingBase.worldObj);
-					entityzombie.copyLocationAndAnglesFrom(par1EntityLivingBase);
-					entityzombie.onSpawnWithEgg((IEntityLivingData)null);
-					if(par1EntityLivingBase.isChild())
-						entityzombie.setChild(true);
-					par1EntityLivingBase.worldObj.removeEntity(par1EntityLivingBase);
-					par1EntityLivingBase.worldObj.spawnEntityInWorld(entityzombie);
-				}
+	public void performEffect(EntityLivingBase entity, int amp) {
+		// Remove effect if target is immune
+		if(EntityUtil.isEntityCoralium(entity)) {
+			entity.removePotionEffect(AbyssalCraft.Cplague.id);
+			return;
+		}
+		
+		// Inflict Pain
+		entity.attackEntityFrom(AbyssalCraftAPI.coralium, 1);
 	}
 
 	@Override
 	public boolean isReady(int ticksLeft, int amplifier) {
-		return ticksLeft % 40 == 39;
+		return ticksLeft % 25 == 0;
 	}
 
 	@Override

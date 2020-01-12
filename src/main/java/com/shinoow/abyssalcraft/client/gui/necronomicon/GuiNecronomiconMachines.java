@@ -221,20 +221,9 @@ public class GuiNecronomiconMachines extends GuiNecronomicon {
 		if(isMInfo){
 			stuff = NecronomiconText.LABEL_INFO;
 			fontRendererObj.drawSplitString(stuff, k + 20, b0 + 16, 116, 0xC40000);
-			setTurnupLimit(4);
-			if(currTurnup == 0){
-				writeText(1, NecronomiconText.MACHINE_INFO_1, 50);
-				renderItem(k + 60, b0 + 28, new ItemStack(AbyssalCraft.transmutator), x, y);
-			} else if(currTurnup == 1){
-				writeText(1, NecronomiconText.MACHINE_INFO_2, 50);
-				renderItem(k + 60, b0 + 28, new ItemStack(AbyssalCraft.crystallizer), x, y);
-			} else if(currTurnup == 2){
-				writeText(1, NecronomiconText.MACHINE_INFO_3, 50);
-				renderItem(k + 60, b0 + 28, new ItemStack(AbyssalCraft.engraver), x, y);
-			} else if(currTurnup == 3){
-				writeText(1, NecronomiconText.MACHINE_INFO_4, 50);
-				renderItem(k + 60, b0 + 28, new ItemStack(AbyssalCraft.materializer), x, y);
-			}
+			setTurnupLimit(1);
+			writeText(1, NecronomiconText.MACHINE_INFO_3, 50);
+			renderItem(k + 60, b0 + 28, new ItemStack(AbyssalCraft.engraver), x, y);
 		}
 		if(isTra){
 			stuff = StatCollector.translateToLocal("container.abyssalcraft.transmutator");

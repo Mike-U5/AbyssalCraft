@@ -20,7 +20,7 @@ import net.minecraft.util.StatCollector;
 
 public class ItemACSword extends ItemSword {
 
-	private EnumChatFormatting format;
+	protected EnumChatFormatting format;
 
 	public ItemACSword(ToolMaterial mat, String name) {
 		this(mat, name, null);

@@ -15,14 +15,29 @@ import java.util.UUID;
 
 import com.shinoow.abyssalcraft.AbyssalCraft;
 import com.shinoow.abyssalcraft.api.entity.*;
+import com.shinoow.abyssalcraft.common.entity.EntityGatekeeperMinion;
+import com.shinoow.abyssalcraft.common.entity.EntityOmotholGhoul;
+import com.shinoow.abyssalcraft.common.entity.EntityRemnant;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
 import net.minecraft.launchwrapper.Launch;
 
 public final class EntityUtil {
 
 	private EntityUtil(){}
+	
+	public static void corruptWaterContainers(EntityPlayer player) {
+		for (int i = 0; i < player.inventory.getSizeInventory() - 4; i++) {
+			ItemStack stack = player.inventory.getStackInSlot(i);
+			if (stack != null && stack.getItem() == Items.water_bucket) {
+				player.inventory.setInventorySlotContents(i, new ItemStack(AbyssalCraft.Cbucket));
+				break;
+			}
+		}
+	}
 
 	/**
 	 * Checks if the Entity is immune to the Coralium Plague
@@ -60,6 +75,14 @@ public final class EntityUtil {
 	 */
 	public static boolean isEntityAnti(EntityLivingBase par1){
 		return par1 instanceof IAntiEntity;
+	}
+	
+	public static boolean isEntityOmothol(EntityLivingBase entity) {
+		return (
+			entity instanceof EntityRemnant || 
+			entity instanceof EntityGatekeeperMinion || 
+			entity instanceof EntityOmotholGhoul
+		);
 	}
 
 	/**
