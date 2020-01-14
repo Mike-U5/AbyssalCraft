@@ -247,6 +247,7 @@ import com.shinoow.abyssalcraft.common.network.PacketDispatcher;
 import com.shinoow.abyssalcraft.common.potion.PotionAntimatter;
 import com.shinoow.abyssalcraft.common.potion.PotionCplague;
 import com.shinoow.abyssalcraft.common.potion.PotionDplague;
+import com.shinoow.abyssalcraft.common.potion.PotionEarthquake;
 import com.shinoow.abyssalcraft.common.structures.abyss.stronghold.MapGenAbyStronghold;
 import com.shinoow.abyssalcraft.common.structures.abyss.stronghold.StructureAbyStrongholdPieces;
 import com.shinoow.abyssalcraft.common.structures.dreadlands.mineshaft.StructureDreadlandsMinePieces;
@@ -439,7 +440,7 @@ public class AbyssalCraft {
 	//Ethaxium items
 	public static Item ethaxium_brick, ethaxiumIngot;
 
-	public static Potion Cplague, Dplague, antiMatter;
+	public static Potion Cplague, Dplague, antiMatter, earthquake;
 
 	public static Enchantment coraliumE, dreadE, lightPierce;
 
@@ -553,8 +554,9 @@ public class AbyssalCraft {
 		cfg = new Configuration(event.getSuggestedConfigurationFile());
 		syncConfig();
 
-		if(!useDynamicPotionIds)
+		if(!useDynamicPotionIds) {
 			extendPotionArray();
+		}
 
 		if(!FluidRegistry.isFluidRegistered("liquidcoralium")){
 			CFluid = LIQUID_CORALIUM;
@@ -959,6 +961,7 @@ public class AbyssalCraft {
 		Cplague = new PotionCplague(useDynamicPotionIds ? getNextAvailablePotionId() : AbyssalCraftAPI.potionId1, true, 0x00FFFF).setIconIndex(1, 0).setPotionName("potion.Cplague");
 		Dplague = new PotionDplague(useDynamicPotionIds ? getNextAvailablePotionId() : AbyssalCraftAPI.potionId2, true, 0xAD1313).setIconIndex(1, 0).setPotionName("potion.Dplague");
 		antiMatter = new PotionAntimatter(useDynamicPotionIds ? getNextAvailablePotionId() : AbyssalCraftAPI.potionId3, true, 0xFFFFFF).setIconIndex(1, 0).setPotionName("potion.Antimatter");
+		earthquake = new PotionEarthquake(useDynamicPotionIds ? getNextAvailablePotionId() : AbyssalCraftAPI.potionIdEarthquake, true, 0x826C34).setIconIndex(1, 0).setPotionName("potion.Earthquake");
 		coraliumE = new EnchantmentWeaponInfusion(getNextAvailableEnchantmentId(), 2, "coralium");
 		dreadE = new EnchantmentWeaponInfusion(getNextAvailableEnchantmentId(), 2, "dread");
 		lightPierce = new EnchantmentLightPierce(getNextAvailableEnchantmentId());
@@ -971,6 +974,7 @@ public class AbyssalCraft {
 			AbyssalCraftAPI.potionId1 = Cplague.id;
 			AbyssalCraftAPI.potionId2 = Dplague.id;
 			AbyssalCraftAPI.potionId3 = antiMatter.id;
+			AbyssalCraftAPI.potionIdEarthquake = earthquake.id;
 		}
 
 		//Block Register

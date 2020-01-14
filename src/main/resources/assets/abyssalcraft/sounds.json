@@ -299,10 +299,34 @@
 			"abyssalcraft:antiplayer/death3"
 		]
 	},
-	"jzahar.skill.1": {
+	"jzahar.chant.shout": {
 		"category": "hostile",
 		"sounds": [
-			"abyssalcraft:jzahar/spell_gyro"
+			"abyssalcraft:jzahar/chant_shout"
+		]
+	},
+	"jzahar.chant.wither": {
+		"category": "hostile",
+		"sounds": [
+			"abyssalcraft:jzahar/chant_wither"
+		]
+	},
+	"jzahar.chant.disruption": {
+		"category": "hostile",
+		"sounds": [
+			"abyssalcraft:jzahar/chant_disruption"
+		]
+	},
+	"jzahar.skill.shout": {
+		"category": "hostile",
+		"sounds": [
+			"abyssalcraft:jzahar/shout"
+		]
+	},
+	"jzahar.skill.quake": {
+		"category": "hostile",
+		"sounds": [
+			"abyssalcraft:jzahar/quake"
 		]
 	},
 	"jzahar.charge": {

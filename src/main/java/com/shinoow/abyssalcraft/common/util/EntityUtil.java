@@ -19,11 +19,13 @@ import com.shinoow.abyssalcraft.common.entity.EntityGatekeeperMinion;
 import com.shinoow.abyssalcraft.common.entity.EntityOmotholGhoul;
 import com.shinoow.abyssalcraft.common.entity.EntityRemnant;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.launchwrapper.Launch;
+import net.minecraft.util.Vec3;
 
 public final class EntityUtil {
 
@@ -100,5 +102,16 @@ public final class EntityUtil {
 		static boolean dev = (Boolean)Launch.blackboard.get("fml.deobfuscatedEnvironment");
 		static UUID uuid1 = UUID.fromString("a5d8abca-0979-4bb0-825a-f1ccda0b350b");
 		static UUID uuid2 = UUID.fromString("08f3211c-d425-47fd-afd8-f0e7f94152c4");
+	}
+	
+	/**
+	 * Get a vector between entities
+	 */
+	public static Vec3 getVectorBetweenEntities(Entity e, Entity target) {
+		Vec3 fromPosition = Vec3.createVectorHelper(e.posX, e.posY, e.posZ);
+		Vec3 toPosition = Vec3.createVectorHelper(target.posX, target.posY, target.posZ);
+		Vec3 dist = fromPosition.subtract(toPosition);
+		dist.normalize();
+		return dist;
 	}
 }
