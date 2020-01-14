@@ -323,6 +323,24 @@
 			"abyssalcraft:jzahar/chant_doorway"
 		]
 	},
+	"jzahar.chant.firerain": {
+		"category": "hostile",
+		"sounds": [
+			"abyssalcraft:jzahar/chant_firerain"
+		]
+	},
+	"jzahar.chant.displace": {
+		"category": "hostile",
+		"sounds": [
+			"abyssalcraft:jzahar/chant_displace"
+		]
+	},
+	"jzahar.chant.summon": {
+		"category": "hostile",
+		"sounds": [
+			"abyssalcraft:jzahar/chant_summon"
+		]
+	},
 	"jzahar.skill.shout": {
 		"category": "hostile",
 		"sounds": [

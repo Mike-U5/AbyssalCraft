@@ -81,16 +81,9 @@ public class EntityGatekeeperMinion extends ACMob implements IOmotholEntity {
 	}
 
 	@Override
-	public boolean attackEntityAsMob(Entity par1Entity) {
+	public boolean attackEntityAsMob(Entity target) {
 		swingItem();
-		boolean flag = super.attackEntityAsMob(par1Entity);
-
-		return flag;
-	}
-
-	@Override
-	protected boolean canDespawn() {
-		return false;
+		return super.attackEntityAsMob(target);
 	}
 
 	@Override
@@ -105,21 +98,28 @@ public class EntityGatekeeperMinion extends ACMob implements IOmotholEntity {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public boolean attackEntityFrom(DamageSource par1DamageSource, float par2) {
+	public boolean attackEntityFrom(DamageSource dmgSrc, float amount) {
+		if (dmgSrc == DamageSource.inWall) {
+			return false;
+		}
+		
 		EntityLivingBase enemy = null;
-		if(par1DamageSource.getSourceOfDamage() != null && par1DamageSource.getSourceOfDamage() instanceof EntityLivingBase)
-			enemy = (EntityLivingBase) par1DamageSource.getSourceOfDamage();
+		if(dmgSrc.getSourceOfDamage() != null && dmgSrc.getSourceOfDamage() instanceof EntityLivingBase) {
+			enemy = (EntityLivingBase) dmgSrc.getSourceOfDamage();
+		}
 		if(rand.nextInt(10) == 0) {
 			List<EntityRemnant> remnants = worldObj.getEntitiesWithinAABB(EntityRemnant.class, boundingBox.expand(16D, 16D, 16D));
-			if(remnants != null)
-				if(enemy != null){
+			if(remnants != null) {
+				if(enemy != null) {
 					Iterator<EntityRemnant> iter = remnants.iterator();
-					while(iter.hasNext())
+					while(iter.hasNext()) {
 						iter.next().enrage(false, enemy);
+					}
 				}
+			}
 			worldObj.playSoundAtEntity(this, "abyssalcraft:remnant.scream", 3F, 1F);
 		}
-		return super.attackEntityFrom(par1DamageSource, par2);
+		return super.attackEntityFrom(dmgSrc, amount);
 	}
 
 	@Override

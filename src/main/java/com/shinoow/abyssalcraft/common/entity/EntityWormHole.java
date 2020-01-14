@@ -16,6 +16,7 @@ import java.util.List;
 import com.shinoow.abyssalcraft.api.AbyssalCraftAPI;
 import com.shinoow.abyssalcraft.api.entity.IOmotholEntity;
 
+import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -159,13 +160,23 @@ public class EntityWormHole extends EntityMob {
 				}
 			}
 
+			final int pX = (int)posX;
+			final int pY = (int)posY;
+			final int pZ = (int)posZ;
 			final int radius = 5;
 			for(int x = -radius; x < radius; x++) {
 				for(int y = -radius; y < radius; y++) {
 					for(int z = -radius; z < radius; z++) {
-						if(!worldObj.isAirBlock((int)posX + x, (int)posY + y, (int)posZ + z)) {
-							if(worldObj.getBlock((int)posX + x, (int)posY + y, (int)posZ + z) != Blocks.bedrock) {
-								worldObj.setBlockToAir((int)posX + x, (int)posY + y, (int)posZ + z);
+						if (Math.abs(z) == radius && Math.random() > 0.5) {
+							continue;
+						}
+						
+						if(!worldObj.isAirBlock(pX + x, pY + y, pZ + z)) {
+							final Block block = worldObj.getBlock((int)posX + x, (int)posY + y, (int)posZ + z);
+							if(block != Blocks.bedrock) {
+								if (block.getBlockHardness(worldObj, pX + x, pY + y, pZ + z) < 150F) {
+									worldObj.setBlockToAir(pX + x, pY + y, pZ + z);
+								}
 							}
 						}
 					}
@@ -195,7 +206,7 @@ public class EntityWormHole extends EntityMob {
 			return;
 		}
 		final float dt = (float)deathTicks;
-		final float power = dt / 8000;
+		final float power = dt / 6000;
 		final float size = (dt / 14);
 		System.out.println("TICKS: " + dt + "| POWER:"  + power + "| SIZE: " + size);
 

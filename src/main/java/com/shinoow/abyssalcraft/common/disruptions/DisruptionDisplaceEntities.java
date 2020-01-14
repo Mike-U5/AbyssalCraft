@@ -30,8 +30,8 @@ public class DisruptionDisplaceEntities extends DisruptionEntry {
 	public void disrupt(World world, int x, int y, int z, List<EntityPlayer> players) {
 		List<EntityLivingBase> entities = world.getEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(x, y, z, x + 1, y + 1, z + 1).expand(16, 16, 16));
 
-		if(!entities.isEmpty())
-			for(EntityLivingBase entity : entities){
+		if(!entities.isEmpty()) {
+			for(EntityLivingBase entity : entities) {
 				EntityLivingBase other = entities.get(world.rand.nextInt(entities.size()));
 				double posX = entity.posX;
 				double posY = entity.posY;
@@ -41,5 +41,6 @@ public class DisruptionDisplaceEntities extends DisruptionEntry {
 					other.setPositionAndUpdate(posX, posY, posZ);
 				}
 			}
+		}
 	}
 }
