@@ -18,7 +18,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.MathHelper;
 
 public class ModelWormHole extends ModelBase {
-	public ModelRenderer body1;
+	public ModelRenderer bodyMain;
 	public ModelRenderer body2;
 	public ModelRenderer body3;
 	public ModelRenderer body4;
@@ -29,12 +29,12 @@ public class ModelWormHole extends ModelBase {
 		textureWidth = 128;
 		textureHeight = 64;
 
-		body1 = new ModelRenderer(this, 0, 0);
-		body1.addBox(0F, 0F, 0F, 18, 22, 5);
-		body1.setRotationPoint(-7F, -28F, 0F);
-		body1.setTextureSize(64, 32);
-		body1.mirror = true;
-		setRotation(body1, 0F, 0F, 0F);
+		bodyMain = new ModelRenderer(this, 0, 0);
+		bodyMain.addBox(0F, 0F, 0F, 18, 22, 5);
+		bodyMain.setRotationPoint(-7F, -28F, 0F);
+		bodyMain.setTextureSize(64, 32);
+		bodyMain.mirror = true;
+		setRotation(bodyMain, 0F, 0F, 0F);
 		body2 = new ModelRenderer(this, 46, 0);
 		body2.addBox(0F, 0F, 0F, 5, 26, 1);
 		body2.setRotationPoint(-7F, -28F, -1F);
@@ -59,19 +59,13 @@ public class ModelWormHole extends ModelBase {
 		body5.setTextureSize(64, 32);
 		body5.mirror = true;
 		setRotation(body5, 0F, 0F, 0F);
-		Cube = new ModelRenderer(this, 62, 42);
-		Cube.addBox(-14.0F, -20.0F, -8.5F, 2, 2, 2);
-		Cube.setRotationPoint(0,0,0);
-		Cube.setTextureSize(64, 32);
-		Cube.mirror = true;
-		setRotation(Cube, 0F, 0.4833219F, 0.5205006F);
 	}
 
 	@Override
 	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
 		super.render(entity, f, f1, f2, f3, f4, f5);
 		setRotationAngles(f, f1, f2, f3, f4, f5, entity);
-		body1.render(f5);
+		bodyMain.render(f5);
 		body2.render(f5);
 		body3.render(f5);
 		body4.render(f5);
@@ -97,7 +91,7 @@ public class ModelWormHole extends ModelBase {
 		}
 
 		for(int i = 0; i < 4; i++){
-			body1.rotationPointY = -9.5F + MathHelper.cos((i * 2 + f2) * 0.25F);
+			bodyMain.rotationPointY = -9.5F + MathHelper.cos((i * 2 + f2) * 0.25F);
 			body2.rotationPointY = -9.5F + MathHelper.cos((i * 2 + f2) * 0.25F);
 			body3.rotationPointY = -9.5F + MathHelper.cos((i * 2 + f2) * 0.25F);
 			body4.rotationPointY = -9.5F + MathHelper.cos((i * 2 + f2) * 0.25F);
@@ -105,7 +99,7 @@ public class ModelWormHole extends ModelBase {
 		}
 		
 		if(((EntityWormHole)entity).deathTicks == 0) {
-			body1.rotationPointY = -28F;
+			bodyMain.rotationPointY = -28F;
 			body2.rotationPointY = -28F;
 			body3.rotationPointY = -28F;
 			body4.rotationPointY = -28F;
