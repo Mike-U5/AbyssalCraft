@@ -52,9 +52,9 @@ public class RenderWormHole extends RenderLiving {
 		super.renderEquippedItems(entity, par2);
 		Tessellator tessellator = Tessellator.instance;
 
-		if (entity.deathTicks > 400) {
+		if (entity.deathTicks > 100) {
 			RenderHelper.disableStandardItemLighting();
-			float f1 = ((entity.deathTicks - 400) + par2) / 400.0F;
+			float f1 = ((entity.deathTicks - 100) + par2) / 400.0F;
 			float f2 = 0.0F;
 
 			if (f1 > 0.8F)

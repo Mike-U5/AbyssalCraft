@@ -268,9 +268,9 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IAntiEntity
 	}
 
 	private double func_82213_w(int par1) {
-		if (par1 <= 0)
+		if (par1 <= 0) {
 			return posZ;
-		else {
+		} else {
 			float f = (renderYawOffset + 180 * (par1 - 1)) / 180.0F * (float)Math.PI;
 			float f1 = MathHelper.sin(f);
 			return posZ + f1 * 1.3D;
@@ -282,6 +282,7 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IAntiEntity
 		return height * 0.90F;
 	}
 	
+	@SuppressWarnings("unused")
 	private void banishBosses(Entity entity, float f, float f1, float f2) {
 		if(entity instanceof EntityDragon || entity instanceof EntityWither){
 			if(!worldObj.isRemote){
@@ -373,8 +374,8 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IAntiEntity
 		
 		// Special Attack checker
 		skillTicks += 1;
-		if (skillTicks > 2100) {
-			skillTicks = 0;
+		if (skillTicks > 2200) {
+			skillTicks = 199;
 		}
 		performSpecialAttack(skillTicks);
 		
@@ -398,17 +399,18 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IAntiEntity
 		final int castTime = 45;
 		
 		// Chant EARTHQUAKE
-		if (timer == 100) {
+		if (timer == 200) {
 			this.playSound("abyssalcraft:jzahar.chant.shout", 4.5F, 1F);
 			this.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, castTime));
 		}
 		
 		// Perform EARTHQUAKE
-		if (timer == 100 + castTime) {
+		if (timer == 200 + castTime) {
 			this.playSound("abyssalcraft:jzahar.skill.quake", 2F, 1F);
 			// Apply
 			List<?> ents = worldObj.getEntitiesWithinAABB(EntityLivingBase.class, boundingBox.expand(64.0D, 64.0D, 64.0D));
 			if (ents != null && ents.size() > 0) {
+				swingItem();
 				for (int i = 0; i < ents.size(); i++) {
 					EntityLivingBase e = (EntityLivingBase) ents.get(i);
 					if (!(e instanceof IOmotholEntity) && !worldObj.isRemote) {
@@ -419,13 +421,14 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IAntiEntity
 		}
 		
 		// Chant DISRUPTION
-		if (timer == 600) {
+		if (timer == 700) {
 			this.playSound("abyssalcraft:jzahar.chant.disruption", 4.5F, 1F);
 			this.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, castTime));
 		}
 		
 		// Perform DISRUPTION
-		if (timer == 600 + castTime) {
+		if (timer == 700 + castTime) {
+			swingItem();
 			List<EntityPlayer> players = worldObj.getEntitiesWithinAABB(EntityPlayer.class, boundingBox.expand(64.0D, 64.0D, 64.0D));
 			if(!worldObj.isRemote) {
 				worldObj.addWeatherEffect(new EntityLightningBolt(worldObj, posX, posY, posZ));
@@ -434,13 +437,13 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IAntiEntity
 		}
 		
 		// Chant WITHER
-		if (timer == 1100) {
+		if (timer == 1200) {
 			this.playSound("abyssalcraft:jzahar.chant.wither", 4.5F, 1F);
 			this.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, castTime));
 		}
 		
 		// Perform WITHER
-		if (timer == 1100 + castTime) {
+		if (timer == 1200 + castTime) {
 			List<?> players = worldObj.getEntitiesWithinAABB(EntityPlayer.class, boundingBox.expand(64.0D, 64.0D, 64.0D));
 			if (players != null && players.size() > 0) {
 				swingItem();
@@ -452,13 +455,14 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IAntiEntity
 		}
 		
 		// Chant BLACK HOLE
-		if (timer == 1600) {
+		if (timer == 1700) {
 			this.playSound("abyssalcraft:jzahar.chant.doorway", 4.5F, 1F);
 			this.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, castTime));
 		}
 		
 		// Perform BLACK HOLE
-		if (timer == 1600 + castTime) {
+		if (timer == 1700 + castTime) {
+			swingItem();
 			if (!worldObj.isRemote) {
 				EntityWormHole hole = new EntityWormHole(worldObj);
 				hole.copyLocationAndAnglesFrom(this);
