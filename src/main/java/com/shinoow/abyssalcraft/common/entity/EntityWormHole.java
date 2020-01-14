@@ -13,6 +13,7 @@ package com.shinoow.abyssalcraft.common.entity;
 
 import java.util.List;
 
+import com.shinoow.abyssalcraft.api.AbyssalCraftAPI;
 import com.shinoow.abyssalcraft.api.entity.IOmotholEntity;
 
 import net.minecraft.entity.Entity;
@@ -125,15 +126,15 @@ public class EntityWormHole extends EntityMob {
 			if(deathTicks == 150) {
 				worldObj.playSoundAtEntity(this, "abyssalcraft:jzahar.charge", 1, 1);
 			}
-			if(deathTicks < 100) {
-				worldObj.spawnParticle("largesmoke", posX, posY + 2.5D, posZ, 0, 0, 0);
-			}
-			float f = (rand.nextFloat() - 0.5F) * 3.0F;
-			float f1 = (rand.nextFloat() - 0.5F) * 2.0F;
-			float f2 = (rand.nextFloat() - 0.5F) * 3.0F;
-			if(deathTicks < 100) {
-				worldObj.spawnParticle("smoke", posX + f, posY + f1, posZ + f2, 0, 0, 0);
-			}
+
+			worldObj.spawnParticle("largesmoke", posX, posY + 2.5D, posZ, 0, 0, 0);
+
+			float rX = (rand.nextFloat() - 0.5F) * 2.5F;
+			float rY = (rand.nextFloat() - 0.5F) * 2.0F;
+			float rZ = (rand.nextFloat() - 0.5F) * 2.5F;
+
+			worldObj.spawnParticle("smoke", posX + rX, posY + rY, posZ + rZ, 0, 0, 0);
+			
 			if (deathTicks >= 490 && deathTicks <= 500){
 				worldObj.spawnParticle("hugeexplosion", posX, posY + 1.5D, posZ, 0.0D, 0.0D, 0.0D);
 				worldObj.playSoundAtEntity(this, "random.explode", 4, (1.0F + (rand.nextFloat() - rand.nextFloat()) * 0.2F) * 0.7F);
@@ -146,15 +147,15 @@ public class EntityWormHole extends EntityMob {
 
 		if(deathTicks == 490 && !worldObj.isRemote) {
 			if(!worldObj.getEntitiesWithinAABB(Entity.class, boundingBox.expand(3,1,3)).isEmpty()) {
-				List<Entity> entities = worldObj.getEntitiesWithinAABBExcludingEntity(this, boundingBox.expand(3,1,3));
+				List<Entity> entities = worldObj.getEntitiesWithinAABBExcludingEntity(this, boundingBox.expand(3,3,3));
 				for(Entity entity: entities) {
 					if(entity instanceof EntityLivingBase || entity instanceof EntityItem) {
-						entity.attackEntityFrom(DamageSource.generic.setDamageBypassesArmor(), 50F);
+						entity.attackEntityFrom(AbyssalCraftAPI.antimatter, 50F);
 					}
 				}
 			}
 
-			final int radius = 6;
+			final int radius = 5;
 			for(int x = 0; x < radius; x++) {
 				for(int y = 0; y < radius; y++) {
 					for(int z = 0; z < radius; z++) {
@@ -184,9 +185,11 @@ public class EntityWormHole extends EntityMob {
 								worldObj.setBlockToAir((int)posX - x, (int)posY - y, (int)posZ - z);
 					}
 				}
-			}
-			
-			// Delete Selfs
+			}	
+		}
+		
+		// Remove Self
+		if (deathTicks >= 500) {
 			this.setDead();
 		}
 	}
@@ -206,10 +209,10 @@ public class EntityWormHole extends EntityMob {
 		if (deathTicks > 500) {
 			return;
 		}
-		
-		final float power = (deathTicks / 10000);
-		final float size = 3F + (deathTicks / 15);
-		System.out.println("TICKS: " + deathTicks + "| POWER:"  + power + "| SIZE: " + size);
+		final float dt = (float)deathTicks;
+		final float power = dt / 8000;
+		final float size = (dt / 14);
+		System.out.println("TICKS: " + dt + "| POWER:"  + power + "| SIZE: " + size);
 
 		List<Entity> list = worldObj.getEntitiesWithinAABB(Entity.class, boundingBox.expand(size, size, size));
 

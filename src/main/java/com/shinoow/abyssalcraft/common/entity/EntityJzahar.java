@@ -411,7 +411,7 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IAntiEntity
 			if (ents != null && ents.size() > 0) {
 				for (int i = 0; i < ents.size(); i++) {
 					EntityLivingBase e = (EntityLivingBase) ents.get(i);
-					if (!(e instanceof IBossDisplayData) && !worldObj.isRemote) {
+					if (!(e instanceof IOmotholEntity) && !worldObj.isRemote) {
 						e.addPotionEffect(new CurseEffect(new PotionEffect(AbyssalCraftAPI.potionIdEarthquake, 200)));
 					}
 				}

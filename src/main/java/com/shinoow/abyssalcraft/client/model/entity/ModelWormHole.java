@@ -23,42 +23,56 @@ public class ModelWormHole extends ModelBase {
 	public ModelRenderer body3;
 	public ModelRenderer body4;
 	public ModelRenderer body5;
-	public ModelRenderer Cube;
+	
+	public ModelRenderer body6;
+	public ModelRenderer body7;
+	public ModelRenderer body8;
+	public ModelRenderer body9;
 
 	public ModelWormHole(boolean renderStaff) {
 		textureWidth = 128;
 		textureHeight = 64;
 
-		bodyMain = new ModelRenderer(this, 0, 0);
-		bodyMain.addBox(0F, 0F, 0F, 18, 22, 5);
-		bodyMain.setRotationPoint(-7F, -28F, 0F);
-		bodyMain.setTextureSize(64, 32);
-		bodyMain.mirror = true;
-		setRotation(bodyMain, 0F, 0F, 0F);
-		body2 = new ModelRenderer(this, 46, 0);
-		body2.addBox(0F, 0F, 0F, 5, 26, 1);
-		body2.setRotationPoint(-7F, -28F, -1F);
-		body2.setTextureSize(64, 32);
-		body2.mirror = true;
-		setRotation(body2, 0F, 0F, 0F);
-		body3 = new ModelRenderer(this, 58, 0);
-		body3.addBox(0F, 0F, 0F, 5, 26, 1);
-		body3.setRotationPoint(6F, -28F, -1F);
-		body3.setTextureSize(64, 32);
-		body3.mirror = true;
-		setRotation(body3, 0F, 0F, 0F);
-		body4 = new ModelRenderer(this, 46, 0);
-		body4.addBox(0F, 0F, 0F, 4, 26, 1);
-		body4.setRotationPoint(-7F, -28F, -2F);
-		body4.setTextureSize(64, 32);
-		body4.mirror = true;
-		setRotation(body4, 0F, 0F, 0F);
-		body5 = new ModelRenderer(this, 59, 0);
-		body5.addBox(0F, 0F, 0F, 4, 26, 1);
-		body5.setRotationPoint(7F, -28F, -2F);
-		body5.setTextureSize(64, 32);
-		body5.mirror = true;
-		setRotation(body5, 0F, 0F, 0F);
+		bodyMain = makeCube(0, 18, 22, 5, -7F, -28F, 0F);
+		body2 = makeCube(46, 5, 26, 1, -7F, -28F, -1F);
+		body3 = makeCube(58, 5, 26, 1, 6F, -28F, -1F);
+		body4 = makeCube(46, 4, 26, 1, -7F, -28F, -2F);
+		body5 = makeCube(59, 4, 26, 1, 7F, -28F, -2F);
+		/// ADDED BODY PARTS
+		/*body6 = new ModelRenderer(this, 46, 0);
+		body6.addBox(0F, 0F, 0F, 5, 26, 1);
+		body6.setRotationPoint(-7F, -28F, 1F);
+		body6.setTextureSize(64, 32);
+		body6.mirror = true;
+		setRotation(body6, 0F, 0F, 0F);
+		body7 = new ModelRenderer(this, 58, 0);
+		body7.addBox(0F, 0F, 0F, 5, 26, 1);
+		body7.setRotationPoint(6F, -28F, 1F);
+		body7.setTextureSize(64, 32);
+		body7.mirror = true;
+		setRotation(body7, 0F, 0F, 0F);
+		body8 = new ModelRenderer(this, 46, 0);
+		body8.addBox(0F, 0F, 0F, 4, 26, 1);
+		body8.setRotationPoint(-7F, -28F, 2F);
+		body8.setTextureSize(64, 32);
+		body8.mirror = true;
+		setRotation(body8, 0F, 0F, 0F);
+		body9 = new ModelRenderer(this, 59, 0);
+		body9.addBox(0F, 0F, 0F, 4, 26, 1);
+		body9.setRotationPoint(7F, -28F, 2F);
+		body9.setTextureSize(64, 32);
+		body9.mirror = true;
+		setRotation(body9, 0F, 0F, 0F);*/
+	}
+	
+	private ModelRenderer makeCube(int numMr, int numX, int numY, int numZ, float fX, float fY, float fZ) {
+		final ModelRenderer r = new ModelRenderer(this, numMr, 0);
+		r.addBox(0F, 0F, 0F, numX, numY, numZ);
+		r.setRotationPoint(fX, fY, fZ);
+		r.setTextureSize(64, 32);
+		r.mirror = true;
+		///setRotation(r, 0, 0, 0);
+		return r;
 	}
 
 	@Override
