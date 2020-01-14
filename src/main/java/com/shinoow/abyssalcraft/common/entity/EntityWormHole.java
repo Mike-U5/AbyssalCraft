@@ -13,6 +13,8 @@ package com.shinoow.abyssalcraft.common.entity;
 
 import java.util.List;
 
+import com.shinoow.abyssalcraft.api.entity.IOmotholEntity;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -61,7 +63,7 @@ public class EntityWormHole extends EntityMob {
 	@Override
 	public void onLivingUpdate() {
 		if (isEntityAlive() && getHealth() > 0) {
-			damageEntity(DamageSource.outOfWorld, 666F);
+			setHealth(0);
 		}
 		super.onLivingUpdate();
 	}
@@ -98,9 +100,6 @@ public class EntityWormHole extends EntityMob {
 
 	@Override
 	public boolean attackEntityFrom(DamageSource dmgSrc, float amount) {
-		if (dmgSrc == DamageSource.outOfWorld) {
-			return super.attackEntityFrom(dmgSrc, amount);
-		}
 		return false;
 	}
 	
@@ -120,35 +119,32 @@ public class EntityWormHole extends EntityMob {
 	@Override
 	protected void onDeathUpdate() {
 		motionX = motionY = motionZ = 0;
-		deathTicks++;
+		deathTicks += 1;
 
-		if(deathTicks <= 800) {
-			if(deathTicks == 410) {
+		if(deathTicks <= 500) {
+			if(deathTicks == 150) {
 				worldObj.playSoundAtEntity(this, "abyssalcraft:jzahar.charge", 1, 1);
 			}
-			if(deathTicks < 400) {
+			if(deathTicks < 100) {
 				worldObj.spawnParticle("largesmoke", posX, posY + 2.5D, posZ, 0, 0, 0);
 			}
 			float f = (rand.nextFloat() - 0.5F) * 3.0F;
 			float f1 = (rand.nextFloat() - 0.5F) * 2.0F;
 			float f2 = (rand.nextFloat() - 0.5F) * 3.0F;
-			if(deathTicks >= 100 && deathTicks < 400) {
+			if(deathTicks < 100) {
 				worldObj.spawnParticle("smoke", posX + f, posY + f1, posZ + f2, 0, 0, 0);
 			}
-			if(deathTicks >= 200 && deathTicks < 400){
-				worldObj.spawnParticle("largesmoke", posX + f, posY + f1, posZ + f2, 0.0D, 0.0D, 0.0D);
-			}
-			if (deathTicks >= 790 && deathTicks <= 800){
+			if (deathTicks >= 490 && deathTicks <= 500){
 				worldObj.spawnParticle("hugeexplosion", posX, posY + 1.5D, posZ, 0.0D, 0.0D, 0.0D);
 				worldObj.playSoundAtEntity(this, "random.explode", 4, (1.0F + (rand.nextFloat() - rand.nextFloat()) * 0.2F) * 0.7F);
 			}
 			
-			if(deathTicks > 400 && deathTicks < 800) {
+			if(deathTicks > 100 && deathTicks < 500) {
 				pullEntities();
 			}
 		}
 
-		if(deathTicks == 790 && !worldObj.isRemote) {
+		if(deathTicks == 490 && !worldObj.isRemote) {
 			if(!worldObj.getEntitiesWithinAABB(Entity.class, boundingBox.expand(3,1,3)).isEmpty()) {
 				List<Entity> entities = worldObj.getEntitiesWithinAABBExcludingEntity(this, boundingBox.expand(3,1,3));
 				for(Entity entity: entities) {
@@ -207,12 +203,21 @@ public class EntityWormHole extends EntityMob {
 	
 	@SuppressWarnings("unchecked")
 	private void pullEntities() {
-		final double power = 0.01D + (deathTicks * 0.001);
-		final float size = 32F;
+		if (deathTicks > 500) {
+			return;
+		}
+		
+		final float power = (deathTicks / 10000);
+		final float size = 3F + (deathTicks / 15);
+		System.out.println("TICKS: " + deathTicks + "| POWER:"  + power + "| SIZE: " + size);
 
 		List<Entity> list = worldObj.getEntitiesWithinAABB(Entity.class, boundingBox.expand(size, size, size));
 
 		for(Entity entity : list) {
+			if (entity instanceof IOmotholEntity) {
+				continue;
+			}
+			
 			double scale = (size - entity.getDistance(posX, posY, posZ))/size;
 
 			Vec3 dir = Vec3.createVectorHelper(entity.posX - posX, entity.posY - posY, entity.posZ - posZ);

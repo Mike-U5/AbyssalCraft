@@ -16,6 +16,7 @@ import java.util.List;
 
 import com.shinoow.abyssalcraft.AbyssalCraft;
 import com.shinoow.abyssalcraft.api.AbyssalCraftAPI;
+import com.shinoow.abyssalcraft.api.entity.IOmotholEntity;
 import com.shinoow.abyssalcraft.api.item.ACItems;
 
 import net.minecraft.block.Block;
@@ -36,7 +37,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 
-public class EntityGatekeeperMinion extends ACMob {
+public class EntityGatekeeperMinion extends ACMob implements IOmotholEntity {
 
 	public EntityGatekeeperMinion(World world) {
 		super(world);

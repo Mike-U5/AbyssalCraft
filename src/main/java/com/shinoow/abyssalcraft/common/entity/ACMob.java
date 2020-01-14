@@ -45,7 +45,6 @@ public abstract class ACMob extends EntityMob {
     public void knockBack(Entity entity, float unused, double xRatio, double zRatio) {
 		float modifier = (float)(1 - this.getEntityAttribute(SharedMonsterAttributes.knockbackResistance).getAttributeValue());
 		modifier = Math.min(1, Math.max(0, modifier));
-		System.out.println("KNOCKPACK POWAH: " + modifier);
 		
         this.isAirBorne = true;
         final float f = MathHelper.sqrt_double(xRatio * xRatio + zRatio * zRatio);

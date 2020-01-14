@@ -20,6 +20,7 @@ import com.shinoow.abyssalcraft.api.energy.disruption.DisruptionHandler;
 import com.shinoow.abyssalcraft.api.entity.IAntiEntity;
 import com.shinoow.abyssalcraft.api.entity.ICoraliumEntity;
 import com.shinoow.abyssalcraft.api.entity.IDreadEntity;
+import com.shinoow.abyssalcraft.api.entity.IOmotholEntity;
 import com.shinoow.abyssalcraft.common.potion.CurseEffect;
 import com.shinoow.abyssalcraft.common.util.SpecialTextUtil;
 import com.shinoow.abyssalcraft.common.world.TeleporterDarkRealm;
@@ -28,9 +29,7 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.EnumCreatureAttribute;
-import net.minecraft.entity.IRangedAttackMob;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIArrowAttack;
 import net.minecraft.entity.ai.EntityAIAttackOnCollide;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAILookIdle;
@@ -53,7 +52,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
@@ -64,12 +62,11 @@ import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.EnderTeleportEvent;
 
-public class EntityJzahar extends ACMob implements IBossDisplayData, IAntiEntity, ICoraliumEntity, IDreadEntity {
+public class EntityJzahar extends ACMob implements IBossDisplayData, IAntiEntity, ICoraliumEntity, IDreadEntity, IOmotholEntity {
 
 	public int deathTicks;
 	private int skillTicks;
 	private int talkTimer;
-	private int skullTimer = 600;
 	private boolean that = false;
 	private double speed = 0.05D;
 
@@ -446,6 +443,7 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IAntiEntity
 		if (timer == 1100 + castTime) {
 			List<?> players = worldObj.getEntitiesWithinAABB(EntityPlayer.class, boundingBox.expand(64.0D, 64.0D, 64.0D));
 			if (players != null && players.size() > 0) {
+				swingItem();
 				for (int i = 0; i < players.size(); i++) {
 					EntityLivingBase p = (EntityLivingBase) players.get(i);
 					rangedAttackSkull(0, p);
@@ -462,8 +460,9 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IAntiEntity
 		// Perform BLACK HOLE
 		if (timer == 1600 + castTime) {
 			if (!worldObj.isRemote) {
-				EntityWormHole blackHole = new EntityWormHole(worldObj);
-				worldObj.spawnEntityInWorld(blackHole);
+				EntityWormHole hole = new EntityWormHole(worldObj);
+				hole.copyLocationAndAnglesFrom(this);
+				worldObj.spawnEntityInWorld(hole);
 			}
 		}
 	}
@@ -516,7 +515,7 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IAntiEntity
 			}
 			
 			if(deathTicks > 400 && deathTicks < 800) {
-				blackHole(speed);
+				pullEntities(speed);
 				speed += 0.0001;
 			}
 		}
@@ -628,7 +627,7 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IAntiEntity
 	}
 	
 	@SuppressWarnings("unchecked")
-	private void blackHole(double power) {
+	private void pullEntities(double power) {
 		float size = 32F;
 
 		List<Entity> list = worldObj.getEntitiesWithinAABB(Entity.class, boundingBox.expand(size, size, size));

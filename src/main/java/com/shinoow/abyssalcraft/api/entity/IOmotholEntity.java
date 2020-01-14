@@ -10,4 +10,5 @@
  *     Shinoow -  implementation
  ******************************************************************************/
 package com.shinoow.abyssalcraft.api.entity;
+
 public interface IOmotholEntity {}
