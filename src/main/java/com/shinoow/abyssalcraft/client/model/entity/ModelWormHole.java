@@ -39,30 +39,10 @@ public class ModelWormHole extends ModelBase {
 		body4 = makeCube(46, 4, 26, 1, -7F, -28F, -2F);
 		body5 = makeCube(59, 4, 26, 1, 7F, -28F, -2F);
 		/// ADDED BODY PARTS
-		/*body6 = new ModelRenderer(this, 46, 0);
-		body6.addBox(0F, 0F, 0F, 5, 26, 1);
-		body6.setRotationPoint(-7F, -28F, 1F);
-		body6.setTextureSize(64, 32);
-		body6.mirror = true;
-		setRotation(body6, 0F, 0F, 0F);
-		body7 = new ModelRenderer(this, 58, 0);
-		body7.addBox(0F, 0F, 0F, 5, 26, 1);
-		body7.setRotationPoint(6F, -28F, 1F);
-		body7.setTextureSize(64, 32);
-		body7.mirror = true;
-		setRotation(body7, 0F, 0F, 0F);
-		body8 = new ModelRenderer(this, 46, 0);
-		body8.addBox(0F, 0F, 0F, 4, 26, 1);
-		body8.setRotationPoint(-7F, -28F, 2F);
-		body8.setTextureSize(64, 32);
-		body8.mirror = true;
-		setRotation(body8, 0F, 0F, 0F);
-		body9 = new ModelRenderer(this, 59, 0);
-		body9.addBox(0F, 0F, 0F, 4, 26, 1);
-		body9.setRotationPoint(7F, -28F, 2F);
-		body9.setTextureSize(64, 32);
-		body9.mirror = true;
-		setRotation(body9, 0F, 0F, 0F);*/
+		body6 = makeCube(-46, 5, 26, 1, -7F, -28F, -1F);
+		body7 = makeCube(-58, 5, 26, 1, 6F, -28F, -1F);
+		body8 = makeCube(-46, 4, 26, 1, -7F, -28F, -2F);
+		body9 = makeCube(-59, 4, 26, 1, 7F, -28F, -2F);
 	}
 	
 	private ModelRenderer makeCube(int numMr, int numX, int numY, int numZ, float fX, float fY, float fZ) {

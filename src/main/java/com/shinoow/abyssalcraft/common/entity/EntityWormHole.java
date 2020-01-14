@@ -135,12 +135,12 @@ public class EntityWormHole extends EntityMob {
 
 			worldObj.spawnParticle("smoke", posX + rX, posY + rY, posZ + rZ, 0, 0, 0);
 			
-			if (deathTicks >= 490 && deathTicks <= 500){
-				worldObj.spawnParticle("hugeexplosion", posX, posY + 1.5D, posZ, 0.0D, 0.0D, 0.0D);
+			if (deathTicks >= 490 && deathTicks <= 500) {
+				worldObj.spawnParticle("hugeexplosion", posX, posY + 1.5D, posZ, rX, rY, rZ);
 				worldObj.playSoundAtEntity(this, "random.explode", 4, (1.0F + (rand.nextFloat() - rand.nextFloat()) * 0.2F) * 0.7F);
 			}
 			
-			if(deathTicks > 100 && deathTicks < 500) {
+			if(deathTicks > 50) {
 				pullEntities();
 			}
 		}

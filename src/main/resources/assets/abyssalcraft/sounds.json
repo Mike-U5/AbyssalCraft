@@ -317,6 +317,12 @@
 			"abyssalcraft:jzahar/chant_disruption"
 		]
 	},
+	"jzahar.chant.doorway": {
+		"category": "hostile",
+		"sounds": [
+			"abyssalcraft:jzahar/chant_doorway"
+		]
+	},
 	"jzahar.skill.shout": {
 		"category": "hostile",
 		"sounds": [
