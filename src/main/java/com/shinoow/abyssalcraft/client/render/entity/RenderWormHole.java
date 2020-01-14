@@ -15,8 +15,8 @@ import java.util.Random;
 
 import org.lwjgl.opengl.GL11;
 
-import com.shinoow.abyssalcraft.client.model.entity.ModelJzahar;
-import com.shinoow.abyssalcraft.common.entity.EntityJzahar;
+import com.shinoow.abyssalcraft.client.model.entity.ModelWormHole;
+import com.shinoow.abyssalcraft.common.entity.EntityWormHole;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -25,23 +25,21 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.boss.BossStatus;
 import net.minecraft.util.ResourceLocation;
 
 @SideOnly(Side.CLIENT)
-public class RenderJzahar extends RenderLiving {
+public class RenderWormHole extends RenderLiving {
 
-	protected ModelJzahar model;
+	protected ModelWormHole model;
 
-	private static final ResourceLocation mobTexture = new ResourceLocation("abyssalcraft:textures/model/boss/J'zahar.png");
+	private static final ResourceLocation mobTexture = new ResourceLocation("abyssalcraft:textures/model/boss/wormhole.png");
 
-	public RenderJzahar (ModelJzahar ModelJzahar, float f) {
-		super(ModelJzahar, f);
-		model = (ModelJzahar)mainModel;
+	public RenderWormHole (ModelWormHole modelWormHole, float f) {
+		super(modelWormHole, f);
+		model = (ModelWormHole)mainModel;
 	}
 
-	public void doRender(EntityJzahar entity, double par2, double par4, double par6, float par8, float par9) {
-		BossStatus.setBossStatus(entity, false);
+	public void doRender(EntityWormHole entity, double par2, double par4, double par6, float par8, float par9) {
 		super.doRender(entity, par2, par4, par6, par8, par9);
 	}
 
@@ -50,13 +48,13 @@ public class RenderJzahar extends RenderLiving {
 		return mobTexture;
 	}
 
-	protected void renderJzaharDying(EntityJzahar par1EntityJzahar, float par2) {
-		super.renderEquippedItems(par1EntityJzahar, par2);
+	protected void renderDying(EntityWormHole entity, float par2) {
+		super.renderEquippedItems(entity, par2);
 		Tessellator tessellator = Tessellator.instance;
 
-		if (par1EntityJzahar.deathTicks > 400) {
+		if (entity.deathTicks > 400) {
 			RenderHelper.disableStandardItemLighting();
-			float f1 = ((par1EntityJzahar.deathTicks - 400) + par2) / 400.0F;
+			float f1 = ((entity.deathTicks - 400) + par2) / 400.0F;
 			float f2 = 0.0F;
 
 			if (f1 > 0.8F)
@@ -106,18 +104,17 @@ public class RenderJzahar extends RenderLiving {
 	}
 
 	@Override
-	public void doRender(Entity par1Entity, double par2, double par4, double par6, float par8, float par9) {
-		doRender((EntityJzahar)par1Entity, par2, par4, par6, par8, par9);
+	public void doRender(Entity entity, double par2, double par4, double par6, float par8, float par9) {
+		doRender((EntityWormHole)entity, par2, par4, par6, par8, par9);
 	}
 
 	@Override
-	protected void renderEquippedItems(EntityLivingBase par1EntityLivingBase, float par2) {
-		renderJzaharDying((EntityJzahar) par1EntityLivingBase, par2);
+	protected void renderEquippedItems(EntityLivingBase entity, float par2) {
+		renderDying((EntityWormHole)entity, par2);
 	}
 
 	@Override
-	protected void preRenderCallback(EntityLivingBase par1EntityLivingBase, float par2)
-	{
+	protected void preRenderCallback(EntityLivingBase par1EntityLivingBase, float par2) {
 		GL11.glScalef(1.5F, 1.5F, 1.5F);
 	}
 }

@@ -64,7 +64,7 @@ import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.EnderTeleportEvent;
 
-public class EntityJzahar extends ACMob implements IBossDisplayData, IRangedAttackMob, IAntiEntity, ICoraliumEntity, IDreadEntity {
+public class EntityJzahar extends ACMob implements IBossDisplayData, IAntiEntity, ICoraliumEntity, IDreadEntity {
 
 	public int deathTicks;
 	private int skillTicks;
@@ -78,13 +78,14 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IRangedAtta
 		setSize(1.5F, 5.7F);
 		tasks.addTask(0, new EntityAISwimming(this));
 		tasks.addTask(2, new EntityAIAttackOnCollide(this, EntityPlayer.class, 0.35D, true));
-		tasks.addTask(3, new EntityAIArrowAttack(this, 0.4D, 40, 20.0F));
+		///tasks.addTask(3, new EntityAIArrowAttack(this, 0.4D, 40, 20.0F));
 		tasks.addTask(4, new EntityAIMoveTowardsRestriction(this, 0.35D));
 		tasks.addTask(5, new EntityAIWander(this, 0.35D));
 		tasks.addTask(6, new EntityAILookIdle(this));
 		tasks.addTask(6, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
 		targetTasks.addTask(1, new EntityAIHurtByTarget(this, false));
 		targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true));
+		isImmuneToFire = true;
 	}
 
 	@Override
@@ -103,6 +104,7 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IRangedAtta
 			getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(666.0D);
 			getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(40.0D);
 		}
+		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.11D);
 		getEntityAttribute(SharedMonsterAttributes.knockbackResistance).setBaseValue(0.8D);
 	}
 
@@ -374,7 +376,7 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IRangedAtta
 		
 		// Special Attack checker
 		skillTicks += 1;
-		if (skillTicks > 1500) {
+		if (skillTicks > 2100) {
 			skillTicks = 0;
 		}
 		performSpecialAttack(skillTicks);
@@ -399,13 +401,13 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IRangedAtta
 		final int castTime = 45;
 		
 		// Chant EARTHQUAKE
-		if (timer == 0) {
+		if (timer == 100) {
 			this.playSound("abyssalcraft:jzahar.chant.shout", 4.5F, 1F);
-			this.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, castTime, 4));
+			this.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, castTime));
 		}
 		
 		// Perform EARTHQUAKE
-		if (timer == 0 + castTime) {
+		if (timer == 100 + castTime) {
 			this.playSound("abyssalcraft:jzahar.skill.quake", 2F, 1F);
 			// Apply
 			List<?> ents = worldObj.getEntitiesWithinAABB(EntityLivingBase.class, boundingBox.expand(64.0D, 64.0D, 64.0D));
@@ -420,13 +422,13 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IRangedAtta
 		}
 		
 		// Chant DISRUPTION
-		if (timer == 500) {
+		if (timer == 600) {
 			this.playSound("abyssalcraft:jzahar.chant.disruption", 4.5F, 1F);
-			this.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, castTime, 4));
+			this.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, castTime));
 		}
 		
 		// Perform DISRUPTION
-		if (timer == 500 + castTime) {
+		if (timer == 600 + castTime) {
 			List<EntityPlayer> players = worldObj.getEntitiesWithinAABB(EntityPlayer.class, boundingBox.expand(64.0D, 64.0D, 64.0D));
 			if(!worldObj.isRemote) {
 				worldObj.addWeatherEffect(new EntityLightningBolt(worldObj, posX, posY, posZ));
@@ -435,19 +437,33 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IRangedAtta
 		}
 		
 		// Chant WITHER
-		if (timer == 1000) {
+		if (timer == 1100) {
 			this.playSound("abyssalcraft:jzahar.chant.wither", 4.5F, 1F);
-			this.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, castTime, 4));
+			this.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, castTime));
 		}
 		
 		// Perform WITHER
-		if (timer == 1000 + castTime) {
+		if (timer == 1100 + castTime) {
 			List<?> players = worldObj.getEntitiesWithinAABB(EntityPlayer.class, boundingBox.expand(64.0D, 64.0D, 64.0D));
 			if (players != null && players.size() > 0) {
 				for (int i = 0; i < players.size(); i++) {
 					EntityLivingBase p = (EntityLivingBase) players.get(i);
 					rangedAttackSkull(0, p);
 				}
+			}
+		}
+		
+		// Chant BLACK HOLE
+		if (timer == 1600) {
+			this.playSound("abyssalcraft:jzahar.chant.doorway", 4.5F, 1F);
+			this.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, castTime));
+		}
+		
+		// Perform BLACK HOLE
+		if (timer == 1600 + castTime) {
+			if (!worldObj.isRemote) {
+				EntityWormHole blackHole = new EntityWormHole(worldObj);
+				worldObj.spawnEntityInWorld(blackHole);
 			}
 		}
 	}
@@ -650,11 +666,6 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IRangedAtta
 		entitywitherskull.posX = d3;
 		entitywitherskull.posZ = d5;
 		worldObj.spawnEntityInWorld(entitywitherskull);
-	}
-
-	@Override
-	public void attackEntityWithRangedAttack(EntityLivingBase target, float par2) {
-		rangedAttackSkull(0, target);
 	}
 	
 	@Override

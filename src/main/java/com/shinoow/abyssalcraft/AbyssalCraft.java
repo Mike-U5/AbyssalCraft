@@ -175,6 +175,7 @@ import com.shinoow.abyssalcraft.common.entity.EntityShadowBeast;
 import com.shinoow.abyssalcraft.common.entity.EntityShadowCreature;
 import com.shinoow.abyssalcraft.common.entity.EntityShadowMonster;
 import com.shinoow.abyssalcraft.common.entity.EntitySkeletonGoliath;
+import com.shinoow.abyssalcraft.common.entity.EntityWormHole;
 import com.shinoow.abyssalcraft.common.entity.anti.EntityAntiAbyssalZombie;
 import com.shinoow.abyssalcraft.common.entity.anti.EntityAntiBat;
 import com.shinoow.abyssalcraft.common.entity.anti.EntityAntiChicken;
@@ -1308,7 +1309,9 @@ public class AbyssalCraft {
 		registerEntityWithEgg(EntityDemonChicken.class, "demonchicken", 70, 80, 3, true, 10592673, 16711680);
 
 		EntityRegistry.registerModEntity(EntityGatekeeperEssence.class, "GatekeeperEssence", 71, instance, 64, 10, true);
-
+		
+		registerEntityWithEgg(EntityWormHole.class, "wormhole", 72, 80, 3, true, 0x133134, 0x342123);
+		
 		proxy.addArmor("Abyssalnite");
 		proxy.addArmor("Dread");
 		proxy.addArmor("Coralium");
@@ -1701,7 +1704,9 @@ public class AbyssalCraft {
 					if(!senders.contains(imcMessage.getSender()))
 						senders.add(imcMessage.getSender());
 					AbyssalCraftAPI.addShoggothBlacklist(Block.getBlockFromItem(imcMessage.getItemStackValue().getItem()));
-				} else failed = true;
+				} else {
+					failed = true;
+				}
 				if(failed)
 					ACLogger.imcWarning("Received invalid Shoggoth Block Blacklist from mod %s!", imcMessage.getSender());
 				else ACLogger.imcInfo("Received Shoggoth Block Blacklist from mod %s", imcMessage.getSender());
@@ -1906,12 +1911,12 @@ public class AbyssalCraft {
 		DungeonHooks.addDungeonMob("abyssalcraft.antizombie", 50);
 	}
 
-	private void sendIMC(){
+	private void sendIMC() {
 
 	}
 
-	private void checkBiomeIds(boolean first){
-		if(first){
+	private void checkBiomeIds(boolean first) {
+		if(first) {
 			ACLogger.info("Scanning biome IDs to see if the ones needed are available.");
 
 			if(BiomeGenBase.getBiomeGenArray()[configBiomeId1] != null && dark1)
@@ -1997,10 +2002,7 @@ public class AbyssalCraft {
 			if(BiomeGenBase.getBiomeGenArray()[configBiomeId13] != ACBiomes.dark_realm)
 				throw new RuntimeException(String.format("Biome ID %d was overridden by the biome %s (%s)!", configBiomeId13, BiomeGenBase.getBiome(configBiomeId13).biomeName,
 						BiomeGenBase.getBiome(configBiomeId13).getBiomeClass().getName()));
-			///if(BiomeGenBase.getBiomeGenArray()[configBiomeId14] != ACBiomes.purged)
-			//throw new RuntimeException(String.format("Biome ID %d was overridden by the biome %s (%s)!", configBiomeId14, BiomeGenBase.getBiome(configBiomeId14).biomeName,
-			///		BiomeGenBase.getBiome(configBiomeId14).getBiomeClass().getName()));
-
+			
 			ACLogger.info("None of the biome IDs has been overridden.");
 		}
 	}

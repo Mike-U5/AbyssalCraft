@@ -18,8 +18,7 @@ import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.MathHelper;
 
-public class ModelJzahar extends ModelBase
-{
+public class ModelJzahar extends ModelBase {
 
 	public ModelRenderer head;
 	public ModelRenderer mask1;
