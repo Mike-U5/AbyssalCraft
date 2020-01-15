@@ -13,10 +13,12 @@ package com.shinoow.abyssalcraft.common.entity.anti;
 
 import com.shinoow.abyssalcraft.AbyssalCraft;
 import com.shinoow.abyssalcraft.api.entity.IAntiEntity;
-import com.shinoow.abyssalcraft.common.entity.WardenProjectile;
+import com.shinoow.abyssalcraft.api.entity.IOmotholEntity;
 
+import net.minecraft.block.Block;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.entity.IEntityLivingData;
@@ -26,43 +28,58 @@ import net.minecraft.entity.ai.EntityAIArrowAttack;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAILookIdle;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
-import net.minecraft.entity.ai.EntityAIRestrictSun;
 import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
-import net.minecraft.entity.monster.EntitySkeleton;
+import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 
-public class EntityAntiSkeleton extends EntitySkeleton implements IRangedAttackMob, IAntiEntity {
+public class EntityAntiSkeleton extends EntityMob implements IRangedAttackMob, IOmotholEntity {
 
 	private EntityAIArrowAttack aiArrowAttack = new EntityAIArrowAttack(this, 1.0D, 20, 60, 15.0F);
 
-	public EntityAntiSkeleton(World world){
+	public EntityAntiSkeleton(World world) {
 		super(world);
 		tasks.addTask(1, new EntityAISwimming(this));
-		tasks.addTask(2, new EntityAIRestrictSun(this));
 		tasks.addTask(5, new EntityAIWander(this, 1.0D));
 		tasks.addTask(6, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
 		tasks.addTask(6, new EntityAILookIdle(this));
 		targetTasks.addTask(1, new EntityAIHurtByTarget(this, false));
 		targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true));
 		tasks.addTask(4, aiArrowAttack);
+		isImmuneToFire = true;
 	}
 
 	@Override
 	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
-		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.0D);
-		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(80.0D);
+		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.25D);
+		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(250.0D);
+	}
+
+	@Override
+	protected void entityInit() {
+		super.entityInit();
+		dataWatcher.addObject(13, new Byte((byte)0));
 	}
 	
 	@Override
-	protected void addRandomArmor(){}
-	
+	public void onLivingUpdate() {
+		// Max lifetime of 10 minutes. Less at low health.
+		if (ticksExisted > (getHealth() * 48)) {
+            setHealth(0F);
+		}
+		super.onLivingUpdate();
+	}
+
 	@Override
-	public void setCombatTask() {}
+	public boolean isAIEnabled() {
+		return true;
+	}
 
 	@Override
 	protected String getLivingSound() {
@@ -80,45 +97,65 @@ public class EntityAntiSkeleton extends EntitySkeleton implements IRangedAttackM
 	}
 
 	@Override
+	protected void func_145780_a(int par1, int par2, int par3, Block block) {
+		playSound("mob.skeleton.step", 0.15F, 1.0F);
+	}
+
+	@Override
 	public EnumCreatureAttribute getCreatureAttribute() {
 		return EnumCreatureAttribute.UNDEAD;
 	}
 
 	@Override
-	protected void dropFewItems(boolean playerKill, int fortune) {
-		if (rand.nextInt(6) < 3 + fortune) {
-			dropItem(AbyssalCraft.ethaxium_brick, 1);
+	public void updateRidden() {
+		super.updateRidden();
+
+		if (ridingEntity instanceof EntityCreature) {
+			EntityCreature entitycreature = (EntityCreature)ridingEntity;
+			renderYawOffset = entitycreature.renderYawOffset;
 		}
 	}
 
 	@Override
-	public IEntityLivingData onSpawnWithEgg(IEntityLivingData entity) {
-		entity = super.onSpawnWithEgg(entity);
-		tasks.addTask(4, aiArrowAttack);
+	public IEntityLivingData onSpawnWithEgg(IEntityLivingData data) {
+		data = super.onSpawnWithEgg(data);
+		setCurrentItemOrArmor(0, new ItemStack(AbyssalCraft.corbow));
 		setCanPickUpLoot(false);
-		return entity;
+		return data;
 	}
 
 	/**
 	 * Attack the specified entity using a ranged attack.
 	 */
 	@Override
-	public void attackEntityWithRangedAttack(EntityLivingBase entity, float par2) {
-		EntityArrow entityarrow = new WardenProjectile(worldObj, this, entity, 1.6F, 14 - worldObj.difficultySetting.getDifficultyId() * 4);
-		int i = EnchantmentHelper.getEnchantmentLevel(Enchantment.power.effectId, getHeldItem());
-		int j = EnchantmentHelper.getEnchantmentLevel(Enchantment.punch.effectId, getHeldItem());
+	public void attackEntityWithRangedAttack(EntityLivingBase target, float par2) {
+		EntityArrow entityarrow = new EntityArrow(worldObj, this, target, 1.6F, 14 - worldObj.difficultySetting.getDifficultyId() * 4);
+		final int power = EnchantmentHelper.getEnchantmentLevel(Enchantment.power.effectId, getHeldItem());
+		final int punch = EnchantmentHelper.getEnchantmentLevel(Enchantment.punch.effectId, getHeldItem());
 		entityarrow.setDamage(par2 * 2.0F + rand.nextGaussian() * 0.25D + worldObj.difficultySetting.getDifficultyId() * 0.11F);
 
-		if (i > 0)
-			entityarrow.setDamage(entityarrow.getDamage() + i * 0.5D + 0.5D);
+		if (power > 0) {
+			entityarrow.setDamage(entityarrow.getDamage() + power * 0.5D + 0.5D);
+		}
 
-		if (j > 0)
-			entityarrow.setKnockbackStrength(j);
-
-		if (EnchantmentHelper.getEnchantmentLevel(Enchantment.flame.effectId, getHeldItem()) > 0)
-			entityarrow.setFire(100);
+		if (punch > 0) {
+			entityarrow.setKnockbackStrength(punch);
+		}
 
 		playSound("random.bow", 1.0F, 1.0F / (getRNG().nextFloat() * 0.4F + 0.8F));
 		worldObj.spawnEntityInWorld(entityarrow);
 	}
+	
+	public boolean attackEntityFrom(DamageSource dmgSrc, float amount) {
+		if (dmgSrc == DamageSource.inWall) {
+			return false;
+		}
+		return super.attackEntityFrom(dmgSrc, amount);
+	}
+
+	@Override
+	public double getYOffset() {
+		return super.getYOffset() - 0.5D;
+	}
+
 }

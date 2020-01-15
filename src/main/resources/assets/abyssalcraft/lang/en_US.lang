@@ -455,7 +455,7 @@ necronomicon.text.darkrealm.progression.1=Once you have reached the Dark Realm, 
 necronomicon.text.darkrealm.progression.2=Main reason to intentionally fall down here would be to obtain large quantities of Shadow Gems and/or Sacthoth's Soul Reaper Blade.
 
 necronomicon.text.entity.anti.1=Inside the Coralium Infested Swamp you can find several life forms made out of antimatter.
-necronomicon.text.entity.anti.2=If a anti-entity collides with it's normal counterpart, they explode. There are anti-versions of: Zombies, Abyssal Zombies, Skeletons, Depths Ghouls, Bats, Cows, Pigs, Chickens, Creepers, Spiders and Players. Anti-Players don't explode.
+necronomicon.text.entity.anti.2=If a anti-entity collides with it's normal counterpart, they explode.
 necronomicon.text.entity.daoloth.1=Daoloth are creatures that dwell in dimensions beyond the ones we know.
 necronomicon.text.entity.daoloth.2=They can only appear in J-zahar's cursed Darklands. They are completely invincible. However, they will be forced back to their original dimension if they step outside a Darklands biome.
 necronomicon.text.entity.evilanimals.1=If you encounter any of these animals, you will quickly notice that it's hostile and screams when you hit it.
@@ -1192,7 +1192,7 @@ entity.abyssalcraft.anticreeper.name=Anti-Creeper
 entity.abyssalcraft.antighoul.name=Anti-Ghoul
 entity.abyssalcraft.antipig.name=Anti-Pig
 entity.abyssalcraft.antiplayer.name=Daoloth
-entity.abyssalcraft.antiskeleton.name=Anti-Skeleton
+entity.abyssalcraft.antiskeleton.name=Resuscitated Warden
 entity.abyssalcraft.antispider.name=Anti-Spider
 entity.abyssalcraft.antizombie.name=Anti-Zombie
 entity.abyssalcraft.lessershoggoth.name=Lesser Shoggoth

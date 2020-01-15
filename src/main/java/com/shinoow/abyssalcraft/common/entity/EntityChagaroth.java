@@ -28,6 +28,7 @@ import net.minecraft.entity.boss.IBossDisplayData;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.projectile.EntityLargeFireball;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
@@ -38,10 +39,11 @@ import net.minecraft.world.World;
 
 public class EntityChagaroth extends ACMob implements IBossDisplayData, IDreadEntity {
 
+	private int skillTicks;
 	public int deathTicks;
 
-	public EntityChagaroth(World par1World) {
-		super(par1World);
+	public EntityChagaroth(World world) {
+		super(world);
 		setSize(3.0F, 4.8F);
 		tasks.addTask(2, new EntityAIAttackOnCollide(this, EntityPlayer.class, 0.0D, true));
 		tasks.addTask(3, new EntityAILookIdle(this));
@@ -53,23 +55,22 @@ public class EntityChagaroth extends ACMob implements IBossDisplayData, IDreadEn
 	}
 
 	@Override
-	public String getCommandSenderName()
-	{
+	public String getCommandSenderName() {
 		return EnumChatFormatting.DARK_RED + super.getCommandSenderName();
 	}
 
 	@Override
-	public boolean attackEntityAsMob(Entity par1Entity) {
-
-		if (super.attackEntityAsMob(par1Entity))
-			if (par1Entity instanceof EntityLivingBase)
-				((EntityLivingBase)par1Entity).addPotionEffect(new PotionEffect(AbyssalCraft.Dplague.id, 100));
-		return super.attackEntityAsMob(par1Entity);
+	public boolean attackEntityAsMob(Entity entity) {
+		if (super.attackEntityAsMob(entity)) {
+			if (entity instanceof EntityLivingBase) {
+				((EntityLivingBase)entity).addPotionEffect(new PotionEffect(AbyssalCraft.Dplague.id, 100));
+			}
+		}
+		return super.attackEntityAsMob(entity);
 	}
 
 	@Override
-	protected void applyEntityAttributes()
-	{
+	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
 
 		getEntityAttribute(SharedMonsterAttributes.knockbackResistance).setBaseValue(1.0D);
@@ -91,51 +92,83 @@ public class EntityChagaroth extends ACMob implements IBossDisplayData, IDreadEn
 	}
 
 	@Override
-	public boolean canBreatheUnderwater()
-	{
+	public boolean canBreatheUnderwater() {
 		return true;
 	}
 
 	@Override
-	protected String getLivingSound()
-	{
+	protected String getLivingSound() {
 		return "abyssalcraft:dreadguard.idle";
 	}
 
 	@Override
-	protected String getHurtSound()
-	{
+	protected String getHurtSound() {
 		return "abyssalcraft:dreadguard.hit";
 	}
 
 	@Override
-	protected String getDeathSound()
-	{
+	protected String getDeathSound() {
 		return "abyssalcraft:dreadguard.death";
 	}
 
 	@Override
-	protected float getSoundVolume()
-	{
-		return 5.0F;
+	protected float getSoundVolume() {
+		return 4.5F;
 	}
 
 	@Override
-	public int getTotalArmorValue()
-	{
+	public int getTotalArmorValue() {
 		return 10;
 	}
 
 	@Override
-	protected boolean canDespawn()
-	{
+	protected boolean canDespawn() {
 		return false;
+	}
+	
+	// Fireball Creation
+	private EntityLargeFireball positionFireball(World world, double x, double y, double z) {
+		EntityLargeFireball fireball = new EntityLargeFireball(world);
+		fireball.setLocationAndAngles(x, y, z, fireball.rotationYaw, fireball.rotationPitch);
+		fireball.setPosition(x, y, z);
+		fireball.accelerationY = -0.2D;
+		return fireball;
 	}
 
 	@Override
-	public void onLivingUpdate()
-	{
+	public void onLivingUpdate() {
 		EntityPlayer player = worldObj.getClosestPlayerToEntity(this, 32D);
+		skillTicks += 1;
+		
+		// Fireball
+		if (skillTicks == 550 && deathTicks <= 0) {
+			playSound("abyssalcraft:chagaroth.fire", 5F, 1F);
+		}
+		if (skillTicks == 570 && deathTicks <= 0) {
+			if (!worldObj.isRemote) {
+				EntityLivingBase target = getAttackTarget();
+				// If not attack target, grab the nearest player
+				if (target == null || getDistanceSqToEntity(target) < 2.5F) {
+					target = player;
+				}
+				// Execute attack if there is a target
+				if (target != null) {
+					double x = target.posX;
+					double y = target.posY + 8;
+					double z = target.posZ;
+					worldObj.spawnEntityInWorld(positionFireball(worldObj, x + 2.5, y, z + 2.5));
+					worldObj.spawnEntityInWorld(positionFireball(worldObj, x - 2.5, y, z + 2.5));
+					worldObj.spawnEntityInWorld(positionFireball(worldObj, x + 2.5, y, z - 2.5));
+					worldObj.spawnEntityInWorld(positionFireball(worldObj, x - 2.5, y, z - 2.5));
+					worldObj.spawnEntityInWorld(positionFireball(worldObj, x + 2.5, y, z));
+					worldObj.spawnEntityInWorld(positionFireball(worldObj, x - 2.5, y, z));
+					worldObj.spawnEntityInWorld(positionFireball(worldObj, x, y, z + 2.5));
+					worldObj.spawnEntityInWorld(positionFireball(worldObj, x, y, z - 2.5));
+				}
+			}
+			skillTicks = -100 + worldObj.rand.nextInt(200);
+		}
+		
 		if(!worldObj.isRemote && deathTicks == 0){
 			if(rand.nextInt(600) == 0 && player != null) {
 				EntityChagarothSpawn mob = new EntityChagarothSpawn(worldObj);
@@ -200,43 +233,38 @@ public class EntityChagaroth extends ACMob implements IBossDisplayData, IDreadEn
 	}
 
 	@Override
-	public void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
-	{
-		super.writeEntityToNBT(par1NBTTagCompound);
-		par1NBTTagCompound.setInteger("DeathTicks", deathTicks);
+	public void writeEntityToNBT(NBTTagCompound nbt) {
+		super.writeEntityToNBT(nbt);
+		nbt.setInteger("DeathTicks", deathTicks);
+		nbt.setInteger("SkillTicks", skillTicks);
 	}
 
 	@Override
-	public void readEntityFromNBT(NBTTagCompound par1NBTTagCompound)
-	{
-		super.readEntityFromNBT(par1NBTTagCompound);
-		deathTicks = par1NBTTagCompound.getInteger("DeathTicks");
+	public void readEntityFromNBT(NBTTagCompound nbt) {
+		super.readEntityFromNBT(nbt);
+		deathTicks = nbt.getInteger("DeathTicks");
+		skillTicks = nbt.getInteger("SkillTicks");
 	}
 
 	@Override
-	public void onDeath(DamageSource par1DamageSource) {
-		if (par1DamageSource.getEntity() instanceof EntityPlayer)
-		{
-			EntityPlayer entityplayer = (EntityPlayer)par1DamageSource.getEntity();
+	public void onDeath(DamageSource dmgSrc) {
+		if (dmgSrc.getEntity() instanceof EntityPlayer) {
+			EntityPlayer entityplayer = (EntityPlayer)dmgSrc.getEntity();
 			entityplayer.addStat(AbyssalCraft.killChagaroth, 1);
 		}
-		super.onDeath(par1DamageSource);
+		super.onDeath(dmgSrc);
 	}
 
 	@Override
-	public boolean attackEntityFrom(DamageSource par1DamageSource, float par2)
-	{
-		if(par2 > 50)
-			if(par2 > 500001 || par2 < 500000)
-				if(par2 > 750001.5F || par2 < 750001)
-					par2 = 30 + worldObj.rand.nextInt(20);
-
-		return super.attackEntityFrom(par1DamageSource, par2);
+	public boolean attackEntityFrom(DamageSource dmgSrc, float amount) {
+		if (dmgSrc.getEntity() instanceof EntityLivingBase) {
+			return super.attackEntityFrom(dmgSrc, amount);
+		}
+		return false;
 	}
 
 	@Override
-	protected void onDeathUpdate()
-	{
+	protected void onDeathUpdate() {
 		++deathTicks;
 
 		if (deathTicks <= 200)

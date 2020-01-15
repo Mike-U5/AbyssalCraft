@@ -19,6 +19,7 @@ import com.shinoow.abyssalcraft.api.entity.IAntiEntity;
 import com.shinoow.abyssalcraft.api.entity.ICoraliumEntity;
 import com.shinoow.abyssalcraft.api.entity.IDreadEntity;
 import com.shinoow.abyssalcraft.api.entity.IOmotholEntity;
+import com.shinoow.abyssalcraft.common.entity.anti.EntityAntiSkeleton;
 import com.shinoow.abyssalcraft.common.potion.CurseEffect;
 import com.shinoow.abyssalcraft.common.util.SpecialTextUtil;
 import com.shinoow.abyssalcraft.common.world.TeleporterDarkRealm;
@@ -47,6 +48,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.projectile.EntityLargeFireball;
 import net.minecraft.entity.projectile.EntityWitherSkull;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
@@ -147,20 +149,26 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IAntiEntity
 
 	@Override
 	public boolean attackEntityFrom(DamageSource dmgSrc, float dmgAmount) {		
+		Entity srcEntity = dmgSrc.getEntity();
+		
 		// Cancel damage from non-enties
-		if (dmgSrc.getEntity() == null) {
+		if (srcEntity == null) {
+			return false;
+		}
+		
+		// Jz can never be harmed by his own minions
+		if (srcEntity instanceof IOmotholEntity) {
 			return false;
 		}
 		
 		// Cancel damage is dealer is too far away
-		Entity srcEntity = dmgSrc.getEntity();
 		if (getDistanceToEntity(srcEntity) > 60) {
 			return false;
 		}
 		
-		// Cap damage at 30
-		if(dmgAmount > 30) {
-			dmgAmount = 30;
+		// Cap damage at 50
+		if(dmgAmount > 50) {
+			dmgAmount = 50;
 		}
 
 		return super.attackEntityFrom(dmgSrc, dmgAmount);
@@ -426,7 +434,8 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IAntiEntity
 			/*List<EntityPlayer> players = worldObj.getEntitiesWithinAABB(EntityPlayer.class, boundingBox.expand(64.0D, 64.0D, 64.0D));
 			DisruptionHandler.instance().generateDisruption(DeityType.JZAHAR, worldObj, (int)posX, (int)posY, (int)posZ, players);*/
 			if(!worldObj.isRemote) {
-				EntityLivingBase entity = new EntityGatekeeperWarden(worldObj);
+				EntityLivingBase entity = new EntityAntiSkeleton(worldObj);
+				entity.setCurrentItemOrArmor(0, new ItemStack(Items.bow));
 				final double x = posX - 2 + Math.random() * 4;
 				final double y = posY + Math.random() * 2;
 				final double z = posZ - 2 + Math.random() * 4;
@@ -454,13 +463,15 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IAntiEntity
 			}
 		}
 		
+		// -2 cycle delay
+		
 		// Chant BLACK HOLE
-		if (cycle == 48) {
+		if (cycle == 46) {
 			playSound("abyssalcraft:jzahar.chant.doorway", 4.5F, 1F);
 		}
 		
 		// Perform BLACK HOLE
-		if (cycle == 48 + castTime) {
+		if (cycle == 46 + castTime) {
 			swingItem();
 			if (!worldObj.isRemote) {
 				EntityWormHole hole = new EntityWormHole(worldObj);
@@ -472,6 +483,8 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IAntiEntity
 				worldObj.spawnEntityInWorld(hole);
 			}
 		}
+		
+		// +2 cycle delay
 		
 		// Chant FIRE RAIN
 		if (cycle == 60) {
