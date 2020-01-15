@@ -22,6 +22,12 @@
 			"abyssalcraft:dreadguard/hit4"
 		]
 	},
+	"chagaroth.fire": {
+		"category": "hostile",
+		"sounds": [
+			"abyssalcraft:chagaroth/spec_fire"
+		]
+	},
 	"ghoul.normal.idle": {
 		"category": "hostile",
 		"sounds": [
