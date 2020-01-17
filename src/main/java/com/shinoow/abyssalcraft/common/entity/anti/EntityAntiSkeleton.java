@@ -68,6 +68,7 @@ public class EntityAntiSkeleton extends EntityMob implements IRangedAttackMob, I
 		super.applyEntityAttributes();
 		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.25D);
 		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(200.0D);
+		getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(48.0D);
 	}
 
 	@Override

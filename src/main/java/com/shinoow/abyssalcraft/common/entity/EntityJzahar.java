@@ -66,7 +66,6 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IAntiEntity
 
 	public int deathTicks;
 	private int skillTicks;
-	private int talkTimer;
 	private boolean that = false;
 	private double speed = 0.05D;
 
@@ -78,8 +77,8 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IAntiEntity
 		tasks.addTask(2, new EntityAIMoveTowardsRestriction(this, 0.35D));
 		tasks.addTask(3, new EntityAIWander(this, 0.35D));
 		tasks.addTask(4, new EntityAILookIdle(this));
-		tasks.addTask(4, new EntityAIWatchClosest(this, EntityPlayer.class, 64.0F));
-		targetTasks.addTask(1, new EntityAIHurtByTarget(this, false));
+		tasks.addTask(4, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
+		targetTasks.addTask(1, new EntityAIHurtByTarget(this, true));
 		targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true));
 		isImmuneToFire = true;
 	}
@@ -95,12 +94,12 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IAntiEntity
 
 		if(AbyssalCraft.hardcoreMode){
 			getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(1000.0D);
-			getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(40.0D);
 		} else {
 			getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(666.0D);
-			getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(40.0D);
 		}
+		getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(40.0D);
 		getEntityAttribute(SharedMonsterAttributes.knockbackResistance).setBaseValue(0.8D);
+		getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(48.0D);
 	}
 
 	@Override
@@ -146,6 +145,12 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IAntiEntity
 
 	@Override
 	public boolean attackEntityFrom(DamageSource dmgSrc, float amount) {
+		// If I can't see you then you can't see me!
+		if (getAttackTarget() == null) {
+			return false;
+		}
+		
+		
 		Entity srcEntity = dmgSrc.getEntity();
 		
 		// Resistant to arrows
@@ -163,14 +168,9 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IAntiEntity
 			return false;
 		}
 		
-		// Cancel damage is dealer is too far away
-		if (getDistanceToEntity(srcEntity) > 60) {
-			return false;
-		}
-		
-		// Cap damage at 50
-		if(amount > 50) {
-			amount = 50;
+		// Cap damage at 30
+		if(amount > 30) {
+			amount = 30;
 		}
 
 		return super.attackEntityFrom(dmgSrc, amount);
@@ -254,12 +254,12 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IAntiEntity
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public void onDeath(DamageSource par1DamageSource) {
+	public void onDeath(DamageSource dmgSrc) {
 		List<EntityPlayer> players = worldObj.getEntitiesWithinAABB(EntityPlayer.class, boundingBox.expand(10, 10, 10));
 		for(EntityPlayer player : players) {
 			player.addStat(AbyssalCraft.killJzahar, 1);
 		}
-		super.onDeath(par1DamageSource);
+		super.onDeath(dmgSrc);
 	}
 
 	private double func_82214_u(int par1) {
@@ -291,85 +291,62 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IAntiEntity
 		return height * 0.90F;
 	}
 	
-	@SuppressWarnings("unused")
-	private void banishBosses(Entity entity, float f, float f1, float f2) {
-		if(entity instanceof EntityDragon || entity instanceof EntityWither){
-			if(!worldObj.isRemote){
-				worldObj.removeEntity(entity);
-				if(entity.isDead)
-					SpecialTextUtil.JzaharGroup(worldObj, StatCollector.translateToLocal("message.jzahar.banish.vanilla"));
-			} else if(AbyssalCraft.particleEntity)
-				worldObj.spawnParticle("hugeexplosion", entity.posX + f, entity.posY + 2.0D + f1, entity.posZ + f2, 0.0D, 0.0D, 0.0D);
-		} else if(entity instanceof EntityDragonBoss || entity instanceof EntitySacthoth || entity instanceof EntityChagaroth){
-			if(!worldObj.isRemote){
-				worldObj.removeEntity(entity);
-				if(entity.isDead)
-					SpecialTextUtil.JzaharGroup(worldObj, StatCollector.translateToLocal("message.jzahar.banish.ac"));
-			} else if(AbyssalCraft.particleEntity)
-				worldObj.spawnParticle("hugeexplosion", entity.posX + f, entity.posY + 2.0D + f1, entity.posZ + f2, 0.0D, 0.0D, 0.0D);
-		} else if(entity instanceof EntityJzahar){
-			if(!worldObj.isRemote){
-				worldObj.removeEntity(entity);
-				worldObj.removeEntity(this);
-				EntityJzahar newgatekeeper = new EntityJzahar(worldObj);
-				newgatekeeper.copyLocationAndAnglesFrom(this);
-				worldObj.spawnEntityInWorld(newgatekeeper);
-				if(!that){
-					that = true;
-					SpecialTextUtil.JzaharGroup(worldObj, StatCollector.translateToLocal("message.jzahar.banish.jzh"));
+	private void banishBosses() {
+		final float f = (rand.nextFloat() - 0.5F) * 8.0F;
+		final float f1 = (rand.nextFloat() - 0.5F) * 4.0F;
+		final float f2 = (rand.nextFloat() - 0.5F) * 8.0F;
+
+		List<?> list = worldObj.getEntitiesWithinAABBExcludingEntity(this, boundingBox.expand(48.0D, 48.0D, 48.0D));
+		if (list != null) {
+			for (int k2 = 0; k2 < list.size(); k2++) {
+				Entity entity = (Entity)list.get(k2);
+				if(entity instanceof EntityDragon || entity instanceof EntityWither){
+					if(!worldObj.isRemote){
+						worldObj.removeEntity(entity);
+						if(entity.isDead)
+							SpecialTextUtil.JzaharGroup(worldObj, StatCollector.translateToLocal("message.jzahar.banish.vanilla"));
+					} else if(AbyssalCraft.particleEntity)
+						worldObj.spawnParticle("hugeexplosion", entity.posX + f, entity.posY + 2.0D + f1, entity.posZ + f2, 0.0D, 0.0D, 0.0D);
+				} else if(entity instanceof EntityDragonBoss || entity instanceof EntitySacthoth || entity instanceof EntityChagaroth){
+					if(!worldObj.isRemote){
+						worldObj.removeEntity(entity);
+						if(entity.isDead)
+							SpecialTextUtil.JzaharGroup(worldObj, StatCollector.translateToLocal("message.jzahar.banish.ac"));
+					} else if(AbyssalCraft.particleEntity)
+						worldObj.spawnParticle("hugeexplosion", entity.posX + f, entity.posY + 2.0D + f1, entity.posZ + f2, 0.0D, 0.0D, 0.0D);
+				} else if(entity instanceof EntityJzahar){
+					if(!worldObj.isRemote){
+						worldObj.removeEntity(entity);
+						worldObj.removeEntity(this);
+						EntityJzahar newgatekeeper = new EntityJzahar(worldObj);
+						newgatekeeper.copyLocationAndAnglesFrom(this);
+						worldObj.spawnEntityInWorld(newgatekeeper);
+						if(!that){
+							that = true;
+							SpecialTextUtil.JzaharGroup(worldObj, StatCollector.translateToLocal("message.jzahar.banish.jzh"));
+						}
+					} else if(AbyssalCraft.particleEntity){
+						worldObj.spawnParticle("hugeexplosion", entity.posX + f, entity.posY + 2.0D + f1, entity.posZ + f2, 0.0D, 0.0D, 0.0D);
+						worldObj.spawnParticle("hugeexplosion", posX + f, posY + 2.0D + f1, posZ + f2, 0.0D, 0.0D, 0.0D);
+					}
+				} else if(entity instanceof IBossDisplayData){
+					if(!worldObj.isRemote) {
+						worldObj.removeEntity(entity);
+						if(entity.isDead) {
+							SpecialTextUtil.JzaharGroup(worldObj, StatCollector.translateToLocal("message.jzahar.banish.other"));
+						}
+					} else if(AbyssalCraft.particleEntity) {
+						worldObj.spawnParticle("hugeexplosion", entity.posX + f, entity.posY + 2.0D + f1, entity.posZ + f2, 0.0D, 0.0D, 0.0D);
+					}
 				}
-			} else if(AbyssalCraft.particleEntity){
-				worldObj.spawnParticle("hugeexplosion", entity.posX + f, entity.posY + 2.0D + f1, entity.posZ + f2, 0.0D, 0.0D, 0.0D);
-				worldObj.spawnParticle("hugeexplosion", posX + f, posY + 2.0D + f1, posZ + f2, 0.0D, 0.0D, 0.0D);
-			}
-		} else if(entity instanceof IBossDisplayData){
-			if(!worldObj.isRemote) {
-				worldObj.removeEntity(entity);
-				if(entity.isDead) {
-					SpecialTextUtil.JzaharGroup(worldObj, StatCollector.translateToLocal("message.jzahar.banish.other"));
-				}
-			} else if(AbyssalCraft.particleEntity) {
-				worldObj.spawnParticle("hugeexplosion", entity.posX + f, entity.posY + 2.0D + f1, entity.posZ + f2, 0.0D, 0.0D, 0.0D);
 			}
 		}
 	}
 
 	@Override
 	public void onLivingUpdate() {
-		// Talk Checker
-		if (talkTimer > 0) {
-			talkTimer--;
-		}
-		
-		// Fire Trash at the players and banish bosses
-		/**final float f = (rand.nextFloat() - 0.5F) * 8.0F;
-		final float f1 = (rand.nextFloat() - 0.5F) * 4.0F;
-		final float f2 = (rand.nextFloat() - 0.5F) * 8.0F;
-
-		List list = worldObj.getEntitiesWithinAABBExcludingEntity(this, boundingBox.expand(64.0D, 64.0D, 64.0D));
-		if (list != null) {
-			for (int k2 = 0; k2 < list.size(); k2++) {
-				Entity entity = (Entity)list.get(k2);
-				if(entity instanceof EntityPlayer) {
-					skullTimer--;
-					if(((EntityPlayer)entity).capabilities.isCreativeMode && talkTimer == 0 && getDistanceToEntity(entity) <= 5){
-						talkTimer = 1200;
-						if(worldObj.isRemote)
-							if(EntityUtil.isPlayerCoralium((EntityPlayer)entity))
-								SpecialTextUtil.JzaharText("<insert generic text here>");
-							else {
-								SpecialTextUtil.JzaharText(String.format(StatCollector.translateToLocal("message.jzahar.creative.1"), entity.getCommandSenderName()));
-								SpecialTextUtil.JzaharText(StatCollector.translateToLocal("message.jzahar.creative.2"));
-							}
-					} else if (skullTimer <= 0 && deathTicks == 0) {
-						///attackEntityWithRangedAttack((EntityPlayer)entity, 1);
-						skullTimer = 500;
-					}
-				} else {
-					banishBosses(entity, f, f1, f2);
-				}
-			}
-		}**/
+		// Banish other bosses
+		banishBosses();
 		
 		// Prevents J'zhar falling to it's untimely demise
 		if (posY <= 0) {
@@ -377,7 +354,7 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IAntiEntity
 		}
 		
 		// Regenerate
-		if (ticksExisted % 4 == 0 && getAttackTarget() == null) {
+		if (!worldObj.isRemote && ticksExisted % 5 == 0 && getAttackTarget() == null) {
 			heal(1);
 		}
 		
@@ -405,12 +382,13 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IAntiEntity
 		final int castTime = 1;
 		
 		// Chant EARTHQUAKE
-		if (cycle == 12) {
+		if (cycle == 11) {
 			playSound("abyssalcraft:jzahar.chant.shout", 4.5F, 1F);
+			return;
 		}
 		
 		// Perform EARTHQUAKE
-		if (cycle == 12 + castTime) {
+		if (cycle == 11 + castTime) {
 			playSound("abyssalcraft:jzahar.skill.quake", 4.5F, 1F);
 			// Apply
 			List<?> ents = worldObj.getEntitiesWithinAABB(EntityLivingBase.class, boundingBox.expand(64.0D, 64.0D, 64.0D));
@@ -423,15 +401,17 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IAntiEntity
 					}
 				}
 			}
+			return;
 		}
 		
 		// Chant SUMMON
-		if (cycle == 24) {
+		if (cycle == 22) {
 			playSound("abyssalcraft:jzahar.chant.summon", 4.5F, 1F);
+			return;
 		}
 		
 		// Perform SUMMON
-		if (cycle == 24 + castTime) {
+		if (cycle == 22 + castTime) {
 			swingItem();
 			if(!worldObj.isRemote) {
 				EntityLivingBase entity = new EntityAntiSkeleton(worldObj);
@@ -443,15 +423,17 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IAntiEntity
 				entity.capturedDrops.clear();
 				worldObj.spawnEntityInWorld(entity);
 			}
+			return;
 		}
 		
 		// Chant WITHER
-		if (cycle == 36) {
+		if (cycle == 33) {
 			playSound("abyssalcraft:jzahar.chant.wither", 4.5F, 1F);
+			return;
 		}
 		
 		// Perform WITHER
-		if (cycle == 36 + castTime) {
+		if (cycle == 33 + castTime) {
 			List<?> players = worldObj.getEntitiesWithinAABB(EntityPlayer.class, boundingBox.expand(64.0D, 64.0D, 64.0D));
 			if (players != null && players.size() > 0) {
 				swingItem();
@@ -462,15 +444,17 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IAntiEntity
 					}
 				}
 			}
+			return;
 		}
 		
 		// Chant BLACK HOLE
-		if (cycle == 48) {
+		if (cycle == 44) {
 			playSound("abyssalcraft:jzahar.chant.doorway", 4.5F, 1F);
+			return;
 		}
 		
 		// Perform BLACK HOLE
-		if (cycle == 48 + castTime) {
+		if (cycle == 44 + castTime) {
 			swingItem();
 			if (!worldObj.isRemote) {
 				EntityWormHole hole = new EntityWormHole(worldObj);
@@ -481,11 +465,15 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IAntiEntity
 				}
 				worldObj.spawnEntityInWorld(hole);
 			}
+			return;
 		}
+		
+		// Extra wait time here to black hole can finish.
 		
 		// Chant DISPLACE
 		if (cycle == 60) {
 			playSound("abyssalcraft:jzahar.chant.displace", 4.5F, 1F);
+			return;
 		}
 		
 		// Perform DISPLACE
@@ -499,13 +487,14 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IAntiEntity
 					double posX = entity.posX;
 					double posY = entity.posY;
 					double posZ = entity.posZ;
-					worldObj.playSoundEffect(posX, posY, posZ, "mob.endermen.portal", 1.0F, 1.0F);
+					playSound("mob.endermen.portal", 3.0F, 0.8F);
 					if(!worldObj.isRemote){
 						entity.setPositionAndUpdate(other.posX, other.posY, other.posZ);
 						other.setPositionAndUpdate(posX, posY, posZ);
 					}
 				}
 			}
+			return;
 		}
 	}
 	
@@ -602,9 +591,9 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IAntiEntity
 							mp.mcServer.getConfigurationManager().transferPlayerToDimension(mp, AbyssalCraft.configDimId4, new TeleporterDarkRealm(worldServer));
 							player.addStat(AbyssalCraft.enterDarkRealm, 1);
 						}
-					}
-					else if(entity instanceof EntityLivingBase || entity instanceof EntityItem)
+					} else if(entity instanceof EntityLivingBase || entity instanceof EntityItem) {
 						entity.setDead();
+					}
 			}
 
 			for(int x = 0; x < 10; x++)
@@ -691,22 +680,22 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IAntiEntity
 		fireSkull(par1, target.posX, target.posY + target.getEyeHeight() * 0.35D, target.posZ, par1 == 0 && rand.nextFloat() < 0.001F);
 	}
 
-	private void fireSkull(int par1, double par2, double par4, double par6, boolean par8) {
+	private void fireSkull(int par1, double par2, double par4, double par6, boolean isInvuln) {
 		worldObj.playAuxSFXAtEntity((EntityPlayer)null, 1014, (int)posX, (int)posY, (int)posZ, 0);
-		double d3 = func_82214_u(par1);
-		double d4 = func_82208_v(par1);
-		double d5 = func_82213_w(par1);
-		double d6 = par2 - d3;
-		double d7 = par4 - d4;
-		double d8 = par6 - d5;
-		EntityWitherSkull entitywitherskull = new EntityWitherSkull(worldObj, this, d6, d7, d8);
-		if (par8) {
-			entitywitherskull.setInvulnerable(true);
+		double x = func_82214_u(par1);
+		double y = func_82208_v(par1);
+		double z = func_82213_w(par1);
+		double dX = par2 - x;
+		double dY = par4 - y;
+		double dZ = par6 - z;
+		EntityWitherSkull entityskull = new EntityWitherSkull(worldObj, this, dX, dY, dZ);
+		if (isInvuln) {
+			entityskull.setInvulnerable(true);
 		}
-		entitywitherskull.posY = d4;
-		entitywitherskull.posX = d3;
-		entitywitherskull.posZ = d5;
-		worldObj.spawnEntityInWorld(entitywitherskull);
+		entityskull.posY = y;
+		entityskull.posX = x;
+		entityskull.posZ = z;
+		worldObj.spawnEntityInWorld(entityskull);
 	}
 	
 	@Override

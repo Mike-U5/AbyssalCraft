@@ -47,14 +47,14 @@ public abstract class ACMob extends EntityMob {
 		modifier = Math.min(1, Math.max(0, modifier));
 		
         this.isAirBorne = true;
-        final float f = MathHelper.sqrt_double(xRatio * xRatio + zRatio * zRatio);
-        final float strength = 0.4F * modifier;
+        final double f = MathHelper.sqrt_double(xRatio * xRatio + zRatio * zRatio);
+        final double strength = 0.4F * modifier;
         this.motionX /= 2.0D;
         this.motionY /= 2.0D;
         this.motionZ /= 2.0D;
-        this.motionX -= xRatio / (double)f * (double)strength;
-        this.motionY += 0.1D + (strength * 0.75);
-        this.motionZ -= zRatio / (double)f * (double)strength;
+        this.motionX -= xRatio / f * strength;
+        this.motionY += strength;
+        this.motionZ -= zRatio / f * strength;
 
         if (this.motionY > 0.4000000059604645D) {
             this.motionY = 0.4000000059604645D;

@@ -47,7 +47,7 @@ public class EntityChagaroth extends ACMob implements IBossDisplayData, IDreadEn
 		setSize(3.0F, 4.8F);
 		tasks.addTask(2, new EntityAIAttackOnCollide(this, EntityPlayer.class, 0.0D, true));
 		tasks.addTask(3, new EntityAILookIdle(this));
-		tasks.addTask(3, new EntityAIWatchClosest(this, EntityPlayer.class, 16.0F));
+		tasks.addTask(3, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
 		targetTasks.addTask(1, new EntityAIHurtByTarget(this, false));
 		targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true));
 		ignoreFrustumCheck = true;
@@ -83,6 +83,7 @@ public class EntityChagaroth extends ACMob implements IBossDisplayData, IDreadEn
 			getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(1000.0D);
 			getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(15.0D);
 		}
+		getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(40.0D);
 	}
 
 	@Override
@@ -112,12 +113,12 @@ public class EntityChagaroth extends ACMob implements IBossDisplayData, IDreadEn
 
 	@Override
 	protected float getSoundVolume() {
-		return 4.5F;
+		return 4.0F;
 	}
 
 	@Override
 	public int getTotalArmorValue() {
-		return 9;
+		return 10;
 	}
 
 	@Override
@@ -126,32 +127,42 @@ public class EntityChagaroth extends ACMob implements IBossDisplayData, IDreadEn
 	}
 	
 	// Fireball Creation
-	private EntityLargeFireball positionFireball(World world, double x, double y, double z) {
+	private EntityLargeFireball positionFireball(World world, double x, double y, double z, double fallspeed) {
 		EntityLargeFireball fireball = new EntityLargeFireball(world);
 		fireball.setLocationAndAngles(x, y, z, fireball.rotationYaw, fireball.rotationPitch);
 		fireball.setPosition(x, y, z);
-		fireball.accelerationY = -0.1D;
+		fireball.accelerationY = -fallspeed;
 		return fireball;
 	}
 
 	@Override
 	public void onLivingUpdate() {
+		motionX = motionY = motionZ = 0;
+		
 		// Only perform special actions while alive
 		if (deathTicks == 0) {
 			EntityPlayer player = worldObj.getClosestPlayerToEntity(this, 32D);
 			
 			// Regenerate
-			if (ticksExisted % 100 == 0) {
+			if (!worldObj.isRemote && ticksExisted % 5 == 0 && getAttackTarget() == null) {
 				heal(1);
 			}
 			
-			// Fireball Skill
+			// Specials
 			skillTicks += 1;
-			// Chant
+			if (skillTicks > 500) {
+				skillTicks = 0;
+			}
+			performSpecialAttack(skillTicks % 40);
+			
+			// Fireball Skill
+			
+			// Chant FIRE
 			if (skillTicks == 500) {
 				playSound("abyssalcraft:chagaroth.fire", 5F, 1F);
 			}
-			// Execute
+			
+			// Execute FIRE
 			if (skillTicks == 530) {
 				if (!worldObj.isRemote) {
 					EntityLivingBase target = getAttackTarget();
@@ -164,14 +175,15 @@ public class EntityChagaroth extends ACMob implements IBossDisplayData, IDreadEn
 						double x = target.posX;
 						double y = target.posY + 4;
 						double z = target.posZ;
-						worldObj.spawnEntityInWorld(positionFireball(worldObj, x + 2.5, y, z + 2.5));
-						worldObj.spawnEntityInWorld(positionFireball(worldObj, x - 2.5, y, z + 2.5));
-						worldObj.spawnEntityInWorld(positionFireball(worldObj, x + 2.5, y, z - 2.5));
-						worldObj.spawnEntityInWorld(positionFireball(worldObj, x - 2.5, y, z - 2.5));
-						worldObj.spawnEntityInWorld(positionFireball(worldObj, x + 2.5, y, z));
-						worldObj.spawnEntityInWorld(positionFireball(worldObj, x - 2.5, y, z));
-						worldObj.spawnEntityInWorld(positionFireball(worldObj, x, y, z + 2.5));
-						worldObj.spawnEntityInWorld(positionFireball(worldObj, x, y, z - 2.5));
+						worldObj.spawnEntityInWorld(positionFireball(worldObj, x + 2.5, y, z + 2.5, 0.1D));
+						worldObj.spawnEntityInWorld(positionFireball(worldObj, x - 2.5, y, z + 2.5, 0.1D));
+						worldObj.spawnEntityInWorld(positionFireball(worldObj, x + 2.5, y, z - 2.5, 0.1D));
+						worldObj.spawnEntityInWorld(positionFireball(worldObj, x - 2.5, y, z - 2.5, 0.1D));
+						worldObj.spawnEntityInWorld(positionFireball(worldObj, x + 2.5, y, z, 0.1D));
+						worldObj.spawnEntityInWorld(positionFireball(worldObj, x - 2.5, y, z, 0.1D));
+						worldObj.spawnEntityInWorld(positionFireball(worldObj, x, y, z + 2.5, 0.1D));
+						worldObj.spawnEntityInWorld(positionFireball(worldObj, x, y, z - 2.5, 0.1D));
+						worldObj.spawnEntityInWorld(positionFireball(worldObj, x, y + 1, z - 2.5, 0.07D));
 					}
 				}
 				skillTicks = -150 + worldObj.rand.nextInt(200);
@@ -241,6 +253,35 @@ public class EntityChagaroth extends ACMob implements IBossDisplayData, IDreadEn
 		}
 		super.onLivingUpdate();
 	}
+	
+	private void performSpecialAttack(int cycle) {
+		// Chant FIRE
+		if (cycle == 12) {
+			playSound("abyssalcraft:chagaroth.fire", 5F, 1F);
+			return;
+		}
+		
+		// Execute FIRE
+		if (cycle == 13 && !worldObj.isRemote) {
+			EntityLivingBase target = getAttackTarget();
+			// Execute attack if there is a target
+			if (target != null) {
+				double x = target.posX;
+				double y = target.posY + 4;
+				double z = target.posZ;
+				worldObj.spawnEntityInWorld(positionFireball(worldObj, x + 2.5, y, z + 2.5, 0.11D));
+				worldObj.spawnEntityInWorld(positionFireball(worldObj, x - 2.5, y, z + 2.5, 0.11D));
+				worldObj.spawnEntityInWorld(positionFireball(worldObj, x + 2.5, y, z - 2.5, 0.11D));
+				worldObj.spawnEntityInWorld(positionFireball(worldObj, x - 2.5, y, z - 2.5, 0.11D));
+				worldObj.spawnEntityInWorld(positionFireball(worldObj, x + 2.5, y, z, 0.11D));
+				worldObj.spawnEntityInWorld(positionFireball(worldObj, x - 2.5, y, z, 0.11D));
+				worldObj.spawnEntityInWorld(positionFireball(worldObj, x, y, z + 2.5, 0.11D));
+				worldObj.spawnEntityInWorld(positionFireball(worldObj, x, y, z - 2.5, 0.11D));
+				worldObj.spawnEntityInWorld(positionFireball(worldObj, x, y + 1, z - 2.5, 0.07D));
+			}
+			return;
+		}
+	}
 
 	@Override
 	public void writeEntityToNBT(NBTTagCompound nbt) {
@@ -267,11 +308,10 @@ public class EntityChagaroth extends ACMob implements IBossDisplayData, IDreadEn
 
 	@Override
 	public boolean attackEntityFrom(DamageSource dmgSrc, float amount) {
-		Entity entity = dmgSrc.getEntity();
-		if (entity instanceof EntityLivingBase && getDistanceToEntity(entity) <= 32D) {
-			return super.attackEntityFrom(dmgSrc, amount);
+		if (getAttackTarget() == null) {
+			return false;
 		}
-		return false;
+		return super.attackEntityFrom(dmgSrc, amount);
 	}
 
 	@Override

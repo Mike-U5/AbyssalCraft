@@ -222,7 +222,7 @@ public class EntityWormHole extends EntityMob {
 				velocity *= 2;
 			}
 			
-			double scale = (size - entity.getDistance(posX, posY, posZ))/size;
+			double scale = (size - entity.getDistance(posX, posY, posZ)) / size;
 
 			Vec3 dir = Vec3.createVectorHelper(entity.posX - posX, entity.posY - posY, entity.posZ - posZ);
 			dir = dir.normalize();
