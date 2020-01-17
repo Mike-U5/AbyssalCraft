@@ -79,9 +79,8 @@ public class EntitySkeletonGoliath extends ACMob implements ICoraliumEntity {
 	}
 
 	@Override
-	protected float getSoundPitch()
-	{
-		return rand.nextFloat() - rand.nextFloat() * 0.2F + 0.6F;
+	protected float getSoundPitch() {
+		return 0.3F - (rand.nextFloat() * 0.1F);
 	}
 
 	@Override

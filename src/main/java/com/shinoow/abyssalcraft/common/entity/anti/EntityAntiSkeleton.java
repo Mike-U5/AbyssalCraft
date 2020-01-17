@@ -15,8 +15,6 @@ import com.shinoow.abyssalcraft.api.entity.IOmotholEntity;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.entity.IRangedAttackMob;
@@ -52,18 +50,24 @@ public class EntityAntiSkeleton extends EntityMob implements IRangedAttackMob, I
 		tasks.addTask(4, aiArrowAttack);
 		isImmuneToFire = true;
 		
-		Item bow = GameRegistry.findItem("Thaumcraft", "ItemBowBone");
+		Item bow = GameRegistry.findItem("Botania", "livingwoodBow");
 		if (bow == null) {
 			bow = Items.bow;
 		}
 		setCurrentItemOrArmor(0, new ItemStack(bow));
+	}
+	
+	
+	@Override
+	protected float getSoundPitch() {
+		return 0.85F + (rand.nextFloat() * 0.2F);
 	}
 
 	@Override
 	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
 		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.25D);
-		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(250.0D);
+		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(200.0D);
 	}
 
 	@Override
@@ -75,7 +79,7 @@ public class EntityAntiSkeleton extends EntityMob implements IRangedAttackMob, I
 	@Override
 	public void onLivingUpdate() {
 		// Max lifetime of 10 minutes. Less at low health.
-		if (ticksExisted > (getHealth() * 48)) {
+		if (ticksExisted > (getHealth() * 60)) {
             setHealth(0F);
 		}
 		super.onLivingUpdate();
@@ -103,34 +107,39 @@ public class EntityAntiSkeleton extends EntityMob implements IRangedAttackMob, I
 
 	@Override
 	protected void func_145780_a(int par1, int par2, int par3, Block block) {
-		playSound("mob.skeleton.step", 0.15F, 1.0F);
+		playSound("mob.skeleton.step", 0.15F, 0.5F);
 	}
 
 	@Override
 	public EnumCreatureAttribute getCreatureAttribute() {
 		return EnumCreatureAttribute.UNDEAD;
 	}
+	
+	@Override
+	public int getTotalArmorValue() {
+		return 5;
+	}
 
 	/**
 	 * Attack the specified entity using a ranged attack.
 	 */
 	@Override
-	public void attackEntityWithRangedAttack(EntityLivingBase target, float par2) {
-		EntityArrow entityarrow = new EntityArrow(worldObj, this, target, 1.6F, 14 - worldObj.difficultySetting.getDifficultyId() * 4);
-		final int power = EnchantmentHelper.getEnchantmentLevel(Enchantment.power.effectId, getHeldItem());
-		final int punch = EnchantmentHelper.getEnchantmentLevel(Enchantment.punch.effectId, getHeldItem());
-		entityarrow.setDamage(par2 * 2.25F + rand.nextGaussian() * 0.25D + worldObj.difficultySetting.getDifficultyId() * 0.11F);
+	public void attackEntityWithRangedAttack(EntityLivingBase target, float dmg) {
+        EntityArrow entityarrow = new EntityArrow(this.worldObj, this, target, 1.6F, (float)(14 - this.worldObj.difficultySetting.getDifficultyId() * 4));
+        final int power = 5;
+        final int punch = target.isAirBorne ? 2 : 0;
+        entityarrow.setDamage((double)(dmg * 2.0F) + this.rand.nextGaussian() * 0.25D + (double)((float)this.worldObj.difficultySetting.getDifficultyId() * 0.11F));
 
-		if (power > 0) {
-			entityarrow.setDamage(entityarrow.getDamage() + 3.0D);
-		}
+        if (power > 0) {
+            entityarrow.setDamage(entityarrow.getDamage() + (double)power * 0.5D + 0.5D);
+        }
 
-		if (punch > 0) {
-			entityarrow.setKnockbackStrength(2);
-		}
+        if (punch > 0) {
+            entityarrow.setKnockbackStrength(punch);
+        }
 
-		playSound("random.bow", 1.0F, 1.0F / (getRNG().nextFloat() * 0.4F + 0.6F));
-		worldObj.spawnEntityInWorld(entityarrow);
+        playSound("random.bow", 1.0F, 1.0F / (this.getRNG().nextFloat() * 0.4F + 0.8F));
+        worldObj.spawnEntityInWorld(entityarrow);
 	}
 	
 	public boolean attackEntityFrom(DamageSource dmgSrc, float amount) {

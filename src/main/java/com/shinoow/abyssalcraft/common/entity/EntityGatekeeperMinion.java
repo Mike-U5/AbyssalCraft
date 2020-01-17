@@ -51,7 +51,7 @@ public class EntityGatekeeperMinion extends ACMob implements IOmotholEntity {
 		tasks.addTask(7, new EntityAIWatchClosest(this, EntityRemnant.class, 8.0F));
 		targetTasks.addTask(1, new EntityAIHurtByTarget(this, false));
 		targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true));
-		setSize(1.4F, 2.8F);
+		setSize(1.3F, 2.8F);
 	}
 
 	@Override

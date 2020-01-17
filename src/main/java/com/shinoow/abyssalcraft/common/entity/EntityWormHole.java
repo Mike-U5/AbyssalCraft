@@ -64,6 +64,7 @@ public class EntityWormHole extends EntityMob {
 	
 	@Override
 	public void onLivingUpdate() {
+		motionX = motionY = motionZ = 0;
 		if (isEntityAlive() && getHealth() > 0) {
 			setHealth(0);
 		}
@@ -207,7 +208,7 @@ public class EntityWormHole extends EntityMob {
 		}
 		final float dt = (float)deathTicks;
 		final float power = dt / 6000;
-		final float size = (dt / 14);
+		final float size = dt / 14;
 		System.out.println("TICKS: " + dt + "| POWER:"  + power + "| SIZE: " + size);
 
 		List<Entity> list = worldObj.getEntitiesWithinAABB(Entity.class, boundingBox.expand(size, size, size));
@@ -216,12 +217,16 @@ public class EntityWormHole extends EntityMob {
 			if (entity instanceof IOmotholEntity) {
 				continue;
 			}
+			float velocity = -power;
+			if (!entity.onGround) {
+				velocity *= 2;
+			}
 			
 			double scale = (size - entity.getDistance(posX, posY, posZ))/size;
 
 			Vec3 dir = Vec3.createVectorHelper(entity.posX - posX, entity.posY - posY, entity.posZ - posZ);
 			dir = dir.normalize();
-			entity.addVelocity(dir.xCoord * -power * scale, dir.yCoord * -power * scale, dir.zCoord * -power * scale);
+			entity.addVelocity(dir.xCoord * velocity * scale, dir.yCoord * velocity * scale, dir.zCoord * velocity * scale);
 		}
 	}
 	

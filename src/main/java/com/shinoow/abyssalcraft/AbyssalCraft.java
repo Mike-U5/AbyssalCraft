@@ -161,7 +161,6 @@ import com.shinoow.abyssalcraft.common.entity.EntityDreadguard;
 import com.shinoow.abyssalcraft.common.entity.EntityDreadling;
 import com.shinoow.abyssalcraft.common.entity.EntityGatekeeperEssence;
 import com.shinoow.abyssalcraft.common.entity.EntityGatekeeperMinion;
-import com.shinoow.abyssalcraft.common.entity.EntityGatekeeperWarden;
 import com.shinoow.abyssalcraft.common.entity.EntityGreaterDreadSpawn;
 import com.shinoow.abyssalcraft.common.entity.EntityJzahar;
 import com.shinoow.abyssalcraft.common.entity.EntityLesserDreadbeast;
@@ -1312,8 +1311,7 @@ public class AbyssalCraft {
 		EntityRegistry.registerModEntity(EntityGatekeeperEssence.class, "GatekeeperEssence", 71, instance, 64, 10, true);
 		
 		registerEntity(EntityWormHole.class, "wormhole", 72, 80, 3, true);
-		registerEntity(EntityGatekeeperWarden.class, "jzaharwarden", 73, 80, 3, true);
-		
+
 		proxy.addArmor("Abyssalnite");
 		proxy.addArmor("Dread");
 		proxy.addArmor("Coralium");

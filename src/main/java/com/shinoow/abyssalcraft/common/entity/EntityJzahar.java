@@ -45,10 +45,8 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.entity.projectile.EntityLargeFireball;
 import net.minecraft.entity.projectile.EntityWitherSkull;
 import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
@@ -77,7 +75,6 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IAntiEntity
 		setSize(1.5F, 5.7F);
 		tasks.addTask(0, new EntityAISwimming(this));
 		tasks.addTask(1, new EntityAIAttackOnCollide(this, EntityPlayer.class, 0.35D, true));
-		//tasks.addTask(3, new EntityAIArrowAttack(this, 0.4D, 40, 20.0F));
 		tasks.addTask(2, new EntityAIMoveTowardsRestriction(this, 0.35D));
 		tasks.addTask(3, new EntityAIWander(this, 0.35D));
 		tasks.addTask(4, new EntityAILookIdle(this));
@@ -128,7 +125,7 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IAntiEntity
 
 	@Override
 	protected float getSoundVolume() {
-		return 4.0F;
+		return 3.5F;
 	}
 
 	@Override
@@ -148,8 +145,13 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IAntiEntity
 	}
 
 	@Override
-	public boolean attackEntityFrom(DamageSource dmgSrc, float dmgAmount) {		
+	public boolean attackEntityFrom(DamageSource dmgSrc, float amount) {
 		Entity srcEntity = dmgSrc.getEntity();
+		
+		// Resistant to arrows
+		if (dmgSrc.damageType == "arrow") {
+			amount *= 0.5F;
+		}
 		
 		// Cancel damage from non-enties
 		if (srcEntity == null) {
@@ -167,11 +169,11 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IAntiEntity
 		}
 		
 		// Cap damage at 50
-		if(dmgAmount > 50) {
-			dmgAmount = 50;
+		if(amount > 50) {
+			amount = 50;
 		}
 
-		return super.attackEntityFrom(dmgSrc, dmgAmount);
+		return super.attackEntityFrom(dmgSrc, amount);
 	}
 	
 	@Override
@@ -375,13 +377,13 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IAntiEntity
 		}
 		
 		// Regenerate
-		if (ticksExisted % 200 == 0) {
-			this.heal(1);
+		if (ticksExisted % 4 == 0 && getAttackTarget() == null) {
+			heal(1);
 		}
 		
 		// Special Attack checker
 		skillTicks += 1;
-		if (skillTicks > 2920) {
+		if (skillTicks > 2440) {
 			skillTicks = 0;
 		}
 		if (skillTicks % 40 == 0 && deathTicks <= 0) {
@@ -399,17 +401,17 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IAntiEntity
 	 */
 	@SuppressWarnings("unchecked")
 	private void performSpecialAttack(int cycle) {
-		// Set the cast tyme
+		// Set the cast time
 		final int castTime = 1;
 		
 		// Chant EARTHQUAKE
-		if (cycle == 14) {
+		if (cycle == 12) {
 			playSound("abyssalcraft:jzahar.chant.shout", 4.5F, 1F);
 		}
 		
 		// Perform EARTHQUAKE
-		if (cycle == 14 + castTime) {
-			playSound("abyssalcraft:jzahar.skill.quake", 2F, 1F);
+		if (cycle == 12 + castTime) {
+			playSound("abyssalcraft:jzahar.skill.quake", 4.5F, 1F);
 			// Apply
 			List<?> ents = worldObj.getEntitiesWithinAABB(EntityLivingBase.class, boundingBox.expand(64.0D, 64.0D, 64.0D));
 			if (ents != null && ents.size() > 0) {
@@ -424,18 +426,15 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IAntiEntity
 		}
 		
 		// Chant SUMMON
-		if (cycle == 28) {
+		if (cycle == 24) {
 			playSound("abyssalcraft:jzahar.chant.summon", 4.5F, 1F);
 		}
 		
 		// Perform SUMMON
-		if (cycle == 28 + castTime) {
+		if (cycle == 24 + castTime) {
 			swingItem();
-			/*List<EntityPlayer> players = worldObj.getEntitiesWithinAABB(EntityPlayer.class, boundingBox.expand(64.0D, 64.0D, 64.0D));
-			DisruptionHandler.instance().generateDisruption(DeityType.JZAHAR, worldObj, (int)posX, (int)posY, (int)posZ, players);*/
 			if(!worldObj.isRemote) {
 				EntityLivingBase entity = new EntityAntiSkeleton(worldObj);
-				entity.setCurrentItemOrArmor(0, new ItemStack(Items.bow));
 				final double x = posX - 2 + Math.random() * 4;
 				final double y = posY + Math.random() * 2;
 				final double z = posZ - 2 + Math.random() * 4;
@@ -447,29 +446,31 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IAntiEntity
 		}
 		
 		// Chant WITHER
-		if (cycle == 42) {
+		if (cycle == 36) {
 			playSound("abyssalcraft:jzahar.chant.wither", 4.5F, 1F);
 		}
 		
 		// Perform WITHER
-		if (cycle == 42 + castTime) {
+		if (cycle == 36 + castTime) {
 			List<?> players = worldObj.getEntitiesWithinAABB(EntityPlayer.class, boundingBox.expand(64.0D, 64.0D, 64.0D));
 			if (players != null && players.size() > 0) {
 				swingItem();
-				for (int i = 0; i < players.size(); i++) {
-					EntityLivingBase p = (EntityLivingBase) players.get(i);
-					rangedAttackSkull(0, p);
+				if (!worldObj.isRemote) {
+					for (int i = 0; i < players.size(); i++) {
+						EntityLivingBase p = (EntityLivingBase) players.get(i);
+						rangedAttackSkull(0, p);
+					}
 				}
 			}
 		}
 		
 		// Chant BLACK HOLE
-		if (cycle == 56) {
+		if (cycle == 48) {
 			playSound("abyssalcraft:jzahar.chant.doorway", 4.5F, 1F);
 		}
 		
 		// Perform BLACK HOLE
-		if (cycle == 56 + castTime) {
+		if (cycle == 48 + castTime) {
 			swingItem();
 			if (!worldObj.isRemote) {
 				EntityWormHole hole = new EntityWormHole(worldObj);
@@ -483,12 +484,12 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IAntiEntity
 		}
 		
 		// Chant DISPLACE
-		if (cycle == 72) {
+		if (cycle == 60) {
 			playSound("abyssalcraft:jzahar.chant.displace", 4.5F, 1F);
 		}
 		
 		// Perform DISPLACE
-		if (cycle == 72 + castTime) {
+		if (cycle == 60 + castTime) {
 			swingItem();
 			List<EntityLivingBase> entities = worldObj.getEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(posX, posY, posZ, posX + 1, posY + 1, posZ + 1).expand(64, 64, 64));
 
@@ -498,6 +499,7 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IAntiEntity
 					double posX = entity.posX;
 					double posY = entity.posY;
 					double posZ = entity.posZ;
+					worldObj.playSoundEffect(posX, posY, posZ, "mob.endermen.portal", 1.0F, 1.0F);
 					if(!worldObj.isRemote){
 						entity.setPositionAndUpdate(other.posX, other.posY, other.posZ);
 						other.setPositionAndUpdate(posX, posY, posZ);
