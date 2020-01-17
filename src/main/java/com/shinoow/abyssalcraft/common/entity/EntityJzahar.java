@@ -403,12 +403,12 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IAntiEntity
 		final int castTime = 1;
 		
 		// Chant EARTHQUAKE
-		if (cycle == 12) {
+		if (cycle == 14) {
 			playSound("abyssalcraft:jzahar.chant.shout", 4.5F, 1F);
 		}
 		
 		// Perform EARTHQUAKE
-		if (cycle == 12 + castTime) {
+		if (cycle == 14 + castTime) {
 			playSound("abyssalcraft:jzahar.skill.quake", 2F, 1F);
 			// Apply
 			List<?> ents = worldObj.getEntitiesWithinAABB(EntityLivingBase.class, boundingBox.expand(64.0D, 64.0D, 64.0D));
@@ -424,12 +424,12 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IAntiEntity
 		}
 		
 		// Chant SUMMON
-		if (cycle == 24) {
+		if (cycle == 28) {
 			playSound("abyssalcraft:jzahar.chant.summon", 4.5F, 1F);
 		}
 		
 		// Perform SUMMON
-		if (cycle == 24 + castTime) {
+		if (cycle == 28 + castTime) {
 			swingItem();
 			/*List<EntityPlayer> players = worldObj.getEntitiesWithinAABB(EntityPlayer.class, boundingBox.expand(64.0D, 64.0D, 64.0D));
 			DisruptionHandler.instance().generateDisruption(DeityType.JZAHAR, worldObj, (int)posX, (int)posY, (int)posZ, players);*/
@@ -447,12 +447,12 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IAntiEntity
 		}
 		
 		// Chant WITHER
-		if (cycle == 36) {
+		if (cycle == 42) {
 			playSound("abyssalcraft:jzahar.chant.wither", 4.5F, 1F);
 		}
 		
 		// Perform WITHER
-		if (cycle == 36 + castTime) {
+		if (cycle == 42 + castTime) {
 			List<?> players = worldObj.getEntitiesWithinAABB(EntityPlayer.class, boundingBox.expand(64.0D, 64.0D, 64.0D));
 			if (players != null && players.size() > 0) {
 				swingItem();
@@ -463,15 +463,13 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IAntiEntity
 			}
 		}
 		
-		// -2 cycle delay
-		
 		// Chant BLACK HOLE
-		if (cycle == 46) {
+		if (cycle == 56) {
 			playSound("abyssalcraft:jzahar.chant.doorway", 4.5F, 1F);
 		}
 		
 		// Perform BLACK HOLE
-		if (cycle == 46 + castTime) {
+		if (cycle == 56 + castTime) {
 			swingItem();
 			if (!worldObj.isRemote) {
 				EntityWormHole hole = new EntityWormHole(worldObj);
@@ -481,37 +479,6 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IAntiEntity
 					hole.copyLocationAndAnglesFrom(this);
 				}
 				worldObj.spawnEntityInWorld(hole);
-			}
-		}
-		
-		// +2 cycle delay
-		
-		// Chant FIRE RAIN
-		if (cycle == 60) {
-			playSound("abyssalcraft:jzahar.chant.firerain", 4.5F, 1F);
-		}
-		
-		// Perform FIRE RAIN
-		if (cycle == 60 + castTime) {
-			swingItem();
-			if (!worldObj.isRemote) {
-				double x = this.posX;
-				double y = this.posY + 8;
-				double z = this.posZ;
-				final EntityLivingBase target = getAttackTarget();
-				if (target != null) {
-					x = target.posX;
-					y = target.posY + 8;
-					z = target.posZ;
-				}
-				worldObj.spawnEntityInWorld(positionFireball(worldObj, x + 2.5, y, z + 2.5));
-				worldObj.spawnEntityInWorld(positionFireball(worldObj, x - 2.5, y, z + 2.5));
-				worldObj.spawnEntityInWorld(positionFireball(worldObj, x + 2.5, y, z - 2.5));
-				worldObj.spawnEntityInWorld(positionFireball(worldObj, x - 2.5, y, z - 2.5));
-				worldObj.spawnEntityInWorld(positionFireball(worldObj, x + 2.5, y, z));
-				worldObj.spawnEntityInWorld(positionFireball(worldObj, x - 2.5, y, z));
-				worldObj.spawnEntityInWorld(positionFireball(worldObj, x, y, z + 2.5));
-				worldObj.spawnEntityInWorld(positionFireball(worldObj, x, y, z - 2.5));
 			}
 		}
 		
@@ -538,19 +505,6 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IAntiEntity
 				}
 			}
 		}
-	}
-	
-	/*
-	 * 
-	 * Projectile Spawning
-	 * 
-	 */
-	private EntityLargeFireball positionFireball(World world, double x, double y, double z) {
-		EntityLargeFireball fireball = new EntityLargeFireball(world);
-		fireball.setLocationAndAngles(x, y, z, fireball.rotationYaw, fireball.rotationPitch);
-		fireball.setPosition(x, y, z);
-		fireball.accelerationY = -0.2D;
-		return fireball;
 	}
 	
 	/*

@@ -11,17 +11,14 @@
  ******************************************************************************/
 package com.shinoow.abyssalcraft.common.entity.anti;
 
-import com.shinoow.abyssalcraft.AbyssalCraft;
-import com.shinoow.abyssalcraft.api.entity.IAntiEntity;
 import com.shinoow.abyssalcraft.api.entity.IOmotholEntity;
 
+import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.EnumCreatureAttribute;
-import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.IRangedAttackMob;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIArrowAttack;
@@ -34,6 +31,8 @@ import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
+import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
@@ -52,6 +51,12 @@ public class EntityAntiSkeleton extends EntityMob implements IRangedAttackMob, I
 		targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true));
 		tasks.addTask(4, aiArrowAttack);
 		isImmuneToFire = true;
+		
+		Item bow = GameRegistry.findItem("Thaumcraft", "ItemBowBone");
+		if (bow == null) {
+			bow = Items.bow;
+		}
+		setCurrentItemOrArmor(0, new ItemStack(bow));
 	}
 
 	@Override
@@ -83,17 +88,17 @@ public class EntityAntiSkeleton extends EntityMob implements IRangedAttackMob, I
 
 	@Override
 	protected String getLivingSound() {
-		return "mob.skeleton.say";
+		return "abyssalcraft:stray.ambient";
 	}
 
 	@Override
 	protected String getHurtSound() {
-		return "mob.skeleton.hurt";
+		return "abyssalcraft:stray.hurt";
 	}
 
 	@Override
 	protected String getDeathSound() {
-		return "mob.skeleton.death";
+		return "abyssalcraft:stray.death";
 	}
 
 	@Override
@@ -106,24 +111,6 @@ public class EntityAntiSkeleton extends EntityMob implements IRangedAttackMob, I
 		return EnumCreatureAttribute.UNDEAD;
 	}
 
-	@Override
-	public void updateRidden() {
-		super.updateRidden();
-
-		if (ridingEntity instanceof EntityCreature) {
-			EntityCreature entitycreature = (EntityCreature)ridingEntity;
-			renderYawOffset = entitycreature.renderYawOffset;
-		}
-	}
-
-	@Override
-	public IEntityLivingData onSpawnWithEgg(IEntityLivingData data) {
-		data = super.onSpawnWithEgg(data);
-		setCurrentItemOrArmor(0, new ItemStack(AbyssalCraft.corbow));
-		setCanPickUpLoot(false);
-		return data;
-	}
-
 	/**
 	 * Attack the specified entity using a ranged attack.
 	 */
@@ -132,17 +119,17 @@ public class EntityAntiSkeleton extends EntityMob implements IRangedAttackMob, I
 		EntityArrow entityarrow = new EntityArrow(worldObj, this, target, 1.6F, 14 - worldObj.difficultySetting.getDifficultyId() * 4);
 		final int power = EnchantmentHelper.getEnchantmentLevel(Enchantment.power.effectId, getHeldItem());
 		final int punch = EnchantmentHelper.getEnchantmentLevel(Enchantment.punch.effectId, getHeldItem());
-		entityarrow.setDamage(par2 * 2.0F + rand.nextGaussian() * 0.25D + worldObj.difficultySetting.getDifficultyId() * 0.11F);
+		entityarrow.setDamage(par2 * 2.25F + rand.nextGaussian() * 0.25D + worldObj.difficultySetting.getDifficultyId() * 0.11F);
 
 		if (power > 0) {
-			entityarrow.setDamage(entityarrow.getDamage() + power * 0.5D + 0.5D);
+			entityarrow.setDamage(entityarrow.getDamage() + 3.0D);
 		}
 
 		if (punch > 0) {
-			entityarrow.setKnockbackStrength(punch);
+			entityarrow.setKnockbackStrength(2);
 		}
 
-		playSound("random.bow", 1.0F, 1.0F / (getRNG().nextFloat() * 0.4F + 0.8F));
+		playSound("random.bow", 1.0F, 1.0F / (getRNG().nextFloat() * 0.4F + 0.6F));
 		worldObj.spawnEntityInWorld(entityarrow);
 	}
 	

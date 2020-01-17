@@ -365,10 +365,35 @@
 			"abyssalcraft:jzahar/charge"
 		]
 	},
-	"event.essence": {
+	"event.sin": {
 		"category": "hostile",
 		"sounds": [
-			"abyssalcraft:event/essence"
+			"abyssalcraft:event/sin"
+		]
+	},
+	"stray.ambient": {
+		"category": "hostile",
+		"sounds": [
+			"abyssalcraft:stray/Stray_idle1",
+			"abyssalcraft:stray/Stray_idle2",
+			"abyssalcraft:stray/Stray_idle3",
+			"abyssalcraft:stray/Stray_idle4"
+		]
+	},
+	"stray.hurt": {
+		"category": "hostile",
+		"sounds": [
+			"abyssalcraft:stray/Stray_hurt1",
+			"abyssalcraft:stray/Stray_hurt2",
+			"abyssalcraft:stray/Stray_hurt3",
+			"abyssalcraft:stray/Stray_hurt4"
+		]
+	},
+	"stray.death": {
+		"category": "hostile",
+		"sounds": [
+			"abyssalcraft:stray/Stray_death1",
+			"abyssalcraft:stray/Stray_death2"
 		]
 	},
 	"event.sin": {
