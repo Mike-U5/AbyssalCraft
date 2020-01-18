@@ -41,7 +41,7 @@ public class RenderDragonBoss extends RenderLiving {
 	/// private static final ResourceLocation field_110843_g = new
 	/// ResourceLocation("textures/entity/endercrystal/endercrystal_beam.png");
 	private static final ResourceLocation field_110845_h = new ResourceLocation("abyssalcraft:textures/model/boss/dragonboss_eyes.png");
-	private static final ResourceLocation field_110844_k = new ResourceLocation("abyssalcraft:textures/model/boss/dragonboss.png");
+	private static final ResourceLocation field_110844_k = new ResourceLocation("abyssalcraft:textures/model/elite/dragonminion.png");
 
 	/** An instance of the dragon model in RenderDragon */
 	protected ModelDragonBoss modelDragon;
@@ -86,6 +86,7 @@ public class RenderDragonBoss extends RenderLiving {
 	 * Renders the dragon model. Called by renderModel.
 	 */
 	protected void renderDragonModel(EntityDragonBoss dragon, float par2, float par3, float par4, float par5, float par6, float par7) {
+		// Makes the dragon disintegrate on Death
 		if (dragon.deathTicks > 0) {
 			float alpha = dragon.deathTicks / 200.0F;
 			GL11.glDepthFunc(GL11.GL_LEQUAL);
@@ -98,8 +99,12 @@ public class RenderDragonBoss extends RenderLiving {
 		}
 
 		bindEntityTexture(dragon);
+		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		mainModel.render(dragon, par2, par3, par4, par5, par6, par7);
+		GL11.glDisable(GL11.GL_BLEND);
 
+		// Render Dragon Death
 		if (dragon.hurtTime > 0) {
 			GL11.glDepthFunc(GL11.GL_EQUAL);
 			GL11.glDisable(GL11.GL_TEXTURE_2D);

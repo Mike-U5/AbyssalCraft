@@ -139,18 +139,17 @@ public class EntityDragonBoss extends ACMob implements IBossDisplayData, IEntity
 	}
 
 	@Override
-	public void onDeath(DamageSource par1DamageSource) {
-		if (par1DamageSource.getEntity() instanceof EntityPlayer) {
-			EntityPlayer entityplayer = (EntityPlayer) par1DamageSource.getEntity();
+	public void onDeath(DamageSource dmgSrc) {
+		if (dmgSrc.getEntity() instanceof EntityPlayer) {
+			EntityPlayer entityplayer = (EntityPlayer) dmgSrc.getEntity();
 			entityplayer.addStat(AbyssalCraft.killAsorah, 1);
 		}
 
-		super.onDeath(par1DamageSource);
+		super.onDeath(dmgSrc);
 	}
 
 	@Override
 	public void onLivingUpdate() {
-
 		float f;
 		float f1;
 
@@ -416,7 +415,7 @@ public class EntityDragonBoss extends ACMob implements IBossDisplayData, IEntity
 			Entity entity = (Entity) par1List.get(i);
 
 			if (entity instanceof EntityLivingBase) {
-				entity.attackEntityFrom(DamageSource.causeMobDamage(this), 10.0F);
+				entity.attackEntityFrom(DamageSource.causeMobDamage(this), 5.0F);
 			}
 		}
 	}

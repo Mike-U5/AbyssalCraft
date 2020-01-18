@@ -85,6 +85,7 @@ public class RenderDragonMinion extends RenderLiving {
 		mainModel.render(dragon, par2, par3, par4, par5, par6, par7);
 		GL11.glDisable(GL11.GL_BLEND);
 
+		// Render Dragon Death
 		if (dragon.hurtTime > 0) {
 			GL11.glDepthFunc(GL11.GL_EQUAL);
 			GL11.glDisable(GL11.GL_TEXTURE_2D);
