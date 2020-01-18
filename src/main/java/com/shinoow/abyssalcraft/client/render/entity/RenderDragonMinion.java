@@ -67,8 +67,9 @@ public class RenderDragonMinion extends RenderLiving {
 			float f5 = (dragon.deathTime + par4 - 1.0F) / 20.0F * 1.6F;
 			f5 = MathHelper.sqrt_float(f5);
 
-			if (f5 > 1.0F)
+			if (f5 > 1.0F) {
 				f5 = 1.0F;
+			}
 
 			GL11.glRotatef(f5 * getDeathMaxRotation(dragon), 0.0F, 0.0F, 1.0F);
 		}
