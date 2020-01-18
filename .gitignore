@@ -7,3 +7,4 @@ bin
 
 # Windows image file caches
 Thumbs.db
+/src.7z

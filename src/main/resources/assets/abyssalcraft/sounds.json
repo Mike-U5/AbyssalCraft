@@ -365,12 +365,6 @@
 			"abyssalcraft:jzahar/charge"
 		]
 	},
-	"event.sin": {
-		"category": "hostile",
-		"sounds": [
-			"abyssalcraft:event/sin"
-		]
-	},
 	"stray.ambient": {
 		"category": "hostile",
 		"sounds": [

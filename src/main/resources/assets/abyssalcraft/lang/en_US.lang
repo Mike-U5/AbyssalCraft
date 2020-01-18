@@ -1192,7 +1192,7 @@ entity.abyssalcraft.anticreeper.name=Anti-Creeper
 entity.abyssalcraft.antighoul.name=Anti-Ghoul
 entity.abyssalcraft.antipig.name=Anti-Pig
 entity.abyssalcraft.antiplayer.name=Daoloth
-entity.abyssalcraft.antiskeleton.name=Resuscitated Warden
+entity.abyssalcraft.antiskeleton.name=The Hero
 entity.abyssalcraft.antispider.name=Anti-Spider
 entity.abyssalcraft.antizombie.name=Anti-Zombie
 entity.abyssalcraft.lessershoggoth.name=Lesser Shoggoth
@@ -1215,6 +1215,7 @@ potion.Dplague=Dread Plague
 potion.Dplague.postfix=Potion of Dread Plague
 potion.Antimatter=Antimatter
 potion.Antimatter.postfix=Potion of Annihilation
+potion.Earthquake=Earthquake
 
 #Enchantments
 enchantment.coralium=Coralium

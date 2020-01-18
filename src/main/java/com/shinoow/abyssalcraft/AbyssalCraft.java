@@ -247,6 +247,7 @@ import com.shinoow.abyssalcraft.common.items.armor.ItemEthaxiumArmor;
 import com.shinoow.abyssalcraft.common.network.PacketDispatcher;
 import com.shinoow.abyssalcraft.common.potion.PotionAntimatter;
 import com.shinoow.abyssalcraft.common.potion.PotionCplague;
+import com.shinoow.abyssalcraft.common.potion.PotionDoomed;
 import com.shinoow.abyssalcraft.common.potion.PotionDplague;
 import com.shinoow.abyssalcraft.common.potion.PotionEarthquake;
 import com.shinoow.abyssalcraft.common.structures.abyss.stronghold.MapGenAbyStronghold;
@@ -441,7 +442,7 @@ public class AbyssalCraft {
 	//Ethaxium items
 	public static Item ethaxium_brick, ethaxiumIngot;
 
-	public static Potion Cplague, Dplague, antiMatter, earthquake;
+	public static Potion Cplague, Dplague, antiMatter, earthquake, doom;
 
 	public static Enchantment coraliumE, dreadE, lightPierce;
 
@@ -962,7 +963,9 @@ public class AbyssalCraft {
 		Cplague = new PotionCplague(useDynamicPotionIds ? getNextAvailablePotionId() : AbyssalCraftAPI.potionId1, true, 0x00FFFF).setIconIndex(1, 0).setPotionName("potion.Cplague");
 		Dplague = new PotionDplague(useDynamicPotionIds ? getNextAvailablePotionId() : AbyssalCraftAPI.potionId2, true, 0xAD1313).setIconIndex(1, 0).setPotionName("potion.Dplague");
 		antiMatter = new PotionAntimatter(useDynamicPotionIds ? getNextAvailablePotionId() : AbyssalCraftAPI.potionId3, true, 0xFFFFFF).setIconIndex(1, 0).setPotionName("potion.Antimatter");
-		earthquake = new PotionEarthquake(useDynamicPotionIds ? getNextAvailablePotionId() : AbyssalCraftAPI.potionIdEarthquake, true, 0x826C34).setIconIndex(1, 0).setPotionName("potion.Earthquake");
+		earthquake = new PotionEarthquake(useDynamicPotionIds ? getNextAvailablePotionId() : AbyssalCraftAPI.potionId4, true, 0x826C34).setIconIndex(1, 0).setPotionName("potion.Earthquake");
+		doom = new PotionDoomed(useDynamicPotionIds ? getNextAvailablePotionId() : AbyssalCraftAPI.potionId5, true, 0x826C34).setIconIndex(1, 0).setPotionName("potion.Doom");
+		
 		coraliumE = new EnchantmentWeaponInfusion(getNextAvailableEnchantmentId(), 2, "coralium");
 		dreadE = new EnchantmentWeaponInfusion(getNextAvailableEnchantmentId(), 2, "dread");
 		lightPierce = new EnchantmentLightPierce(getNextAvailableEnchantmentId());
@@ -975,7 +978,8 @@ public class AbyssalCraft {
 			AbyssalCraftAPI.potionId1 = Cplague.id;
 			AbyssalCraftAPI.potionId2 = Dplague.id;
 			AbyssalCraftAPI.potionId3 = antiMatter.id;
-			AbyssalCraftAPI.potionIdEarthquake = earthquake.id;
+			AbyssalCraftAPI.potionId4 = earthquake.id;
+			AbyssalCraftAPI.potionId5 = doom.id;
 		}
 
 		//Block Register
@@ -1790,6 +1794,8 @@ public class AbyssalCraft {
 		AbyssalCraftAPI.potionId1 = cfg.get("potions", "Coralium Plague", 100, "The Coralium Plague potion effect. (Only use this if Dynamic Potion IDs is disabled)", 0, 127).getInt();
 		AbyssalCraftAPI.potionId2 = cfg.get("potions", "Dread Plague", 101, "The Dread Plague potion effect. (Only use this if Dynamic Potion IDs is disabled)", 0, 127).getInt();
 		AbyssalCraftAPI.potionId3 = cfg.get("potions", "Antimatter", 102, "The Antimatter potion effect. (Only use this if Dynamic Potion IDs is disabled)", 0, 127).getInt();
+		AbyssalCraftAPI.potionId4 = cfg.get("potions", "Earthquake", 103, "The Earthquake potion effect. (Only use this if Dynamic Potion IDs is disabled)", 0, 127).getInt();
+		AbyssalCraftAPI.potionId5 = cfg.get("potions", "Doom", 104, "The Doom potion effect. (Only use this if Dynamic Potion IDs is disabled)", 0, 127).getInt();
 
 		shoggothOoze = cfg.get("shoggoth", "Shoggoth Ooze Spread", true, "Toggles whether or not Lesser Shoggoths should spread their ooze when walking around. (Overrides all the Ooze Spread options)").getBoolean();
 		oozeLeaves = cfg.get("shoggoth", "Ooze Spread: Leaves", true, "Toggles ooze spreading on blocks with the Leaves material (Leaf blocks).").getBoolean();
@@ -1906,7 +1912,6 @@ public class AbyssalCraft {
 		DungeonHooks.addDungeonMob("abyssalcraft.shadowbeast", 30);
 		DungeonHooks.addDungeonMob("abyssalcraft.antiabyssalzombie", 50);
 		DungeonHooks.addDungeonMob("abyssalcraft.antighoul", 50);
-		DungeonHooks.addDungeonMob("abyssalcraft.antiskeleton", 50);
 		DungeonHooks.addDungeonMob("abyssalcraft.antispider", 50);
 		DungeonHooks.addDungeonMob("abyssalcraft.antizombie", 50);
 	}

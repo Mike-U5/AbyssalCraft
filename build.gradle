@@ -29,14 +29,13 @@ apply plugin: 'curseforge'
 ext.propFile = file "build.properties"
 
 propFile.withReader {
-	
 	def prop = new Properties()
 	prop.load(it)
 	project.ext.props = new ConfigSlurper().parse prop
 }
 
 version = props.ac_version
-group= "com.shinoow.abyssalcraft" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+group= "com.shinoow.abyssalcraft" // https://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "AbyssalCraft"
 
 sourceCompatibility = 1.7

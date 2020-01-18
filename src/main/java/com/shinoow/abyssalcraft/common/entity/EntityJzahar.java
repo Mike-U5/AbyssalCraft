@@ -397,7 +397,7 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IAntiEntity
 				for (int i = 0; i < ents.size(); i++) {
 					EntityLivingBase e = (EntityLivingBase) ents.get(i);
 					if (!(e instanceof IOmotholEntity) && !worldObj.isRemote) {
-						e.addPotionEffect(new CurseEffect(new PotionEffect(AbyssalCraftAPI.potionIdEarthquake, 200)));
+						e.addPotionEffect(new CurseEffect(AbyssalCraftAPI.potionId4, 200));
 					}
 				}
 			}
@@ -479,7 +479,7 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IAntiEntity
 		// Perform DISPLACE
 		if (cycle == 60 + castTime) {
 			swingItem();
-			List<EntityLivingBase> entities = worldObj.getEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(posX, posY, posZ, posX + 1, posY + 1, posZ + 1).expand(64, 64, 64));
+			List<EntityLivingBase> entities = worldObj.getEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(posX, posY, posZ, posX + 1, posY + 1, posZ + 1).expand(48, 48, 48));
 
 			if(!entities.isEmpty()) {
 				for(EntityLivingBase entity : entities) {

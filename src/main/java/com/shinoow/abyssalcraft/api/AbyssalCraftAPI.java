@@ -69,7 +69,7 @@ public class AbyssalCraftAPI {
 	 * Potion IDs, first one is the Coralium Plague, second Dread Plague, and third Antimatter
 	 */
 	public static int potionId1, potionId2, potionId3;
-	public static int potionIdEarthquake;
+	public static int potionId4, potionId5;
 
 	private static List<IFuelHandler> crystallizerFuelHandlers = Lists.newArrayList();
 	private static List<IFuelHandler> transmutatorFuelHandlers = Lists.newArrayList();
@@ -684,6 +684,7 @@ public class AbyssalCraftAPI {
 		public static Potion Coralium_plague = Potion.potionTypes[potionId1];
 		public static Potion Dread_plague = Potion.potionTypes[potionId2];
 		public static Potion Antimatter = Potion.potionTypes[potionId3];
-		public static Potion Earthquake = Potion.potionTypes[potionIdEarthquake];
+		public static Potion Earthquake = Potion.potionTypes[potionId4];
+		public static Potion Doom = Potion.potionTypes[potionId5];
 	}
 }

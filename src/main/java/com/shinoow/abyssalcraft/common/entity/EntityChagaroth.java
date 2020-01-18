@@ -12,7 +12,9 @@
 package com.shinoow.abyssalcraft.common.entity;
 
 import com.shinoow.abyssalcraft.AbyssalCraft;
+import com.shinoow.abyssalcraft.api.AbyssalCraftAPI.ACPotions;
 import com.shinoow.abyssalcraft.api.entity.IDreadEntity;
+import com.shinoow.abyssalcraft.common.potion.CurseEffect;
 import com.shinoow.abyssalcraft.common.util.SpecialTextUtil;
 
 import net.minecraft.entity.Entity;
@@ -31,6 +33,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityLargeFireball;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumChatFormatting;
@@ -40,6 +43,7 @@ import net.minecraft.world.World;
 public class EntityChagaroth extends ACMob implements IBossDisplayData, IDreadEntity {
 
 	private int skillTicks;
+	private int damageSpawns;
 	public int deathTicks;
 
 	public EntityChagaroth(World world) {
@@ -146,139 +150,131 @@ public class EntityChagaroth extends ACMob implements IBossDisplayData, IDreadEn
 			// Regenerate
 			if (!worldObj.isRemote && ticksExisted % 5 == 0 && getAttackTarget() == null) {
 				heal(1);
+				// Reset damage spawns if healed back to full
+				if (getHealth() >= 1000) {
+					damageSpawns = 0;
+				}
 			}
 			
 			// Specials
 			skillTicks += 1;
-			if (skillTicks > 500) {
+			if (skillTicks > 600) {
 				skillTicks = 0;
 			}
-			performSpecialAttack(skillTicks % 40);
 			
-			// Fireball Skill
-			
-			// Chant FIRE
-			if (skillTicks == 500) {
-				playSound("abyssalcraft:chagaroth.fire", 5F, 1F);
+			if (skillTicks % 40 == 0) {
+				performSpecialAttack(skillTicks / 40);
 			}
 			
-			// Execute FIRE
-			if (skillTicks == 530) {
-				if (!worldObj.isRemote) {
-					EntityLivingBase target = getAttackTarget();
-					// If not attack target, grab the nearest player
-					if (target == null) {
-						target = player;
-					}
-					// Execute attack if there is a target
-					if (target != null) {
-						double x = target.posX;
-						double y = target.posY + 4;
-						double z = target.posZ;
-						worldObj.spawnEntityInWorld(positionFireball(worldObj, x + 2.5, y, z + 2.5, 0.1D));
-						worldObj.spawnEntityInWorld(positionFireball(worldObj, x - 2.5, y, z + 2.5, 0.1D));
-						worldObj.spawnEntityInWorld(positionFireball(worldObj, x + 2.5, y, z - 2.5, 0.1D));
-						worldObj.spawnEntityInWorld(positionFireball(worldObj, x - 2.5, y, z - 2.5, 0.1D));
-						worldObj.spawnEntityInWorld(positionFireball(worldObj, x + 2.5, y, z, 0.1D));
-						worldObj.spawnEntityInWorld(positionFireball(worldObj, x - 2.5, y, z, 0.1D));
-						worldObj.spawnEntityInWorld(positionFireball(worldObj, x, y, z + 2.5, 0.1D));
-						worldObj.spawnEntityInWorld(positionFireball(worldObj, x, y, z - 2.5, 0.1D));
-						worldObj.spawnEntityInWorld(positionFireball(worldObj, x, y + 1, z - 2.5, 0.07D));
-					}
+			// Spawns
+			if(!worldObj.isRemote) {	
+				final int hp = (int)getHealth();
+				if (hp <= 900 && damageSpawns < 1) {
+					worldObj.spawnEntityInWorld(makeFist());
+					damageSpawns = 1;
 				}
-				skillTicks = -150 + worldObj.rand.nextInt(200);
-			}
-			
-			if(!worldObj.isRemote) {
-				if(rand.nextInt(600) == 0 && player != null) {
-					EntityChagarothSpawn mob = new EntityChagarothSpawn(worldObj);
-					mob.copyLocationAndAnglesFrom(player);
-					worldObj.spawnEntityInWorld(mob);
+				if (hp <= 800 && damageSpawns < 2) {
+					worldObj.spawnEntityInWorld(makeFist());
+					damageSpawns = 2;				
 				}
-				if(rand.nextInt(600) == 0) {
-					EntityDreadSpawn mob = new EntityDreadSpawn(worldObj);
-					mob.copyLocationAndAnglesFrom(this);
-					worldObj.spawnEntityInWorld(mob);
+				if (hp <= 700 && damageSpawns < 3) {
+					worldObj.spawnEntityInWorld(makeFist());
+					damageSpawns = 3;
 				}
-				EntityChagarothFist fist = new EntityChagarothFist(worldObj);
-				fist.copyLocationAndAnglesFrom(this);
-				EntityDreadguard dreadGuard = new EntityDreadguard(worldObj);
-				dreadGuard.copyLocationAndAnglesFrom(fist);
-				if(rand.nextInt(3600) == 0) {
-					worldObj.spawnEntityInWorld(fist);
+				if (hp <= 600 && damageSpawns < 4) {
+					worldObj.spawnEntityInWorld(makeFist());
+					damageSpawns = 4;			
 				}
-
-				if(player != null) {
-					switch((int)getHealth()){
-					case 900:
-						worldObj.spawnEntityInWorld(fist);
-						damageEntity(DamageSource.generic, 1);
-						break;
-					case 800:
-						worldObj.spawnEntityInWorld(fist);
-						damageEntity(DamageSource.generic, 1);
-						break;
-					case 700:
-						worldObj.spawnEntityInWorld(fist);
-						damageEntity(DamageSource.generic, 1);
-						break;
-					case 600:
-						worldObj.spawnEntityInWorld(fist);
-						damageEntity(DamageSource.generic, 1);
-						break;
-					case 500:
-						worldObj.spawnEntityInWorld(fist);
-						damageEntity(DamageSource.generic, 1);
-						break;
-					case 400:
-						worldObj.spawnEntityInWorld(fist);
-						damageEntity(DamageSource.generic, 1);
-						break;
-					case 300:
-						worldObj.spawnEntityInWorld(fist);
-						damageEntity(DamageSource.generic, 1);
-						break;
-					case 200:
-						worldObj.spawnEntityInWorld(fist);
-						damageEntity(DamageSource.generic, 1);
-						break;
-					case 100:
-						worldObj.spawnEntityInWorld(fist);
-						worldObj.spawnEntityInWorld(dreadGuard);
-						damageEntity(DamageSource.generic, 1);
-						break;
-					}
+				if (hp <= 500 && damageSpawns < 5) {
+					worldObj.spawnEntityInWorld(makeFist());
+					damageSpawns = 5;
+				}
+				if (hp <= 400 && damageSpawns < 6) {
+					worldObj.spawnEntityInWorld(makeFist());
+					damageSpawns = 6;
+				}
+				if (hp <= 300 && damageSpawns < 7) {
+					worldObj.spawnEntityInWorld(makeFist());
+					damageSpawns = 7;
+				}
+				if (hp <= 200 && damageSpawns < 8) {
+					worldObj.spawnEntityInWorld(makeFist());
+					damageSpawns = 8;
+				}
+				if (hp <= 100 && damageSpawns < 9) {
+					worldObj.spawnEntityInWorld(makeFist());
+					damageSpawns = 9;
 				}
 			}
 		}
 		super.onLivingUpdate();
 	}
 	
+	private EntityChagarothSpawn makeSpawn() {
+		EntityChagarothSpawn cspawn = new EntityChagarothSpawn(worldObj);
+		cspawn.addPotionEffect(new CurseEffect(ACPotions.Doom.id, 6000));
+		cspawn.copyLocationAndAnglesFrom(this);
+		return cspawn;
+	}
+	
+	private EntityChagarothFist makeFist() {
+		EntityChagarothFist fist = new EntityChagarothFist(worldObj);
+		fist.copyLocationAndAnglesFrom(this);
+		return fist;
+	}
+	
+	private ACMob makeDreadMob() {
+		ACMob mob = (worldObj.rand.nextBoolean()) ? new EntityDreadSpawn(worldObj) : new EntityDreadling(worldObj);
+		mob.capturedDrops.clear();
+		mob.addPotionEffect(new CurseEffect(ACPotions.Doom.id, 6000));
+		mob.copyLocationAndAnglesFrom(this);
+		mob.motionX = (worldObj.rand.nextBoolean()) ? Math.random() : -Math.random();
+		mob.motionY = 1.5D;
+		mob.motionZ = (worldObj.rand.nextBoolean()) ? Math.random() : -Math.random();
+		return mob;
+	}
+	
 	private void performSpecialAttack(int cycle) {
+		// Spawn Fuccboi
+		if (cycle == 5 && !worldObj.isRemote) {
+			worldObj.spawnEntityInWorld(makeSpawn());
+			return;
+		}
+				
 		// Chant FIRE
-		if (cycle == 12) {
+		if (cycle == 10) {
 			playSound("abyssalcraft:chagaroth.fire", 5F, 1F);
 			return;
 		}
 		
 		// Execute FIRE
-		if (cycle == 13 && !worldObj.isRemote) {
+		if (cycle == 11 && !worldObj.isRemote) {
 			EntityLivingBase target = getAttackTarget();
 			// Execute attack if there is a target
-			if (target != null) {
-				double x = target.posX;
-				double y = target.posY + 4;
-				double z = target.posZ;
-				worldObj.spawnEntityInWorld(positionFireball(worldObj, x + 2.5, y, z + 2.5, 0.11D));
-				worldObj.spawnEntityInWorld(positionFireball(worldObj, x - 2.5, y, z + 2.5, 0.11D));
-				worldObj.spawnEntityInWorld(positionFireball(worldObj, x + 2.5, y, z - 2.5, 0.11D));
-				worldObj.spawnEntityInWorld(positionFireball(worldObj, x - 2.5, y, z - 2.5, 0.11D));
-				worldObj.spawnEntityInWorld(positionFireball(worldObj, x + 2.5, y, z, 0.11D));
-				worldObj.spawnEntityInWorld(positionFireball(worldObj, x - 2.5, y, z, 0.11D));
-				worldObj.spawnEntityInWorld(positionFireball(worldObj, x, y, z + 2.5, 0.11D));
-				worldObj.spawnEntityInWorld(positionFireball(worldObj, x, y, z - 2.5, 0.11D));
-				worldObj.spawnEntityInWorld(positionFireball(worldObj, x, y + 1, z - 2.5, 0.07D));
+			double x;
+			double y;
+			double z;
+			if (target == null) {
+				x = (worldObj.rand.nextBoolean()) ? posX + 2 + (Math.random()) * 9 : posX - 2 - (Math.random() * 9);
+				y = posY;
+				z = (worldObj.rand.nextBoolean()) ? posZ + 2 + (Math.random()) * 9 : posZ - 2 - (Math.random() * 9);
+			} else {
+				x = target.posX;
+				y = target.posY + 4;
+				z = target.posZ;
 			}
+				
+			worldObj.spawnEntityInWorld(positionFireball(worldObj, x + 3, y, z, 0.12D));
+			worldObj.spawnEntityInWorld(positionFireball(worldObj, x - 3, y, z, 0.12D));
+			worldObj.spawnEntityInWorld(positionFireball(worldObj, x, y, z + 3, 0.12D));
+			worldObj.spawnEntityInWorld(positionFireball(worldObj, x, y, z - 3, 0.12D));
+			worldObj.spawnEntityInWorld(positionFireball(worldObj, x, y + 1, z - 3, 0.07D));
+			return;
+		}
+		
+		// Spawn Chagaroth Spawn
+		if (cycle == 15 && !worldObj.isRemote) {
+			worldObj.spawnEntityInWorld(makeDreadMob());
 			return;
 		}
 	}
@@ -288,6 +284,7 @@ public class EntityChagaroth extends ACMob implements IBossDisplayData, IDreadEn
 		super.writeEntityToNBT(nbt);
 		nbt.setInteger("DeathTicks", deathTicks);
 		nbt.setInteger("SkillTicks", skillTicks);
+		nbt.setInteger("DamageSpawns", damageSpawns);
 	}
 
 	@Override
@@ -295,6 +292,7 @@ public class EntityChagaroth extends ACMob implements IBossDisplayData, IDreadEn
 		super.readEntityFromNBT(nbt);
 		deathTicks = nbt.getInteger("DeathTicks");
 		skillTicks = nbt.getInteger("SkillTicks");
+		damageSpawns = nbt.getInteger("DamageSpawns");
 	}
 
 	@Override
@@ -327,8 +325,9 @@ public class EntityChagaroth extends ACMob implements IBossDisplayData, IDreadEn
 				worldObj.spawnParticle("lava", posX + f, posY + 2.0D + f1, posZ + f2, 0.0D, 0.0D, 0.0D);
 				worldObj.spawnParticle("largesmoke", posX + f, posY + 2.0D + f1, posZ + f2, 0.0D, 0.0D, 0.0D);
 				worldObj.spawnParticle("explode", posX + f, posY + 2.0D + f1, posZ + f2, 0.0D, 0.0D, 0.0D);
-				if (deathTicks >= 190 && deathTicks <= 200)
+				if (deathTicks >= 190 && deathTicks <= 200) {
 					worldObj.spawnParticle("hugeexplosion", posX + f, posY + 2.0D + f1, posZ + f2, 0.0D, 0.0D, 0.0D);
+				}
 			}
 		}
 

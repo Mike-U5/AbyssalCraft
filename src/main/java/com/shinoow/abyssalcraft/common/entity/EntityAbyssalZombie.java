@@ -81,10 +81,10 @@ public class EntityAbyssalZombie extends CoraliumEntity implements ICoraliumEnti
 	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
 
-		getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(64.0D);
+		getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(40.0D);
 		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.23000000417232513D);
 
-		if(AbyssalCraft.hardcoreMode){
+		if (AbyssalCraft.hardcoreMode) {
 			getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(50.0D);
 			getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(12.0D);
 		} else {
@@ -96,8 +96,8 @@ public class EntityAbyssalZombie extends CoraliumEntity implements ICoraliumEnti
 	@Override
 	protected void entityInit() {
 		super.entityInit();
-		getDataWatcher().addObject(12, Byte.valueOf((byte)0));
-		getDataWatcher().addObject(14, Byte.valueOf((byte)0));
+		getDataWatcher().addObject(12, Byte.valueOf((byte) 0));
+		getDataWatcher().addObject(14, Byte.valueOf((byte) 0));
 	}
 
 	@Override
@@ -119,7 +119,7 @@ public class EntityAbyssalZombie extends CoraliumEntity implements ICoraliumEnti
 	 * Set whether this zombie is a child.
 	 */
 	public void setChild(boolean par1) {
-		getDataWatcher().updateObject(12, Byte.valueOf((byte)(par1 ? 1 : 0)));
+		getDataWatcher().updateObject(12, Byte.valueOf((byte) (par1 ? 1 : 0)));
 
 		if (worldObj != null && !worldObj.isRemote) {
 			IAttributeInstance attributeinstance = getEntityAttribute(SharedMonsterAttributes.movementSpeed);
@@ -148,7 +148,7 @@ public class EntityAbyssalZombie extends CoraliumEntity implements ICoraliumEnti
 	}
 
 	public void setZombieType(int par1) {
-		dataWatcher.updateObject(14, Byte.valueOf((byte)par1));
+		dataWatcher.updateObject(14, Byte.valueOf((byte) par1));
 	}
 
 	@Override
@@ -166,7 +166,7 @@ public class EntityAbyssalZombie extends CoraliumEntity implements ICoraliumEnti
 
 						if (var3.getItemDamageForDisplay() >= var3.getMaxDamage()) {
 							renderBrokenItemStack(var3);
-							setCurrentItemOrArmor(4, (ItemStack)null);
+							setCurrentItemOrArmor(4, (ItemStack) null);
 						}
 					}
 
@@ -179,7 +179,7 @@ public class EntityAbyssalZombie extends CoraliumEntity implements ICoraliumEnti
 			}
 		}
 
-		if(worldObj.isRemote) {
+		if (worldObj.isRemote) {
 			setChildSize(isChild());
 		}
 
@@ -187,18 +187,22 @@ public class EntityAbyssalZombie extends CoraliumEntity implements ICoraliumEnti
 	}
 
 	@Override
-	public boolean attackEntityAsMob(Entity par1Entity) {
+	public boolean attackEntityAsMob(Entity target) {
+		swingItem();
 
-		if (super.attackEntityAsMob(par1Entity))
-			if (par1Entity instanceof EntityLivingBase)
-				if(worldObj.provider.dimensionId == AbyssalCraft.configDimId1 && !EntityUtil.isEntityCoralium((EntityLivingBase)par1Entity)
-				|| AbyssalCraft.shouldInfect == true && !EntityUtil.isEntityCoralium((EntityLivingBase)par1Entity))
-					((EntityLivingBase)par1Entity).addPotionEffect(new PotionEffect(AbyssalCraft.Cplague.id, 100));
+		if (super.attackEntityAsMob(target)) {
+			if (target instanceof EntityLivingBase) {
+				EntityLivingBase living = (EntityLivingBase) target;
+				if (worldObj.provider.dimensionId == AbyssalCraft.configDimId1 && !EntityUtil.isEntityCoralium(living) || AbyssalCraft.shouldInfect == true && !EntityUtil.isEntityCoralium(living)) {
+					living.addPotionEffect(new PotionEffect(AbyssalCraft.Cplague.id, 100));
+				}
+			}
+		}
+		boolean flag = super.attackEntityAsMob(target);
 
-		boolean flag = super.attackEntityAsMob(par1Entity);
-
-		if (flag && getHeldItem() == null && isBurning() && rand.nextFloat() < worldObj.difficultySetting.getDifficultyId() * 0.3F)
-			par1Entity.setFire(2 * worldObj.difficultySetting.getDifficultyId());
+		if (flag && getHeldItem() == null && isBurning() && rand.nextFloat() < worldObj.difficultySetting.getDifficultyId() * 0.3F) {
+			target.setFire(2 * worldObj.difficultySetting.getDifficultyId());
+		}
 
 		return flag;
 	}
@@ -219,8 +223,7 @@ public class EntityAbyssalZombie extends CoraliumEntity implements ICoraliumEnti
 	}
 
 	@Override
-	protected void func_145780_a(int par1, int par2, int par3, Block par4)
-	{
+	protected void func_145780_a(int par1, int par2, int par3, Block par4) {
 		playSound("mob.zombie.step", 0.15F, 1.0F);
 	}
 
@@ -239,7 +242,7 @@ public class EntityAbyssalZombie extends CoraliumEntity implements ICoraliumEnti
 			dropItem(AbyssalCraft.sword, 1);
 			break;
 		case 2:
-			dropItem(AbyssalCraft.Coralium, rand.nextInt(3));
+			dropItem(AbyssalCraft.Coralium, 1);
 		}
 	}
 
@@ -247,7 +250,7 @@ public class EntityAbyssalZombie extends CoraliumEntity implements ICoraliumEnti
 	public void readEntityFromNBT(NBTTagCompound nbtTag) {
 		super.readEntityFromNBT(nbtTag);
 
-		if(nbtTag.getBoolean("IsBaby")) {
+		if (nbtTag.getBoolean("IsBaby")) {
 			setChild(true);
 			if (nbtTag.hasKey("ZombieType")) {
 				setZombieType(nbtTag.getByte("ZombieType"));
@@ -263,17 +266,14 @@ public class EntityAbyssalZombie extends CoraliumEntity implements ICoraliumEnti
 			nbtTag.setBoolean("IsBaby", true);
 		}
 
-		nbtTag.setByte("ZombieType", (byte)getZombieType());
+		nbtTag.setByte("ZombieType", (byte) getZombieType());
 	}
-
-
 
 	@Override
 	public void onKillEntity(EntityLivingBase victim) {
 		super.onKillEntity(victim);
 
-		if (worldObj.difficultySetting == EnumDifficulty.NORMAL || worldObj.difficultySetting == EnumDifficulty.HARD
-				&& victim instanceof EntityZombie) {
+		if (worldObj.difficultySetting == EnumDifficulty.NORMAL || worldObj.difficultySetting == EnumDifficulty.HARD && victim instanceof EntityZombie) {
 
 			if (rand.nextBoolean())
 				return;
@@ -281,16 +281,14 @@ public class EntityAbyssalZombie extends CoraliumEntity implements ICoraliumEnti
 			EntityAbyssalZombie EntityDephsZombie = new EntityAbyssalZombie(worldObj);
 			EntityDephsZombie.copyLocationAndAnglesFrom(victim);
 			worldObj.removeEntity(victim);
-			EntityDephsZombie.onSpawnWithEgg((IEntityLivingData)null);
+			EntityDephsZombie.onSpawnWithEgg((IEntityLivingData) null);
 
 			if (victim.isChild())
 				EntityDephsZombie.setChild(true);
 
 			worldObj.spawnEntityInWorld(EntityDephsZombie);
-			worldObj.playAuxSFXAtEntity((EntityPlayer)null, 1016, (int)posX, (int)posY, (int)posZ, 0);
-		}
-		else if (worldObj.difficultySetting == EnumDifficulty.NORMAL || worldObj.difficultySetting == EnumDifficulty.HARD
-				&& victim instanceof EntityPlayer) {
+			worldObj.playAuxSFXAtEntity((EntityPlayer) null, 1016, (int) posX, (int) posY, (int) posZ, 0);
+		} else if (worldObj.difficultySetting == EnumDifficulty.NORMAL || worldObj.difficultySetting == EnumDifficulty.HARD && victim instanceof EntityPlayer) {
 
 			if (rand.nextBoolean())
 				return;
@@ -298,13 +296,13 @@ public class EntityAbyssalZombie extends CoraliumEntity implements ICoraliumEnti
 			EntityAbyssalZombie EntityDephsZombie = new EntityAbyssalZombie(worldObj);
 			EntityDephsZombie.copyLocationAndAnglesFrom(victim);
 			worldObj.removeEntity(victim);
-			EntityDephsZombie.onSpawnWithEgg((IEntityLivingData)null);
+			EntityDephsZombie.onSpawnWithEgg((IEntityLivingData) null);
 
 			if (victim.isChild())
 				EntityDephsZombie.setChild(true);
 
 			worldObj.spawnEntityInWorld(EntityDephsZombie);
-			worldObj.playAuxSFXAtEntity((EntityPlayer)null, 1016, (int)posX, (int)posY, (int)posZ, 0);
+			worldObj.playAuxSFXAtEntity((EntityPlayer) null, 1016, (int) posX, (int) posY, (int) posZ, 0);
 		}
 	}
 
@@ -321,16 +319,16 @@ public class EntityAbyssalZombie extends CoraliumEntity implements ICoraliumEnti
 		if (data == null) {
 			data = new EntityAbyssalZombie.GroupData(worldObj.rand.nextFloat() < ForgeModContainer.zombieBabyChance, null);
 		}
-		
+
 		if (data instanceof EntityAbyssalZombie.GroupData) {
-			EntityAbyssalZombie.GroupData groupdata = (EntityAbyssalZombie.GroupData)data;
+			EntityAbyssalZombie.GroupData groupdata = (EntityAbyssalZombie.GroupData) data;
 
 			if (groupdata.isBaby) {
 				setChild(true);
 			}
 		}
 
-		return (IEntityLivingData)data;
+		return (IEntityLivingData) data;
 	}
 
 	public void setChildSize(boolean isChild) {
@@ -354,6 +352,7 @@ public class EntityAbyssalZombie extends CoraliumEntity implements ICoraliumEnti
 
 	class GroupData implements IEntityLivingData {
 		public boolean isBaby;
+
 		private GroupData(boolean par2) {
 			isBaby = false;
 			isBaby = par2;

@@ -30,8 +30,7 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 
-public class EntityDragonMinion extends ACMob implements IEntityMultiPart, ICoraliumEntity
-{
+public class EntityDragonMinion extends ACMob implements IEntityMultiPart, ICoraliumEntity {
 
 	public static final float innerRotation = 0;
 	public double targetX;
@@ -39,12 +38,14 @@ public class EntityDragonMinion extends ACMob implements IEntityMultiPart, ICora
 	public double targetZ;
 
 	/**
-	 * Ring buffer array for the last 64 Y-positions and yaw rotations. Used to calculate offsets for the animations.
+	 * Ring buffer array for the last 64 Y-positions and yaw rotations. Used to
+	 * calculate offsets for the animations.
 	 */
 	public double[][] ringBuffer = new double[64][3];
 
 	/**
-	 * Index into the ring buffer. Incremented once per tick and restarts at 0 once it reaches the end of the buffer.
+	 * Index into the ring buffer. Incremented once per tick and restarts at 0 once
+	 * it reaches the end of the buffer.
 	 */
 	public int ringBufferIndex = -1;
 
@@ -66,7 +67,8 @@ public class EntityDragonMinion extends ACMob implements IEntityMultiPart, ICora
 	public float prevAnimTime;
 
 	/**
-	 * Animation time, used to control the speed of the animation cycles (wings flapping, jaw opening, etc.)
+	 * Animation time, used to control the speed of the animation cycles (wings
+	 * flapping, jaw opening, etc.)
 	 */
 	public float animTime;
 
@@ -79,7 +81,7 @@ public class EntityDragonMinion extends ACMob implements IEntityMultiPart, ICora
 
 	public EntityDragonMinion(World par1World) {
 		super(par1World);
-		dragonPartArray = new EntityDragonPart[] {dragonPartHead = new EntityDragonPart(this, "head", 3.0F, 3.0F), dragonPartBody = new EntityDragonPart(this, "body", 4.0F, 4.0F), dragonPartTail1 = new EntityDragonPart(this, "tail", 2.0F, 2.0F), dragonPartTail2 = new EntityDragonPart(this, "tail", 2.0F, 2.0F), dragonPartTail3 = new EntityDragonPart(this, "tail", 2.0F, 2.0F), dragonPartWing1 = new EntityDragonPart(this, "wing", 2.0F, 2.0F), dragonPartWing2 = new EntityDragonPart(this, "wing", 2.0F, 2.0F)};
+		dragonPartArray = new EntityDragonPart[] { dragonPartHead = new EntityDragonPart(this, "head", 3.0F, 3.0F), dragonPartBody = new EntityDragonPart(this, "body", 4.0F, 4.0F), dragonPartTail1 = new EntityDragonPart(this, "tail", 2.0F, 2.0F), dragonPartTail2 = new EntityDragonPart(this, "tail", 2.0F, 2.0F), dragonPartTail3 = new EntityDragonPart(this, "tail", 2.0F, 2.0F), dragonPartWing1 = new EntityDragonPart(this, "wing", 2.0F, 2.0F), dragonPartWing2 = new EntityDragonPart(this, "wing", 2.0F, 2.0F) };
 		setHealth(getMaxHealth());
 		setSize(8.0F, 4.0F);
 		noClip = true;
@@ -87,21 +89,20 @@ public class EntityDragonMinion extends ACMob implements IEntityMultiPart, ICora
 	}
 
 	@Override
-	protected void applyEntityAttributes()
-	{
+	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
-		if(AbyssalCraft.hardcoreMode) getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(60.0D);
-		else getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(30.0D);
+		if (AbyssalCraft.hardcoreMode)
+			getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(60.0D);
+		else
+			getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(30.0D);
 	}
 
 	@Override
-	protected void entityInit()
-	{
+	protected void entityInit() {
 		super.entityInit();
 	}
 
-	public double[] getMovementOffsets(int par1, float par2)
-	{
+	public double[] getMovementOffsets(int par1, float par2) {
 		if (getHealth() <= 0.0F)
 			par2 = 0.0F;
 
@@ -120,34 +121,29 @@ public class EntityDragonMinion extends ACMob implements IEntityMultiPart, ICora
 	}
 
 	@Override
-	protected Item getDropItem()
-	{
+	protected Item getDropItem() {
 		return AbyssalCraft.Corflesh;
 
 	}
 
 	@Override
-	public void onDeath(DamageSource par1DamageSource)
-	{
+	public void onDeath(DamageSource par1DamageSource) {
 		super.onDeath(par1DamageSource);
 
-		if (par1DamageSource.getEntity() instanceof EntityPlayer)
-		{
-			EntityPlayer entityplayer = (EntityPlayer)par1DamageSource.getEntity();
+		if (par1DamageSource.getEntity() instanceof EntityPlayer) {
+			EntityPlayer entityplayer = (EntityPlayer) par1DamageSource.getEntity();
 			entityplayer.addStat(AbyssalCraft.killdragon, 1);
 		}
 	}
 
 	@Override
-	public void onLivingUpdate()
-	{
+	public void onLivingUpdate() {
 		float f;
 		float f1;
 
-		if (worldObj.isRemote)
-		{
-			f = MathHelper.cos(animTime * (float)Math.PI * 2.0F);
-			f1 = MathHelper.cos(prevAnimTime * (float)Math.PI * 2.0F);
+		if (worldObj.isRemote) {
+			f = MathHelper.cos(animTime * (float) Math.PI * 2.0F);
+			f1 = MathHelper.cos(prevAnimTime * (float) Math.PI * 2.0F);
 
 			if (f1 <= -0.3F && f >= -0.3F)
 				worldObj.playSound(posX, posY, posZ, "mob.enderdragon.wings", 5.0F, 0.8F + rand.nextFloat() * 0.3F, false);
@@ -156,28 +152,23 @@ public class EntityDragonMinion extends ACMob implements IEntityMultiPart, ICora
 		prevAnimTime = animTime;
 		float f2;
 
-		if (getHealth() <= 0.0F)
-		{
+		if (getHealth() <= 0.0F) {
 			f = (rand.nextFloat() - 0.5F) * 8.0F;
 			f1 = (rand.nextFloat() - 0.5F) * 4.0F;
 			f2 = (rand.nextFloat() - 0.5F) * 8.0F;
-			if(AbyssalCraft.particleEntity)
+			if (AbyssalCraft.particleEntity)
 				worldObj.spawnParticle("largeexplode", posX + f, posY + 2.0D + f1, posZ + f2, 0.0D, 0.0D, 0.0D);
-		}
-		else
-		{
+		} else {
 			updateHealingCircle();
 			f = 0.2F / (MathHelper.sqrt_double(motionX * motionX + motionZ * motionZ) * 10.0F + 1.0F);
-			f *= (float)Math.pow(2.0D, motionY);
+			f *= (float) Math.pow(2.0D, motionY);
 
 			animTime += f;
-
 
 			rotationYaw = MathHelper.wrapAngleTo180_float(rotationYaw);
 
 			if (ringBufferIndex < 0)
-				for (int i = 0; i < ringBuffer.length; ++i)
-				{
+				for (int i = 0; i < ringBuffer.length; ++i) {
 					ringBuffer[i][0] = rotationYaw;
 					ringBuffer[i][1] = posY;
 				}
@@ -193,30 +184,25 @@ public class EntityDragonMinion extends ACMob implements IEntityMultiPart, ICora
 			double d3;
 			float f3;
 
-			if (worldObj.isRemote)
-			{
-				if (newPosRotationIncrements > 0)
-				{
+			if (worldObj.isRemote) {
+				if (newPosRotationIncrements > 0) {
 					d3 = posX + (newPosX - posX) / newPosRotationIncrements;
 					d0 = posY + (newPosY - posY) / newPosRotationIncrements;
 					d1 = posZ + (newPosZ - posZ) / newPosRotationIncrements;
 					d2 = MathHelper.wrapAngleTo180_double(newRotationYaw - rotationYaw);
-					rotationYaw = (float)(rotationYaw + d2 / newPosRotationIncrements);
-					rotationPitch = (float)(rotationPitch + (newRotationPitch - rotationPitch) / newPosRotationIncrements);
+					rotationYaw = (float) (rotationYaw + d2 / newPosRotationIncrements);
+					rotationPitch = (float) (rotationPitch + (newRotationPitch - rotationPitch) / newPosRotationIncrements);
 					--newPosRotationIncrements;
 					setPosition(d3, d0, d1);
 					setRotation(rotationYaw, rotationPitch);
 				}
-			}
-			else
-			{
+			} else {
 				d3 = targetX - posX;
 				d0 = targetY - posY;
 				d1 = targetZ - posZ;
 				d2 = d3 * d3 + d0 * d0 + d1 * d1;
 
-				if (target != null)
-				{
+				if (target != null) {
 					targetX = target.posX;
 					targetZ = target.posZ;
 					double d4 = targetX - posX;
@@ -228,9 +214,7 @@ public class EntityDragonMinion extends ACMob implements IEntityMultiPart, ICora
 						d7 = 10.0D;
 
 					targetY = target.boundingBox.minY + d7;
-				}
-				else
-				{
+				} else {
 					targetX += rand.nextGaussian() * 2.0D;
 					targetZ += rand.nextGaussian() * 2.0D;
 				}
@@ -259,8 +243,8 @@ public class EntityDragonMinion extends ACMob implements IEntityMultiPart, ICora
 					d9 = -50.0D;
 
 				Vec3 vec3 = Vec3.createVectorHelper(targetX - posX, targetY - posY, targetZ - posZ).normalize();
-				Vec3 vec31 = Vec3.createVectorHelper(MathHelper.sin(rotationYaw * (float)Math.PI / 180.0F), motionY, -MathHelper.cos(rotationYaw * (float)Math.PI / 180.0F)).normalize();
-				float f4 = (float)(vec31.dotProduct(vec3) + 0.5D) / 1.5F;
+				Vec3 vec31 = Vec3.createVectorHelper(MathHelper.sin(rotationYaw * (float) Math.PI / 180.0F), motionY, -MathHelper.cos(rotationYaw * (float) Math.PI / 180.0F)).normalize();
+				float f4 = (float) (vec31.dotProduct(vec3) + 0.5D) / 1.5F;
 
 				if (f4 < 0.0F)
 					f4 = 0.0F;
@@ -272,18 +256,16 @@ public class EntityDragonMinion extends ACMob implements IEntityMultiPart, ICora
 				if (d10 > 40.0D)
 					d10 = 40.0D;
 
-				randomYawVelocity = (float)(randomYawVelocity + d9 * (0.699999988079071D / d10 / f5));
+				randomYawVelocity = (float) (randomYawVelocity + d9 * (0.699999988079071D / d10 / f5));
 				rotationYaw += randomYawVelocity * 0.1F;
-				float f6 = (float)(2.0D / (d10 + 1.0D));
+				float f6 = (float) (2.0D / (d10 + 1.0D));
 				float f7 = 0.06F;
 				moveFlying(0.0F, -1.0F, f7 * (f4 * f6 + (1.0F - f6)));
 
-
 				moveEntity(motionX, motionY, motionZ);
 
-
 				Vec3 vec32 = Vec3.createVectorHelper(motionX, motionY, motionZ).normalize();
-				float f8 = (float)(vec32.dotProduct(vec31) + 1.0D) / 2.0F;
+				float f8 = (float) (vec32.dotProduct(vec31) + 1.0D) / 2.0F;
 				f8 = 0.8F + 0.15F * f8;
 				motionX *= f8;
 				motionZ *= f8;
@@ -301,10 +283,10 @@ public class EntityDragonMinion extends ACMob implements IEntityMultiPart, ICora
 			dragonPartWing1.width = 2.0F;
 			dragonPartWing2.height = 1.5F;
 			dragonPartWing2.width = 2.0F;
-			f1 = (float)(getMovementOffsets(5, 1.0F)[1] - getMovementOffsets(10, 1.0F)[1]) * 10.0F / 180.0F * (float)Math.PI;
+			f1 = (float) (getMovementOffsets(5, 1.0F)[1] - getMovementOffsets(10, 1.0F)[1]) * 10.0F / 180.0F * (float) Math.PI;
 			f2 = MathHelper.cos(f1);
 			float f9 = -MathHelper.sin(f1);
-			float f10 = rotationYaw * (float)Math.PI / 180.0F;
+			float f10 = rotationYaw * (float) Math.PI / 180.0F;
 			float f11 = MathHelper.sin(f10);
 			float f12 = MathHelper.cos(f10);
 			dragonPartBody.onUpdate();
@@ -314,8 +296,7 @@ public class EntityDragonMinion extends ACMob implements IEntityMultiPart, ICora
 			dragonPartWing2.onUpdate();
 			dragonPartWing2.setLocationAndAngles(posX - f12 * 4.5F, posY + 2.0D, posZ - f11 * 4.5F, 0.0F, 0.0F);
 
-			if (!worldObj.isRemote && hurtTime == 0)
-			{
+			if (!worldObj.isRemote && hurtTime == 0) {
 				attackEntitiesInList(worldObj.getEntitiesWithinAABBExcludingEntity(this, dragonPartWing1.boundingBox.expand(1.0D, 0.5D, 1.0D).offset(0.0D, -0.5D, 0.0D)));
 				attackEntitiesInList(worldObj.getEntitiesWithinAABBExcludingEntity(this, dragonPartWing2.boundingBox.expand(1.0D, 0.5D, 1.0D).offset(0.0D, -0.5D, 0.0D)));
 				attackEntitiesInList(worldObj.getEntitiesWithinAABBExcludingEntity(this, dragonPartHead.boundingBox.expand(0.25D, 0.25D, 0.25D)));
@@ -323,13 +304,12 @@ public class EntityDragonMinion extends ACMob implements IEntityMultiPart, ICora
 
 			double[] adouble = getMovementOffsets(5, 1.0F);
 			double[] adouble1 = getMovementOffsets(0, 1.0F);
-			f3 = MathHelper.sin(rotationYaw * (float)Math.PI / 180.0F - randomYawVelocity * 0.01F);
-			float f13 = MathHelper.cos(rotationYaw * (float)Math.PI / 180.0F - randomYawVelocity * 0.01F);
+			f3 = MathHelper.sin(rotationYaw * (float) Math.PI / 180.0F - randomYawVelocity * 0.01F);
+			float f13 = MathHelper.cos(rotationYaw * (float) Math.PI / 180.0F - randomYawVelocity * 0.01F);
 			dragonPartHead.onUpdate();
 			dragonPartHead.setLocationAndAngles(posX + f3 * 5.5F * f2, posY + (adouble1[1] - adouble[1]) * 1.0D + f9 * 5.5F, posZ - f13 * 5.5F * f2, 0.0F, 0.0F);
 
-			for (int j = 0; j < 3; ++j)
-			{
+			for (int j = 0; j < 3; ++j) {
 				EntityDragonPart entitydragonpart = null;
 
 				if (j == 0)
@@ -342,7 +322,7 @@ public class EntityDragonMinion extends ACMob implements IEntityMultiPart, ICora
 					entitydragonpart = dragonPartTail3;
 
 				double[] adouble2 = getMovementOffsets(12 + j * 2, 1.0F);
-				float f14 = rotationYaw * (float)Math.PI / 180.0F + simplifyAngle(adouble2[0] - adouble[0]) * (float)Math.PI / 180.0F * 1.0F;
+				float f14 = rotationYaw * (float) Math.PI / 180.0F + simplifyAngle(adouble2[0] - adouble[0]) * (float) Math.PI / 180.0F * 1.0F;
 				float f15 = MathHelper.sin(f14);
 				float f16 = MathHelper.cos(f14);
 				float f17 = 1.5F;
@@ -353,34 +333,28 @@ public class EntityDragonMinion extends ACMob implements IEntityMultiPart, ICora
 		}
 	}
 
-	private void updateHealingCircle()
-	{
+	private void updateHealingCircle() {
 		if (healingcircle != null)
-			if (healingcircle.isDead)
-			{
+			if (healingcircle.isDead) {
 				if (!worldObj.isRemote)
-					attackEntityFromPart(dragonPartHead, DamageSource.setExplosionSource((Explosion)null), 100.0F);
+					attackEntityFromPart(dragonPartHead, DamageSource.setExplosionSource((Explosion) null), 100.0F);
 
 				healingcircle = null;
-			}
-			else if (ticksExisted % 10 == 0 && getHealth() <= getMaxHealth())
+			} else if (ticksExisted % 10 == 0 && getHealth() <= getMaxHealth())
 				setHealth(getHealth() - 1.0F);
 
-		if (rand.nextInt(10) == 0)
-		{
+		if (rand.nextInt(10) == 0) {
 			float f = 32.0F;
 			List<?> list = worldObj.getEntitiesWithinAABB(EntityDragonBoss.class, boundingBox.expand(f, f, f));
 			EntityDragonBoss entitydragonboss = null;
 			double d0 = Double.MAX_VALUE;
 			Iterator<?> iterator = list.iterator();
 
-			while (iterator.hasNext())
-			{
-				EntityDragonBoss entitydragonboss1 = (EntityDragonBoss)iterator.next();
+			while (iterator.hasNext()) {
+				EntityDragonBoss entitydragonboss1 = (EntityDragonBoss) iterator.next();
 				double d1 = entitydragonboss1.getDistanceSqToEntity(this);
 
-				if (d1 < d0)
-				{
+				if (d1 < d0) {
 					d0 = d1;
 					entitydragonboss = entitydragonboss1;
 				}
@@ -390,29 +364,24 @@ public class EntityDragonMinion extends ACMob implements IEntityMultiPart, ICora
 		}
 	}
 
-	private void attackEntitiesInList(List<?> par1List)
-	{
-		for (int i = 0; i < par1List.size(); ++i)
-		{
-			Entity entity = (Entity)par1List.get(i);
+	private void attackEntitiesInList(List<?> par1List) {
+		for (int i = 0; i < par1List.size(); ++i) {
+			Entity entity = (Entity) par1List.get(i);
 
 			if (entity instanceof EntityLivingBase)
 				entity.attackEntityFrom(DamageSource.causeMobDamage(this), 8.0F);
 		}
 	}
 
-	private void setNewTarget()
-	{
+	private void setNewTarget() {
 		forceNewTarget = false;
 
 		if (rand.nextInt(2) == 0 && !worldObj.playerEntities.isEmpty())
-			target = (Entity)worldObj.playerEntities.get(rand.nextInt(worldObj.playerEntities.size()));
-		else
-		{
+			target = (Entity) worldObj.playerEntities.get(rand.nextInt(worldObj.playerEntities.size()));
+		else {
 			boolean flag = false;
 
-			do
-			{
+			do {
 				targetX = 0.0D;
 				targetY = 70.0F + rand.nextFloat() * 50.0F;
 				targetZ = 0.0D;
@@ -422,25 +391,22 @@ public class EntityDragonMinion extends ACMob implements IEntityMultiPart, ICora
 				double d1 = posY - targetY;
 				double d2 = posZ - targetZ;
 				flag = d0 * d0 + d1 * d1 + d2 * d2 > 100.0D;
-			}
-			while (!flag);
+			} while (!flag);
 
 			target = null;
 		}
 	}
 
-	private float simplifyAngle(double par1)
-	{
-		return (float)MathHelper.wrapAngleTo180_double(par1);
+	private float simplifyAngle(double par1) {
+		return (float) MathHelper.wrapAngleTo180_double(par1);
 	}
 
 	@Override
-	public boolean attackEntityFromPart(EntityDragonPart par1EntityDragonPart, DamageSource par2DamageSource, float par3)
-	{
+	public boolean attackEntityFromPart(EntityDragonPart par1EntityDragonPart, DamageSource par2DamageSource, float par3) {
 		if (par1EntityDragonPart != dragonPartHead)
 			par3 = par3 / 2.0F;
 
-		float f1 = rotationYaw * (float)Math.PI / 180.0F;
+		float f1 = rotationYaw * (float) Math.PI / 180.0F;
 		float f2 = MathHelper.sin(f1);
 		float f3 = MathHelper.cos(f1);
 		targetX = posX + f2 * 5.0F + (rand.nextFloat() - 0.5F) * 2.0F;
@@ -455,43 +421,36 @@ public class EntityDragonMinion extends ACMob implements IEntityMultiPart, ICora
 	}
 
 	@Override
-	public boolean attackEntityFrom(DamageSource par1DamageSource, float par2)
-	{
+	public boolean attackEntityFrom(DamageSource par1DamageSource, float par2) {
 		return false;
 	}
 
-	protected boolean func_82195_e(DamageSource par1DamageSource, float par2)
-	{
+	protected boolean func_82195_e(DamageSource par1DamageSource, float par2) {
 		return super.attackEntityFrom(par1DamageSource, par2);
 	}
 
 	@Override
-	public Entity[] getParts()
-	{
+	public Entity[] getParts() {
 		return dragonPartArray;
 	}
 
 	@Override
-	public boolean canBeCollidedWith()
-	{
+	public boolean canBeCollidedWith() {
 		return true;
 	}
 
 	@Override
-	public World func_82194_d()
-	{
+	public World func_82194_d() {
 		return worldObj;
 	}
 
 	@Override
-	protected String getLivingSound()
-	{
+	protected String getLivingSound() {
 		return "mob.enderdragon.growl";
 	}
 
 	@Override
-	protected String getHurtSound()
-	{
+	protected String getHurtSound() {
 		return "mob.enderdragon.hit";
 	}
 }

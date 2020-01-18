@@ -35,7 +35,7 @@ public class PotionEarthquake extends Potion{
 	@Override
 	public void performEffect(EntityLivingBase target, int amp) {
 		if (target.ticksExisted % 10 == 0 && target.onGround) {
-			target.attackEntityFrom(DamageSource.generic.setDamageBypassesArmor(), 1);
+			target.attackEntityFrom(DamageSource.generic.setDamageBypassesArmor(), 1.5F);
 		} else if (target.ticksExisted % 5 == 0 && target instanceof EntityPlayer) {
 			((EntityPlayer) target).performHurtAnimation();
 		}
