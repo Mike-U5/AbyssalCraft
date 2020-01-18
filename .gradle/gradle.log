@@ -8,14 +8,78 @@
          R4wk, ZeuX, IngisKahn, bspkrs           
 #################################################
 :apiZip UP-TO-DATE
+:downloadClient SKIPPED
+:downloadServer SKIPPED
+:getVersionJson
+:extractUserDev UP-TO-DATE
+:mergeJars SKIPPED
+:applyBinPatches SKIPPED
+:downloadMcpTools SKIPPED
+:extractMcpData UP-TO-DATE
+:genSrgs SKIPPED
+:deobfBinJar SKIPPED
 :compileApiJava UP-TO-DATE
 :processApiResources UP-TO-DATE
 :apiClasses UP-TO-DATE
 :sourceMainJava
 :compileJavawarning: [options] bootstrap class path not set in conjunction with -source 1.7
+F:\gitLegacy\workspace\AbyssalCraft\build\sources\java\com\shinoow\abyssalcraft\client\render\entity\RenderBipedFix.java:345: warning: doRender(EntityLivingBase,double,double,double,float,float) in RenderBipedFix overrides doRender(EntityLivingBase,double,double,double,float,float) in RenderLiving; overridden method is a bridge method
+	public void doRender(EntityLivingBase p_76986_1_, double p_76986_2_, double p_76986_4_, double p_76986_6_,
+	            ^
+F:\gitLegacy\workspace\AbyssalCraft\build\sources\java\com\shinoow\abyssalcraft\client\render\entity\RenderBipedFix.java:366: warning: doRender(Entity,double,double,double,float,float) in RenderBipedFix overrides doRender(Entity,double,double,double,float,float) in RenderLiving; overridden method is a bridge method
+	public void doRender(Entity p_76986_1_, double p_76986_2_, double p_76986_4_, double p_76986_6_, float p_76986_8_,
+	            ^
+F:\gitLegacy\workspace\AbyssalCraft\build\sources\java\com\shinoow\abyssalcraft\client\render\entity\RenderAntiZombie.java:122: warning: doRender(EntityLivingBase,double,double,double,float,float) in RenderAntiZombie overrides doRender(EntityLivingBase,double,double,double,float,float) in RenderLiving; overridden method is a bridge method
+	public void doRender(EntityLivingBase par1Entity, double par2, double par4, double par6, float par8, float par9)
+	            ^
+F:\gitLegacy\workspace\AbyssalCraft\build\sources\java\com\shinoow\abyssalcraft\client\render\entity\RenderAntiZombie.java:134: warning: doRender(Entity,double,double,double,float,float) in RenderAntiZombie overrides doRender(Entity,double,double,double,float,float) in RenderLiving; overridden method is a bridge method
+	public void doRender(Entity par1Entity, double par2, double par4, double par6, float par8, float par9)
+	            ^
+F:\gitLegacy\workspace\AbyssalCraft\build\sources\java\com\shinoow\abyssalcraft\client\render\entity\RenderChagaroth.java:48: warning: doRender(Entity,double,double,double,float,float) in RenderChagaroth overrides doRender(Entity,double,double,double,float,float) in RenderLiving; overridden method is a bridge method
+	public void doRender(Entity par1Entity, double par2, double par4, double par6, float par8, float par9)
+	            ^
+F:\gitLegacy\workspace\AbyssalCraft\build\sources\java\com\shinoow\abyssalcraft\client\render\entity\RenderChagarothFist.java:38: warning: doRender(Entity,double,double,double,float,float) in RenderChagarothFist overrides doRender(Entity,double,double,double,float,float) in RenderLiving; overridden method is a bridge method
+	public void doRender(Entity par1Entity, double par2, double par4, double par6, float par8, float par9) {
+	            ^
+F:\gitLegacy\workspace\AbyssalCraft\build\sources\java\com\shinoow\abyssalcraft\client\render\entity\RenderChagarothSpawn.java:40: warning: doRender(Entity,double,double,double,float,float) in RenderChagarothSpawn overrides doRender(Entity,double,double,double,float,float) in RenderLiving; overridden method is a bridge method
+	public void doRender(Entity par1Entity, double par2, double par4, double par6, float par8, float par9)
+	            ^
+F:\gitLegacy\workspace\AbyssalCraft\build\sources\java\com\shinoow\abyssalcraft\client\render\entity\RenderDragonBoss.java:315: warning: doRender(Entity,double,double,double,float,float) in RenderDragonBoss overrides doRender(Entity,double,double,double,float,float) in RenderLiving; overridden method is a bridge method
+	public void doRender(Entity entity, double par2, double par4, double par6, float par8, float par9) {
+	            ^
+F:\gitLegacy\workspace\AbyssalCraft\build\sources\java\com\shinoow\abyssalcraft\client\render\entity\RenderDragonMinion.java:195: warning: doRender(Entity,double,double,double,float,float) in RenderDragonMinion overrides doRender(Entity,double,double,double,float,float) in RenderLiving; overridden method is a bridge method
+	public void doRender(Entity entity, double par2, double par4, double par6, float par8, float par9) {
+	            ^
+F:\gitLegacy\workspace\AbyssalCraft\build\sources\java\com\shinoow\abyssalcraft\client\render\entity\RenderDreadSpawn.java:40: warning: doRender(Entity,double,double,double,float,float) in RenderDreadSpawn overrides doRender(Entity,double,double,double,float,float) in RenderLiving; overridden method is a bridge method
+	public void doRender(Entity par1Entity, double par2, double par4, double par6, float par8, float par9)
+	            ^
+F:\gitLegacy\workspace\AbyssalCraft\build\sources\java\com\shinoow\abyssalcraft\client\render\entity\RenderGatekeeperMinion.java:40: warning: doRender(Entity,double,double,double,float,float) in RenderGatekeeperMinion overrides doRender(Entity,double,double,double,float,float) in RenderLiving; overridden method is a bridge method
+	public void doRender(Entity par1Entity, double par2, double par4, double par6, float par8, float par9)
+	            ^
+F:\gitLegacy\workspace\AbyssalCraft\build\sources\java\com\shinoow\abyssalcraft\client\render\entity\RenderGreaterDreadSpawn.java:53: warning: doRender(Entity,double,double,double,float,float) in RenderGreaterDreadSpawn overrides doRender(Entity,double,double,double,float,float) in RenderLiving; overridden method is a bridge method
+	public void doRender(Entity par1Entity, double par2, double par4, double par6, float par8, float par9)
+	            ^
+F:\gitLegacy\workspace\AbyssalCraft\build\sources\java\com\shinoow\abyssalcraft\client\render\entity\RenderJzahar.java:109: warning: doRender(Entity,double,double,double,float,float) in RenderJzahar overrides doRender(Entity,double,double,double,float,float) in RenderLiving; overridden method is a bridge method
+	public void doRender(Entity par1Entity, double par2, double par4, double par6, float par8, float par9) {
+	            ^
+F:\gitLegacy\workspace\AbyssalCraft\build\sources\java\com\shinoow\abyssalcraft\client\render\entity\RenderLesserDreadbeast.java:53: warning: doRender(Entity,double,double,double,float,float) in RenderLesserDreadbeast overrides doRender(Entity,double,double,double,float,float) in RenderLiving; overridden method is a bridge method
+	public void doRender(Entity par1Entity, double par2, double par4, double par6, float par8, float par9)
+	            ^
+F:\gitLegacy\workspace\AbyssalCraft\build\sources\java\com\shinoow\abyssalcraft\client\render\entity\RenderRemnant.java:47: warning: doRender(Entity,double,double,double,float,float) in RenderRemnant overrides doRender(Entity,double,double,double,float,float) in RenderLiving; overridden method is a bridge method
+	public void doRender(Entity par1Entity, double par2, double par4, double par6, float par8, float par9)
+	            ^
+F:\gitLegacy\workspace\AbyssalCraft\build\sources\java\com\shinoow\abyssalcraft\client\render\entity\RenderSacthoth.java:48: warning: doRender(Entity,double,double,double,float,float) in RenderSacthoth overrides doRender(Entity,double,double,double,float,float) in RenderLiving; overridden method is a bridge method
+	public void doRender(Entity par1Entity, double par2, double par4, double par6, float par8, float par9)
+	            ^
+F:\gitLegacy\workspace\AbyssalCraft\build\sources\java\com\shinoow\abyssalcraft\client\render\entity\RenderSkeletonGoliath.java:65: warning: doRender(Entity,double,double,double,float,float) in RenderSkeletonGoliath overrides doRender(Entity,double,double,double,float,float) in RenderLiving; overridden method is a bridge method
+	public void doRender(Entity par1Entity, double par2, double par4, double par6, float par8, float par9)
+	            ^
+F:\gitLegacy\workspace\AbyssalCraft\build\sources\java\com\shinoow\abyssalcraft\client\render\entity\RenderWormHole.java:107: warning: doRender(Entity,double,double,double,float,float) in RenderWormHole overrides doRender(Entity,double,double,double,float,float) in RenderLiving; overridden method is a bridge method
+	public void doRender(Entity entity, double par2, double par4, double par6, float par8, float par9) {
+	            ^
 Note: Some input files use unchecked or unsafe operations.
 Note: Recompile with -Xlint:unchecked for details.
-1 warning
+19 warnings
 
 :processResources UP-TO-DATE
 :classes
@@ -24,10 +88,6 @@ Note: Recompile with -Xlint:unchecked for details.
 :processTestResources UP-TO-DATE
 :testClasses UP-TO-DATE
 :test UP-TO-DATE
-:extractMcpData UP-TO-DATE
-:getVersionJson
-:extractUserDev UP-TO-DATE
-:genSrgs SKIPPED
 :reobf
 :assemble
 :check UP-TO-DATE
@@ -35,4 +95,4 @@ Note: Recompile with -Xlint:unchecked for details.
 
 BUILD SUCCESSFUL
 
-Total time: 1 mins 53.241 secs
+Total time: 1 mins 11.104 secs

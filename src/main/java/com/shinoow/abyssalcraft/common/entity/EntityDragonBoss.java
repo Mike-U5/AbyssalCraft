@@ -17,6 +17,7 @@ import java.util.List;
 import com.shinoow.abyssalcraft.AbyssalCraft;
 import com.shinoow.abyssalcraft.api.entity.ICoraliumEntity;
 import com.shinoow.abyssalcraft.client.lib.ParticleEffects;
+import com.shinoow.abyssalcraft.common.util.EntityUtil;
 import com.shinoow.abyssalcraft.common.util.SpecialTextUtil;
 
 import net.minecraft.entity.Entity;
@@ -32,6 +33,7 @@ import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
@@ -410,12 +412,16 @@ public class EntityDragonBoss extends ACMob implements IBossDisplayData, IEntity
 		}
 	}
 
-	private void attackEntitiesInList(List<?> par1List) {
-		for (int i = 0; i < par1List.size(); ++i) {
-			Entity entity = (Entity) par1List.get(i);
+	private void attackEntitiesInList(List<?> list) {
+		for (int i = 0; i < list.size(); ++i) {
+			Entity target = (Entity) list.get(i);
 
-			if (entity instanceof EntityLivingBase) {
-				entity.attackEntityFrom(DamageSource.causeMobDamage(this), 5.0F);
+			if (target instanceof EntityLivingBase) {
+				target.attackEntityFrom(DamageSource.causeMobDamage(this), 5.0F);
+				EntityLivingBase living = (EntityLivingBase) target;
+				if (!EntityUtil.isEntityCoralium(living) || AbyssalCraft.shouldInfect == true && !EntityUtil.isEntityCoralium(living)) {
+					living.addPotionEffect(new PotionEffect(AbyssalCraft.Cplague.id, 125));
+				}
 			}
 		}
 	}

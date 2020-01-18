@@ -128,17 +128,17 @@ public class EntityWormHole extends EntityMob {
 			if(deathTicks == 110) {
 				worldObj.playSoundAtEntity(this, "abyssalcraft:jzahar.charge", 1, 1);
 			}
-			if(deathTicks < 100) {
+			/*if(deathTicks < 100) {
 				worldObj.spawnParticle("largesmoke", posX, posY + 2.5D, posZ, 0, 0, 0);
-			}
+			}*/
 			float f = (rand.nextFloat() - 0.5F) * 3.0F;
 			float f1 = (rand.nextFloat() - 0.5F) * 2.0F;
 			float f2 = (rand.nextFloat() - 0.5F) * 3.0F;
-			if(deathTicks >= 0 && deathTicks < 100) {
-				worldObj.spawnParticle("smoke", posX + f, posY + f1, posZ + f2, 0, 0, 0);
+			if(deathTicks >= 0 && deathTicks < 480) {
+				worldObj.spawnParticle("depthSuspend ", posX + f, posY + f1, posZ + f2, 0, 0, 0);
 			}
-			if(deathTicks >= 0 && deathTicks < 100) {
-				worldObj.spawnParticle("largesmoke", posX + f, posY + f1, posZ + f2, 0.0D, 0.0D, 0.0D);
+			if(deathTicks >= 0 && deathTicks < 480) {
+				worldObj.spawnParticle("depthSuspend ", posX + f, posY + f1, posZ + f2, 0.0D, 0.0D, 0.0D);
 			}
 			worldObj.spawnParticle("enchantmenttable", posX, posY + 2.5D, posZ, 0, 0, 0);
 			if (deathTicks >= 490 && deathTicks <= 500) {
@@ -207,8 +207,8 @@ public class EntityWormHole extends EntityMob {
 			return;
 		}
 		final float dt = (float)deathTicks;
-		final float power = dt / 6000;
-		final float size = dt / 14;
+		final float power = dt / 5000;
+		final float size = dt / 12;
 		System.out.println("TICKS: " + dt + "| POWER:"  + power + "| SIZE: " + size);
 
 		List<Entity> list = worldObj.getEntitiesWithinAABB(Entity.class, boundingBox.expand(size, size, size));
