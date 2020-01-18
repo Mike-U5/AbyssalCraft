@@ -203,7 +203,7 @@ public class EntityAntiSpider extends EntityMob implements IAntiEntity {
 
 		if (worldObj.rand.nextInt(100) == 0)
 		{
-			EntityAntiSkeleton entityskeleton = new EntityAntiSkeleton(worldObj);
+			EntityFallenHero entityskeleton = new EntityFallenHero(worldObj);
 			entityskeleton.setLocationAndAngles(posX, posY, posZ, rotationYaw, 0.0F);
 			entityskeleton.onSpawnWithEgg((IEntityLivingData)null);
 			worldObj.spawnEntityInWorld(entityskeleton);

@@ -30,8 +30,8 @@ import com.shinoow.abyssalcraft.common.entity.anti.EntityAntiCow;
 import com.shinoow.abyssalcraft.common.entity.anti.EntityAntiCreeper;
 import com.shinoow.abyssalcraft.common.entity.anti.EntityAntiGhoul;
 import com.shinoow.abyssalcraft.common.entity.anti.EntityAntiPig;
-import com.shinoow.abyssalcraft.common.entity.anti.EntityAntiPlayer;
-import com.shinoow.abyssalcraft.common.entity.anti.EntityAntiSkeleton;
+import com.shinoow.abyssalcraft.common.entity.anti.EntityDaoloth;
+import com.shinoow.abyssalcraft.common.entity.anti.EntityFallenHero;
 import com.shinoow.abyssalcraft.common.entity.anti.EntityAntiSpider;
 import com.shinoow.abyssalcraft.common.entity.anti.EntityAntiZombie;
 import com.shinoow.abyssalcraft.common.world.gen.WorldGenAntimatterLake;
@@ -68,8 +68,8 @@ public class BiomeGenCorSwamp extends BiomeGenBase {
 		spawnableMonsterList.add(new SpawnListEntry(EntityAntiAbyssalZombie.class, 5, 1, 2));
 		spawnableMonsterList.add(new SpawnListEntry(EntityAntiCreeper.class, 5, 1, 2));
 		spawnableMonsterList.add(new SpawnListEntry(EntityAntiGhoul.class, 5, 1, 2));
-		spawnableMonsterList.add(new SpawnListEntry(EntityAntiPlayer.class, 5, 1, 2));
-		spawnableMonsterList.add(new SpawnListEntry(EntityAntiSkeleton.class, 5, 1, 2));
+		spawnableMonsterList.add(new SpawnListEntry(EntityDaoloth.class, 5, 1, 2));
+		spawnableMonsterList.add(new SpawnListEntry(EntityFallenHero.class, 5, 1, 2));
 		spawnableMonsterList.add(new SpawnListEntry(EntityAntiSpider.class, 5, 1, 2));
 		spawnableMonsterList.add(new SpawnListEntry(EntityAntiZombie.class, 5, 1, 2));
 	}

@@ -97,8 +97,8 @@ public class ClientProxy extends CommonProxy {
 		RenderingRegistry.registerEntityRenderingHandler(EntityAntiCreeper.class, new RenderAntiCreeper());
 		RenderingRegistry.registerEntityRenderingHandler(EntityAntiGhoul.class, new RenderAntiGhoul());
 		RenderingRegistry.registerEntityRenderingHandler(EntityAntiPig.class, new RenderAntiPig());
-		RenderingRegistry.registerEntityRenderingHandler(EntityAntiPlayer.class, new RenderAntiPlayer());
-		RenderingRegistry.registerEntityRenderingHandler(EntityAntiSkeleton.class, new RenderAntiSkeleton());
+		RenderingRegistry.registerEntityRenderingHandler(EntityDaoloth.class, new RenderAntiPlayer());
+		RenderingRegistry.registerEntityRenderingHandler(EntityFallenHero.class, new RenderAntiSkeleton());
 		RenderingRegistry.registerEntityRenderingHandler(EntityAntiSpider.class, new RenderAntiSpider());
 		RenderingRegistry.registerEntityRenderingHandler(EntityAntiZombie.class, new RenderAntiZombie());
 

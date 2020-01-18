@@ -136,8 +136,8 @@ public class ACMorph implements IACPlugin {
 			Ability.mapAbilities(EntityAntiChicken.class, chicken);
 			Ability.mapAbilities(EntityAntiCreeper.class, hostile);
 			Ability.mapAbilities(EntityAntiGhoul.class, hostile);
-			Ability.mapAbilities(EntityAntiPlayer.class, hostile);
-			Ability.mapAbilities(EntityAntiSkeleton.class, hostile);
+			Ability.mapAbilities(EntityDaoloth.class, hostile);
+			Ability.mapAbilities(EntityFallenHero.class, hostile);
 			Ability.mapAbilities(EntityAntiSpider.class, hostile, climb);
 			Ability.mapAbilities(EntityAntiZombie.class, hostile);
 			Ability.mapAbilities(EntityGreaterDreadSpawn.class, hostile, fireImmunity);

@@ -34,11 +34,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 
-public class EntityAntiSkeleton extends EntityMob implements IRangedAttackMob, IOmotholEntity {
+public class EntityFallenHero extends EntityMob implements IRangedAttackMob, IOmotholEntity {
 
 	private EntityAIArrowAttack aiArrowAttack = new EntityAIArrowAttack(this, 1.0D, 20, 60, 15.0F);
 
-	public EntityAntiSkeleton(World world) {
+	public EntityFallenHero(World world) {
 		super(world);
 		tasks.addTask(1, new EntityAISwimming(this));
 		tasks.addTask(5, new EntityAIWander(this, 1.0D));

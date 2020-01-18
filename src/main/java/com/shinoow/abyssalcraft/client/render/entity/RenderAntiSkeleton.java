@@ -17,7 +17,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.mojang.authlib.GameProfile;
 import com.shinoow.abyssalcraft.client.model.entity.ModelAntiSkeleton;
-import com.shinoow.abyssalcraft.common.entity.anti.EntityAntiSkeleton;
+import com.shinoow.abyssalcraft.common.entity.anti.EntityFallenHero;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -50,19 +50,19 @@ public class RenderAntiSkeleton extends RenderBipedFix {
 		GL11.glTranslatef(0.09375F, 0.1875F, 0.0F);
 	}
 
-	protected ResourceLocation getEntityTexture(EntityAntiSkeleton entity) {
+	protected ResourceLocation getEntityTexture(EntityFallenHero entity) {
 		return skeletonTextures;
 	}
 
 	@Override
 	protected ResourceLocation getEntityTexture(EntityLiving entity) {
-		return this.getEntityTexture((EntityAntiSkeleton)entity);
+		return this.getEntityTexture((EntityFallenHero)entity);
 	}
 
 
 	@Override
 	protected ResourceLocation getEntityTexture(Entity entity) {
-		return this.getEntityTexture((EntityAntiSkeleton)entity);
+		return this.getEntityTexture((EntityFallenHero)entity);
 	}
 	
 	// Hold your damn bow properly

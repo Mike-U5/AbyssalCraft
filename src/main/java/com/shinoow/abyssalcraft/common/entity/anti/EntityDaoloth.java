@@ -31,13 +31,13 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 
-public class EntityAntiPlayer extends EntityMob implements IAntiEntity {
-	public EntityAntiPlayer(World world) {
+public class EntityDaoloth extends EntityMob implements IAntiEntity {
+	public EntityDaoloth(World world) {
 		super(world);
 		tasks.addTask(0, new EntityAISwimming(this));
-		tasks.addTask(2, new EntityAIAttackOnCollide(this, EntityPlayer.class, 0.35D, true));
-		tasks.addTask(3, new EntityAIMoveTowardsRestriction(this, 0.35D));
-		tasks.addTask(4, new EntityAIWander(this, 0.35D));
+		tasks.addTask(2, new EntityAIAttackOnCollide(this, EntityPlayer.class, 1D, true));
+		tasks.addTask(3, new EntityAIMoveTowardsRestriction(this, 1D));
+		tasks.addTask(4, new EntityAIWander(this, 1D));
 		tasks.addTask(5, new EntityAILookIdle(this));
 		tasks.addTask(5, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
 		targetTasks.addTask(1, new EntityAIHurtByTarget(this, false));
@@ -47,10 +47,9 @@ public class EntityAntiPlayer extends EntityMob implements IAntiEntity {
 	@Override
 	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
-
 		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(1.0D);
 		getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(8.5D);
-		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.4D);
+		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.14D);
 	}
 
 	@Override

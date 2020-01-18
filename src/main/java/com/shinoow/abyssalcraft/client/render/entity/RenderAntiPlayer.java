@@ -16,7 +16,7 @@ import net.minecraft.client.renderer.entity.RenderBiped;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 
-import com.shinoow.abyssalcraft.common.entity.anti.EntityAntiPlayer;
+import com.shinoow.abyssalcraft.common.entity.anti.EntityDaoloth;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -31,12 +31,12 @@ public class RenderAntiPlayer extends RenderBiped
 		super(new ModelBiped(), 0.5F);
 	}
 
-	public void doRender(EntityAntiPlayer par1EntityEntityAntiPlayer, double par2, double par4, double par6, float par8, float par9)
+	public void doRender(EntityDaoloth par1EntityEntityAntiPlayer, double par2, double par4, double par6, float par8, float par9)
 	{
 		super.doRender(par1EntityEntityAntiPlayer, par2, par4, par6, par8, par9);
 	}
 
-	protected ResourceLocation getEntityTexture(EntityAntiPlayer par1EntityCow)
+	protected ResourceLocation getEntityTexture(EntityDaoloth par1EntityCow)
 	{
 		return playerTexture;
 	}
@@ -44,6 +44,6 @@ public class RenderAntiPlayer extends RenderBiped
 	@Override
 	protected ResourceLocation getEntityTexture(Entity par1Entity)
 	{
-		return this.getEntityTexture((EntityAntiPlayer)par1Entity);
+		return this.getEntityTexture((EntityDaoloth)par1Entity);
 	}
 }

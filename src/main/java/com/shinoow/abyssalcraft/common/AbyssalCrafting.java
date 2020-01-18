@@ -43,7 +43,7 @@ import com.shinoow.abyssalcraft.common.entity.EntitySacthoth;
 import com.shinoow.abyssalcraft.common.entity.EntityShadowBeast;
 import com.shinoow.abyssalcraft.common.entity.EntityShadowCreature;
 import com.shinoow.abyssalcraft.common.entity.EntityShadowMonster;
-import com.shinoow.abyssalcraft.common.entity.anti.EntityAntiSkeleton;
+import com.shinoow.abyssalcraft.common.entity.anti.EntityFallenHero;
 import com.shinoow.abyssalcraft.common.ritual.NecronomiconBreedingRitual;
 import com.shinoow.abyssalcraft.common.ritual.NecronomiconDreadSpawnRitual;
 import com.shinoow.abyssalcraft.common.ritual.NecronomiconPurificationRitual;
@@ -467,7 +467,7 @@ public class AbyssalCrafting {
 		DisruptionHandler.instance().registerDisruption(new DisruptionPotentialEnergy());
 		DisruptionHandler.instance().registerDisruption(new DisruptionFreeze());
 		DisruptionHandler.instance().registerDisruption(new DisruptionSwarm("swarmShadow", null, EntityShadowCreature.class, EntityShadowMonster.class, EntityShadowBeast.class));
-		DisruptionHandler.instance().registerDisruption(new DisruptionSwarm("swarmHeroes", null, EntityAntiSkeleton.class));
+		DisruptionHandler.instance().registerDisruption(new DisruptionSwarm("swarmHeroes", null, EntityFallenHero.class));
 		DisruptionHandler.instance().registerDisruption(new DisruptionFireRain());
 		DisruptionHandler.instance().registerDisruption(new DisruptionTaintRain());
 		//DisruptionHandler.instance().registerDisruption(new DisruptionEarthquake("earthquake", null));

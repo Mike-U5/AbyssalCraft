@@ -19,7 +19,7 @@ import com.shinoow.abyssalcraft.api.entity.IAntiEntity;
 import com.shinoow.abyssalcraft.api.entity.ICoraliumEntity;
 import com.shinoow.abyssalcraft.api.entity.IDreadEntity;
 import com.shinoow.abyssalcraft.api.entity.IOmotholEntity;
-import com.shinoow.abyssalcraft.common.entity.anti.EntityAntiSkeleton;
+import com.shinoow.abyssalcraft.common.entity.anti.EntityFallenHero;
 import com.shinoow.abyssalcraft.common.potion.CurseEffect;
 import com.shinoow.abyssalcraft.common.util.SpecialTextUtil;
 import com.shinoow.abyssalcraft.common.world.TeleporterDarkRealm;
@@ -68,7 +68,7 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IAntiEntity
 	private int skillTicks;
 	private boolean that = false;
 	private double speed = 0.05D;
-
+	
 	public EntityJzahar(World world) {
 		super(world);
 		setSize(1.5F, 5.7F);
@@ -97,7 +97,7 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IAntiEntity
 		} else {
 			getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(666.0D);
 		}
-		getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(40.0D);
+		getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(10.0D);
 		getEntityAttribute(SharedMonsterAttributes.knockbackResistance).setBaseValue(0.8D);
 		getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(48.0D);
 	}
@@ -140,6 +140,8 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IAntiEntity
 	@Override
 	public boolean attackEntityAsMob(Entity target) {
 		swingItem();
+		final DamageSource piercingDmg = DamageSource.causeMobDamage(this).setDamageBypassesArmor().setDamageIsAbsolute();
+		target.attackEntityFrom(piercingDmg, 2.5F);
 		return super.attackEntityAsMob(target);
 	}
 
@@ -357,13 +359,15 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IAntiEntity
 			heal(1);
 		}
 		
-		// Special Attack checker
-		skillTicks += 1;
-		if (skillTicks > 2440) {
-			skillTicks = 0;
-		}
-		if (skillTicks % 35 == 0 && deathTicks <= 0) {
-			performSpecialAttack(skillTicks / 35);
+		// Special Attack Management
+		if (getHealth() < getMaxHealth()) {
+			skillTicks += 1;
+			if (skillTicks > 1785) {
+				skillTicks = 0;
+			}
+			if (skillTicks % 35 == 0 && deathTicks <= 0) {
+				performSpecialAttack(skillTicks / 35);
+			}
 		}
 		
 		// Call Super
@@ -372,7 +376,7 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IAntiEntity
 	
 	/*
 	 * -------------------------
-	 * Skill-related functions. 1 cycle = 40 ticks.
+	 * Skill-related functions. 1 cycle = 35 ticks.
 	 * -------------------------
 	 */
 	@SuppressWarnings("unchecked")
@@ -381,13 +385,13 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IAntiEntity
 		final int castTime = 1;
 		
 		// Chant EARTHQUAKE
-		if (cycle == 11) {
+		if (cycle == 10) {
 			playSound("abyssalcraft:jzahar.chant.shout", 4.5F, 1F);
 			return;
 		}
 		
 		// Perform EARTHQUAKE
-		if (cycle == 11 + castTime) {
+		if (cycle == 10 + castTime) {
 			playSound("abyssalcraft:jzahar.skill.quake", 4.5F, 1F);
 			// Apply
 			List<?> ents = worldObj.getEntitiesWithinAABB(EntityLivingBase.class, boundingBox.expand(64.0D, 64.0D, 64.0D));
@@ -404,16 +408,16 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IAntiEntity
 		}
 		
 		// Chant SUMMON
-		if (cycle == 22) {
+		if (cycle == 20) {
 			playSound("abyssalcraft:jzahar.chant.summon", 4.5F, 1F);
 			return;
 		}
 		
 		// Perform SUMMON
-		if (cycle == 22 + castTime) {
+		if (cycle == 20 + castTime) {
 			swingItem();
 			if(!worldObj.isRemote) {
-				EntityLivingBase entity = new EntityAntiSkeleton(worldObj);
+				EntityLivingBase entity = new EntityFallenHero(worldObj);
 				final double x = posX - 2 + Math.random() * 4;
 				final double y = posY + Math.random() * 2;
 				final double z = posZ - 2 + Math.random() * 4;
@@ -425,58 +429,14 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IAntiEntity
 			return;
 		}
 		
-		// Chant WITHER
-		if (cycle == 33) {
-			playSound("abyssalcraft:jzahar.chant.wither", 4.5F, 1F);
-			return;
-		}
-		
-		// Perform WITHER
-		if (cycle == 33 + castTime) {
-			List<?> players = worldObj.getEntitiesWithinAABB(EntityPlayer.class, boundingBox.expand(64.0D, 64.0D, 64.0D));
-			if (players != null && players.size() > 0) {
-				swingItem();
-				if (!worldObj.isRemote) {
-					for (int i = 0; i < players.size(); i++) {
-						EntityLivingBase p = (EntityLivingBase) players.get(i);
-						rangedAttackSkull(0, p);
-					}
-				}
-			}
-			return;
-		}
-		
-		// Chant BLACK HOLE
-		if (cycle == 44) {
-			playSound("abyssalcraft:jzahar.chant.doorway", 4.5F, 1F);
-			return;
-		}
-		
-		// Perform BLACK HOLE
-		if (cycle == 44 + castTime) {
-			swingItem();
-			if (!worldObj.isRemote) {
-				EntityWormHole hole = new EntityWormHole(worldObj);
-				if (getAttackTarget() instanceof EntityLivingBase) {
-					hole.copyLocationAndAnglesFrom(getAttackTarget());
-				} else {
-					hole.copyLocationAndAnglesFrom(this);
-				}
-				worldObj.spawnEntityInWorld(hole);
-			}
-			return;
-		}
-		
-		// Extra wait time here to black hole can finish.
-		
 		// Chant DISPLACE
-		if (cycle == 60) {
+		if (cycle == 30) {
 			playSound("abyssalcraft:jzahar.chant.displace", 4.5F, 1F);
 			return;
 		}
 		
 		// Perform DISPLACE
-		if (cycle == 60 + castTime) {
+		if (cycle == 30 + castTime) {
 			swingItem();
 			List<EntityLivingBase> entities = worldObj.getEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(posX, posY, posZ, posX + 1, posY + 1, posZ + 1).expand(48, 48, 48));
 
@@ -492,6 +452,48 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IAntiEntity
 						other.setPositionAndUpdate(posX, posY, posZ);
 					}
 				}
+			}
+			return;
+		}
+		
+		// Chant WITHER
+		if (cycle == 40) {
+			playSound("abyssalcraft:jzahar.chant.wither", 4.5F, 1F);
+			return;
+		}
+		
+		// Perform WITHER
+		if (cycle == 40 + castTime) {
+			List<?> players = worldObj.getEntitiesWithinAABB(EntityPlayer.class, boundingBox.expand(64.0D, 64.0D, 64.0D));
+			if (players != null && players.size() > 0) {
+				swingItem();
+				if (!worldObj.isRemote) {
+					for (int i = 0; i < players.size(); i++) {
+						EntityLivingBase p = (EntityLivingBase) players.get(i);
+						rangedAttackSkull(0, p);
+					}
+				}
+			}
+			return;
+		}
+		
+		// Chant BLACK HOLE
+		if (cycle == 50) {
+			playSound("abyssalcraft:jzahar.chant.doorway", 4.5F, 1F);
+			return;
+		}
+		
+		// Perform BLACK HOLE
+		if (cycle == 50 + castTime) {
+			swingItem();
+			if (!worldObj.isRemote) {
+				EntityWormHole hole = new EntityWormHole(worldObj);
+				if (getAttackTarget() instanceof EntityLivingBase) {
+					hole.copyLocationAndAnglesFrom(getAttackTarget());
+				} else {
+					hole.copyLocationAndAnglesFrom(this);
+				}
+				worldObj.spawnEntityInWorld(hole);
 			}
 			return;
 		}

@@ -180,7 +180,7 @@ public class EntityAntiCreeper extends EntityMob implements IAntiEntity {
 	{
 		super.onDeath(par1DamageSource);
 
-		if (par1DamageSource.getEntity() instanceof EntityAntiSkeleton)
+		if (par1DamageSource.getEntity() instanceof EntityFallenHero)
 		{
 			int i = Item.getIdFromItem(Items.record_13);
 			int j = Item.getIdFromItem(Items.record_wait);

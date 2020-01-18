@@ -41,10 +41,10 @@ public class EntityShadowBeast extends ACMob implements IOmotholEntity {
 		super(world);
 		setSize(1.0F, 2.8F);
 		setDrop(AbyssalCraft.shadowgem, 1.0F);
-		tasks.addTask(2, new EntityAIAttackOnCollide(this, EntityPlayer.class, 0.35D, true));
-		tasks.addTask(3, new EntityAIMoveTowardsRestriction(this, 0.35D));
-		tasks.addTask(4, new EntityAIWander(this, 0.35D));
-		tasks.addTask(5, new EntityAIFleeSun(this, 0.35D));
+		tasks.addTask(2, new EntityAIAttackOnCollide(this, EntityPlayer.class, 1D, true));
+		tasks.addTask(3, new EntityAIMoveTowardsRestriction(this, 1D));
+		tasks.addTask(4, new EntityAIWander(this, 1D));
+		tasks.addTask(5, new EntityAIFleeSun(this, 1D));
 		tasks.addTask(6, new EntityAILookIdle(this));
 		tasks.addTask(6, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
 		targetTasks.addTask(1, new EntityAIHurtByTarget(this, false));
@@ -56,14 +56,9 @@ public class EntityShadowBeast extends ACMob implements IOmotholEntity {
 		super.applyEntityAttributes();
 		
 		getEntityAttribute(SharedMonsterAttributes.knockbackResistance).setBaseValue(0.3D);
-		
-		if(AbyssalCraft.hardcoreMode){
-			getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(200.0D);
-			getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(20.0D);
-		} else {
-			getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(100.0D);
-			getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(10.0D);
-		}
+		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(100.0D);
+		getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(10.0D);
+		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.35D);
 	}
 
 	@Override

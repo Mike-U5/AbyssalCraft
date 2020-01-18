@@ -183,8 +183,8 @@ import com.shinoow.abyssalcraft.common.entity.anti.EntityAntiCow;
 import com.shinoow.abyssalcraft.common.entity.anti.EntityAntiCreeper;
 import com.shinoow.abyssalcraft.common.entity.anti.EntityAntiGhoul;
 import com.shinoow.abyssalcraft.common.entity.anti.EntityAntiPig;
-import com.shinoow.abyssalcraft.common.entity.anti.EntityAntiPlayer;
-import com.shinoow.abyssalcraft.common.entity.anti.EntityAntiSkeleton;
+import com.shinoow.abyssalcraft.common.entity.anti.EntityDaoloth;
+import com.shinoow.abyssalcraft.common.entity.anti.EntityFallenHero;
 import com.shinoow.abyssalcraft.common.entity.anti.EntityAntiSpider;
 import com.shinoow.abyssalcraft.common.entity.anti.EntityAntiZombie;
 import com.shinoow.abyssalcraft.common.entity.demon.EntityDemonChicken;
@@ -1263,9 +1263,9 @@ public class AbyssalCraft {
 
 		registerEntityWithEgg(EntityAntiPig.class, "antipig", 54, 80, 3, true, 0xFFFFFF, 0xFFFFFF);
 
-		registerEntityWithEgg(EntityAntiPlayer.class, "antiplayer", 55, 80, 3, true, 0xFFFFFF, 0xFFFFFF);
+		registerEntityWithEgg(EntityDaoloth.class, "antiplayer", 55, 80, 3, true, 0xFFFFFF, 0xFFFFFF);
 
-		registerEntityWithEgg(EntityAntiSkeleton.class, "antiskeleton", 56, 80, 3, true, 0xFFFFFF, 0xFFFFFF);
+		registerEntityWithEgg(EntityFallenHero.class, "antiskeleton", 56, 80, 3, true, 0xFFFFFF, 0xFFFFFF);
 
 		registerEntityWithEgg(EntityAntiSpider.class, "antispider", 57, 80, 3, true, 0xFFFFFF, 0xFFFFFF);
 

@@ -20,7 +20,7 @@ import com.shinoow.abyssalcraft.common.entity.EntityDepthsGhoul;
 import com.shinoow.abyssalcraft.common.entity.EntityShadowBeast;
 import com.shinoow.abyssalcraft.common.entity.EntityShadowCreature;
 import com.shinoow.abyssalcraft.common.entity.EntityShadowMonster;
-import com.shinoow.abyssalcraft.common.entity.anti.EntityAntiPlayer;
+import com.shinoow.abyssalcraft.common.entity.anti.EntityDaoloth;
 import com.shinoow.abyssalcraft.common.world.gen.WorldGenDLT;
 
 import cpw.mods.fml.relauncher.Side;
@@ -50,7 +50,7 @@ public class BiomeGenDarklands extends BiomeGenBase implements IDarklandsBiome {
 		spawnableMonsterList.clear();
 		spawnableMonsterList.add(new SpawnListEntry(EntityDepthsGhoul.class, 55, 1, 5));
 		spawnableMonsterList.add(new SpawnListEntry(EntityAbyssalZombie.class, 55, 1, 3));
-		spawnableMonsterList.add(new SpawnListEntry(EntityAntiPlayer.class, 15, 1, 1));
+		spawnableMonsterList.add(new SpawnListEntry(EntityDaoloth.class, 15, 1, 1));
 		spawnableMonsterList.add(new SpawnListEntry(EntityShadowCreature.class, 35, 1, 1));
 		spawnableMonsterList.add(new SpawnListEntry(EntityShadowMonster.class, 25, 1, 1));
 		spawnableMonsterList.add(new SpawnListEntry(EntityShadowBeast.class, 15, 1, 1));

@@ -16,7 +16,7 @@ import net.minecraft.client.model.ModelZombie;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 
-import com.shinoow.abyssalcraft.common.entity.anti.EntityAntiSkeleton;
+import com.shinoow.abyssalcraft.common.entity.anti.EntityFallenHero;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -51,7 +51,7 @@ public class ModelAntiSkeleton extends ModelZombie {
 	@Override
 	public void setLivingAnimations(EntityLivingBase par1EntityLivingBase, float par2, float par3, float par4)
 	{
-		aimedBow = (EntityAntiSkeleton)par1EntityLivingBase != null;
+		aimedBow = (EntityFallenHero)par1EntityLivingBase != null;
 		super.setLivingAnimations(par1EntityLivingBase, par2, par3, par4);
 	}
 
