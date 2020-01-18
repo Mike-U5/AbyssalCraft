@@ -49,7 +49,7 @@ public class EntityShadowCreature extends ACMob implements IOmotholEntity {
 		super.applyEntityAttributes();
 		getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(6.0D);
 		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(20.0D);
-		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.35D);
+		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.15D);
 	}
 
 	@Override

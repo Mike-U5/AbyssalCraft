@@ -722,7 +722,7 @@ public class AbyssalCraft {
 		tieredEnergyPedestal = new BlockTieredEnergyPedestal();
 		tieredSacrificialAltar = new BlockTieredSacrificialAltar();
 		jzaharspawner = new BlockJzaharSpawner().setBlockName("jzaharspawner").setBlockTextureName(modid + ":" + "PSDL");
-		gatekeeperminionspawner = new BlockGatekeeperMinionSpawner().setBlockName("gatekeeperminionspawner").setBlockTextureName(modid + ":" + "PSDL");
+		gatekeeperminionspawner = new BlockGatekeeperMinionSpawner().setBlockName("gatekeeperminionspawner").setBlockTextureName(modid + ":" + "gatekeeperspawner");
 		mimicFire = new BlockMimicFire().setBlockName("fire").setBlockTextureName("fire");
 
 		checkBiomeIds(true);

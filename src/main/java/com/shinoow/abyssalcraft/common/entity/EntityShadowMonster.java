@@ -45,12 +45,11 @@ public class EntityShadowMonster extends ACMob implements IOmotholEntity {
 
 	@Override
 	protected void applyEntityAttributes() {
-		super.applyEntityAttributes();
-		
+		super.applyEntityAttributes();		
 		getEntityAttribute(SharedMonsterAttributes.knockbackResistance).setBaseValue(0.15D);
 		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(50.0D);
 		getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(8.0D);
-		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.35D);
+		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.15D);
 	}
 
 	@Override

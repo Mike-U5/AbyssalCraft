@@ -97,7 +97,7 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IAntiEntity
 		} else {
 			getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(666.0D);
 		}
-		getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(10.0D);
+		getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(30.0D);
 		getEntityAttribute(SharedMonsterAttributes.knockbackResistance).setBaseValue(0.8D);
 		getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(48.0D);
 	}
@@ -360,7 +360,7 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IAntiEntity
 		}
 		
 		// Special Attack Management
-		if (getHealth() < getMaxHealth()) {
+		if (getHealth() < getMaxHealth() || skillTicks > 0) {
 			skillTicks += 1;
 			if (skillTicks > 1785) {
 				skillTicks = 0;
@@ -399,7 +399,7 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IAntiEntity
 				swingItem();
 				for (int i = 0; i < ents.size(); i++) {
 					EntityLivingBase e = (EntityLivingBase) ents.get(i);
-					if (!(e instanceof IOmotholEntity) && !worldObj.isRemote) {
+					if (!worldObj.isRemote && !(e instanceof EntityFallenHero) && !(e instanceof IBossDisplayData)) {
 						e.addPotionEffect(new CurseEffect(AbyssalCraftAPI.potionId4, 200));
 					}
 				}
@@ -441,15 +441,20 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IAntiEntity
 			List<EntityLivingBase> entities = worldObj.getEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(posX, posY, posZ, posX + 1, posY + 1, posZ + 1).expand(48, 48, 48));
 
 			if(!entities.isEmpty()) {
+				final PotionEffect weaknessEff = new PotionEffect(Potion.weakness.id, 20, 4);
 				for(EntityLivingBase entity : entities) {
 					EntityLivingBase other = entities.get(worldObj.rand.nextInt(entities.size()));
-					double posX = entity.posX;
-					double posY = entity.posY;
-					double posZ = entity.posZ;
-					playSound("mob.endermen.portal", 3.0F, 0.8F);
-					if(!worldObj.isRemote){
-						entity.setPositionAndUpdate(other.posX, other.posY, other.posZ);
-						other.setPositionAndUpdate(posX, posY, posZ);
+					if (canSwapEntities(entity, other)) {
+						double posX = entity.posX;
+						double posY = entity.posY;
+						double posZ = entity.posZ;
+						playSound("mob.endermen.portal", 2.0F, 0.8F);
+						if(!worldObj.isRemote) {
+							entity.addPotionEffect(weaknessEff);
+							entity.setPositionAndUpdate(other.posX, other.posY, other.posZ);
+							other.addPotionEffect(weaknessEff);
+							other.setPositionAndUpdate(posX, posY, posZ);
+						}
 					}
 				}
 			}
@@ -497,6 +502,21 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IAntiEntity
 			}
 			return;
 		}
+	}
+	
+	/*
+	 * -------------------------
+	 * Helper Functions
+	 * -------------------------
+	 */
+	private boolean canSwapEntities(EntityLivingBase eA, EntityLivingBase eB) {
+		if (eA instanceof IBossDisplayData && !(eB instanceof EntityPlayer)) {
+			return false;
+		}
+		if (eB instanceof IBossDisplayData && !(eA instanceof EntityPlayer)) {
+			return false;
+		}
+		return true;
 	}
 	
 	/*
