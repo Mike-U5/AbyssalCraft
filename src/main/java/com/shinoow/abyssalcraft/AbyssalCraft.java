@@ -153,7 +153,7 @@ import com.shinoow.abyssalcraft.common.entity.EntityChagarothSpawn;
 import com.shinoow.abyssalcraft.common.entity.EntityCoraliumArrow;
 import com.shinoow.abyssalcraft.common.entity.EntityDepthsGhoul;
 import com.shinoow.abyssalcraft.common.entity.EntityDragonBoss;
-import com.shinoow.abyssalcraft.common.entity.EntityDragonMinion;
+///import com.shinoow.abyssalcraft.common.entity.EntityDragonMinion;
 import com.shinoow.abyssalcraft.common.entity.EntityDreadSlug;
 import com.shinoow.abyssalcraft.common.entity.EntityDreadSpawn;
 import com.shinoow.abyssalcraft.common.entity.EntityDreadgolem;

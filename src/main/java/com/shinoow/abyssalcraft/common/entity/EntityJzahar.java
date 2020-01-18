@@ -149,8 +149,7 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IAntiEntity
 		if (getAttackTarget() == null) {
 			return false;
 		}
-		
-		
+			
 		Entity srcEntity = dmgSrc.getEntity();
 		
 		// Resistant to arrows
@@ -363,8 +362,8 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IAntiEntity
 		if (skillTicks > 2440) {
 			skillTicks = 0;
 		}
-		if (skillTicks % 40 == 0 && deathTicks <= 0) {
-			performSpecialAttack(skillTicks / 40);
+		if (skillTicks % 35 == 0 && deathTicks <= 0) {
+			performSpecialAttack(skillTicks / 35);
 		}
 		
 		// Call Super
