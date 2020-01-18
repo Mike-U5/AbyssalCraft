@@ -415,8 +415,9 @@ public class EntityDragonBoss extends ACMob implements IBossDisplayData, IEntity
 		for (int i = 0; i < par1List.size(); ++i) {
 			Entity entity = (Entity) par1List.get(i);
 
-			if (entity instanceof EntityLivingBase)
+			if (entity instanceof EntityLivingBase) {
 				entity.attackEntityFrom(DamageSource.causeMobDamage(this), 10.0F);
+			}
 		}
 	}
 
@@ -450,14 +451,17 @@ public class EntityDragonBoss extends ACMob implements IBossDisplayData, IEntity
 
 	@Override
 	public boolean attackEntityFromPart(EntityDragonPart par1EntityDragonPart, DamageSource dmgSrc, float amount) {
+		// Hitting non-head parts deals less damage
 		if (par1EntityDragonPart != dragonPartHead) {
 			amount *= 0.3F;
 		}
 
+		// Hardcore mode halves all damage
 		if (AbyssalCraft.hardcoreMode) {
 			amount *= 0.5F;
 		}
 
+		// Cap damage at 50
 		if (amount > 50) {
 			if (amount > 500001 || amount < 500000) {
 				if (amount > 750001.5F || amount < 750001) {
@@ -521,8 +525,9 @@ public class EntityDragonBoss extends ACMob implements IBossDisplayData, IEntity
 				}
 			}
 
-			if (deathTicks == 1)
+			if (deathTicks == 1) {
 				worldObj.playBroadcastSound(1018, (int) posX, (int) posY, (int) posZ, 0);
+			}
 		}
 
 		moveEntity(0.0D, 0.10000000149011612D, 0.0D);

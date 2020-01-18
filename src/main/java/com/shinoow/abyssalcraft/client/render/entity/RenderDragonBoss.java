@@ -87,10 +87,10 @@ public class RenderDragonBoss extends RenderLiving {
 	 */
 	protected void renderDragonModel(EntityDragonBoss dragon, float par2, float par3, float par4, float par5, float par6, float par7) {
 		if (dragon.deathTicks > 0) {
-			float f6 = dragon.deathTicks / 200.0F;
+			float alpha = dragon.deathTicks / 200.0F;
 			GL11.glDepthFunc(GL11.GL_LEQUAL);
 			GL11.glEnable(GL11.GL_ALPHA_TEST);
-			GL11.glAlphaFunc(GL11.GL_GREATER, f6);
+			GL11.glAlphaFunc(GL11.GL_GREATER, alpha);
 			bindTexture(field_110842_f);
 			mainModel.render(dragon, par2, par3, par4, par5, par6, par7);
 			GL11.glAlphaFunc(GL11.GL_GREATER, 0.1F);
