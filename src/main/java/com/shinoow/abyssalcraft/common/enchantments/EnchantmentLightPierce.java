@@ -41,9 +41,11 @@ public class EnchantmentLightPierce extends EnchantmentDamage {
 	}
 
 	@Override
-	public float func_152376_a(int dmg, EnumCreatureAttribute attrib) {
-		
-		return attrib == AbyssalCraftAPI.SHADOW ? dmg * 2.5F : 0.0F;
+	public float func_152376_a(int level, EnumCreatureAttribute attrib) {
+		if (attrib.name() == "SHADOW") {
+			return level * 2.5F;
+		}
+		return attrib == AbyssalCraftAPI.SHADOW ? level * 2.5F : 0.0F;
 	}
 
 	@Override

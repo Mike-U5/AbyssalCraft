@@ -33,7 +33,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityLargeFireball;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumChatFormatting;
@@ -156,14 +155,15 @@ public class EntityChagaroth extends ACMob implements IBossDisplayData, IDreadEn
 				}
 			}
 			
-			// Specials
-			skillTicks += 1;
-			if (skillTicks > 600) {
-				skillTicks = 0;
-			}
-			
-			if (skillTicks % 40 == 0) {
-				performSpecialAttack(skillTicks / 40);
+			// Special Attack Management
+			if (getHealth() < getMaxHealth() || skillTicks > 0) {
+				skillTicks += 1;
+				if (skillTicks > 1785) {
+					skillTicks = 0;
+				}
+				if (skillTicks % 40 == 0 && deathTicks <= 0) {
+					performSpecialAttack(skillTicks / 40);
+				}
 			}
 			
 			// Spawns

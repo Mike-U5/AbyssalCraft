@@ -268,8 +268,8 @@ necronomicon.text.abyssalnomicon.2=As the knowledge about rituals is limited to 
 
 necronomicon.text.abyssalcraft.1=AbyssalCraft is the mod which this book is used to guide you through. It's mainly focused on exploration, with 4 new dimensions you can explore.
 necronomicon.text.abyssalcraft.2=The dimensions are reached through the use of "Gateway Keys", which are keys designed to create portals between dimensions (the 4th dimension is reached by falling out of the 3rd).
-necronomicon.text.abyssalcraft.3=The Overworld has been expanded with a new biome: the Coralium Infested Swamp.
-necronomicon.text.abyssalcraft.4=There's also 5 new types of stone and 15 new ores found throughout the Overworld and the dimensions.
+necronomicon.text.abyssalcraft.3=The Overworld has cursed with some new biomes: The Darklands.
+necronomicon.text.abyssalcraft.4=There's also new types of stone and new ores found throughout the Overworld and the dimensions.
 necronomicon.text.abyssalcraft.5=Apart from exploring, AbyssalCraft introduces it's own type of magic, through the use of rituals in order to worship The Great Old Ones.
 necronomicon.text.abyssalcraft.6=Apart from magic and exploration, there's also machines, allowing you to transmute, crystallize and materialize objects. There's also a coin engraver.
 
@@ -306,7 +306,7 @@ necronomicon.text.materials.abyssalnite.1=Abyssalnite is a new ore found in Dark
 necronomicon.text.materials.abyssalnite.2=When mined, it drops ore blocks to smelt for ingots. The ingots are purple, much like the ore itself.
 necronomicon.text.materials.darkstone.1=Darkstone is a new type of stone found in Darklands biomes. Majority of Darklands Mountains are made out of this stone. The Dark Realm also consists of this material.
 necronomicon.text.materials.darkstone.2=When mined, it drops Darkstone Cobblestone, and it can be turned into bricks, called Darkstone Bricks. This material is 20% stronger than regular stone, and can be used to make tools that are 20% stronger than their counterparts.
-necronomicon.text.materials.coralium.1=Coralium is a new ore found in ocean biomes and swamp biomes. The gems from it has multiple uses, among them the creation of Coralium Pearls.
+necronomicon.text.materials.coralium.1=Coralium is a new ore found in darkalnds biomes. The gems from it has multiple uses, among them the creation of Coralium Pearls.
 necronomicon.text.materials.coralium.2=Large amounts of gems can be used to create Coralium Chunks, which can be smelted down for Refined Coralium Ingots. Coralium Pearls are required to create the first Gateway Key, used to reach the first dimension, the Abyssal Wasteland.
 necronomicon.text.materials.darklandsoak.1=Darklands Oak is a new tree commonly found in Darklands biomes. It's wood can be used to create planks, which can be used to craft stairs, slabs and fences.
 necronomicon.text.materials.darklandsoak.2=Compared to the normal Oak wood, it's darker in color, and could thus be more stylish in design patterns, shifting the different wood types.
@@ -430,7 +430,7 @@ necronomicon.text.enchantment.dread=The Dread Enchantment allows you to infect a
 necronomicon.text.enchantment.lightpierce=The Light Pierce Enchantment greatly increases damage dealt to Shadow Creatures, Lesser Shoggoths and Remnants.
 necronomicon.text.enchantment.ironwall=The Iron Wall Enchantment works as a anti-knockback enchantment, reducing knockback applied when hit.
 
-necronomicon.text.overworld.progression.1=In order to reach the Abyssal Wasteland, one must craft a Gateway Key, which requires one to travel to the Nether, and to visit a Darklands and a water-based biome. The water-based biome can be either a swamp or a ocean biome.
+necronomicon.text.overworld.progression.1=In order to reach the Abyssal Wasteland, one must craft a Gateway Key, which requires one to travel to the Nether and to visit a Darklands.
 necronomicon.text.overworld.progression.2=From the Nether you need 2 Blaze Rods, and probably a few more for later. From the Nether you need 2 Blaze Rods, and probably a few more for later. You also need to slay living shadows or dark creatures to obtain Shadow Gems.
 necronomicon.text.overworld.progression.3=From the water-based biome you need Coralium Gems in order to create Coralium Pearls. Once you have obtained these items, you can begin crafting Transmutation Gems (4 will be needed, and the excess Blaze Rods are used to make powder for these). Recipes for this and Shards of Oblivion can be found in the special materials section.
 necronomicon.text.overworld.progression.4=When you have 4 Shards of Oblivion, use those and 4 units of Redstone Dust to infuse a Eye of Ender (through an infusion ritual, found in the ritual section of the Necronomicon) in order to create an Oblivion Catalyst, main component of the Gateway Key (the special materials section has the recipe).

@@ -7,7 +7,7 @@
          by: Searge, ProfMobius, Fesh0r,         
          R4wk, ZeuX, IngisKahn, bspkrs           
 #################################################
-:apiZip
+:apiZip UP-TO-DATE
 :downloadClient SKIPPED
 :downloadServer SKIPPED
 :getVersionJson
@@ -95,4 +95,4 @@ Note: Recompile with -Xlint:unchecked for details.
 
 BUILD SUCCESSFUL
 
-Total time: 2 mins 47.7 secs
+Total time: 55.31 secs

@@ -394,7 +394,7 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IAntiEntity
 		if (cycle == 10 + castTime) {
 			playSound("abyssalcraft:jzahar.skill.quake", 4.5F, 1F);
 			// Apply
-			List<?> ents = worldObj.getEntitiesWithinAABB(EntityLivingBase.class, boundingBox.expand(64.0D, 64.0D, 64.0D));
+			List<?> ents = worldObj.getEntitiesWithinAABB(EntityLivingBase.class, boundingBox.expand(48.0D, 48.0D, 48.0D));
 			if (ents != null && ents.size() > 0) {
 				swingItem();
 				for (int i = 0; i < ents.size(); i++) {
@@ -438,21 +438,20 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IAntiEntity
 		// Perform DISPLACE
 		if (cycle == 30 + castTime) {
 			swingItem();
-			List<EntityLivingBase> entities = worldObj.getEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(posX, posY, posZ, posX + 1, posY + 1, posZ + 1).expand(48, 48, 48));
+			List<EntityLivingBase> entities = worldObj.getEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(posX, posY, posZ, posX + 1, posY + 1, posZ + 1).expand(40, 40, 40));
 
 			if(!entities.isEmpty()) {
-				final PotionEffect weaknessEff = new PotionEffect(Potion.weakness.id, 20, 4);
 				for(EntityLivingBase entity : entities) {
 					EntityLivingBase other = entities.get(worldObj.rand.nextInt(entities.size()));
 					if (canSwapEntities(entity, other)) {
 						double posX = entity.posX;
 						double posY = entity.posY;
 						double posZ = entity.posZ;
-						playSound("mob.endermen.portal", 2.0F, 0.8F);
+						playSound("mob.endermen.portal", 2.0F, 0.75F);
 						if(!worldObj.isRemote) {
-							entity.addPotionEffect(weaknessEff);
+							teleStunEntity(entity);
+							teleStunEntity(other);
 							entity.setPositionAndUpdate(other.posX, other.posY, other.posZ);
-							other.addPotionEffect(weaknessEff);
 							other.setPositionAndUpdate(posX, posY, posZ);
 						}
 					}
@@ -517,6 +516,13 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IAntiEntity
 			return false;
 		}
 		return true;
+	}
+	
+	private void teleStunEntity(EntityLivingBase target) {
+		if (!(target instanceof EntityPlayer) && !(target instanceof EntityJzahar)) {
+			target.addPotionEffect(new PotionEffect(Potion.weakness.id, 60, 255));
+			target.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 60, 4));
+		}
 	}
 	
 	/*
