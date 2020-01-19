@@ -14,6 +14,7 @@ package com.shinoow.abyssalcraft.common.entity.anti;
 import com.shinoow.abyssalcraft.api.biome.IDarklandsBiome;
 import com.shinoow.abyssalcraft.api.entity.IAntiEntity;
 
+import net.minecraft.command.IEntitySelector;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -23,25 +24,39 @@ import net.minecraft.entity.ai.EntityAILookIdle;
 import net.minecraft.entity.ai.EntityAIMoveTowardsRestriction;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.ai.EntityAISwimming;
-import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 
 public class EntityDaoloth extends EntityMob implements IAntiEntity {
+	
 	public EntityDaoloth(World world) {
 		super(world);
+		// Custom Selector to not target those who hold the Gatekeeper's Crozier
+		final IEntitySelector selector = new IEntitySelector() {
+			@Override
+			public boolean isEntityApplicable(Entity e) {
+				return getEntityBiome(e) instanceof IDarklandsBiome;
+			}
+		};
+		// AI
 		tasks.addTask(0, new EntityAISwimming(this));
 		tasks.addTask(2, new EntityAIAttackOnCollide(this, EntityPlayer.class, 1D, true));
 		tasks.addTask(3, new EntityAIMoveTowardsRestriction(this, 1D));
-		tasks.addTask(4, new EntityAIWander(this, 1D));
 		tasks.addTask(5, new EntityAILookIdle(this));
 		tasks.addTask(5, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
 		targetTasks.addTask(1, new EntityAIHurtByTarget(this, false));
-		targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true));
+		targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true, false, selector));
+	}
+	
+	private BiomeGenBase getEntityBiome(Entity e) {
+		final int intX = MathHelper.floor_double(e.posX);
+		final int intZ = MathHelper.floor_double(e.posZ);
+		return worldObj.getBiomeGenForCoords(intX, intZ);
 	}
 
 	@Override
@@ -58,7 +73,7 @@ public class EntityDaoloth extends EntityMob implements IAntiEntity {
 	}
 
 	@Override
-	public boolean canDespawn(){
+	public boolean canDespawn() {
 		return false;
 	}
 	
@@ -90,22 +105,14 @@ public class EntityDaoloth extends EntityMob implements IAntiEntity {
 	
 	@Override
 	public void onLivingUpdate() {
-    	if(isInDarklands(this)) {
-    		this.attackEntityFrom(DamageSource.outOfWorld, 99999);
+    	if(!isInDarklands(this)) {
+    		attackEntityFrom(DamageSource.outOfWorld, 99999);
     	}
         super.onLivingUpdate();
 	}
 	
-	public boolean isInDarklands(Entity entity) {
-		if (!worldObj.isRemote) {
-			int roundX = (int)Math.round(entity.posX);
-			int roundZ = (int)Math.round(entity.posZ);
-            BiomeGenBase biome = worldObj.getBiomeGenForCoords(roundX, roundZ);
-        	if(!(biome instanceof IDarklandsBiome)) {
-        		return true;
-        	}
-        }
-		return false;
+	public boolean isInDarklands(Entity e) {
+		return getEntityBiome(e) instanceof IDarklandsBiome;
 	}
 	
 	@Override
@@ -114,9 +121,9 @@ public class EntityDaoloth extends EntityMob implements IAntiEntity {
 	}
 	
 	@Override
-	public boolean attackEntityFrom(DamageSource src, float dmg) {
+	public boolean attackEntityFrom(DamageSource src, float amount) {
 		if (src == DamageSource.outOfWorld) {
-			return super.attackEntityFrom(src, dmg);
+			return super.attackEntityFrom(src, amount);
 		} else if (src.getEntity() instanceof Entity || src.isExplosion()) {
 			return super.attackEntityFrom(src, 0);
 		}

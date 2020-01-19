@@ -155,7 +155,7 @@ public class EntityWormHole extends EntityMob {
 			if(!worldObj.getEntitiesWithinAABB(Entity.class, boundingBox.expand(3,3,3)).isEmpty()) {
 				List<Entity> entities = worldObj.getEntitiesWithinAABBExcludingEntity(this, boundingBox.expand(3,3,3));
 				for(Entity entity: entities) {
-					if(entity instanceof EntityLivingBase || entity instanceof EntityItem) {
+					if(entity instanceof EntityLivingBase) {
 						entity.attackEntityFrom(AbyssalCraftAPI.antimatter, 50F);
 					}
 				}
@@ -164,11 +164,17 @@ public class EntityWormHole extends EntityMob {
 			final int pX = (int)posX;
 			final int pY = (int)posY;
 			final int pZ = (int)posZ;
-			final int radius = 5;
+			final int radius = 6;
 			for(int x = -radius; x < radius; x++) {
+				if (Math.abs(x) == radius && Math.random() > 0.25) {
+					continue;
+				}
 				for(int y = -radius; y < radius; y++) {
+					if (Math.abs(y) == radius && Math.random() > 0.25) {
+						continue;
+					}
 					for(int z = -radius; z < radius; z++) {
-						if (Math.abs(z) == radius && Math.random() > 0.5) {
+						if (Math.abs(z) == radius && Math.random() > 0.25) {
 							continue;
 						}
 						

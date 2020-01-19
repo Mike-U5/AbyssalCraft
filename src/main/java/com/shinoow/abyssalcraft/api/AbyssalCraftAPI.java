@@ -77,6 +77,7 @@ public class AbyssalCraftAPI {
 	public static DamageSource coralium = new DamageSource("coralium").setDamageBypassesArmor().setMagicDamage();
 	public static DamageSource dread = new DamageSource("dread").setDamageBypassesArmor().setMagicDamage();
 	public static DamageSource antimatter = new DamageSource("antimatter").setDamageBypassesArmor().setMagicDamage();
+	public static DamageSource earthquake = new DamageSource("earthquake").setDamageBypassesArmor();
 
 	private static List<Class<? extends EntityLivingBase>> shoggothFood = Lists.newArrayList();
 

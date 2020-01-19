@@ -47,8 +47,9 @@ public class PotionCplague extends Potion{
 	}
 
 	@Override
-	public boolean isReady(int ticksLeft, int amplifier) {
-		return ticksLeft % 25 == 0;
+	public boolean isReady(int ticksLeft, int amp) {
+		final int cd = (amp == 0) ? 25 : 15;
+		return ticksLeft % cd == 0;
 	}
 
 	@Override

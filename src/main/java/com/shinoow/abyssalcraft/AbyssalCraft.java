@@ -234,7 +234,7 @@ import com.shinoow.abyssalcraft.common.items.ItemPortalPlacer;
 import com.shinoow.abyssalcraft.common.items.ItemPortalPlacerDL;
 import com.shinoow.abyssalcraft.common.items.ItemPortalPlacerJzh;
 import com.shinoow.abyssalcraft.common.items.ItemSoulReaper;
-import com.shinoow.abyssalcraft.common.items.ItemStaff;
+import com.shinoow.abyssalcraft.common.items.ItemCrozier;
 import com.shinoow.abyssalcraft.common.items.ItemTrackerPSDL;
 import com.shinoow.abyssalcraft.common.items.armor.ItemAbyssalniteArmor;
 import com.shinoow.abyssalcraft.common.items.armor.ItemCoraliumArmor;
@@ -747,7 +747,7 @@ public class AbyssalCraft {
 
 		//Misc items
 		OC = registerItem(new ItemOC().setCreativeTab(tabItems).setUnlocalizedName("OC").setTextureName(modid + ":" + "OC"), "OC");
-		Staff = registerItem(new ItemStaff().setCreativeTab(tabTools).setFull3D().setUnlocalizedName("Staff").setTextureName(modid + ":" + "Staff"), "staff");
+		Staff = registerItem(new ItemCrozier().setCreativeTab(tabTools).setFull3D().setUnlocalizedName("Staff").setTextureName(modid + ":" + "Staff"), "staff");
 		portalPlacer = registerItem(new ItemPortalPlacer().setUnlocalizedName("GK").setTextureName(modid + ":" + "GK"), "portalplacer");
 		Cbucket = registerItem(new ItemCBucket(Cwater).setCreativeTab(tabItems).setContainerItem(Items.bucket).setUnlocalizedName("Cbucket").setTextureName(modid + ":" + "Cbucket"), "cbucket");
 		PSDLfinder = registerItem(new ItemTrackerPSDL().setCreativeTab(tabItems).setUnlocalizedName("PSDLf").setTextureName(modid + ":" + "PSDLf"), "psdlfinder");
@@ -1314,7 +1314,7 @@ public class AbyssalCraft {
 
 		EntityRegistry.registerModEntity(EntityGatekeeperEssence.class, "GatekeeperEssence", 71, instance, 64, 10, true);
 		
-		registerEntity(EntityWormHole.class, "wormhole", 72, 80, 3, true);
+		registerEntityWithEgg(EntityWormHole.class, "wormhole", 72, 80, 3, true, 10592673, 16711680);
 
 		proxy.addArmor("Abyssalnite");
 		proxy.addArmor("Dread");

@@ -13,13 +13,6 @@ package com.shinoow.abyssalcraft.common.world.biome;
 
 import java.util.Random;
 
-import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
-import net.minecraft.world.World;
-import net.minecraft.world.biome.BiomeGenBase;
-import net.minecraft.world.gen.feature.WorldGenAbstractTree;
-import net.minecraft.world.gen.feature.WorldGenMinable;
-
 import com.shinoow.abyssalcraft.AbyssalCraft;
 import com.shinoow.abyssalcraft.common.entity.EntityAbyssalZombie;
 import com.shinoow.abyssalcraft.common.entity.EntityDepthsGhoul;
@@ -30,14 +23,18 @@ import com.shinoow.abyssalcraft.common.entity.anti.EntityAntiCow;
 import com.shinoow.abyssalcraft.common.entity.anti.EntityAntiCreeper;
 import com.shinoow.abyssalcraft.common.entity.anti.EntityAntiGhoul;
 import com.shinoow.abyssalcraft.common.entity.anti.EntityAntiPig;
-import com.shinoow.abyssalcraft.common.entity.anti.EntityDaoloth;
-import com.shinoow.abyssalcraft.common.entity.anti.EntityFallenHero;
 import com.shinoow.abyssalcraft.common.entity.anti.EntityAntiSpider;
 import com.shinoow.abyssalcraft.common.entity.anti.EntityAntiZombie;
 import com.shinoow.abyssalcraft.common.world.gen.WorldGenAntimatterLake;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
+import net.minecraft.world.World;
+import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraft.world.gen.feature.WorldGenAbstractTree;
+import net.minecraft.world.gen.feature.WorldGenMinable;
 
 public class BiomeGenCorSwamp extends BiomeGenBase {
 
@@ -68,8 +65,6 @@ public class BiomeGenCorSwamp extends BiomeGenBase {
 		spawnableMonsterList.add(new SpawnListEntry(EntityAntiAbyssalZombie.class, 5, 1, 2));
 		spawnableMonsterList.add(new SpawnListEntry(EntityAntiCreeper.class, 5, 1, 2));
 		spawnableMonsterList.add(new SpawnListEntry(EntityAntiGhoul.class, 5, 1, 2));
-		spawnableMonsterList.add(new SpawnListEntry(EntityDaoloth.class, 5, 1, 2));
-		spawnableMonsterList.add(new SpawnListEntry(EntityFallenHero.class, 5, 1, 2));
 		spawnableMonsterList.add(new SpawnListEntry(EntityAntiSpider.class, 5, 1, 2));
 		spawnableMonsterList.add(new SpawnListEntry(EntityAntiZombie.class, 5, 1, 2));
 	}

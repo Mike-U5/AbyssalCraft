@@ -14,8 +14,6 @@ package com.shinoow.abyssalcraft.common.items;
 import java.util.List;
 
 import com.shinoow.abyssalcraft.AbyssalCraft;
-import com.shinoow.abyssalcraft.api.AbyssalCraftAPI;
-import com.shinoow.abyssalcraft.api.entity.IAntiEntity;
 import com.shinoow.abyssalcraft.api.entity.ICoraliumEntity;
 import com.shinoow.abyssalcraft.api.entity.IDreadEntity;
 import com.shinoow.abyssalcraft.api.entity.IOmotholEntity;
@@ -54,7 +52,7 @@ public class ItemDrainStaff extends Item {
 		stack.stackTagCompound.setInteger("energy"+type, getEnergy(stack, type) + 1);
 	}
 
-	public void setEnergy(int amount, ItemStack stack, String type){
+	public void setEnergy(int amount, ItemStack stack, String type) {
 		stack.stackTagCompound.setInteger("energy"+type, amount);
 	}
 
@@ -62,13 +60,9 @@ public class ItemDrainStaff extends Item {
 		return stack.hasTagCompound() && stack.stackTagCompound.hasKey("energy"+type) ? (int)stack.stackTagCompound.getInteger("energy"+type) : 0;
 	}
 	
+	@SuppressWarnings("unchecked")
 	protected void drain(ItemStack stack, World world, EntityPlayer player, int drainPower) {
 		// Give essence
-		if(getEnergy(stack, "Shadow") >= 200) {
-			world.playSoundAtEntity(player, "random.pop", 1.0F, 0.6F);
-			player.inventory.addItemStackToInventory(new ItemStack(AbyssalCraft.shadowgem));
-			setEnergy(0, stack, "Shadow");
-		}
 		if(getEnergy(stack, "Abyssal") >= 100) {
 			world.playSoundAtEntity(player, "random.pop", 1.0F, 0.6F);
 			player.inventory.addItemStackToInventory(new ItemStack(AbyssalCraft.essence, 1, 0));
@@ -86,10 +80,10 @@ public class ItemDrainStaff extends Item {
 		}
 		
 		// Drain life
-		DamageSource srcDmg = DamageSource.generic.setDamageBypassesArmor();
+		DamageSource srcDmg = DamageSource.magic.setDamageBypassesArmor();
 		Vec3 vec = player.getLookVec().normalize();
-		for(int i = 1; i < 35; i++) {
-			// Make the cone EXTRA THICC at close range
+		for(int i = 1; i < 32; i++) {
+			// Make the cone thicker at close range
 			double cone = 1.4 - (i*0.04);
 			double pXa = player.posX - cone;
 			double pYa = player.posY - cone + player.getEyeHeight();
@@ -105,11 +99,7 @@ public class ItemDrainStaff extends Item {
 				if (!target.isDead && !(target instanceof IBossDisplayData)) {
 					int trueDmg = (int)Math.min(Math.ceil(target.getHealth()), drainPower);
 					
-					if(target.getCreatureAttribute() == AbyssalCraftAPI.SHADOW) {
-						if(target.attackEntityFrom(srcDmg, trueDmg)) {
-							increaseEnergy(stack, "Shadow", trueDmg);
-						}
-					} else if(world.provider.dimensionId == AbyssalCraft.configDimId1 && target instanceof ICoraliumEntity) {
+					if(world.provider.dimensionId == AbyssalCraft.configDimId1 && target instanceof ICoraliumEntity) {
 						if(target.attackEntityFrom(srcDmg, trueDmg)) {
 							increaseEnergy(stack, "Abyssal", trueDmg);
 						}
@@ -145,15 +135,13 @@ public class ItemDrainStaff extends Item {
 	}
 
 	@Override
-	@SuppressWarnings({ "unchecked" })
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void addInformation(ItemStack is, EntityPlayer player, List l, boolean B) {
 		int abyssal = getEnergy(is, "Abyssal");
 		int dread = getEnergy(is, "Dread");
 		int omothol = getEnergy(is, "Omothol");
-		int shadow = getEnergy(is, "Shadow");
 		l.add(StatCollector.translateToLocal("tooltip.drainstaff.energy.1")+": " + abyssal + "/100");
 		l.add(StatCollector.translateToLocal("tooltip.drainstaff.energy.2")+": " + dread + "/100");
 		l.add(StatCollector.translateToLocal("tooltip.drainstaff.energy.3")+": " + omothol + "/100");
-		l.add(StatCollector.translateToLocal("tooltip.drainstaff.energy.4")+": " + shadow + "/200");
 	}
 }

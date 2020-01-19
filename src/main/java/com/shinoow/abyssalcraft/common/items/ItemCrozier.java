@@ -18,9 +18,9 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 
-public class ItemStaff extends ItemDrainStaff {
+public class ItemCrozier extends ItemDrainStaff {
 
-	public ItemStaff() {
+	public ItemCrozier() {
 		super();
 		setMaxStackSize(1);
 	}
@@ -48,16 +48,14 @@ public class ItemStaff extends ItemDrainStaff {
 	}
 	
 	@Override
-	@SuppressWarnings({ "unchecked" })
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void addInformation(ItemStack is, EntityPlayer player, List list, boolean B) {
 		int abyssal = getEnergy(is, "Abyssal");
 		int dread = getEnergy(is, "Dread");
 		int omothol = getEnergy(is, "Omothol");
-		int shadow = getEnergy(is, "Shadow");
 		list.add(StatCollector.translateToLocal("tooltip.drainstaff.energy.1")+": " + abyssal + "/100");
 		list.add(StatCollector.translateToLocal("tooltip.drainstaff.energy.2")+": " + dread + "/100");
 		list.add(StatCollector.translateToLocal("tooltip.drainstaff.energy.3")+": " + omothol + "/100");
-		list.add(StatCollector.translateToLocal("tooltip.drainstaff.energy.4")+": " + shadow + "/200");
 		list.add(StatCollector.translateToLocal("tooltip.portalplacer.3"));
 		list.add(StatCollector.translateToLocal("tooltip.portalplacer.4"));
 	}
