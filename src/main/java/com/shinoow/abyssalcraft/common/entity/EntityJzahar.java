@@ -387,11 +387,11 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IAntiEntity
 		// Special Attack Management
 		if (getHealth() < getMaxHealth() || skillTicks > 0) {
 			skillTicks += 1;
-			if (skillTicks > 1925) {
+			if (skillTicks > 1650) {
 				skillTicks = 0;
 			}
 			if (skillTicks % 30 == 0 && deathTicks <= 0) {
-				performSpecialAttack(skillTicks / 35);
+				performSpecialAttack(skillTicks / 30);
 			}
 		}
 
@@ -400,7 +400,8 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IAntiEntity
 	}
 
 	/*
-	 * ------------------------- Skill-related functions. 1 cycle = 35 ticks.
+	 * ------------------------- 
+	 * Skill-related functions. 1 cycle = 35 ticks.
 	 * -------------------------
 	 */
 	@SuppressWarnings("unchecked")
@@ -462,7 +463,7 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IAntiEntity
 		// Perform DISPLACE
 		if (cycle == 27 + castTime) {
 			swingItem();
-			List<EntityLivingBase> entities = worldObj.getEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(posX, posY, posZ, posX + 1, posY + 1, posZ + 1).expand(40, 40, 40));
+			List<EntityLivingBase> entities = worldObj.getEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(posX, posY, posZ, posX + 1, posY + 1, posZ + 1).expand(36D, 36D, 36D));
 
 			if (!entities.isEmpty()) {
 				for (EntityLivingBase entity : entities) {
@@ -559,7 +560,7 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IAntiEntity
 
 	private void teleStunEntity(EntityLivingBase target) {
 		if (!(target instanceof EntityPlayer)) {
-			target.addPotionEffect(new PotionEffect(Potion.weakness.id, 60, 255));
+			target.addPotionEffect(new PotionEffect(Potion.weakness.id, 60, 9));
 			target.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 60, 4));
 		}
 	}
