@@ -11,7 +11,6 @@
  ******************************************************************************/
 package com.shinoow.abyssalcraft.common.world.biome;
 
-
 import net.minecraft.world.biome.BiomeGenBase;
 
 import com.shinoow.abyssalcraft.common.entity.*;
@@ -22,7 +21,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class BiomeGenOmothol extends BiomeGenBase {
 
 	@SuppressWarnings("unchecked")
-	public BiomeGenOmothol(int par1){
+	public BiomeGenOmothol(int par1) {
 		super(par1);
 		waterColorMultiplier = 14745518;
 		spawnableMonsterList.clear();
@@ -34,27 +33,23 @@ public class BiomeGenOmothol extends BiomeGenBase {
 		spawnableMonsterList.add(new SpawnListEntry(EntityGatekeeperMinion.class, 3, 1, 2));
 		spawnableMonsterList.add(new SpawnListEntry(EntityShadowCreature.class, 18, 1, 4));
 		spawnableMonsterList.add(new SpawnListEntry(EntityShadowMonster.class, 12, 1, 2));
-		spawnableMonsterList.add(new SpawnListEntry(EntityShadowBeast.class, 3, 1, 1));
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public int getSkyColorByTemp(float par1)
-	{
+	public int getSkyColorByTemp(float par1) {
 		return 0;
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public int getBiomeGrassColor(int par1, int par2, int par3)
-	{
+	public int getBiomeGrassColor(int par1, int par2, int par3) {
 		return 0x30217A;
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public int getBiomeFoliageColor(int par1, int par2, int par3)
-	{
+	public int getBiomeFoliageColor(int par1, int par2, int par3) {
 		return 0x30217A;
 	}
 }

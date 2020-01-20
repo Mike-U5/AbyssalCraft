@@ -29,7 +29,6 @@ import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.effect.EntityLightningBolt;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -45,7 +44,7 @@ public class EntityWormHole extends EntityMob {
 	
 	public EntityWormHole(World world) {
 		super(world);
-		setSize(1.5F, 5.7F);
+		setSize(0.5F, 0.5F);
 		tasks.addTask(0, new EntityAISwimming(this));
 		tasks.addTask(2, new EntityAIAttackOnCollide(this, EntityPlayer.class, 0.35D, true));
 		tasks.addTask(4, new EntityAIMoveTowardsRestriction(this, 0.35D));
@@ -128,9 +127,6 @@ public class EntityWormHole extends EntityMob {
 			if(deathTicks == 110) {
 				worldObj.playSoundAtEntity(this, "abyssalcraft:jzahar.charge", 1, 1);
 			}
-			/*if(deathTicks < 100) {
-				worldObj.spawnParticle("largesmoke", posX, posY + 2.5D, posZ, 0, 0, 0);
-			}*/
 			float f = (rand.nextFloat() - 0.5F) * 3.0F;
 			float f1 = (rand.nextFloat() - 0.5F) * 2.0F;
 			float f2 = (rand.nextFloat() - 0.5F) * 3.0F;
@@ -152,7 +148,7 @@ public class EntityWormHole extends EntityMob {
 		}
 
 		if(deathTicks == 490 && !worldObj.isRemote) {
-			if(!worldObj.getEntitiesWithinAABB(Entity.class, boundingBox.expand(3,3,3)).isEmpty()) {
+			if(!worldObj.getEntitiesWithinAABB(Entity.class, boundingBox.expand(3,2,3)).isEmpty()) {
 				List<Entity> entities = worldObj.getEntitiesWithinAABBExcludingEntity(this, boundingBox.expand(3,3,3));
 				for(Entity entity: entities) {
 					if(entity instanceof EntityLivingBase) {
@@ -166,18 +162,11 @@ public class EntityWormHole extends EntityMob {
 			final int pZ = (int)posZ;
 			final int radius = 6;
 			for(int x = -radius; x < radius; x++) {
-				if (Math.abs(x) == radius && Math.random() > 0.25) {
-					continue;
-				}
 				for(int y = -radius; y < radius; y++) {
-					if (Math.abs(y) == radius && Math.random() > 0.25) {
-						continue;
-					}
 					for(int z = -radius; z < radius; z++) {
 						if (Math.abs(z) == radius && Math.random() > 0.25) {
 							continue;
 						}
-						
 						if(!worldObj.isAirBlock(pX + x, pY + y, pZ + z)) {
 							final Block block = worldObj.getBlock((int)posX + x, (int)posY + y, (int)posZ + z);
 							if(block != Blocks.bedrock) {
@@ -225,7 +214,7 @@ public class EntityWormHole extends EntityMob {
 			}
 			float velocity = -power;
 			if (!entity.onGround) {
-				velocity *= 2;
+				velocity *= 1.8F;
 			}
 			
 			double scale = (size - entity.getDistance(posX, posY, posZ)) / size;

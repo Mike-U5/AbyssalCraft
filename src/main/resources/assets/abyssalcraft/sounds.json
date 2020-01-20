@@ -365,6 +365,12 @@
 			"abyssalcraft:jzahar/charge"
 		]
 	},
+	"jzahar.attack": {
+		"category": "hostile",
+		"sounds": [
+			"abyssalcraft:jzahar/attack"
+		]
+	},
 	"stray.ambient": {
 		"category": "hostile",
 		"sounds": [

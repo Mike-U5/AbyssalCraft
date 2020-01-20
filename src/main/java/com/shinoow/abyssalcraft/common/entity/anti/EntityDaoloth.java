@@ -64,7 +64,7 @@ public class EntityDaoloth extends EntityMob implements IAntiEntity {
 		super.applyEntityAttributes();
 		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(1.0D);
 		getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(8.5D);
-		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.14D);
+		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.1D);
 	}
 
 	@Override

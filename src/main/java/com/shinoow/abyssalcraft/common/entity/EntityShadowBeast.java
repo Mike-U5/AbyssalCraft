@@ -11,6 +11,8 @@
  ******************************************************************************/
 package com.shinoow.abyssalcraft.common.entity;
 
+import java.util.List;
+
 import com.shinoow.abyssalcraft.AbyssalCraft;
 import com.shinoow.abyssalcraft.api.AbyssalCraftAPI;
 import com.shinoow.abyssalcraft.api.entity.IOmotholEntity;
@@ -30,13 +32,10 @@ import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
-enum BarfStatus {COOLDOWN, GURGLING, BARFING};
-
 public class EntityShadowBeast extends ACMob implements IOmotholEntity {
-	
+
 	public EntityShadowBeast(World world) {
 		super(world);
 		setSize(1.0F, 2.8F);
@@ -66,11 +65,9 @@ public class EntityShadowBeast extends ACMob implements IOmotholEntity {
 	}
 
 	@Override
-	public boolean attackEntityAsMob(Entity par1Entity) {
+	public boolean attackEntityAsMob(Entity entity) {
 		swingItem();
-		boolean flag = super.attackEntityAsMob(par1Entity);
-
-		return flag;
+		return super.attackEntityAsMob(entity);
 	}
 
 	@Override
@@ -93,71 +90,64 @@ public class EntityShadowBeast extends ACMob implements IOmotholEntity {
 		return AbyssalCraftAPI.SHADOW;
 	}
 
-	/*
-	@SideOnly(Side.CLIENT)
-	public void handleStatusUpdate(byte id) {
-		if (id == 23) {
-			addMouthParticles();
-		}
-	}
-	*/
-	
-	protected void addScalingDebuff(EntityLivingBase target, Potion potion, int amplifier, int increment, int maxDuration) {
-		PotionEffect effect = target.getActivePotionEffect(potion);
-		int duration = 0;
-		if (effect != null) {
-			duration += effect.getDuration();
-			target.removePotionEffect(effect.getPotionID());
-		}
-		duration = Math.min(duration + increment, maxDuration);
-		target.addPotionEffect(new PotionEffect(potion.getId(), duration, amplifier));
-	}
-	
-	protected void addMouthParticles() {
-		if (worldObj.isRemote) {
-			Vec3 vector = getLookVec();
-
-			double px = posX;
-			double py = posY + getEyeHeight();
-			double pz = posZ;
-
-
-			for (int i = 0; i < 15; i++) {
-				double dx = vector.xCoord;
-				double dy = vector.yCoord;
-				double dz = vector.zCoord;
-
-				double spread = 5.0D + getRNG().nextDouble() * 2.5D;
-				double velocity = 0.5D + getRNG().nextDouble() * 0.5D;
-
-				dx += getRNG().nextGaussian() * 0.007499999832361937D * spread;
-				dy += getRNG().nextGaussian() * 0.007499999832361937D * spread;
-				dz += getRNG().nextGaussian() * 0.007499999832361937D * spread;
-				dx *= velocity;
-				dy *= velocity;
-				dz *= velocity;
-
-				worldObj.spawnParticle("largesmoke", px + getRNG().nextDouble() - 0.5D, py + getRNG().nextDouble() - 0.5D, pz + getRNG().nextDouble() - 0.5D, dx, dy, dz);
+	@SuppressWarnings("unchecked")
+	@Override
+	public void onLivingUpdate() {
+		if (!worldObj.isRemote) {
+			List<EntityLivingBase> entities = worldObj.getEntitiesWithinAABB(EntityLivingBase.class, boundingBox.expand(4D, 4D, 4D));
+			for (EntityLivingBase e : entities) {
+				if (!(e instanceof IOmotholEntity)) {
+					e.addPotionEffect(new PotionEffect(Potion.blindness.id, 25));
+				}
 			}
-		} else {
-			worldObj.setEntityState(this, (byte)23);
 		}
+		super.onLivingUpdate();
 	}
-
+	
 	@Override
 	public boolean canBreatheUnderwater() {
 		return true;
 	}
-	
-	/*@Override
-	public void writeEntityToNBT(NBTTagCompound nbt) {
-		super.writeEntityToNBT(nbt);
-		nbt.setInteger("BreathTimer", breathTimer);
-	}
 
-	@Override
-	public void readEntityFromNBT(NBTTagCompound nbt) {
-		super.readEntityFromNBT(nbt);
-		breathTimer = nbt.getInteger("BreathTimer");
-	}*/
+	/*
+	 * @SideOnly(Side.CLIENT) public void handleStatusUpdate(byte id) { if (id ==
+	 * 23) { addMouthParticles(); } }
+	 * 
+	 * protected void addScalingDebuff(EntityLivingBase target, Potion potion, int
+	 * amplifier, int increment, int maxDuration) { PotionEffect effect =
+	 * target.getActivePotionEffect(potion); int duration = 0; if (effect != null) {
+	 * duration += effect.getDuration();
+	 * target.removePotionEffect(effect.getPotionID()); } duration =
+	 * Math.min(duration + increment, maxDuration); target.addPotionEffect(new
+	 * PotionEffect(potion.getId(), duration, amplifier)); }
+	 * 
+	 * protected void addMouthParticles() { if (worldObj.isRemote) { Vec3 vector =
+	 * getLookVec();
+	 * 
+	 * double px = posX; double py = posY + getEyeHeight(); double pz = posZ;
+	 * 
+	 * 
+	 * for (int i = 0; i < 15; i++) { double dx = vector.xCoord; double dy =
+	 * vector.yCoord; double dz = vector.zCoord;
+	 * 
+	 * double spread = 5.0D + getRNG().nextDouble() * 2.5D; double velocity = 0.5D +
+	 * getRNG().nextDouble() * 0.5D;
+	 * 
+	 * dx += getRNG().nextGaussian() * 0.007499999832361937D * spread; dy +=
+	 * getRNG().nextGaussian() * 0.007499999832361937D * spread; dz +=
+	 * getRNG().nextGaussian() * 0.007499999832361937D * spread; dx *= velocity; dy
+	 * *= velocity; dz *= velocity;
+	 * 
+	 * worldObj.spawnParticle("largesmoke", px + getRNG().nextDouble() - 0.5D, py +
+	 * getRNG().nextDouble() - 0.5D, pz + getRNG().nextDouble() - 0.5D, dx, dy, dz);
+	 * } } else { worldObj.setEntityState(this, (byte)23); } }
+	 * 
+	 * 
+	 * 
+	 * @Override public void writeEntityToNBT(NBTTagCompound nbt) {
+	 * super.writeEntityToNBT(nbt); nbt.setInteger("BreathTimer", breathTimer); }
+	 * 
+	 * @Override public void readEntityFromNBT(NBTTagCompound nbt) {
+	 * super.readEntityFromNBT(nbt); breathTimer = nbt.getInteger("BreathTimer"); }
+	 */
 }

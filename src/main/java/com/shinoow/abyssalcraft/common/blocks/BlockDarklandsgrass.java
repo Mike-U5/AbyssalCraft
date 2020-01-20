@@ -27,8 +27,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class BlockDarklandsgrass extends Block
-{
+public class BlockDarklandsgrass extends Block {
 	@SideOnly(Side.CLIENT)
 	private IIcon iconGrassTop;
 	@SideOnly(Side.CLIENT)
@@ -36,10 +35,9 @@ public class BlockDarklandsgrass extends Block
 	@SideOnly(Side.CLIENT)
 	private static IIcon iconGrassSideOverlay;
 
-	public BlockDarklandsgrass()
-	{
+	public BlockDarklandsgrass() {
 		super(Material.grass);
-		setHardness(2.0F); //Harder than regular grass
+		setHardness(2.0F); // Harder than regular grass
 		setStepSound(Block.soundTypeGrass);
 	}
 
@@ -47,7 +45,8 @@ public class BlockDarklandsgrass extends Block
 	@SideOnly(Side.CLIENT)
 
 	/**
-	 * From the specified side and block metadata retrieves the blocks texture. Args: side, metadata
+	 * From the specified side and block metadata retrieves the blocks texture.
+	 * Args: side, metadata
 	 */
 	public IIcon getIcon(int par1, int par2) {
 		return par1 == 1 ? iconGrassTop : par1 == 0 ? Blocks.dirt.getBlockTextureFromSide(par1) : blockIcon;
@@ -75,15 +74,15 @@ public class BlockDarklandsgrass extends Block
 	@SideOnly(Side.CLIENT)
 
 	/**
-	 * Retrieves the block texture to use based on the display side. Args: iBlockAccess, x, y, z, side
+	 * Retrieves the block texture to use based on the display side. Args:
+	 * iBlockAccess, x, y, z, side
 	 */
 	public IIcon getIcon(IBlockAccess par1IBlockAccess, int par2, int par3, int par4, int par5) {
 		if (par5 == 1)
 			return iconGrassTop;
 		else if (par5 == 0)
 			return Blocks.dirt.getBlockTextureFromSide(par5);
-		else
-		{
+		else {
 			Material material = par1IBlockAccess.getBlock(par2, par3 + 1, par4).getMaterial();
 			return material != Material.snow && material != Material.craftedSnow ? blockIcon : iconSnowOverlay;
 		}
@@ -93,8 +92,9 @@ public class BlockDarklandsgrass extends Block
 	@SideOnly(Side.CLIENT)
 
 	/**
-	 * When this method is called, your block should register all the icons it needs with the given IconRegister. This
-	 * is the only chance you get to register icons.
+	 * When this method is called, your block should register all the icons it needs
+	 * with the given IconRegister. This is the only chance you get to register
+	 * icons.
 	 */
 	public void registerBlockIcons(IIconRegister par1IconRegister) {
 		blockIcon = par1IconRegister.registerIcon(AbyssalCraft.modid + ":" + "DLGsides");

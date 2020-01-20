@@ -75,7 +75,7 @@ public class AbyssalCraftTool extends Item {
 	}
 
 	@Override
-	@SuppressWarnings("rawtypes")
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
 
 		player.setItemInUse(stack, getMaxItemUseDuration(stack));
