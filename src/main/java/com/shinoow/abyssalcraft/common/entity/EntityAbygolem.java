@@ -45,10 +45,12 @@ public class EntityAbygolem extends ACMob {
 	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
 
-		if(AbyssalCraft.hardcoreMode){
+		if(AbyssalCraft.hardcoreMode) {
 			getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(40.0D);
 			getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(8.0D);
-		} else getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(4.0D);
+		} else {
+			getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(4.0D);
+		}
 	}
 	
 	@Override
@@ -65,11 +67,6 @@ public class EntityAbygolem extends ACMob {
 	@Override
 	protected boolean isAIEnabled() {
 		return true;
-	}
-
-	@Override
-	protected String getLivingSound() {
-		return "abyssalcraft:dreadgolem.idle";
 	}
 
 	@Override

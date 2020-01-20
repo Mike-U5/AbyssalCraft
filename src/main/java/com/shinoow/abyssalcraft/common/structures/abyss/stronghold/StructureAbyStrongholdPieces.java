@@ -35,32 +35,27 @@ import net.minecraftforge.common.ChestGenHooks;
 import com.shinoow.abyssalcraft.AbyssalCraft;
 import com.shinoow.abyssalcraft.common.structures.StructureComponentModded;
 
-public class StructureAbyStrongholdPieces
-{
-	private static final StructureAbyStrongholdPieces.PieceWeight[] pieceWeightArray = new StructureAbyStrongholdPieces.PieceWeight[] {new StructureAbyStrongholdPieces.PieceWeight(StructureAbyStrongholdPieces.Straight.class, 40, 0), new StructureAbyStrongholdPieces.PieceWeight(StructureAbyStrongholdPieces.Prison.class, 5, 5), new StructureAbyStrongholdPieces.PieceWeight(StructureAbyStrongholdPieces.LeftTurn.class, 20, 0), new StructureAbyStrongholdPieces.PieceWeight(StructureAbyStrongholdPieces.RightTurn.class, 20, 0), new StructureAbyStrongholdPieces.PieceWeight(StructureAbyStrongholdPieces.RoomCrossing.class, 10, 6), new StructureAbyStrongholdPieces.PieceWeight(StructureAbyStrongholdPieces.StairsStraight.class, 5, 5), new StructureAbyStrongholdPieces.PieceWeight(StructureAbyStrongholdPieces.Stairs.class, 5, 5), new StructureAbyStrongholdPieces.PieceWeight(StructureAbyStrongholdPieces.Crossing.class, 5, 4), new StructureAbyStrongholdPieces.PieceWeight(StructureAbyStrongholdPieces.ChestCorridor.class, 5, 4)
-	{
+public class StructureAbyStrongholdPieces {
+	private static final StructureAbyStrongholdPieces.PieceWeight[] pieceWeightArray = new StructureAbyStrongholdPieces.PieceWeight[] { new StructureAbyStrongholdPieces.PieceWeight(StructureAbyStrongholdPieces.Straight.class, 40, 0), new StructureAbyStrongholdPieces.PieceWeight(StructureAbyStrongholdPieces.Prison.class, 5, 5), new StructureAbyStrongholdPieces.PieceWeight(StructureAbyStrongholdPieces.LeftTurn.class, 20, 0), new StructureAbyStrongholdPieces.PieceWeight(StructureAbyStrongholdPieces.RightTurn.class, 20, 0), new StructureAbyStrongholdPieces.PieceWeight(StructureAbyStrongholdPieces.RoomCrossing.class, 10, 6), new StructureAbyStrongholdPieces.PieceWeight(StructureAbyStrongholdPieces.StairsStraight.class, 5, 5), new StructureAbyStrongholdPieces.PieceWeight(StructureAbyStrongholdPieces.Stairs.class, 5, 5), new StructureAbyStrongholdPieces.PieceWeight(StructureAbyStrongholdPieces.Crossing.class, 5, 4),
+			new StructureAbyStrongholdPieces.PieceWeight(StructureAbyStrongholdPieces.ChestCorridor.class, 5, 4) {
 
-		@Override
-		public boolean canSpawnMoreStructuresOfType(int par1)
-		{
-			return super.canSpawnMoreStructuresOfType(par1) && par1 > 4;
-		}
-	}, new StructureAbyStrongholdPieces.PieceWeight(StructureAbyStrongholdPieces.PortalRoom.class, 20, 1)
-	{
+				@Override
+				public boolean canSpawnMoreStructuresOfType(int par1) {
+					return super.canSpawnMoreStructuresOfType(par1) && par1 > 4;
+				}
+			}, new StructureAbyStrongholdPieces.PieceWeight(StructureAbyStrongholdPieces.PortalRoom.class, 20, 1) {
 
-		@Override
-		public boolean canSpawnMoreStructuresOfType(int par1)
-		{
-			return super.canSpawnMoreStructuresOfType(par1) && par1 > 5;
-		}
-	}
-	};
+				@Override
+				public boolean canSpawnMoreStructuresOfType(int par1) {
+					return super.canSpawnMoreStructuresOfType(par1) && par1 > 5;
+				}
+			} };
 	private static List<PieceWeight> structurePieceList;
 	private static Class<?> strongComponentType;
 	static int totalWeight;
 	private static final StructureAbyStrongholdPieces.Stones strongholdStones = new StructureAbyStrongholdPieces.Stones(null);
-	public static void registerStructurePieces()
-	{
+
+	public static void registerStructurePieces() {
 		MapGenStructureIO.func_143031_a(StructureAbyStrongholdPieces.ChestCorridor.class, "SHACC");
 		MapGenStructureIO.func_143031_a(StructureAbyStrongholdPieces.Corridor.class, "SHAFC");
 		MapGenStructureIO.func_143031_a(StructureAbyStrongholdPieces.Crossing.class, "SHA5C");
@@ -78,14 +73,12 @@ public class StructureAbyStrongholdPieces
 	/**
 	 * sets up Arrays with the Structure pieces and their weights
 	 */
-	public static void prepareStructurePieces()
-	{
+	public static void prepareStructurePieces() {
 		structurePieceList = new ArrayList<PieceWeight>();
 		StructureAbyStrongholdPieces.PieceWeight[] apieceweight = pieceWeightArray;
 		int i = apieceweight.length;
 
-		for (int j = 0; j < i; ++j)
-		{
+		for (int j = 0; j < i; ++j) {
 			StructureAbyStrongholdPieces.PieceWeight pieceweight = apieceweight[j];
 			pieceweight.instancesSpawned = 0;
 			structurePieceList.add(pieceweight);
@@ -94,14 +87,12 @@ public class StructureAbyStrongholdPieces
 		strongComponentType = null;
 	}
 
-	private static boolean canAddStructurePieces()
-	{
+	private static boolean canAddStructurePieces() {
 		boolean flag = false;
 		totalWeight = 0;
 		StructureAbyStrongholdPieces.PieceWeight pieceweight;
 
-		for (Iterator<PieceWeight> iterator = structurePieceList.iterator(); iterator.hasNext(); totalWeight += pieceweight.pieceWeight)
-		{
+		for (Iterator<PieceWeight> iterator = structurePieceList.iterator(); iterator.hasNext(); totalWeight += pieceweight.pieceWeight) {
 			pieceweight = iterator.next();
 
 			if (pieceweight.instancesLimit > 0 && pieceweight.instancesSpawned < pieceweight.instancesLimit)
@@ -114,8 +105,7 @@ public class StructureAbyStrongholdPieces
 	/**
 	 * translates the PieceWeight class to the Component class
 	 */
-	private static StructureAbyStrongholdPieces.Stronghold getStrongholdComponentFromWeightedPiece(Class<?> par0Class, List<Stronghold> par1List, Random par2Random, int par3, int par4, int par5, int par6, int par7)
-	{
+	private static StructureAbyStrongholdPieces.Stronghold getStrongholdComponentFromWeightedPiece(Class<?> par0Class, List<Stronghold> par1List, Random par2Random, int par3, int par4, int par5, int par6, int par7) {
 		Object object = null;
 
 		if (par0Class == StructureAbyStrongholdPieces.Straight.class)
@@ -139,17 +129,14 @@ public class StructureAbyStrongholdPieces
 		else if (par0Class == StructureAbyStrongholdPieces.PortalRoom.class)
 			object = StructureAbyStrongholdPieces.PortalRoom.findValidPlacement(par1List, par2Random, par3, par4, par5, par6, par7);
 
-		return (StructureAbyStrongholdPieces.Stronghold)object;
+		return (StructureAbyStrongholdPieces.Stronghold) object;
 	}
 
-	private static StructureAbyStrongholdPieces.Stronghold getNextComponent(StructureAbyStrongholdPieces.Stairs2 par0ComponentStrongholdStairs2, List<Stronghold> par1List, Random par2Random, int par3, int par4, int par5, int par6, int par7)
-	{
+	private static StructureAbyStrongholdPieces.Stronghold getNextComponent(StructureAbyStrongholdPieces.Stairs2 par0ComponentStrongholdStairs2, List<Stronghold> par1List, Random par2Random, int par3, int par4, int par5, int par6, int par7) {
 		if (!canAddStructurePieces())
 			return null;
-		else
-		{
-			if (strongComponentType != null)
-			{
+		else {
+			if (strongComponentType != null) {
 				StructureAbyStrongholdPieces.Stronghold stronghold = getStrongholdComponentFromWeightedPiece(strongComponentType, par1List, par2Random, par3, par4, par5, par6, par7);
 				strongComponentType = null;
 
@@ -159,26 +146,22 @@ public class StructureAbyStrongholdPieces
 
 			int k1 = 0;
 
-			while (k1 < 5)
-			{
+			while (k1 < 5) {
 				++k1;
 				int j1 = par2Random.nextInt(totalWeight);
 				Iterator<PieceWeight> iterator = structurePieceList.iterator();
 
-				while (iterator.hasNext())
-				{
+				while (iterator.hasNext()) {
 					StructureAbyStrongholdPieces.PieceWeight pieceweight = iterator.next();
 					j1 -= pieceweight.pieceWeight;
 
-					if (j1 < 0)
-					{
+					if (j1 < 0) {
 						if (!pieceweight.canSpawnMoreStructuresOfType(par7) || pieceweight == par0ComponentStrongholdStairs2.strongholdPieceWeight)
 							break;
 
 						StructureAbyStrongholdPieces.Stronghold stronghold1 = getStrongholdComponentFromWeightedPiece(pieceweight.pieceClass, par1List, par2Random, par3, par4, par5, par6, par7);
 
-						if (stronghold1 != null)
-						{
+						if (stronghold1 != null) {
 							++pieceweight.instancesSpawned;
 							par0ComponentStrongholdStairs2.strongholdPieceWeight = pieceweight;
 
@@ -200,16 +183,13 @@ public class StructureAbyStrongholdPieces
 		}
 	}
 
-	private static StructureComponent getNextValidComponent(StructureAbyStrongholdPieces.Stairs2 par0ComponentStrongholdStairs2, List<Stronghold> par1List, Random par2Random, int par3, int par4, int par5, int par6, int par7)
-	{
+	private static StructureComponent getNextValidComponent(StructureAbyStrongholdPieces.Stairs2 par0ComponentStrongholdStairs2, List<Stronghold> par1List, Random par2Random, int par3, int par4, int par5, int par6, int par7) {
 		if (par7 > 50)
 			return null;
-		else if (Math.abs(par3 - par0ComponentStrongholdStairs2.getBoundingBox().minX) <= 112 && Math.abs(par5 - par0ComponentStrongholdStairs2.getBoundingBox().minZ) <= 112)
-		{
+		else if (Math.abs(par3 - par0ComponentStrongholdStairs2.getBoundingBox().minX) <= 112 && Math.abs(par5 - par0ComponentStrongholdStairs2.getBoundingBox().minZ) <= 112) {
 			StructureAbyStrongholdPieces.Stronghold stronghold = getNextComponent(par0ComponentStrongholdStairs2, par1List, par2Random, par3, par4, par5, par6, par7 + 1);
 
-			if (stronghold != null)
-			{
+			if (stronghold != null) {
 				par1List.add(stronghold);
 				par0ComponentStrongholdStairs2.field_75026_c.add(stronghold);
 			}
@@ -219,20 +199,19 @@ public class StructureAbyStrongholdPieces
 			return null;
 	}
 
-	public static class Stairs extends StructureAbyStrongholdPieces.Stronghold
-	{
+	public static class Stairs extends StructureAbyStrongholdPieces.Stronghold {
 		private boolean field_75024_a;
-		public Stairs() {}
 
-		public Stairs(int par1, Random par2Random, int par3, int par4)
-		{
+		public Stairs() {
+		}
+
+		public Stairs(int par1, Random par2Random, int par3, int par4) {
 			super(par1);
 			field_75024_a = true;
 			coordBaseMode = par2Random.nextInt(4);
 			field_143013_d = StructureAbyStrongholdPieces.Stronghold.Door.OPENING;
 
-			switch (coordBaseMode)
-			{
+			switch (coordBaseMode) {
 			case 0:
 			case 2:
 				boundingBox = new StructureBoundingBox(par3, 64, par4, par3 + 5 - 1, 74, par4 + 5 - 1);
@@ -242,8 +221,7 @@ public class StructureAbyStrongholdPieces
 			}
 		}
 
-		public Stairs(int par1, Random par2Random, StructureBoundingBox par3StructureBoundingBox, int par4)
-		{
+		public Stairs(int par1, Random par2Random, StructureBoundingBox par3StructureBoundingBox, int par4) {
 			super(par1);
 			field_75024_a = false;
 			coordBaseMode = par4;
@@ -252,37 +230,34 @@ public class StructureAbyStrongholdPieces
 		}
 
 		@Override
-		protected void func_143012_a(NBTTagCompound par1NBTTagCompound)
-		{
+		protected void func_143012_a(NBTTagCompound par1NBTTagCompound) {
 			super.func_143012_a(par1NBTTagCompound);
 			par1NBTTagCompound.setBoolean("Source", field_75024_a);
 		}
 
 		@Override
-		protected void func_143011_b(NBTTagCompound par1NBTTagCompound)
-		{
+		protected void func_143011_b(NBTTagCompound par1NBTTagCompound) {
 			super.func_143011_b(par1NBTTagCompound);
 			field_75024_a = par1NBTTagCompound.getBoolean("Source");
 		}
 
 		/**
-		 * Initiates construction of the Structure Component picked, at the current Location of StructGen
+		 * Initiates construction of the Structure Component picked, at the current
+		 * Location of StructGen
 		 */
 		@Override
 		@SuppressWarnings({ "rawtypes", "unchecked" })
-		public void buildComponent(StructureComponent par1StructureComponent, List par2List, Random par3Random)
-		{
+		public void buildComponent(StructureComponent par1StructureComponent, List par2List, Random par3Random) {
 			if (field_75024_a)
 				StructureAbyStrongholdPieces.strongComponentType = StructureAbyStrongholdPieces.Crossing.class;
 
-			getNextComponentNormal((StructureAbyStrongholdPieces.Stairs2)par1StructureComponent, par2List, par3Random, 1, 1);
+			getNextComponentNormal((StructureAbyStrongholdPieces.Stairs2) par1StructureComponent, par2List, par3Random, 1, 1);
 		}
 
 		/**
 		 * performs some checks, then gives out a fresh Stairs component
 		 */
-		public static StructureAbyStrongholdPieces.Stairs getStrongholdStairsComponent(List<Stronghold> par0List, Random par1Random, int par2, int par3, int par4, int par5, int par6)
-		{
+		public static StructureAbyStrongholdPieces.Stairs getStrongholdStairsComponent(List<Stronghold> par0List, Random par1Random, int par2, int par3, int par4, int par5, int par6) {
 			StructureBoundingBox structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(par2, par3, par4, -1, -7, 0, 5, 11, 5, par5);
 			/**
 			 * returns false if the Structure Bounding Box goes below 10
@@ -291,16 +266,14 @@ public class StructureAbyStrongholdPieces
 		}
 
 		/**
-		 * second Part of Structure generating, this for example places Spiderwebs, Mob Spawners, it closes
-		 * Mineshafts at the end, it adds Fences...
+		 * second Part of Structure generating, this for example places Spiderwebs, Mob
+		 * Spawners, it closes Mineshafts at the end, it adds Fences...
 		 */
 		@Override
-		public boolean addComponentParts(World par1World, Random par2Random, StructureBoundingBox par3StructureBoundingBox)
-		{
+		public boolean addComponentParts(World par1World, Random par2Random, StructureBoundingBox par3StructureBoundingBox) {
 			if (isLiquidInStructureBoundingBox(par1World, par3StructureBoundingBox))
 				return false;
-			else
-			{
+			else {
 				fillWithRandomizedBlocks(par1World, par3StructureBoundingBox, 0, 0, 0, 4, 10, 4, true, par2Random, StructureAbyStrongholdPieces.strongholdStones);
 				placeDoor(par1World, par2Random, par3StructureBoundingBox, field_143013_d, 1, 7, 0);
 				placeDoor(par1World, par2Random, par3StructureBoundingBox, StructureAbyStrongholdPieces.Stronghold.Door.OPENING, 1, 1, 4);
@@ -326,14 +299,14 @@ public class StructureAbyStrongholdPieces
 		}
 	}
 
-	public static class Straight extends StructureAbyStrongholdPieces.Stronghold
-	{
+	public static class Straight extends StructureAbyStrongholdPieces.Stronghold {
 		private boolean expandsX;
 		private boolean expandsZ;
-		public Straight() {}
 
-		public Straight(int par1, Random par2Random, StructureBoundingBox par3StructureBoundingBox, int par4)
-		{
+		public Straight() {
+		}
+
+		public Straight(int par1, Random par2Random, StructureBoundingBox par3StructureBoundingBox, int par4) {
 			super(par1);
 			coordBaseMode = par4;
 			field_143013_d = getRandomDoor(par2Random);
@@ -343,39 +316,36 @@ public class StructureAbyStrongholdPieces
 		}
 
 		@Override
-		protected void func_143012_a(NBTTagCompound par1NBTTagCompound)
-		{
+		protected void func_143012_a(NBTTagCompound par1NBTTagCompound) {
 			super.func_143012_a(par1NBTTagCompound);
 			par1NBTTagCompound.setBoolean("Left", expandsX);
 			par1NBTTagCompound.setBoolean("Right", expandsZ);
 		}
 
 		@Override
-		protected void func_143011_b(NBTTagCompound par1NBTTagCompound)
-		{
+		protected void func_143011_b(NBTTagCompound par1NBTTagCompound) {
 			super.func_143011_b(par1NBTTagCompound);
 			expandsX = par1NBTTagCompound.getBoolean("Left");
 			expandsZ = par1NBTTagCompound.getBoolean("Right");
 		}
 
 		/**
-		 * Initiates construction of the Structure Component picked, at the current Location of StructGen
+		 * Initiates construction of the Structure Component picked, at the current
+		 * Location of StructGen
 		 */
 		@Override
 		@SuppressWarnings({ "rawtypes", "unchecked" })
-		public void buildComponent(StructureComponent par1StructureComponent, List par2List, Random par3Random)
-		{
-			getNextComponentNormal((StructureAbyStrongholdPieces.Stairs2)par1StructureComponent, par2List, par3Random, 1, 1);
+		public void buildComponent(StructureComponent par1StructureComponent, List par2List, Random par3Random) {
+			getNextComponentNormal((StructureAbyStrongholdPieces.Stairs2) par1StructureComponent, par2List, par3Random, 1, 1);
 
 			if (expandsX)
-				getNextComponentX((StructureAbyStrongholdPieces.Stairs2)par1StructureComponent, par2List, par3Random, 1, 2);
+				getNextComponentX((StructureAbyStrongholdPieces.Stairs2) par1StructureComponent, par2List, par3Random, 1, 2);
 
 			if (expandsZ)
-				getNextComponentZ((StructureAbyStrongholdPieces.Stairs2)par1StructureComponent, par2List, par3Random, 1, 2);
+				getNextComponentZ((StructureAbyStrongholdPieces.Stairs2) par1StructureComponent, par2List, par3Random, 1, 2);
 		}
 
-		public static StructureAbyStrongholdPieces.Straight findValidPlacement(List<Stronghold> par0List, Random par1Random, int par2, int par3, int par4, int par5, int par6)
-		{
+		public static StructureAbyStrongholdPieces.Straight findValidPlacement(List<Stronghold> par0List, Random par1Random, int par2, int par3, int par4, int par5, int par6) {
 			StructureBoundingBox structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(par2, par3, par4, -1, -1, 0, 5, 5, 7, par5);
 			/**
 			 * returns false if the Structure Bounding Box goes below 10
@@ -384,16 +354,14 @@ public class StructureAbyStrongholdPieces
 		}
 
 		/**
-		 * second Part of Structure generating, this for example places Spiderwebs, Mob Spawners, it closes
-		 * Mineshafts at the end, it adds Fences...
+		 * second Part of Structure generating, this for example places Spiderwebs, Mob
+		 * Spawners, it closes Mineshafts at the end, it adds Fences...
 		 */
 		@Override
-		public boolean addComponentParts(World par1World, Random par2Random, StructureBoundingBox par3StructureBoundingBox)
-		{
+		public boolean addComponentParts(World par1World, Random par2Random, StructureBoundingBox par3StructureBoundingBox) {
 			if (isLiquidInStructureBoundingBox(par1World, par3StructureBoundingBox))
 				return false;
-			else
-			{
+			else {
 				fillWithRandomizedBlocks(par1World, par3StructureBoundingBox, 0, 0, 0, 4, 4, 6, true, par2Random, StructureAbyStrongholdPieces.strongholdStones);
 				placeDoor(par1World, par2Random, par3StructureBoundingBox, field_143013_d, 1, 1, 0);
 				placeDoor(par1World, par2Random, par3StructureBoundingBox, StructureAbyStrongholdPieces.Stronghold.Door.OPENING, 1, 1, 6);
@@ -409,45 +377,42 @@ public class StructureAbyStrongholdPieces
 		}
 	}
 
-	public static class PortalRoom extends StructureAbyStrongholdPieces.Stronghold
-	{
+	public static class PortalRoom extends StructureAbyStrongholdPieces.Stronghold {
 		private boolean hasSpawner;
-		public PortalRoom() {}
 
-		public PortalRoom(int par1, Random par2Random, StructureBoundingBox par3StructureBoundingBox, int par4)
-		{
+		public PortalRoom() {
+		}
+
+		public PortalRoom(int par1, Random par2Random, StructureBoundingBox par3StructureBoundingBox, int par4) {
 			super(par1);
 			coordBaseMode = par4;
 			boundingBox = par3StructureBoundingBox;
 		}
 
 		@Override
-		protected void func_143012_a(NBTTagCompound par1NBTTagCompound)
-		{
+		protected void func_143012_a(NBTTagCompound par1NBTTagCompound) {
 			super.func_143012_a(par1NBTTagCompound);
 			par1NBTTagCompound.setBoolean("Mob", hasSpawner);
 		}
 
 		@Override
-		protected void func_143011_b(NBTTagCompound par1NBTTagCompound)
-		{
+		protected void func_143011_b(NBTTagCompound par1NBTTagCompound) {
 			super.func_143011_b(par1NBTTagCompound);
 			hasSpawner = par1NBTTagCompound.getBoolean("Mob");
 		}
 
 		/**
-		 * Initiates construction of the Structure Component picked, at the current Location of StructGen
+		 * Initiates construction of the Structure Component picked, at the current
+		 * Location of StructGen
 		 */
 		@Override
 		@SuppressWarnings("rawtypes")
-		public void buildComponent(StructureComponent par1StructureComponent, List par2List, Random par3Random)
-		{
+		public void buildComponent(StructureComponent par1StructureComponent, List par2List, Random par3Random) {
 			if (par1StructureComponent != null)
-				((StructureAbyStrongholdPieces.Stairs2)par1StructureComponent).strongholdPortalRoom = this;
+				((StructureAbyStrongholdPieces.Stairs2) par1StructureComponent).strongholdPortalRoom = this;
 		}
 
-		public static StructureAbyStrongholdPieces.PortalRoom findValidPlacement(List<Stronghold> par0List, Random par1Random, int par2, int par3, int par4, int par5, int par6)
-		{
+		public static StructureAbyStrongholdPieces.PortalRoom findValidPlacement(List<Stronghold> par0List, Random par1Random, int par2, int par3, int par4, int par5, int par6) {
 			StructureBoundingBox structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(par2, par3, par4, -4, -1, 0, 11, 8, 16, par5);
 			/**
 			 * returns false if the Structure Bounding Box goes below 10
@@ -456,12 +421,11 @@ public class StructureAbyStrongholdPieces
 		}
 
 		/**
-		 * second Part of Structure generating, this for example places Spiderwebs, Mob Spawners, it closes
-		 * Mineshafts at the end, it adds Fences...
+		 * second Part of Structure generating, this for example places Spiderwebs, Mob
+		 * Spawners, it closes Mineshafts at the end, it adds Fences...
 		 */
 		@Override
-		public boolean addComponentParts(World par1World, Random par2Random, StructureBoundingBox par3StructureBoundingBox)
-		{
+		public boolean addComponentParts(World par1World, Random par2Random, StructureBoundingBox par3StructureBoundingBox) {
 			fillWithRandomizedBlocks(par1World, par3StructureBoundingBox, 0, 0, 0, 10, 7, 15, false, par2Random, StructureAbyStrongholdPieces.strongholdStones);
 			placeDoor(par1World, par2Random, par3StructureBoundingBox, StructureAbyStrongholdPieces.Stronghold.Door.GRATES, 4, 1, 0);
 			byte b0 = 6;
@@ -477,8 +441,7 @@ public class StructureAbyStrongholdPieces
 			fillWithBlocks(par1World, par3StructureBoundingBox, 4, 1, 9, 6, 1, 11, AbyssalCraft.Cwater, AbyssalCraft.Cwater, false);
 			int i;
 
-			for (i = 3; i < 14; i += 2)
-			{
+			for (i = 3; i < 14; i += 2) {
 				fillWithBlocks(par1World, par3StructureBoundingBox, 0, 3, i, 0, 4, i, AbyssalCraft.abyfence, AbyssalCraft.abyfence, false);
 				fillWithBlocks(par1World, par3StructureBoundingBox, 10, 3, i, 10, 4, i, AbyssalCraft.abyfence, AbyssalCraft.abyfence, false);
 			}
@@ -491,8 +454,7 @@ public class StructureAbyStrongholdPieces
 			fillWithRandomizedBlocks(par1World, par3StructureBoundingBox, 4, 2, 6, 6, 2, 7, false, par2Random, StructureAbyStrongholdPieces.strongholdStones);
 			fillWithRandomizedBlocks(par1World, par3StructureBoundingBox, 4, 3, 7, 6, 3, 7, false, par2Random, StructureAbyStrongholdPieces.strongholdStones);
 
-			for (int j = 4; j <= 6; ++j)
-			{
+			for (int j = 4; j <= 6; ++j) {
 				placeBlockAtCurrentPosition(par1World, AbyssalCraft.abystairs, i, j, 1, 4, par3StructureBoundingBox);
 				placeBlockAtCurrentPosition(par1World, AbyssalCraft.abystairs, i, j, 2, 5, par3StructureBoundingBox);
 				placeBlockAtCurrentPosition(par1World, AbyssalCraft.abystairs, i, j, 3, 6, par3StructureBoundingBox);
@@ -503,8 +465,7 @@ public class StructureAbyStrongholdPieces
 			byte b2 = 3;
 			byte b3 = 1;
 
-			switch (coordBaseMode)
-			{
+			switch (coordBaseMode) {
 			case 0:
 				b4 = 0;
 				b1 = 2;
@@ -534,7 +495,6 @@ public class StructureAbyStrongholdPieces
 			placeBlockAtCurrentPosition(par1World, AbyssalCraft.abyfence, b1 + (par2Random.nextFloat() > 0.9F ? 4 : 0), 4, 4, 12, par3StructureBoundingBox);
 			placeBlockAtCurrentPosition(par1World, AbyssalCraft.abyfence, b1 + (par2Random.nextFloat() > 0.9F ? 4 : 0), 5, 4, 12, par3StructureBoundingBox);
 			placeBlockAtCurrentPosition(par1World, AbyssalCraft.abyfence, b1 + (par2Random.nextFloat() > 0.9F ? 4 : 0), 6, 4, 12, par3StructureBoundingBox);
-
 
 			placeBlockAtCurrentPosition(par1World, AbyssalCraft.PSDL, b1 + (par2Random.nextFloat() > 0.9F ? 4 : 0), 5, 4, 10, par3StructureBoundingBox);
 
@@ -571,17 +531,15 @@ public class StructureAbyStrongholdPieces
 			placeBlockAtCurrentPosition(par1World, AbyssalCraft.abybrick, b1 + (par2Random.nextFloat() > 0.9F ? 4 : 0), 3, 3, 8, par3StructureBoundingBox);
 			placeBlockAtCurrentPosition(par1World, AbyssalCraft.abyfence, b1 + (par2Random.nextFloat() > 0.9F ? 4 : 0), 3, 4, 8, par3StructureBoundingBox);
 
-			if (!hasSpawner)
-			{
+			if (!hasSpawner) {
 				int i1 = getYWithOffset(3);
 				int k = getXWithOffset(5, 6);
 				int l = getZWithOffset(5, 6);
 
-				if (par3StructureBoundingBox.isVecInside(k, i1, l))
-				{
+				if (par3StructureBoundingBox.isVecInside(k, i1, l)) {
 					hasSpawner = true;
 					par1World.setBlock(k, i1, l, Blocks.mob_spawner, 0, 2);
-					TileEntityMobSpawner tileentitymobspawner = (TileEntityMobSpawner)par1World.getTileEntity(k, i1, l);
+					TileEntityMobSpawner tileentitymobspawner = (TileEntityMobSpawner) par1World.getTileEntity(k, i1, l);
 
 					if (tileentitymobspawner != null)
 						tileentitymobspawner.func_145881_a().setEntityName("abyssalcraft.abyssalzombie");
@@ -592,17 +550,18 @@ public class StructureAbyStrongholdPieces
 		}
 	}
 
-	public static class ChestCorridor extends StructureAbyStrongholdPieces.Stronghold
-	{
+	public static class ChestCorridor extends StructureAbyStrongholdPieces.Stronghold {
 		/**
 		 * List of items that Stronghold chests can contain.
 		 */
-		public static final WeightedRandomChestContent[] strongholdChestContents = new WeightedRandomChestContent[] {new WeightedRandomChestContent(Items.ender_pearl, 0, 1, 4, 10), new WeightedRandomChestContent(AbyssalCraft.Corb, 0, 1, 1, 3), new WeightedRandomChestContent(Items.iron_ingot, 0, 1, 5, 10), new WeightedRandomChestContent(AbyssalCraft.Cingot, 0, 1, 3, 5), new WeightedRandomChestContent(AbyssalCraft.Cpearl, 0, 1, 3, 5), new WeightedRandomChestContent(Items.bread, 0, 1, 3, 15), new WeightedRandomChestContent(Items.golden_apple, 0, 1, 3, 15), new WeightedRandomChestContent(AbyssalCraft.pickaxe, 0, 1, 1, 5), new WeightedRandomChestContent(AbyssalCraft.plate, 0, 1, 1, 5), new WeightedRandomChestContent(AbyssalCraft.helmet, 0, 1, 1, 5), new WeightedRandomChestContent(AbyssalCraft.legs, 0, 1, 1, 5), new WeightedRandomChestContent(AbyssalCraft.boots, 0, 1, 1, 5), new WeightedRandomChestContent(AbyssalCraft.OC, 0, 1, 1, 1), new WeightedRandomChestContent(new ItemStack(AbyssalCraft.Coralium, 1, 24), 1, 5, 8)};
+		public static final WeightedRandomChestContent[] strongholdChestContents = new WeightedRandomChestContent[] { new WeightedRandomChestContent(Items.ender_pearl, 0, 1, 4, 10), new WeightedRandomChestContent(AbyssalCraft.Corb, 0, 1, 1, 3), new WeightedRandomChestContent(Items.iron_ingot, 0, 1, 5, 10), new WeightedRandomChestContent(AbyssalCraft.Cingot, 0, 1, 3, 5), new WeightedRandomChestContent(AbyssalCraft.Cpearl, 0, 1, 3, 5), new WeightedRandomChestContent(Items.bread, 0, 1, 3, 15), new WeightedRandomChestContent(Items.golden_apple, 0, 1, 3, 15), new WeightedRandomChestContent(Items.chainmail_chestplate, 0, 1, 1, 5), new WeightedRandomChestContent(Items.chainmail_chestplate, 0, 1, 1, 5), new WeightedRandomChestContent(Items.chainmail_helmet, 0, 1, 1, 5), new WeightedRandomChestContent(Items.chainmail_leggings, 0, 1, 1, 5), new WeightedRandomChestContent(Items.chainmail_boots, 0, 1, 1, 5), new WeightedRandomChestContent(AbyssalCraft.OC, 0, 1, 1, 1),
+				new WeightedRandomChestContent(new ItemStack(AbyssalCraft.Coralium, 1, 24), 1, 5, 8) };
 		private boolean hasMadeChest;
-		public ChestCorridor() {}
 
-		public ChestCorridor(int par1, Random par2Random, StructureBoundingBox par3StructureBoundingBox, int par4)
-		{
+		public ChestCorridor() {
+		}
+
+		public ChestCorridor(int par1, Random par2Random, StructureBoundingBox par3StructureBoundingBox, int par4) {
 			super(par1);
 			coordBaseMode = par4;
 			field_143013_d = getRandomDoor(par2Random);
@@ -610,31 +569,28 @@ public class StructureAbyStrongholdPieces
 		}
 
 		@Override
-		protected void func_143012_a(NBTTagCompound par1NBTTagCompound)
-		{
+		protected void func_143012_a(NBTTagCompound par1NBTTagCompound) {
 			super.func_143012_a(par1NBTTagCompound);
 			par1NBTTagCompound.setBoolean("Chest", hasMadeChest);
 		}
 
 		@Override
-		protected void func_143011_b(NBTTagCompound par1NBTTagCompound)
-		{
+		protected void func_143011_b(NBTTagCompound par1NBTTagCompound) {
 			super.func_143011_b(par1NBTTagCompound);
 			hasMadeChest = par1NBTTagCompound.getBoolean("Chest");
 		}
 
 		/**
-		 * Initiates construction of the Structure Component picked, at the current Location of StructGen
+		 * Initiates construction of the Structure Component picked, at the current
+		 * Location of StructGen
 		 */
 		@Override
 		@SuppressWarnings({ "rawtypes", "unchecked" })
-		public void buildComponent(StructureComponent par1StructureComponent, List par2List, Random par3Random)
-		{
-			getNextComponentNormal((StructureAbyStrongholdPieces.Stairs2)par1StructureComponent, par2List, par3Random, 1, 1);
+		public void buildComponent(StructureComponent par1StructureComponent, List par2List, Random par3Random) {
+			getNextComponentNormal((StructureAbyStrongholdPieces.Stairs2) par1StructureComponent, par2List, par3Random, 1, 1);
 		}
 
-		public static StructureAbyStrongholdPieces.ChestCorridor findValidPlacement(List<Stronghold> par0List, Random par1Random, int par2, int par3, int par4, int par5, int par6)
-		{
+		public static StructureAbyStrongholdPieces.ChestCorridor findValidPlacement(List<Stronghold> par0List, Random par1Random, int par2, int par3, int par4, int par5, int par6) {
 			StructureBoundingBox structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(par2, par3, par4, -1, -1, 0, 5, 5, 7, par5);
 			/**
 			 * returns false if the Structure Bounding Box goes below 10
@@ -643,16 +599,14 @@ public class StructureAbyStrongholdPieces
 		}
 
 		/**
-		 * second Part of Structure generating, this for example places Spiderwebs, Mob Spawners, it closes
-		 * Mineshafts at the end, it adds Fences...
+		 * second Part of Structure generating, this for example places Spiderwebs, Mob
+		 * Spawners, it closes Mineshafts at the end, it adds Fences...
 		 */
 		@Override
-		public boolean addComponentParts(World par1World, Random par2Random, StructureBoundingBox par3StructureBoundingBox)
-		{
+		public boolean addComponentParts(World par1World, Random par2Random, StructureBoundingBox par3StructureBoundingBox) {
 			if (isLiquidInStructureBoundingBox(par1World, par3StructureBoundingBox))
 				return false;
-			else
-			{
+			else {
 				fillWithRandomizedBlocks(par1World, par3StructureBoundingBox, 0, 0, 0, 4, 4, 6, true, par2Random, StructureAbyStrongholdPieces.strongholdStones);
 				placeDoor(par1World, par2Random, par3StructureBoundingBox, field_143013_d, 1, 1, 0);
 				placeDoor(par1World, par2Random, par3StructureBoundingBox, StructureAbyStrongholdPieces.Stronghold.Door.OPENING, 1, 1, 6);
@@ -666,14 +620,12 @@ public class StructureAbyStrongholdPieces
 				for (i = 2; i <= 4; ++i)
 					placeBlockAtCurrentPosition(par1World, AbyssalCraft.abyslab1, 5, 2, 1, i, par3StructureBoundingBox);
 
-				if (!hasMadeChest)
-				{
+				if (!hasMadeChest) {
 					i = getYWithOffset(2);
 					int j = getXWithOffset(3, 3);
 					int k = getZWithOffset(3, 3);
 
-					if (par3StructureBoundingBox.isVecInside(j, i, k))
-					{
+					if (par3StructureBoundingBox.isVecInside(j, i, k)) {
 						hasMadeChest = true;
 						generateStructureChestContents(par1World, par3StructureBoundingBox, par2Random, 3, 2, 3, strongholdChestContents, ChestGenHooks.getCount(STRONGHOLD_CORRIDOR, par2Random));
 					}
@@ -684,17 +636,18 @@ public class StructureAbyStrongholdPieces
 		}
 	}
 
-	public static class RoomCrossing extends StructureAbyStrongholdPieces.Stronghold
-	{
+	public static class RoomCrossing extends StructureAbyStrongholdPieces.Stronghold {
 		/**
-		 * Items that could generate in the chest that is located in Stronghold Room Crossing.
+		 * Items that could generate in the chest that is located in Stronghold Room
+		 * Crossing.
 		 */
-		public static final WeightedRandomChestContent[] strongholdRoomCrossingChestContents = new WeightedRandomChestContent[] {new WeightedRandomChestContent(Items.iron_ingot, 0, 1, 5, 10), new WeightedRandomChestContent(AbyssalCraft.Cingot, 0, 1, 5, 5), new WeightedRandomChestContent(AbyssalCraft.Cpearl, 0, 1, 3, 5), new WeightedRandomChestContent(AbyssalCraft.Coralium, 0, 3, 8, 10), new WeightedRandomChestContent(Items.golden_apple, 0, 1, 3, 15), new WeightedRandomChestContent(AbyssalCraft.MRE, 0, 1, 1, 10), new WeightedRandomChestContent(AbyssalCraft.pickaxe, 0, 1, 1, 1), new WeightedRandomChestContent(new ItemStack(AbyssalCraft.Coralium, 1, 24), 1, 5, 8)};
+		public static final WeightedRandomChestContent[] strongholdRoomCrossingChestContents = new WeightedRandomChestContent[] { new WeightedRandomChestContent(Items.iron_ingot, 0, 1, 5, 10), new WeightedRandomChestContent(AbyssalCraft.Cingot, 0, 1, 5, 5), new WeightedRandomChestContent(AbyssalCraft.Cpearl, 0, 1, 3, 5), new WeightedRandomChestContent(AbyssalCraft.Coralium, 0, 3, 8, 10), new WeightedRandomChestContent(Items.golden_apple, 0, 1, 3, 15), new WeightedRandomChestContent(AbyssalCraft.MRE, 0, 1, 1, 10), new WeightedRandomChestContent(Items.iron_pickaxe, 0, 1, 1, 1), new WeightedRandomChestContent(new ItemStack(AbyssalCraft.Coralium, 1, 24), 1, 5, 8) };
 		protected int roomType;
-		public RoomCrossing() {}
 
-		public RoomCrossing(int par1, Random par2Random, StructureBoundingBox par3StructureBoundingBox, int par4)
-		{
+		public RoomCrossing() {
+		}
+
+		public RoomCrossing(int par1, Random par2Random, StructureBoundingBox par3StructureBoundingBox, int par4) {
 			super(par1);
 			coordBaseMode = par4;
 			field_143013_d = getRandomDoor(par2Random);
@@ -703,33 +656,30 @@ public class StructureAbyStrongholdPieces
 		}
 
 		@Override
-		protected void func_143012_a(NBTTagCompound par1NBTTagCompound)
-		{
+		protected void func_143012_a(NBTTagCompound par1NBTTagCompound) {
 			super.func_143012_a(par1NBTTagCompound);
 			par1NBTTagCompound.setInteger("Type", roomType);
 		}
 
 		@Override
-		protected void func_143011_b(NBTTagCompound par1NBTTagCompound)
-		{
+		protected void func_143011_b(NBTTagCompound par1NBTTagCompound) {
 			super.func_143011_b(par1NBTTagCompound);
 			roomType = par1NBTTagCompound.getInteger("Type");
 		}
 
 		/**
-		 * Initiates construction of the Structure Component picked, at the current Location of StructGen
+		 * Initiates construction of the Structure Component picked, at the current
+		 * Location of StructGen
 		 */
 		@Override
 		@SuppressWarnings({ "rawtypes", "unchecked" })
-		public void buildComponent(StructureComponent par1StructureComponent, List par2List, Random par3Random)
-		{
-			getNextComponentNormal((StructureAbyStrongholdPieces.Stairs2)par1StructureComponent, par2List, par3Random, 4, 1);
-			getNextComponentX((StructureAbyStrongholdPieces.Stairs2)par1StructureComponent, par2List, par3Random, 1, 4);
-			getNextComponentZ((StructureAbyStrongholdPieces.Stairs2)par1StructureComponent, par2List, par3Random, 1, 4);
+		public void buildComponent(StructureComponent par1StructureComponent, List par2List, Random par3Random) {
+			getNextComponentNormal((StructureAbyStrongholdPieces.Stairs2) par1StructureComponent, par2List, par3Random, 4, 1);
+			getNextComponentX((StructureAbyStrongholdPieces.Stairs2) par1StructureComponent, par2List, par3Random, 1, 4);
+			getNextComponentZ((StructureAbyStrongholdPieces.Stairs2) par1StructureComponent, par2List, par3Random, 1, 4);
 		}
 
-		public static StructureAbyStrongholdPieces.RoomCrossing findValidPlacement(List<Stronghold> par0List, Random par1Random, int par2, int par3, int par4, int par5, int par6)
-		{
+		public static StructureAbyStrongholdPieces.RoomCrossing findValidPlacement(List<Stronghold> par0List, Random par1Random, int par2, int par3, int par4, int par5, int par6) {
 			StructureBoundingBox structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(par2, par3, par4, -4, -1, 0, 11, 7, 11, par5);
 			/**
 			 * returns false if the Structure Bounding Box goes below 10
@@ -738,16 +688,14 @@ public class StructureAbyStrongholdPieces
 		}
 
 		/**
-		 * second Part of Structure generating, this for example places Spiderwebs, Mob Spawners, it closes
-		 * Mineshafts at the end, it adds Fences...
+		 * second Part of Structure generating, this for example places Spiderwebs, Mob
+		 * Spawners, it closes Mineshafts at the end, it adds Fences...
 		 */
 		@Override
-		public boolean addComponentParts(World par1World, Random par2Random, StructureBoundingBox par3StructureBoundingBox)
-		{
+		public boolean addComponentParts(World par1World, Random par2Random, StructureBoundingBox par3StructureBoundingBox) {
 			if (isLiquidInStructureBoundingBox(par1World, par3StructureBoundingBox))
 				return false;
-			else
-			{
+			else {
 				fillWithRandomizedBlocks(par1World, par3StructureBoundingBox, 0, 0, 0, 10, 6, 10, true, par2Random, StructureAbyStrongholdPieces.strongholdStones);
 				placeDoor(par1World, par2Random, par3StructureBoundingBox, field_143013_d, 4, 1, 0);
 				fillWithBlocks(par1World, par3StructureBoundingBox, 4, 1, 10, 6, 3, 10, Blocks.air, Blocks.air, false);
@@ -755,8 +703,7 @@ public class StructureAbyStrongholdPieces
 				fillWithBlocks(par1World, par3StructureBoundingBox, 10, 1, 4, 10, 3, 6, Blocks.air, Blocks.air, false);
 				int i;
 
-				switch (roomType)
-				{
+				switch (roomType) {
 				case 0:
 					placeBlockAtCurrentPosition(par1World, AbyssalCraft.abybrick, 0, 5, 1, 5, par3StructureBoundingBox);
 					placeBlockAtCurrentPosition(par1World, AbyssalCraft.abybrick, 0, 5, 2, 5, par3StructureBoundingBox);
@@ -775,8 +722,7 @@ public class StructureAbyStrongholdPieces
 					placeBlockAtCurrentPosition(par1World, AbyssalCraft.abyslab1, 0, 5, 1, 6, par3StructureBoundingBox);
 					break;
 				case 1:
-					for (i = 0; i < 5; ++i)
-					{
+					for (i = 0; i < 5; ++i) {
 						placeBlockAtCurrentPosition(par1World, AbyssalCraft.abybrick, 0, 3, 1, 3 + i, par3StructureBoundingBox);
 						placeBlockAtCurrentPosition(par1World, AbyssalCraft.abybrick, 0, 7, 1, 3 + i, par3StructureBoundingBox);
 						placeBlockAtCurrentPosition(par1World, AbyssalCraft.abybrick, 0, 3 + i, 1, 3, par3StructureBoundingBox);
@@ -789,14 +735,12 @@ public class StructureAbyStrongholdPieces
 					placeBlockAtCurrentPosition(par1World, Blocks.flowing_water, 0, 5, 4, 5, par3StructureBoundingBox);
 					break;
 				case 2:
-					for (i = 1; i <= 9; ++i)
-					{
+					for (i = 1; i <= 9; ++i) {
 						placeBlockAtCurrentPosition(par1World, AbyssalCraft.Darkstone_cobble, 0, 1, 3, i, par3StructureBoundingBox);
 						placeBlockAtCurrentPosition(par1World, AbyssalCraft.Darkstone_cobble, 0, 9, 3, i, par3StructureBoundingBox);
 					}
 
-					for (i = 1; i <= 9; ++i)
-					{
+					for (i = 1; i <= 9; ++i) {
 						placeBlockAtCurrentPosition(par1World, AbyssalCraft.Darkstone_cobble, 0, i, 3, 1, par3StructureBoundingBox);
 						placeBlockAtCurrentPosition(par1World, AbyssalCraft.Darkstone_cobble, 0, i, 3, 9, par3StructureBoundingBox);
 					}
@@ -810,8 +754,7 @@ public class StructureAbyStrongholdPieces
 					placeBlockAtCurrentPosition(par1World, AbyssalCraft.Darkstone_cobble, 0, 4, 3, 5, par3StructureBoundingBox);
 					placeBlockAtCurrentPosition(par1World, AbyssalCraft.Darkstone_cobble, 0, 6, 3, 5, par3StructureBoundingBox);
 
-					for (i = 1; i <= 3; ++i)
-					{
+					for (i = 1; i <= 3; ++i) {
 						placeBlockAtCurrentPosition(par1World, AbyssalCraft.Darkstone_cobble, 0, 4, i, 4, par3StructureBoundingBox);
 						placeBlockAtCurrentPosition(par1World, AbyssalCraft.Darkstone_cobble, 0, 6, i, 4, par3StructureBoundingBox);
 						placeBlockAtCurrentPosition(par1World, AbyssalCraft.Darkstone_cobble, 0, 4, i, 6, par3StructureBoundingBox);
@@ -820,13 +763,11 @@ public class StructureAbyStrongholdPieces
 
 					placeBlockAtCurrentPosition(par1World, Blocks.torch, 0, 5, 3, 5, par3StructureBoundingBox);
 
-					for (i = 2; i <= 8; ++i)
-					{
+					for (i = 2; i <= 8; ++i) {
 						placeBlockAtCurrentPosition(par1World, AbyssalCraft.DLTplank, 0, 2, 3, i, par3StructureBoundingBox);
 						placeBlockAtCurrentPosition(par1World, AbyssalCraft.DLTplank, 0, 3, 3, i, par3StructureBoundingBox);
 
-						if (i <= 3 || i >= 7)
-						{
+						if (i <= 3 || i >= 7) {
 							placeBlockAtCurrentPosition(par1World, AbyssalCraft.DLTplank, 0, 4, 3, i, par3StructureBoundingBox);
 							placeBlockAtCurrentPosition(par1World, AbyssalCraft.DLTplank, 0, 5, 3, i, par3StructureBoundingBox);
 							placeBlockAtCurrentPosition(par1World, AbyssalCraft.DLTplank, 0, 6, 3, i, par3StructureBoundingBox);
@@ -847,12 +788,11 @@ public class StructureAbyStrongholdPieces
 		}
 	}
 
-	public static class StairsStraight extends StructureAbyStrongholdPieces.Stronghold
-	{
-		public StairsStraight() {}
+	public static class StairsStraight extends StructureAbyStrongholdPieces.Stronghold {
+		public StairsStraight() {
+		}
 
-		public StairsStraight(int par1, Random par2Random, StructureBoundingBox par3StructureBoundingBox, int par4)
-		{
+		public StairsStraight(int par1, Random par2Random, StructureBoundingBox par3StructureBoundingBox, int par4) {
 			super(par1);
 			coordBaseMode = par4;
 			field_143013_d = getRandomDoor(par2Random);
@@ -860,17 +800,16 @@ public class StructureAbyStrongholdPieces
 		}
 
 		/**
-		 * Initiates construction of the Structure Component picked, at the current Location of StructGen
+		 * Initiates construction of the Structure Component picked, at the current
+		 * Location of StructGen
 		 */
 		@Override
 		@SuppressWarnings({ "rawtypes", "unchecked" })
-		public void buildComponent(StructureComponent par1StructureComponent, List par2List, Random par3Random)
-		{
-			getNextComponentNormal((StructureAbyStrongholdPieces.Stairs2)par1StructureComponent, par2List, par3Random, 1, 1);
+		public void buildComponent(StructureComponent par1StructureComponent, List par2List, Random par3Random) {
+			getNextComponentNormal((StructureAbyStrongholdPieces.Stairs2) par1StructureComponent, par2List, par3Random, 1, 1);
 		}
 
-		public static StructureAbyStrongholdPieces.StairsStraight findValidPlacement(List<Stronghold> par0List, Random par1Random, int par2, int par3, int par4, int par5, int par6)
-		{
+		public static StructureAbyStrongholdPieces.StairsStraight findValidPlacement(List<Stronghold> par0List, Random par1Random, int par2, int par3, int par4, int par5, int par6) {
 			StructureBoundingBox structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(par2, par3, par4, -1, -7, 0, 5, 11, 8, par5);
 			/**
 			 * returns false if the Structure Bounding Box goes below 10
@@ -879,29 +818,25 @@ public class StructureAbyStrongholdPieces
 		}
 
 		/**
-		 * second Part of Structure generating, this for example places Spiderwebs, Mob Spawners, it closes
-		 * Mineshafts at the end, it adds Fences...
+		 * second Part of Structure generating, this for example places Spiderwebs, Mob
+		 * Spawners, it closes Mineshafts at the end, it adds Fences...
 		 */
 		@Override
-		public boolean addComponentParts(World par1World, Random par2Random, StructureBoundingBox par3StructureBoundingBox)
-		{
+		public boolean addComponentParts(World par1World, Random par2Random, StructureBoundingBox par3StructureBoundingBox) {
 			if (isLiquidInStructureBoundingBox(par1World, par3StructureBoundingBox))
 				return false;
-			else
-			{
+			else {
 				fillWithRandomizedBlocks(par1World, par3StructureBoundingBox, 0, 0, 0, 4, 10, 7, true, par2Random, StructureAbyStrongholdPieces.strongholdStones);
 				placeDoor(par1World, par2Random, par3StructureBoundingBox, field_143013_d, 1, 7, 0);
 				placeDoor(par1World, par2Random, par3StructureBoundingBox, StructureAbyStrongholdPieces.Stronghold.Door.OPENING, 1, 1, 7);
 				int i = getMetadataWithOffset(AbyssalCraft.DCstairs, 2);
 
-				for (int j = 0; j < 6; ++j)
-				{
+				for (int j = 0; j < 6; ++j) {
 					placeBlockAtCurrentPosition(par1World, AbyssalCraft.DCstairs, i, 1, 6 - j, 1 + j, par3StructureBoundingBox);
 					placeBlockAtCurrentPosition(par1World, AbyssalCraft.DCstairs, i, 2, 6 - j, 1 + j, par3StructureBoundingBox);
 					placeBlockAtCurrentPosition(par1World, AbyssalCraft.DCstairs, i, 3, 6 - j, 1 + j, par3StructureBoundingBox);
 
-					if (j < 5)
-					{
+					if (j < 5) {
 						placeBlockAtCurrentPosition(par1World, AbyssalCraft.abybrick, 0, 1, 5 - j, 1 + j, par3StructureBoundingBox);
 						placeBlockAtCurrentPosition(par1World, AbyssalCraft.abybrick, 0, 2, 5 - j, 1 + j, par3StructureBoundingBox);
 						placeBlockAtCurrentPosition(par1World, AbyssalCraft.abybrick, 0, 3, 5 - j, 1 + j, par3StructureBoundingBox);
@@ -913,31 +848,29 @@ public class StructureAbyStrongholdPieces
 		}
 	}
 
-	public static class Stairs2 extends StructureAbyStrongholdPieces.Stairs
-	{
+	public static class Stairs2 extends StructureAbyStrongholdPieces.Stairs {
 		public StructureAbyStrongholdPieces.PieceWeight strongholdPieceWeight;
 		public StructureAbyStrongholdPieces.PortalRoom strongholdPortalRoom;
 		public List<Stronghold> field_75026_c = new ArrayList<Stronghold>();
-		public Stairs2() {}
 
-		public Stairs2(int par1, Random par2Random, int par3, int par4)
-		{
+		public Stairs2() {
+		}
+
+		public Stairs2(int par1, Random par2Random, int par3, int par4) {
 			super(0, par2Random, par3, par4);
 		}
 
 		@Override
-		public ChunkPosition func_151553_a()
-		{
+		public ChunkPosition func_151553_a() {
 			return strongholdPortalRoom != null ? strongholdPortalRoom.func_151553_a() : super.func_151553_a();
 		}
 	}
 
-	public static class Prison extends StructureAbyStrongholdPieces.Stronghold
-	{
-		public Prison() {}
+	public static class Prison extends StructureAbyStrongholdPieces.Stronghold {
+		public Prison() {
+		}
 
-		public Prison(int par1, Random par2Random, StructureBoundingBox par3StructureBoundingBox, int par4)
-		{
+		public Prison(int par1, Random par2Random, StructureBoundingBox par3StructureBoundingBox, int par4) {
 			super(par1);
 			coordBaseMode = par4;
 			field_143013_d = getRandomDoor(par2Random);
@@ -945,17 +878,16 @@ public class StructureAbyStrongholdPieces
 		}
 
 		/**
-		 * Initiates construction of the Structure Component picked, at the current Location of StructGen
+		 * Initiates construction of the Structure Component picked, at the current
+		 * Location of StructGen
 		 */
 		@Override
 		@SuppressWarnings({ "rawtypes", "unchecked" })
-		public void buildComponent(StructureComponent par1StructureComponent, List par2List, Random par3Random)
-		{
-			getNextComponentNormal((StructureAbyStrongholdPieces.Stairs2)par1StructureComponent, par2List, par3Random, 1, 1);
+		public void buildComponent(StructureComponent par1StructureComponent, List par2List, Random par3Random) {
+			getNextComponentNormal((StructureAbyStrongholdPieces.Stairs2) par1StructureComponent, par2List, par3Random, 1, 1);
 		}
 
-		public static StructureAbyStrongholdPieces.Prison findValidPlacement(List<Stronghold> par0List, Random par1Random, int par2, int par3, int par4, int par5, int par6)
-		{
+		public static StructureAbyStrongholdPieces.Prison findValidPlacement(List<Stronghold> par0List, Random par1Random, int par2, int par3, int par4, int par5, int par6) {
 			StructureBoundingBox structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(par2, par3, par4, -1, -1, 0, 9, 5, 11, par5);
 			/**
 			 * returns false if the Structure Bounding Box goes below 10
@@ -964,16 +896,14 @@ public class StructureAbyStrongholdPieces
 		}
 
 		/**
-		 * second Part of Structure generating, this for example places Spiderwebs, Mob Spawners, it closes
-		 * Mineshafts at the end, it adds Fences...
+		 * second Part of Structure generating, this for example places Spiderwebs, Mob
+		 * Spawners, it closes Mineshafts at the end, it adds Fences...
 		 */
 		@Override
-		public boolean addComponentParts(World par1World, Random par2Random, StructureBoundingBox par3StructureBoundingBox)
-		{
+		public boolean addComponentParts(World par1World, Random par2Random, StructureBoundingBox par3StructureBoundingBox) {
 			if (isLiquidInStructureBoundingBox(par1World, par3StructureBoundingBox))
 				return false;
-			else
-			{
+			else {
 				fillWithRandomizedBlocks(par1World, par3StructureBoundingBox, 0, 0, 0, 8, 4, 10, true, par2Random, StructureAbyStrongholdPieces.strongholdStones);
 				placeDoor(par1World, par2Random, par3StructureBoundingBox, field_143013_d, 1, 1, 0);
 				fillWithBlocks(par1World, par3StructureBoundingBox, 1, 1, 10, 3, 3, 10, Blocks.air, Blocks.air, false);
@@ -994,12 +924,11 @@ public class StructureAbyStrongholdPieces
 		}
 	}
 
-	public static class LeftTurn extends StructureAbyStrongholdPieces.Stronghold
-	{
-		public LeftTurn() {}
+	public static class LeftTurn extends StructureAbyStrongholdPieces.Stronghold {
+		public LeftTurn() {
+		}
 
-		public LeftTurn(int par1, Random par2Random, StructureBoundingBox par3StructureBoundingBox, int par4)
-		{
+		public LeftTurn(int par1, Random par2Random, StructureBoundingBox par3StructureBoundingBox, int par4) {
 			super(par1);
 			coordBaseMode = par4;
 			field_143013_d = getRandomDoor(par2Random);
@@ -1007,20 +936,19 @@ public class StructureAbyStrongholdPieces
 		}
 
 		/**
-		 * Initiates construction of the Structure Component picked, at the current Location of StructGen
+		 * Initiates construction of the Structure Component picked, at the current
+		 * Location of StructGen
 		 */
 		@Override
 		@SuppressWarnings({ "rawtypes", "unchecked" })
-		public void buildComponent(StructureComponent par1StructureComponent, List par2List, Random par3Random)
-		{
+		public void buildComponent(StructureComponent par1StructureComponent, List par2List, Random par3Random) {
 			if (coordBaseMode != 2 && coordBaseMode != 3)
-				getNextComponentZ((StructureAbyStrongholdPieces.Stairs2)par1StructureComponent, par2List, par3Random, 1, 1);
+				getNextComponentZ((StructureAbyStrongholdPieces.Stairs2) par1StructureComponent, par2List, par3Random, 1, 1);
 			else
-				getNextComponentX((StructureAbyStrongholdPieces.Stairs2)par1StructureComponent, par2List, par3Random, 1, 1);
+				getNextComponentX((StructureAbyStrongholdPieces.Stairs2) par1StructureComponent, par2List, par3Random, 1, 1);
 		}
 
-		public static StructureAbyStrongholdPieces.LeftTurn findValidPlacement(List<Stronghold> par0List, Random par1Random, int par2, int par3, int par4, int par5, int par6)
-		{
+		public static StructureAbyStrongholdPieces.LeftTurn findValidPlacement(List<Stronghold> par0List, Random par1Random, int par2, int par3, int par4, int par5, int par6) {
 			StructureBoundingBox structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(par2, par3, par4, -1, -1, 0, 5, 5, 5, par5);
 			/**
 			 * returns false if the Structure Bounding Box goes below 10
@@ -1029,16 +957,14 @@ public class StructureAbyStrongholdPieces
 		}
 
 		/**
-		 * second Part of Structure generating, this for example places Spiderwebs, Mob Spawners, it closes
-		 * Mineshafts at the end, it adds Fences...
+		 * second Part of Structure generating, this for example places Spiderwebs, Mob
+		 * Spawners, it closes Mineshafts at the end, it adds Fences...
 		 */
 		@Override
-		public boolean addComponentParts(World par1World, Random par2Random, StructureBoundingBox par3StructureBoundingBox)
-		{
+		public boolean addComponentParts(World par1World, Random par2Random, StructureBoundingBox par3StructureBoundingBox) {
 			if (isLiquidInStructureBoundingBox(par1World, par3StructureBoundingBox))
 				return false;
-			else
-			{
+			else {
 				fillWithRandomizedBlocks(par1World, par3StructureBoundingBox, 0, 0, 0, 4, 4, 4, true, par2Random, StructureAbyStrongholdPieces.strongholdStones);
 				placeDoor(par1World, par2Random, par3StructureBoundingBox, field_143013_d, 1, 1, 0);
 
@@ -1052,32 +978,29 @@ public class StructureAbyStrongholdPieces
 		}
 	}
 
-	public static class RightTurn extends StructureAbyStrongholdPieces.LeftTurn
-	{
+	public static class RightTurn extends StructureAbyStrongholdPieces.LeftTurn {
 		/**
-		 * Initiates construction of the Structure Component picked, at the current Location of StructGen
+		 * Initiates construction of the Structure Component picked, at the current
+		 * Location of StructGen
 		 */
 		@Override
 		@SuppressWarnings({ "rawtypes", "unchecked" })
-		public void buildComponent(StructureComponent par1StructureComponent, List par2List, Random par3Random)
-		{
+		public void buildComponent(StructureComponent par1StructureComponent, List par2List, Random par3Random) {
 			if (coordBaseMode != 2 && coordBaseMode != 3)
-				getNextComponentX((StructureAbyStrongholdPieces.Stairs2)par1StructureComponent, par2List, par3Random, 1, 1);
+				getNextComponentX((StructureAbyStrongholdPieces.Stairs2) par1StructureComponent, par2List, par3Random, 1, 1);
 			else
-				getNextComponentZ((StructureAbyStrongholdPieces.Stairs2)par1StructureComponent, par2List, par3Random, 1, 1);
+				getNextComponentZ((StructureAbyStrongholdPieces.Stairs2) par1StructureComponent, par2List, par3Random, 1, 1);
 		}
 
 		/**
-		 * second Part of Structure generating, this for example places Spiderwebs, Mob Spawners, it closes
-		 * Mineshafts at the end, it adds Fences...
+		 * second Part of Structure generating, this for example places Spiderwebs, Mob
+		 * Spawners, it closes Mineshafts at the end, it adds Fences...
 		 */
 		@Override
-		public boolean addComponentParts(World par1World, Random par2Random, StructureBoundingBox par3StructureBoundingBox)
-		{
+		public boolean addComponentParts(World par1World, Random par2Random, StructureBoundingBox par3StructureBoundingBox) {
 			if (isLiquidInStructureBoundingBox(par1World, par3StructureBoundingBox))
 				return false;
-			else
-			{
+			else {
 				fillWithRandomizedBlocks(par1World, par3StructureBoundingBox, 0, 0, 0, 4, 4, 4, true, par2Random, StructureAbyStrongholdPieces.strongholdStones);
 				placeDoor(par1World, par2Random, par3StructureBoundingBox, field_143013_d, 1, 1, 0);
 
@@ -1091,18 +1014,16 @@ public class StructureAbyStrongholdPieces
 		}
 	}
 
-	static class Stones extends StructureComponent.BlockSelector
-	{
-		private Stones() {}
+	static class Stones extends StructureComponent.BlockSelector {
+		private Stones() {
+		}
 
 		/**
 		 * picks Block Ids and Metadata (Silverfish)
 		 */
 		@Override
-		public void selectBlocks(Random par1Random, int par2, int par3, int par4, boolean par5)
-		{
-			if (par5)
-			{
+		public void selectBlocks(Random par1Random, int par2, int par3, int par4, boolean par5) {
+			if (par5) {
 				field_151562_a = AbyssalCraft.abybrick;
 				float f = par1Random.nextFloat();
 
@@ -1110,59 +1031,49 @@ public class StructureAbyStrongholdPieces
 					selectedBlockMetaData = 0;
 				else if (f < 0.5F)
 					selectedBlockMetaData = 0;
-				else if (f < 0.55F)
-				{
+				else if (f < 0.55F) {
 					field_151562_a = AbyssalCraft.abybrick;
 					selectedBlockMetaData = 0;
 				} else
 					selectedBlockMetaData = 0;
-			}
-			else
-			{
+			} else {
 				field_151562_a = Blocks.air;
 				selectedBlockMetaData = 0;
 			}
 		}
 
-		Stones(Object par1StructureStrongholdPieceWeight2)
-		{
+		Stones(Object par1StructureStrongholdPieceWeight2) {
 			this();
 		}
 	}
 
-	public abstract static class Stronghold extends StructureComponentModded
-	{
+	public abstract static class Stronghold extends StructureComponentModded {
 		protected StructureAbyStrongholdPieces.Stronghold.Door field_143013_d;
-		public Stronghold()
-		{
+
+		public Stronghold() {
 			field_143013_d = StructureAbyStrongholdPieces.Stronghold.Door.OPENING;
 		}
 
-		protected Stronghold(int par1)
-		{
+		protected Stronghold(int par1) {
 			super(par1);
 			field_143013_d = StructureAbyStrongholdPieces.Stronghold.Door.OPENING;
 		}
 
 		@Override
-		protected void func_143012_a(NBTTagCompound par1NBTTagCompound)
-		{
+		protected void func_143012_a(NBTTagCompound par1NBTTagCompound) {
 			par1NBTTagCompound.setString("EntryDoor", field_143013_d.name());
 		}
 
 		@Override
-		protected void func_143011_b(NBTTagCompound par1NBTTagCompound)
-		{
+		protected void func_143011_b(NBTTagCompound par1NBTTagCompound) {
 			field_143013_d = StructureAbyStrongholdPieces.Stronghold.Door.valueOf(par1NBTTagCompound.getString("EntryDoor"));
 		}
 
 		/**
 		 * builds a door of the enumerated types (empty opening is a door)
 		 */
-		protected void placeDoor(World par1World, Random par2Random, StructureBoundingBox par3StructureBoundingBox, StructureAbyStrongholdPieces.Stronghold.Door par4EnumDoor, int par5, int par6, int par7)
-		{
-			switch (StructureAbyStrongholdPieces.SwitchDoor.doorEnum[par4EnumDoor.ordinal()])
-			{
+		protected void placeDoor(World par1World, Random par2Random, StructureBoundingBox par3StructureBoundingBox, StructureAbyStrongholdPieces.Stronghold.Door par4EnumDoor, int par5, int par6, int par7) {
+			switch (StructureAbyStrongholdPieces.SwitchDoor.doorEnum[par4EnumDoor.ordinal()]) {
 			case 1:
 			default:
 				fillWithBlocks(par1World, par3StructureBoundingBox, par5, par6, par7, par5 + 3 - 1, par6 + 3 - 1, par7, Blocks.air, Blocks.air, false);
@@ -1205,12 +1116,10 @@ public class StructureAbyStrongholdPieces
 
 		}
 
-		protected StructureAbyStrongholdPieces.Stronghold.Door getRandomDoor(Random par1Random)
-		{
+		protected StructureAbyStrongholdPieces.Stronghold.Door getRandomDoor(Random par1Random) {
 			int i = par1Random.nextInt(5);
 
-			switch (i)
-			{
+			switch (i) {
 			case 0:
 			case 1:
 			default:
@@ -1227,10 +1136,8 @@ public class StructureAbyStrongholdPieces
 		/**
 		 * Gets the next component in any cardinal direction
 		 */
-		protected StructureComponent getNextComponentNormal(StructureAbyStrongholdPieces.Stairs2 par1ComponentStrongholdStairs2, List<Stronghold> par2List, Random par3Random, int par4, int par5)
-		{
-			switch (coordBaseMode)
-			{
+		protected StructureComponent getNextComponentNormal(StructureAbyStrongholdPieces.Stairs2 par1ComponentStrongholdStairs2, List<Stronghold> par2List, Random par3Random, int par4, int par5) {
+			switch (coordBaseMode) {
 			case 0:
 				return StructureAbyStrongholdPieces.getNextValidComponent(par1ComponentStrongholdStairs2, par2List, par3Random, boundingBox.minX + par4, boundingBox.minY + par5, boundingBox.maxZ + 1, coordBaseMode, getComponentType());
 			case 1:
@@ -1247,10 +1154,8 @@ public class StructureAbyStrongholdPieces
 		/**
 		 * Gets the next component in the +/- X direction
 		 */
-		protected StructureComponent getNextComponentX(StructureAbyStrongholdPieces.Stairs2 par1ComponentStrongholdStairs2, List<Stronghold> par2List, Random par3Random, int par4, int par5)
-		{
-			switch (coordBaseMode)
-			{
+		protected StructureComponent getNextComponentX(StructureAbyStrongholdPieces.Stairs2 par1ComponentStrongholdStairs2, List<Stronghold> par2List, Random par3Random, int par4, int par5) {
+			switch (coordBaseMode) {
 			case 0:
 				return StructureAbyStrongholdPieces.getNextValidComponent(par1ComponentStrongholdStairs2, par2List, par3Random, boundingBox.minX - 1, boundingBox.minY + par4, boundingBox.minZ + par5, 1, getComponentType());
 			case 1:
@@ -1267,10 +1172,8 @@ public class StructureAbyStrongholdPieces
 		/**
 		 * Gets the next component in the +/- Z direction
 		 */
-		protected StructureComponent getNextComponentZ(StructureAbyStrongholdPieces.Stairs2 par1ComponentStrongholdStairs2, List<Stronghold> par2List, Random par3Random, int par4, int par5)
-		{
-			switch (coordBaseMode)
-			{
+		protected StructureComponent getNextComponentZ(StructureAbyStrongholdPieces.Stairs2 par1ComponentStrongholdStairs2, List<Stronghold> par2List, Random par3Random, int par4, int par5) {
+			switch (coordBaseMode) {
 			case 0:
 				return StructureAbyStrongholdPieces.getNextValidComponent(par1ComponentStrongholdStairs2, par2List, par3Random, boundingBox.maxX + 1, boundingBox.minY + par4, boundingBox.minZ + par5, 3, getComponentType());
 			case 1:
@@ -1287,30 +1190,25 @@ public class StructureAbyStrongholdPieces
 		/**
 		 * returns false if the Structure Bounding Box goes below 10
 		 */
-		protected static boolean canStrongholdGoDeeper(StructureBoundingBox par0StructureBoundingBox)
-		{
+		protected static boolean canStrongholdGoDeeper(StructureBoundingBox par0StructureBoundingBox) {
 			return par0StructureBoundingBox != null && par0StructureBoundingBox.minY > 10;
 		}
 
-		public static enum Door
-		{
-			OPENING,
-			WOOD_DOOR,
-			GRATES,
-			IRON_DOOR
+		public static enum Door {
+			OPENING, WOOD_DOOR, GRATES, IRON_DOOR
 		}
 	}
 
-	public static class Crossing extends StructureAbyStrongholdPieces.Stronghold
-	{
+	public static class Crossing extends StructureAbyStrongholdPieces.Stronghold {
 		private boolean field_74996_b;
 		private boolean field_74997_c;
 		private boolean field_74995_d;
 		private boolean field_74999_h;
-		public Crossing() {}
 
-		public Crossing(int par1, Random par2Random, StructureBoundingBox par3StructureBoundingBox, int par4)
-		{
+		public Crossing() {
+		}
+
+		public Crossing(int par1, Random par2Random, StructureBoundingBox par3StructureBoundingBox, int par4) {
 			super(par1);
 			coordBaseMode = par4;
 			field_143013_d = getRandomDoor(par2Random);
@@ -1322,8 +1220,7 @@ public class StructureAbyStrongholdPieces
 		}
 
 		@Override
-		protected void func_143012_a(NBTTagCompound par1NBTTagCompound)
-		{
+		protected void func_143012_a(NBTTagCompound par1NBTTagCompound) {
 			super.func_143012_a(par1NBTTagCompound);
 			par1NBTTagCompound.setBoolean("leftLow", field_74996_b);
 			par1NBTTagCompound.setBoolean("leftHigh", field_74997_c);
@@ -1332,8 +1229,7 @@ public class StructureAbyStrongholdPieces
 		}
 
 		@Override
-		protected void func_143011_b(NBTTagCompound par1NBTTagCompound)
-		{
+		protected void func_143011_b(NBTTagCompound par1NBTTagCompound) {
 			super.func_143011_b(par1NBTTagCompound);
 			field_74996_b = par1NBTTagCompound.getBoolean("leftLow");
 			field_74997_c = par1NBTTagCompound.getBoolean("leftHigh");
@@ -1342,38 +1238,36 @@ public class StructureAbyStrongholdPieces
 		}
 
 		/**
-		 * Initiates construction of the Structure Component picked, at the current Location of StructGen
+		 * Initiates construction of the Structure Component picked, at the current
+		 * Location of StructGen
 		 */
 		@Override
 		@SuppressWarnings({ "rawtypes", "unchecked" })
-		public void buildComponent(StructureComponent par1StructureComponent, List par2List, Random par3Random)
-		{
+		public void buildComponent(StructureComponent par1StructureComponent, List par2List, Random par3Random) {
 			int i = 3;
 			int j = 5;
 
-			if (coordBaseMode == 1 || coordBaseMode == 2)
-			{
+			if (coordBaseMode == 1 || coordBaseMode == 2) {
 				i = 8 - i;
 				j = 8 - j;
 			}
 
-			getNextComponentNormal((StructureAbyStrongholdPieces.Stairs2)par1StructureComponent, par2List, par3Random, 5, 1);
+			getNextComponentNormal((StructureAbyStrongholdPieces.Stairs2) par1StructureComponent, par2List, par3Random, 5, 1);
 
 			if (field_74996_b)
-				getNextComponentX((StructureAbyStrongholdPieces.Stairs2)par1StructureComponent, par2List, par3Random, i, 1);
+				getNextComponentX((StructureAbyStrongholdPieces.Stairs2) par1StructureComponent, par2List, par3Random, i, 1);
 
 			if (field_74997_c)
-				getNextComponentX((StructureAbyStrongholdPieces.Stairs2)par1StructureComponent, par2List, par3Random, j, 7);
+				getNextComponentX((StructureAbyStrongholdPieces.Stairs2) par1StructureComponent, par2List, par3Random, j, 7);
 
 			if (field_74995_d)
-				getNextComponentZ((StructureAbyStrongholdPieces.Stairs2)par1StructureComponent, par2List, par3Random, i, 1);
+				getNextComponentZ((StructureAbyStrongholdPieces.Stairs2) par1StructureComponent, par2List, par3Random, i, 1);
 
 			if (field_74999_h)
-				getNextComponentZ((StructureAbyStrongholdPieces.Stairs2)par1StructureComponent, par2List, par3Random, j, 7);
+				getNextComponentZ((StructureAbyStrongholdPieces.Stairs2) par1StructureComponent, par2List, par3Random, j, 7);
 		}
 
-		public static StructureAbyStrongholdPieces.Crossing findValidPlacement(List<Stronghold> par0List, Random par1Random, int par2, int par3, int par4, int par5, int par6)
-		{
+		public static StructureAbyStrongholdPieces.Crossing findValidPlacement(List<Stronghold> par0List, Random par1Random, int par2, int par3, int par4, int par5, int par6) {
 			StructureBoundingBox structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(par2, par3, par4, -4, -3, 0, 10, 9, 11, par5);
 			/**
 			 * returns false if the Structure Bounding Box goes below 10
@@ -1382,16 +1276,14 @@ public class StructureAbyStrongholdPieces
 		}
 
 		/**
-		 * second Part of Structure generating, this for example places Spiderwebs, Mob Spawners, it closes
-		 * Mineshafts at the end, it adds Fences...
+		 * second Part of Structure generating, this for example places Spiderwebs, Mob
+		 * Spawners, it closes Mineshafts at the end, it adds Fences...
 		 */
 		@Override
-		public boolean addComponentParts(World par1World, Random par2Random, StructureBoundingBox par3StructureBoundingBox)
-		{
+		public boolean addComponentParts(World par1World, Random par2Random, StructureBoundingBox par3StructureBoundingBox) {
 			if (isLiquidInStructureBoundingBox(par1World, par3StructureBoundingBox))
 				return false;
-			else
-			{
+			else {
 				fillWithRandomizedBlocks(par1World, par3StructureBoundingBox, 0, 0, 0, 9, 8, 10, true, par2Random, StructureAbyStrongholdPieces.strongholdStones);
 				placeDoor(par1World, par2Random, par3StructureBoundingBox, field_143013_d, 4, 3, 0);
 
@@ -1426,13 +1318,13 @@ public class StructureAbyStrongholdPieces
 		}
 	}
 
-	public static class Corridor extends StructureAbyStrongholdPieces.Stronghold
-	{
+	public static class Corridor extends StructureAbyStrongholdPieces.Stronghold {
 		private int field_74993_a;
-		public Corridor() {}
 
-		public Corridor(int par1, Random par2Random, StructureBoundingBox par3StructureBoundingBox, int par4)
-		{
+		public Corridor() {
+		}
+
+		public Corridor(int par1, Random par2Random, StructureBoundingBox par3StructureBoundingBox, int par4) {
 			super(par1);
 			coordBaseMode = par4;
 			boundingBox = par3StructureBoundingBox;
@@ -1440,31 +1332,26 @@ public class StructureAbyStrongholdPieces
 		}
 
 		@Override
-		protected void func_143012_a(NBTTagCompound par1NBTTagCompound)
-		{
+		protected void func_143012_a(NBTTagCompound par1NBTTagCompound) {
 			super.func_143012_a(par1NBTTagCompound);
 			par1NBTTagCompound.setInteger("Steps", field_74993_a);
 		}
 
 		@Override
-		protected void func_143011_b(NBTTagCompound par1NBTTagCompound)
-		{
+		protected void func_143011_b(NBTTagCompound par1NBTTagCompound) {
 			super.func_143011_b(par1NBTTagCompound);
 			field_74993_a = par1NBTTagCompound.getInteger("Steps");
 		}
 
-		public static StructureBoundingBox func_74992_a(List<Stronghold> par0List, Random par1Random, int par2, int par3, int par4, int par5)
-		{
+		public static StructureBoundingBox func_74992_a(List<Stronghold> par0List, Random par1Random, int par2, int par3, int par4, int par5) {
 			StructureBoundingBox structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(par2, par3, par4, -1, -1, 0, 5, 5, 4, par5);
 			StructureComponent structurecomponent = StructureComponent.findIntersecting(par0List, structureboundingbox);
 
 			if (structurecomponent == null)
 				return null;
-			else
-			{
+			else {
 				if (structurecomponent.getBoundingBox().minY == structureboundingbox.minY)
-					for (int i1 = 3; i1 >= 1; --i1)
-					{
+					for (int i1 = 3; i1 >= 1; --i1) {
 						structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(par2, par3, par4, -1, -1, 0, 5, 5, i1 - 1, par5);
 
 						if (!structurecomponent.getBoundingBox().intersectsWith(structureboundingbox))
@@ -1476,26 +1363,22 @@ public class StructureAbyStrongholdPieces
 		}
 
 		/**
-		 * second Part of Structure generating, this for example places Spiderwebs, Mob Spawners, it closes
-		 * Mineshafts at the end, it adds Fences...
+		 * second Part of Structure generating, this for example places Spiderwebs, Mob
+		 * Spawners, it closes Mineshafts at the end, it adds Fences...
 		 */
 		@Override
-		public boolean addComponentParts(World par1World, Random par2Random, StructureBoundingBox par3StructureBoundingBox)
-		{
+		public boolean addComponentParts(World par1World, Random par2Random, StructureBoundingBox par3StructureBoundingBox) {
 			if (isLiquidInStructureBoundingBox(par1World, par3StructureBoundingBox))
 				return false;
-			else
-			{
-				for (int i = 0; i < field_74993_a; ++i)
-				{
+			else {
+				for (int i = 0; i < field_74993_a; ++i) {
 					placeBlockAtCurrentPosition(par1World, AbyssalCraft.abybrick, 0, 0, 0, i, par3StructureBoundingBox);
 					placeBlockAtCurrentPosition(par1World, AbyssalCraft.abybrick, 0, 1, 0, i, par3StructureBoundingBox);
 					placeBlockAtCurrentPosition(par1World, AbyssalCraft.abybrick, 0, 2, 0, i, par3StructureBoundingBox);
 					placeBlockAtCurrentPosition(par1World, AbyssalCraft.abybrick, 0, 3, 0, i, par3StructureBoundingBox);
 					placeBlockAtCurrentPosition(par1World, AbyssalCraft.abybrick, 0, 4, 0, i, par3StructureBoundingBox);
 
-					for (int j = 1; j <= 3; ++j)
-					{
+					for (int j = 1; j <= 3; ++j) {
 						placeBlockAtCurrentPosition(par1World, AbyssalCraft.abybrick, 0, 0, j, i, par3StructureBoundingBox);
 						placeBlockAtCurrentPosition(par1World, Blocks.air, 0, 1, j, i, par3StructureBoundingBox);
 						placeBlockAtCurrentPosition(par1World, Blocks.air, 0, 2, j, i, par3StructureBoundingBox);
@@ -1515,55 +1398,41 @@ public class StructureAbyStrongholdPieces
 		}
 	}
 
-	static final class SwitchDoor
-	{
+	static final class SwitchDoor {
 		static final int[] doorEnum = new int[StructureAbyStrongholdPieces.Stronghold.Door.values().length];
-		static
-		{
-			try
-			{
+		static {
+			try {
 				doorEnum[StructureAbyStrongholdPieces.Stronghold.Door.OPENING.ordinal()] = 1;
-			}
-			catch (NoSuchFieldError var4)
-			{
+			} catch (NoSuchFieldError var4) {
 				;
 			}
 
-			try
-			{
+			try {
 				doorEnum[StructureAbyStrongholdPieces.Stronghold.Door.WOOD_DOOR.ordinal()] = 2;
-			}
-			catch (NoSuchFieldError var3)
-			{
+			} catch (NoSuchFieldError var3) {
 				;
 			}
 
-			try
-			{
+			try {
 				doorEnum[StructureAbyStrongholdPieces.Stronghold.Door.GRATES.ordinal()] = 3;
-			}
-			catch (NoSuchFieldError var2)
-			{
+			} catch (NoSuchFieldError var2) {
 				;
 			}
 
-			try
-			{
+			try {
 				doorEnum[StructureAbyStrongholdPieces.Stronghold.Door.IRON_DOOR.ordinal()] = 4;
-			}
-			catch (NoSuchFieldError var1)
-			{
+			} catch (NoSuchFieldError var1) {
 				;
 			}
 		}
 	}
 
-	static class PieceWeight
-	{
+	static class PieceWeight {
 		public Class<?> pieceClass;
 		/**
-		 * This basically keeps track of the 'epicness' of a structure. Epic structure components have a higher
-		 * 'weight', and Structures may only grow up to a certain 'weight' before generation is stopped
+		 * This basically keeps track of the 'epicness' of a structure. Epic structure
+		 * components have a higher 'weight', and Structures may only grow up to a
+		 * certain 'weight' before generation is stopped
 		 */
 		public final int pieceWeight;
 		public int instancesSpawned;
@@ -1571,20 +1440,18 @@ public class StructureAbyStrongholdPieces
 		 * How many Structure Pieces of this type may spawn in a structure
 		 */
 		public int instancesLimit;
-		public PieceWeight(Class<?> par1Class, int par2, int par3)
-		{
+
+		public PieceWeight(Class<?> par1Class, int par2, int par3) {
 			pieceClass = par1Class;
 			pieceWeight = par2;
 			instancesLimit = par3;
 		}
 
-		public boolean canSpawnMoreStructuresOfType(int par1)
-		{
+		public boolean canSpawnMoreStructuresOfType(int par1) {
 			return instancesLimit == 0 || instancesSpawned < instancesLimit;
 		}
 
-		public boolean canSpawnMoreStructures()
-		{
+		public boolean canSpawnMoreStructures() {
 			return instancesLimit == 0 || instancesSpawned < instancesLimit;
 		}
 	}

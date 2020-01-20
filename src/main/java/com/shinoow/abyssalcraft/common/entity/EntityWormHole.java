@@ -148,10 +148,10 @@ public class EntityWormHole extends EntityMob {
 		}
 
 		if(deathTicks == 490 && !worldObj.isRemote) {
-			if(!worldObj.getEntitiesWithinAABB(Entity.class, boundingBox.expand(3,2,3)).isEmpty()) {
-				List<Entity> entities = worldObj.getEntitiesWithinAABBExcludingEntity(this, boundingBox.expand(3,3,3));
-				for(Entity entity: entities) {
-					if(entity instanceof EntityLivingBase) {
+			List<EntityLivingBase> entities = worldObj.getEntitiesWithinAABB(EntityLivingBase.class, boundingBox.expand(3,3,3));
+			if(!entities.isEmpty()) {
+				for(EntityLivingBase entity: entities) {
+					if (Math.floor(entity.posY) == Math.floor(this.posY) || canEntityBeSeen(entity)) {
 						entity.attackEntityFrom(AbyssalCraftAPI.antimatter, 50F);
 					}
 				}
@@ -204,8 +204,6 @@ public class EntityWormHole extends EntityMob {
 		final float dt = (float)deathTicks;
 		final float power = dt / 5000;
 		final float size = dt / 12;
-		System.out.println("TICKS: " + dt + "| POWER:"  + power + "| SIZE: " + size);
-
 		List<Entity> list = worldObj.getEntitiesWithinAABB(Entity.class, boundingBox.expand(size, size, size));
 
 		for(Entity entity : list) {

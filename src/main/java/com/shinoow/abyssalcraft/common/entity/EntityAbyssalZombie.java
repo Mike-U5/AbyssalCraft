@@ -239,7 +239,7 @@ public class EntityAbyssalZombie extends CoraliumEntity implements ICoraliumEnti
 			dropItem(Items.bone, 1);
 			break;
 		case 1:
-			dropItem(AbyssalCraft.sword, 1);
+			dropItem(Items.glass_bottle, 1);
 			break;
 		case 2:
 			dropItem(AbyssalCraft.Coralium, 1);

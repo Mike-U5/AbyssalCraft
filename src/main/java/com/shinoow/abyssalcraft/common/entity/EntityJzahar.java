@@ -463,7 +463,7 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IAntiEntity
 		// Perform DISPLACE
 		if (cycle == 27 + castTime) {
 			swingItem();
-			List<EntityLivingBase> entities = worldObj.getEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(posX, posY, posZ, posX + 1, posY + 1, posZ + 1).expand(36D, 36D, 36D));
+			List<EntityLivingBase> entities = worldObj.getEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(posX, posY, posZ, posX + 1, posY + 1, posZ + 1).expand(32D, 32D, 32D));
 
 			if (!entities.isEmpty()) {
 				for (EntityLivingBase entity : entities) {
@@ -513,7 +513,6 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IAntiEntity
 				} else {
 					hole.copyLocationAndAnglesFrom(this);
 				}
-				hole.posY += 0.5F;
 				worldObj.spawnEntityInWorld(hole);
 			}
 			return;

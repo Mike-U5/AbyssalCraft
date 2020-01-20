@@ -70,8 +70,7 @@
 	"golem.idle": {
 		"category": "hostile",
 		"sounds": [
-			"abyssalcraft:golem/idle1",
-			"abyssalcraft:golem/silence"
+			"abyssalcraft:golem/idle1"
 		]
 	},
 	"golem.death": {

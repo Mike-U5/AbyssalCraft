@@ -153,7 +153,6 @@ import com.shinoow.abyssalcraft.common.entity.EntityChagarothSpawn;
 import com.shinoow.abyssalcraft.common.entity.EntityCoraliumArrow;
 import com.shinoow.abyssalcraft.common.entity.EntityDepthsGhoul;
 import com.shinoow.abyssalcraft.common.entity.EntityDragonBoss;
-///import com.shinoow.abyssalcraft.common.entity.EntityDragonMinion;
 import com.shinoow.abyssalcraft.common.entity.EntityDreadSlug;
 import com.shinoow.abyssalcraft.common.entity.EntityDreadSpawn;
 import com.shinoow.abyssalcraft.common.entity.EntityDreadgolem;
@@ -183,10 +182,10 @@ import com.shinoow.abyssalcraft.common.entity.anti.EntityAntiCow;
 import com.shinoow.abyssalcraft.common.entity.anti.EntityAntiCreeper;
 import com.shinoow.abyssalcraft.common.entity.anti.EntityAntiGhoul;
 import com.shinoow.abyssalcraft.common.entity.anti.EntityAntiPig;
-import com.shinoow.abyssalcraft.common.entity.anti.EntityDaoloth;
-import com.shinoow.abyssalcraft.common.entity.anti.EntityFallenHero;
 import com.shinoow.abyssalcraft.common.entity.anti.EntityAntiSpider;
 import com.shinoow.abyssalcraft.common.entity.anti.EntityAntiZombie;
+import com.shinoow.abyssalcraft.common.entity.anti.EntityDaoloth;
+import com.shinoow.abyssalcraft.common.entity.anti.EntityFallenHero;
 import com.shinoow.abyssalcraft.common.entity.demon.EntityDemonChicken;
 import com.shinoow.abyssalcraft.common.entity.demon.EntityDemonCow;
 import com.shinoow.abyssalcraft.common.entity.demon.EntityDemonPig;
@@ -218,6 +217,7 @@ import com.shinoow.abyssalcraft.common.items.ItemCoraliumcluster;
 import com.shinoow.abyssalcraft.common.items.ItemCorb;
 import com.shinoow.abyssalcraft.common.items.ItemCorbone;
 import com.shinoow.abyssalcraft.common.items.ItemCorflesh;
+import com.shinoow.abyssalcraft.common.items.ItemCrozier;
 import com.shinoow.abyssalcraft.common.items.ItemCudgel;
 import com.shinoow.abyssalcraft.common.items.ItemDrainStaff;
 import com.shinoow.abyssalcraft.common.items.ItemDrainStaffBeast;
@@ -234,9 +234,7 @@ import com.shinoow.abyssalcraft.common.items.ItemPortalPlacer;
 import com.shinoow.abyssalcraft.common.items.ItemPortalPlacerDL;
 import com.shinoow.abyssalcraft.common.items.ItemPortalPlacerJzh;
 import com.shinoow.abyssalcraft.common.items.ItemSoulReaper;
-import com.shinoow.abyssalcraft.common.items.ItemCrozier;
 import com.shinoow.abyssalcraft.common.items.ItemTrackerPSDL;
-import com.shinoow.abyssalcraft.common.items.armor.ItemAbyssalniteArmor;
 import com.shinoow.abyssalcraft.common.items.armor.ItemCoraliumArmor;
 import com.shinoow.abyssalcraft.common.items.armor.ItemCoraliumPArmor;
 import com.shinoow.abyssalcraft.common.items.armor.ItemDepthsArmor;
@@ -424,12 +422,11 @@ public class AbyssalCraft {
 	Coraliumcluster5, Coraliumcluster6, Coraliumcluster7, Coraliumcluster8, Coraliumcluster9,
 	Cpearl, Corb, Cchunk, Cingot, Cplate, Corflesh, Corbone, corbow, ethaxiumBow;
 	//tools
-	public static Item pickaxe, axe, shovel, sword, hoe,
-	Corpickaxe, Coraxe, Corshovel, Corsword, Corhoe, dreadiumpickaxe, dreadiumaxe, dreadiumshovel,
+	public static Item Corpickaxe, Coraxe, Corshovel, Corsword, Corhoe, dreadiumpickaxe, dreadiumaxe, dreadiumshovel,
 	dreadiumsword, dreadiumhoe, dreadhilt, dreadkatana, ethPickaxe, ethAxe, ethShovel, ethSword,
 	ethHoe, soulSword;
 	//armor
-	public static Item boots, helmet, plate, legs, bootsD, helmetD, plateD, legsD, Corboots,
+	public static Item bootsD, helmetD, plateD, legsD, Corboots,
 	Corhelmet, Corplate, Corlegs, CorbootsP, CorhelmetP, CorplateP, CorlegsP, Depthsboots,
 	Depthshelmet, Depthsplate, Depthslegs, dreadiumboots, dreadiumhelmet, dreadiumplate,
 	dreadiumlegs, dreadiumSboots, dreadiumShelmet, dreadiumSplate, dreadiumSlegs, ethBoots,
@@ -461,13 +458,13 @@ public class AbyssalCraft {
 	public static final CreativeTabs tabTools = new CreativeTabs("actools"){
 		@Override
 		public Item getTabIconItem() {
-			return axe;
+			return Coraxe;
 		}
 	};
 	public static final CreativeTabs tabCombat = new CreativeTabs("acctools"){
 		@Override
 		public Item getTabIconItem() {
-			return sword;
+			return Corsword;
 		}
 	};
 	public static final CreativeTabs tabFood = new CreativeTabs("acfood"){
@@ -861,11 +858,11 @@ public class AbyssalCraft {
 		ethaxiumBow = registerItem(new ItemEthaxiumBow(20.0F, 0, 8, 16).setUnlocalizedName("ethaxiumBow").setTextureName(modid + ":" + "ethaxiumBow"), "ethaxiumBow");
 
 		//Tools
-		pickaxe = registerItem(new ItemACPickaxe(AbyssalCraftAPI.darkstoneTool, "DP", 1), "dpick");
-		axe = registerItem(new ItemACAxe(AbyssalCraftAPI.darkstoneTool, "DA", 1), "daxe");
-		shovel = registerItem(new ItemACShovel(AbyssalCraftAPI.darkstoneTool, "DS", 1), "dshovel");
-		sword = registerItem(new ItemACSword(AbyssalCraftAPI.darkstoneTool, "DSW"), "dsword");
-		hoe = registerItem(new ItemACHoe(AbyssalCraftAPI.darkstoneTool, "DH"), "dhoe");
+		///pickaxe = registerItem(new ItemACPickaxe(AbyssalCraftAPI.darkstoneTool, "DP", 1), "dpick");
+		///axe = registerItem(new ItemACAxe(AbyssalCraftAPI.darkstoneTool, "DA", 1), "daxe");
+		///shovel = registerItem(new ItemACShovel(AbyssalCraftAPI.darkstoneTool, "DS", 1), "dshovel");
+		///sword = registerItem(new ItemACSword(AbyssalCraftAPI.darkstoneTool, "DSW"), "dsword");
+		///hoe = registerItem(new ItemACHoe(AbyssalCraftAPI.darkstoneTool, "DH"), "dhoe");
 		Corpickaxe = registerItem(new ItemACPickaxe(AbyssalCraftAPI.refinedCoraliumTool, "RCP", 5, EnumChatFormatting.AQUA), "corpick");
 		Coraxe = registerItem(new ItemACAxe(AbyssalCraftAPI.refinedCoraliumTool, "RCA", 5, EnumChatFormatting.AQUA), "coraxe");
 		Corshovel = registerItem(new ItemACShovel(AbyssalCraftAPI.refinedCoraliumTool, "RCS", 5, EnumChatFormatting.AQUA), "corshovel");
@@ -889,10 +886,10 @@ public class AbyssalCraft {
 		drainStaffBeast = registerItem(new ItemDrainStaffBeast(), "drainstaffbeast");
 
 		//Armor
-		boots = registerItem(new ItemAbyssalniteArmor(AbyssalCraftAPI.abyssalniteArmor, 5, 3).setUnlocalizedName("AAB").setTextureName(modid + ":" + "AAB"), "aboots");
-		helmet = registerItem(new ItemAbyssalniteArmor(AbyssalCraftAPI.abyssalniteArmor, 5, 0).setUnlocalizedName("AAH").setTextureName(modid + ":" + "AAh"), "ahelmet");
-		plate = registerItem(new ItemAbyssalniteArmor(AbyssalCraftAPI.abyssalniteArmor, 5, 1).setUnlocalizedName("AAC").setTextureName(modid + ":" + "AAC"), "aplate");
-		legs = registerItem(new ItemAbyssalniteArmor(AbyssalCraftAPI.abyssalniteArmor, 5, 2).setUnlocalizedName("AAP").setTextureName(modid + ":" + "AAP"), "alegs");
+		///boots = registerItem(new ItemAbyssalniteArmor(AbyssalCraftAPI.abyssalniteArmor, 5, 3).setUnlocalizedName("AAB").setTextureName(modid + ":" + "AAB"), "aboots");
+		///helmet = registerItem(new ItemAbyssalniteArmor(AbyssalCraftAPI.abyssalniteArmor, 5, 0).setUnlocalizedName("AAH").setTextureName(modid + ":" + "AAh"), "ahelmet");
+		///plate = registerItem(new ItemAbyssalniteArmor(AbyssalCraftAPI.abyssalniteArmor, 5, 1).setUnlocalizedName("AAC").setTextureName(modid + ":" + "AAC"), "aplate");
+		///legs = registerItem(new ItemAbyssalniteArmor(AbyssalCraftAPI.abyssalniteArmor, 5, 2).setUnlocalizedName("AAP").setTextureName(modid + ":" + "AAP"), "alegs");
 		bootsD = registerItem(new ItemDreadArmor(AbyssalCraftAPI.dreadedAbyssalniteArmor, 5, 3).setUnlocalizedName("ADAB").setTextureName(modid + ":" + "ADAB"), "dboots");
 		helmetD = registerItem(new ItemDreadArmor(AbyssalCraftAPI.dreadedAbyssalniteArmor, 5, 0).setUnlocalizedName("ADAH").setTextureName(modid + ":" + "ADAH"), "dhelmet");
 		plateD = registerItem(new ItemDreadArmor(AbyssalCraftAPI.dreadedAbyssalniteArmor, 5, 1).setUnlocalizedName("ADAC").setTextureName(modid + ":" + "ADAC"), "dplate");
