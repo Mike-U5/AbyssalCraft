@@ -103,8 +103,8 @@ public class AbyssalCraftAPI {
 
 	public static ToolMaterial darkstoneTool = EnumHelper.addToolMaterial("DARKSTONE", 1, 131, 4.8F, 2F, 2);
 	public static ToolMaterial abyssalniteTool = EnumHelper.addToolMaterial("ABYSSALNITE", 4, 1261, 10.0F, 2F, 13);
-	public static ToolMaterial refinedCoraliumTool = EnumHelper.addToolMaterial("CORALIUM", 5, 1800, 12.0F, 3F, 14);
-	public static ToolMaterial dreadiumTool = EnumHelper.addToolMaterial("DREADIUM", 6, 2300, 14.0F, 4F, 15);
+	public static ToolMaterial refinedCoraliumTool = EnumHelper.addToolMaterial("CORALIUM", 5, 1800, 12.0F, 2.5F, 14);
+	public static ToolMaterial dreadiumTool = EnumHelper.addToolMaterial("DREADIUM", 6, 2300, 14.0F, 3.75F, 15);
 	public static ToolMaterial ethaxiumTool = EnumHelper.addToolMaterial("ETHAXIUM", 8, 2800, 15.5F, 5F, 19);
 	public static ToolMaterial katanaTool = EnumHelper.addToolMaterial("KATANA", 9, 3000, 16.5F, 6F, 21);
 
