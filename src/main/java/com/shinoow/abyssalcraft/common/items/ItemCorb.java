@@ -37,23 +37,23 @@ public class ItemCorb extends Item {
 	}
 
 	@Override
-	public boolean onItemUse(ItemStack is, EntityPlayer player, World w, int x, int y, int z, int l, float f, float f1, float f3){ //Called when an item is right clicked on a block
-		if(w.getBlock(x, y, z) == Blocks.stone){
+	public boolean onItemUse(ItemStack is, EntityPlayer player, World w, int x, int y, int z, int l, float f, float f1, float f3) { // Called when an item is right clicked on a block
+		if (w.getBlock(x, y, z) == Blocks.stone) {
 			w.setBlock(x, y, z, AbyssalCraft.Darkstone);
 			is.damageItem(50, player);
-		} else if(w.getBlock(x, y, z) == AbyssalCraft.Darkstone){
+		} else if (w.getBlock(x, y, z) == AbyssalCraft.Darkstone) {
 			w.setBlock(x, y, z, Blocks.stone);
 			is.damageItem(50, player);
-		} else if(w.getBlock(x, y, z) == Blocks.cobblestone){
+		} else if (w.getBlock(x, y, z) == Blocks.cobblestone) {
 			w.setBlock(x, y, z, AbyssalCraft.Darkstone_cobble);
 			is.damageItem(50, player);
-		} else if(w.getBlock(x, y, z) == AbyssalCraft.Darkstone_cobble){
+		} else if (w.getBlock(x, y, z) == AbyssalCraft.Darkstone_cobble) {
 			w.setBlock(x, y, z, Blocks.cobblestone);
 			is.damageItem(50, player);
-		} else if(w.getBlock(x, y, z) == Blocks.stonebrick){
+		} else if (w.getBlock(x, y, z) == Blocks.stonebrick) {
 			w.setBlock(x, y, z, AbyssalCraft.Darkstone_brick);
 			is.damageItem(50, player);
-		} else if(w.getBlock(x, y, z) == AbyssalCraft.Darkstone_brick){
+		} else if (w.getBlock(x, y, z) == AbyssalCraft.Darkstone_brick) {
 			w.setBlock(x, y, z, Blocks.stonebrick);
 			is.damageItem(50, player);
 		} else if (w.getBlock(x, y, z) == AbyssalCraft.shoggothBlock) {
@@ -65,15 +65,10 @@ public class ItemCorb extends Item {
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
-	public void addInformation(ItemStack is, EntityPlayer player, List l, boolean B){
+	public void addInformation(ItemStack is, EntityPlayer player, List l, boolean B) {
 		l.add(StatCollector.translateToLocal("tooltip.corb.1"));
 		l.add(StatCollector.translateToLocal("tooltip.corb.2"));
 		l.add(StatCollector.translateToLocal("tooltip.corb.3"));
 		l.add(StatCollector.translateToLocal("tooltip.corb.4"));
-	}
-
-	@Override
-	public boolean hasEffect(ItemStack is, int pass){
-		return true;
 	}
 }

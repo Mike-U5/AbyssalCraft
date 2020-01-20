@@ -2101,7 +2101,7 @@ public class AbyssalCraft {
 		EntityList.entityEggs.put(id, new EntityEggInfo(id, primaryColor, secondaryColor));
 	}
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "unused" })
 	private static void registerEntity(Class<? extends Entity> entity, String name, int modid, int trackingRange, int updateFrequency, boolean sendsVelocityUpdates) {
 		final int id = getUniqueEntityId();
 		stringtoIDMapping.put(name, id);
