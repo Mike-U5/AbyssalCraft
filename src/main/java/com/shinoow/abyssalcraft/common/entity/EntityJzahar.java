@@ -151,9 +151,9 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IAntiEntity
 	@Override
 	public boolean attackEntityFrom(DamageSource dmgSrc, float amount) {
 		// If I can't see you then you can't see me!
-		/*
+		/**
 		 * if (getAttackTarget() == null) { return false; }
-		 */
+		 **/
 
 		final Entity srcEntity = dmgSrc.getEntity();
 
@@ -173,7 +173,7 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IAntiEntity
 	/* 
 	 * Apply Damage Cap 
 	 */
-	@Override
+	/**@Override
 	protected void damageEntity(DamageSource dmgSrc, float amount) {
 		if (!this.isEntityInvulnerable()) {
 			amount = ForgeHooks.onLivingHurt(this, dmgSrc, amount);
@@ -197,7 +197,7 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IAntiEntity
 				this.setAbsorptionAmount(this.getAbsorptionAmount() - amount);
 			}
 		}
-	}
+	}**/
 
 	@Override
 	public EnumCreatureAttribute getCreatureAttribute() {

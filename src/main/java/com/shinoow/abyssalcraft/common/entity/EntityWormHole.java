@@ -44,7 +44,7 @@ public class EntityWormHole extends EntityMob {
 	
 	public EntityWormHole(World world) {
 		super(world);
-		setSize(0.5F, 0.5F);
+		this.setSize(0.1F, 1.8F);
 		tasks.addTask(0, new EntityAISwimming(this));
 		tasks.addTask(2, new EntityAIAttackOnCollide(this, EntityPlayer.class, 0.35D, true));
 		tasks.addTask(4, new EntityAIMoveTowardsRestriction(this, 0.35D));
