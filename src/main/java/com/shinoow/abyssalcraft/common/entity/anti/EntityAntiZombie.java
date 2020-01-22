@@ -13,6 +13,11 @@ package com.shinoow.abyssalcraft.common.entity.anti;
 
 import java.util.UUID;
 
+import com.shinoow.abyssalcraft.AbyssalCraft;
+import com.shinoow.abyssalcraft.api.entity.IAntiEntity;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -37,17 +42,10 @@ import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
-import net.minecraft.item.Item;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeModContainer;
-
-import com.shinoow.abyssalcraft.AbyssalCraft;
-import com.shinoow.abyssalcraft.api.entity.IAntiEntity;
-
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class EntityAntiZombie extends EntityMob implements IAntiEntity {
 
@@ -59,8 +57,7 @@ public class EntityAntiZombie extends EntityMob implements IAntiEntity {
 	private float width = -1.0F;
 	private float height;
 
-	public EntityAntiZombie(World par1World)
-	{
+	public EntityAntiZombie(World par1World) {
 		super(par1World);
 		getNavigator().setBreakDoors(true);
 		tasks.addTask(0, new EntityAISwimming(this));
@@ -76,14 +73,13 @@ public class EntityAntiZombie extends EntityMob implements IAntiEntity {
 	}
 
 	@Override
-	protected void applyEntityAttributes()
-	{
+	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
 
 		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.23000000417232513D);
 		getAttributeMap().registerAttribute(spawnReinforcementsAttribute).setBaseValue(rand.nextDouble() * ForgeModContainer.zombieSummonBaseChance);
 
-		if(AbyssalCraft.hardcoreMode){
+		if (AbyssalCraft.hardcoreMode) {
 			getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(80.0D);
 			getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(6.0D);
 		} else {
@@ -93,29 +89,24 @@ public class EntityAntiZombie extends EntityMob implements IAntiEntity {
 	}
 
 	@Override
-	protected void entityInit()
-	{
+	protected void entityInit() {
 		super.entityInit();
-		getDataWatcher().addObject(12, Byte.valueOf((byte)0));
-		getDataWatcher().addObject(13, Byte.valueOf((byte)0));
-		getDataWatcher().addObject(14, Byte.valueOf((byte)0));
+		getDataWatcher().addObject(12, Byte.valueOf((byte) 0));
+		getDataWatcher().addObject(13, Byte.valueOf((byte) 0));
+		getDataWatcher().addObject(14, Byte.valueOf((byte) 0));
 	}
 
 	@Override
-	protected boolean isAIEnabled()
-	{
+	protected boolean isAIEnabled() {
 		return true;
 	}
 
-	public boolean canBearkDoors()
-	{
+	public boolean canBearkDoors() {
 		return canBreak;
 	}
 
-	public void func_146070_a(boolean par1)
-	{
-		if (canBreak != par1)
-		{
+	public void func_146070_a(boolean par1) {
+		if (canBreak != par1) {
 			canBreak = par1;
 
 			if (par1)
@@ -126,16 +117,14 @@ public class EntityAntiZombie extends EntityMob implements IAntiEntity {
 	}
 
 	@Override
-	public boolean isChild()
-	{
+	public boolean isChild() {
 		return getDataWatcher().getWatchableObjectByte(12) == 1;
 	}
 
 	@Override
-	protected int getExperiencePoints(EntityPlayer par1EntityPlayer)
-	{
+	protected int getExperiencePoints(EntityPlayer par1EntityPlayer) {
 		if (this.isChild())
-			experienceValue = (int)(experienceValue * 2.5F);
+			experienceValue = (int) (experienceValue * 2.5F);
 
 		return super.getExperiencePoints(par1EntityPlayer);
 	}
@@ -143,12 +132,10 @@ public class EntityAntiZombie extends EntityMob implements IAntiEntity {
 	/**
 	 * Set whether this zombie is a child.
 	 */
-	public void setChild(boolean par1)
-	{
-		getDataWatcher().updateObject(12, Byte.valueOf((byte)(par1 ? 1 : 0)));
+	public void setChild(boolean par1) {
+		getDataWatcher().updateObject(12, Byte.valueOf((byte) (par1 ? 1 : 0)));
 
-		if (worldObj != null && !worldObj.isRemote)
-		{
+		if (worldObj != null && !worldObj.isRemote) {
 			IAttributeInstance iattributeinstance = getEntityAttribute(SharedMonsterAttributes.movementSpeed);
 			iattributeinstance.removeModifier(babySpeedBoostModifier);
 
@@ -160,31 +147,27 @@ public class EntityAntiZombie extends EntityMob implements IAntiEntity {
 	}
 
 	@Override
-	public boolean attackEntityFrom(DamageSource par1DamageSource, float par2)
-	{
+	public boolean attackEntityFrom(DamageSource par1DamageSource, float par2) {
 		if (!super.attackEntityFrom(par1DamageSource, par2))
 			return false;
-		else
-		{
+		else {
 			EntityLivingBase entitylivingbase = getAttackTarget();
 
 			if (entitylivingbase == null && getEntityToAttack() instanceof EntityLivingBase)
-				entitylivingbase = (EntityLivingBase)getEntityToAttack();
+				entitylivingbase = (EntityLivingBase) getEntityToAttack();
 
 			if (entitylivingbase == null && par1DamageSource.getEntity() instanceof EntityLivingBase)
-				entitylivingbase = (EntityLivingBase)par1DamageSource.getEntity();
+				entitylivingbase = (EntityLivingBase) par1DamageSource.getEntity();
 
 			return true;
 		}
 	}
 
 	@Override
-	public boolean attackEntityAsMob(Entity par1Entity)
-	{
+	public boolean attackEntityAsMob(Entity par1Entity) {
 		boolean flag = super.attackEntityAsMob(par1Entity);
 
-		if (flag)
-		{
+		if (flag) {
 			int i = worldObj.difficultySetting.getDifficultyId();
 
 			if (getHeldItem() == null && isBurning() && rand.nextFloat() < i * 0.3F)
@@ -195,46 +178,33 @@ public class EntityAntiZombie extends EntityMob implements IAntiEntity {
 	}
 
 	@Override
-	protected String getLivingSound()
-	{
+	protected String getLivingSound() {
 		return "mob.zombie.say";
 	}
 
 	@Override
-	protected String getHurtSound()
-	{
+	protected String getHurtSound() {
 		return "mob.zombie.hurt";
 	}
 
 	@Override
-	protected String getDeathSound()
-	{
+	protected String getDeathSound() {
 		return "mob.zombie.death";
 	}
 
 	@Override
-	protected void func_145780_a(int par1, int par2, int par3, Block par4Block)
-	{
+	protected void func_145780_a(int par1, int par2, int par3, Block par4Block) {
 		playSound("mob.zombie.step", 0.15F, 1.0F);
 	}
 
 	@Override
-	protected Item getDropItem()
-	{
-		return AbyssalCraft.antiFlesh;
-	}
-
-	@Override
-	public EnumCreatureAttribute getCreatureAttribute()
-	{
+	public EnumCreatureAttribute getCreatureAttribute() {
 		return EnumCreatureAttribute.UNDEAD;
 	}
 
 	@Override
-	protected void dropRareDrop(int par1)
-	{
-		switch (rand.nextInt(3))
-		{
+	protected void dropRareDrop(int par1) {
+		switch (rand.nextInt(3)) {
 		case 0:
 			dropItem(Items.iron_ingot, 1);
 			break;
@@ -247,8 +217,7 @@ public class EntityAntiZombie extends EntityMob implements IAntiEntity {
 	}
 
 	@Override
-	public void writeEntityToNBT(NBTTagCompound par1NBTTagCompound)
-	{
+	public void writeEntityToNBT(NBTTagCompound par1NBTTagCompound) {
 		super.writeEntityToNBT(par1NBTTagCompound);
 
 		if (this.isChild())
@@ -258,8 +227,7 @@ public class EntityAntiZombie extends EntityMob implements IAntiEntity {
 	}
 
 	@Override
-	public void readEntityFromNBT(NBTTagCompound par1NBTTagCompound)
-	{
+	public void readEntityFromNBT(NBTTagCompound par1NBTTagCompound) {
 		super.readEntityFromNBT(par1NBTTagCompound);
 
 		if (par1NBTTagCompound.getBoolean("IsBaby"))
@@ -269,19 +237,17 @@ public class EntityAntiZombie extends EntityMob implements IAntiEntity {
 	}
 
 	@Override
-	protected void collideWithEntity(Entity par1Entity)
-	{
-		if(!worldObj.isRemote && par1Entity instanceof EntityZombie){
+	protected void collideWithEntity(Entity par1Entity) {
+		if (!worldObj.isRemote && par1Entity instanceof EntityZombie) {
 			boolean flag = worldObj.getGameRules().getGameRuleBooleanValue("mobGriefing");
 			worldObj.createExplosion(this, posX, posY, posZ, 5, flag);
 			setDead();
-		}
-		else par1Entity.applyEntityCollision(this);
+		} else
+			par1Entity.applyEntityCollision(this);
 	}
 
 	@Override
-	public IEntityLivingData onSpawnWithEgg(IEntityLivingData par1EntityLivingData)
-	{
+	public IEntityLivingData onSpawnWithEgg(IEntityLivingData par1EntityLivingData) {
 		Object entity = super.onSpawnWithEgg(par1EntityLivingData);
 		float f = worldObj.func_147462_b(posX, posY, posZ);
 		setCanPickUpLoot(rand.nextFloat() < 0.55F * f);
@@ -289,9 +255,8 @@ public class EntityAntiZombie extends EntityMob implements IAntiEntity {
 		if (entity == null)
 			entity = new EntityAntiZombie.GroupData(worldObj.rand.nextFloat() < ForgeModContainer.zombieBabyChance, worldObj.rand.nextFloat() < 0.05F, null);
 
-		if (entity instanceof EntityAntiZombie.GroupData)
-		{
-			EntityAntiZombie.GroupData groupdata = (EntityAntiZombie.GroupData)entity;
+		if (entity instanceof EntityAntiZombie.GroupData) {
+			EntityAntiZombie.GroupData groupdata = (EntityAntiZombie.GroupData) entity;
 
 			if (groupdata.field_142048_a)
 				setChild(true);
@@ -305,35 +270,30 @@ public class EntityAntiZombie extends EntityMob implements IAntiEntity {
 		if (d0 > 1.0D)
 			getEntityAttribute(SharedMonsterAttributes.followRange).applyModifier(new AttributeModifier("Random zombie-spawn bonus", d0, 2));
 
-		if (rand.nextFloat() < f * 0.05F)
-		{
+		if (rand.nextFloat() < f * 0.05F) {
 			getEntityAttribute(spawnReinforcementsAttribute).applyModifier(new AttributeModifier("Leader zombie bonus", rand.nextDouble() * 0.25D + 0.5D, 0));
 			getEntityAttribute(SharedMonsterAttributes.maxHealth).applyModifier(new AttributeModifier("Leader zombie bonus", rand.nextDouble() * 3.0D + 1.0D, 2));
 			func_146070_a(true);
 		}
 
-		return (IEntityLivingData)entity;
+		return (IEntityLivingData) entity;
 	}
-
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void handleHealthUpdate(byte par1)
-	{
+	public void handleHealthUpdate(byte par1) {
 		if (par1 == 16)
 			worldObj.playSound(posX + 0.5D, posY + 0.5D, posZ + 0.5D, "mob.zombie.remedy", 1.0F + rand.nextFloat(), rand.nextFloat() * 0.7F + 0.3F, false);
 		else
 			super.handleHealthUpdate(par1);
 	}
 
-	public void isChild(boolean par1)
-	{
+	public void isChild(boolean par1) {
 		modifySize(par1 ? 0.5F : 1.0F);
 	}
 
 	@Override
-	protected final void setSize(float par1, float par2)
-	{
+	protected final void setSize(float par1, float par2) {
 		boolean flag = width > 0.0F && height > 0.0F;
 		width = par1;
 		height = par2;
@@ -342,25 +302,22 @@ public class EntityAntiZombie extends EntityMob implements IAntiEntity {
 			modifySize(1.0F);
 	}
 
-	protected final void modifySize(float par1)
-	{
+	protected final void modifySize(float par1) {
 		super.setSize(width * par1, height * par1);
 	}
 
-	class GroupData implements IEntityLivingData
-	{
+	class GroupData implements IEntityLivingData {
 		public boolean field_142048_a;
 		public boolean field_142046_b;
-		private GroupData(boolean par2, boolean par3)
-		{
+
+		private GroupData(boolean par2, boolean par3) {
 			field_142048_a = false;
 			field_142046_b = false;
 			field_142048_a = par2;
 			field_142046_b = par3;
 		}
 
-		GroupData(boolean par2, boolean par3, Object par4EntityZombieINNER1)
-		{
+		GroupData(boolean par2, boolean par3, Object par4EntityZombieINNER1) {
 			this(par2, par3);
 		}
 	}

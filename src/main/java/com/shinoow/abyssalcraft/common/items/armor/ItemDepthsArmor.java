@@ -52,7 +52,7 @@ public class ItemDepthsArmor extends ItemArmor implements IVisDiscountGear, IRev
 	
 	public ItemDepthsArmor(ArmorMaterial armorMaterial, int par3, int slotId) {
 		super(armorMaterial, par3, slotId);
-		setCreativeTab(AbyssalCraft.tabCombat);
+		setCreativeTab(AbyssalCraft.tabTools);
 	}
 
 	@Override

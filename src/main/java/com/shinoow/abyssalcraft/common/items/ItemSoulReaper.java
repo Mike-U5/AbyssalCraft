@@ -34,7 +34,7 @@ public class ItemSoulReaper extends Item {
 	public ItemSoulReaper(String par1Str){
 		super();
 		setUnlocalizedName(par1Str);
-		setCreativeTab(AbyssalCraft.tabCombat);
+		setCreativeTab(AbyssalCraft.tabTools);
 		setTextureName("abyssalcraft:" + par1Str);
 		setMaxDamage(2000);
 		setMaxStackSize(1);

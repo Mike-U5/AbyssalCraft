@@ -36,7 +36,6 @@ import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
@@ -164,12 +163,6 @@ public class EntityAntiAbyssalZombie extends EntityMob implements IAntiEntity {
 	@Override
 	protected void func_145780_a(int par1, int par2, int par3, Block par4) {
 		playSound("mob.zombie.step", 0.15F, 1.0F);
-	}
-
-	@Override
-	protected Item getDropItem() {
-		return AbyssalCraft.antiCorflesh;
-
 	}
 
 	@Override

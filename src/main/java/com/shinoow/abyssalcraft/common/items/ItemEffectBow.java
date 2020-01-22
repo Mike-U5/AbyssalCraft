@@ -59,7 +59,7 @@ public abstract class ItemEffectBow extends ItemBow {
 	 */
 	public ItemEffectBow(float chargeTime, int anim_0, int anim_1, int anim_2) {
 		maxStackSize = 1;
-		setCreativeTab(AbyssalCraft.tabCombat);
+		setCreativeTab(AbyssalCraft.tabItems);
 
 		charge = chargeTime;
 

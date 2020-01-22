@@ -701,7 +701,6 @@ public class EntityRemnant extends ACMob implements IMerchant, IOmotholEntity {
 		itemSellingList.put(AbyssalCraft.Corflesh, new Tuple(Integer.valueOf(16), Integer.valueOf(28)));
 		itemSellingList.put(AbyssalCraft.dreadfragment, new Tuple(Integer.valueOf(16), Integer.valueOf(28)));
 		itemSellingList.put(AbyssalCraft.omotholFlesh, new Tuple(Integer.valueOf(32), Integer.valueOf(60)));
-		itemSellingList.put(AbyssalCraft.antiFlesh, new Tuple(Integer.valueOf(8), Integer.valueOf(14)));
 		coinSellingList.put(Items.flint_and_steel, new Tuple(Integer.valueOf(3), Integer.valueOf(4)));
 		coinSellingList.put(Items.shears, new Tuple(Integer.valueOf(3), Integer.valueOf(4)));
 		coinSellingList.put(AbyssalCraft.ethSword, new Tuple(Integer.valueOf(12), Integer.valueOf(14)));

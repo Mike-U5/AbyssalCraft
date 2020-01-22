@@ -208,7 +208,6 @@ import com.shinoow.abyssalcraft.common.items.ItemACPickaxe;
 import com.shinoow.abyssalcraft.common.items.ItemACShovel;
 import com.shinoow.abyssalcraft.common.items.ItemACSword;
 import com.shinoow.abyssalcraft.common.items.ItemAntiBucket;
-import com.shinoow.abyssalcraft.common.items.ItemAntiFood;
 import com.shinoow.abyssalcraft.common.items.ItemCBucket;
 import com.shinoow.abyssalcraft.common.items.ItemCharm;
 import com.shinoow.abyssalcraft.common.items.ItemCoin;
@@ -346,8 +345,7 @@ public class AbyssalCraft {
 	@Instance(AbyssalCraft.modid)
 	public static AbyssalCraft instance = new AbyssalCraft();
 
-	@SidedProxy(clientSide = "com.shinoow.abyssalcraft.client.ClientProxy",
-			serverSide = "com.shinoow.abyssalcraft.common.CommonProxy")
+	@SidedProxy(clientSide = "com.shinoow.abyssalcraft.client.ClientProxy", serverSide = "com.shinoow.abyssalcraft.common.CommonProxy")
 	public static CommonProxy proxy;
 
 	public static Map<String, Integer> stringtoIDMapping = new HashMap<String, Integer>();
@@ -356,87 +354,46 @@ public class AbyssalCraft {
 
 	public static Fluid CFluid, antifluid;
 
-	public static final Fluid LIQUID_CORALIUM = new Fluid("liquidcoralium"){
+	public static final Fluid LIQUID_CORALIUM = new Fluid("liquidcoralium") {
 		@Override
 		public String getLocalizedName(FluidStack stack) {
 			return StatCollector.translateToLocal("tile.Cwater.name");
 		}
 	}.setDensity(3000).setTemperature(350);
-	
-	public static final Fluid LIQUID_ANTIMATTER = new Fluid("liquidantimatter"){
+
+	public static final Fluid LIQUID_ANTIMATTER = new Fluid("liquidantimatter") {
 		@Override
 		public String getLocalizedName(FluidStack stack) {
 			return StatCollector.translateToLocal("tile.antiliquid.name");
 		}
 	}.setDensity(4000).setViscosity(1500).setTemperature(100);
 
-	public static Achievement mineAby, killghoul, enterabyss, killdragon, summonAsorah,
-	killAsorah, enterdreadlands, killdreadguard, ghoulhead, petehead, wilsonhead, orangehead,
-	mineCorgem, mineCor, findPSDL, GK1, GK2, GK3, summonChagaroth, killChagaroth, enterOmothol,
-	enterDarkRealm, killJzahar, killOmotholelite, locateJzahar, necro, necrou1, necrou2, necrou3,
-	abyssaln, ritual, ritualSummon, ritualCreate, shadowGems, mineAbyOres, mineDread, dreadium,
-	eth, makeEngraver, ritualBreed, ritualPotion, ritualPotionAoE, ritualInfusion, shoggothInfestation;
+	public static Achievement mineAby, killghoul, enterabyss, killdragon, summonAsorah, killAsorah, enterdreadlands, killdreadguard, ghoulhead, petehead, wilsonhead, orangehead, mineCorgem, mineCor, findPSDL, GK1, GK2, GK3, summonChagaroth, killChagaroth, enterOmothol, enterDarkRealm, killJzahar, killOmotholelite, locateJzahar, necro, necrou1, necrou2, necrou3, abyssaln, ritual, ritualSummon, ritualCreate, shadowGems, mineAbyOres, mineDread, dreadium, eth, makeEngraver, ritualBreed, ritualPotion, ritualPotionAoE, ritualInfusion, shoggothInfestation;
 
-	public static Block Darkstone, Darkstone_brick, Darkstone_cobble, SGlow, DSGlow, Darkbrickslab1,
-	Darkbrickslab2, Darkcobbleslab1, Darkcobbleslab2, Darkgrass, DBstairs, DCstairs, DLTLeaves,
-	DLTLog, DLTSapling, abystone, abyssalsand, fusedabyssalsand, abybrick, abyslab1, abyslab2, abystairs, Coraliumore, abyore,
-	abyfence, DSCwall, CoraliumInfusedStone, ODBcore, portal, Darkstoneslab1,
-	Darkstoneslab2, Coraliumfire, DSbutton, DSpplate, DLTplank, DLTbutton, DLTpplate, DLTstairs,
-	DLTslab1, DLTslab2, Cwater, PSDL, AbyCorOre, corblock, Altar, Abybutton, Abypplate, DSBfence,
-	DLTfence, dreadstone, magicdreadstone, abydreadstone, abydreadore, dreadore, dreadbrick, abydreadbrick, dreadgrass,
-	dreadlog, dreadleaves, dreadsapling, dreadplanks, dreadportal, dreadfire, dreadbrickfence,
-	dreadbrickstairs, dreadbrickslab1, dreadbrickslab2, abydreadbrickfence, abydreadbrickstairs,
-	abydreadbrickslab1, abydreadbrickslab2, DGhead, Phead, Whead, Ohead,anticwater,cstone,
-	cstonebrick, cstonebrickfence, cstonebrickstairs, cstonebrickslab1, cstonebrickslab2,
-	cstonebutton, cstonepplate, dreadaltartop, dreadaltarbottom,
-	dreadiumblock, dreadguardspawner, chagarothspawner,
-	DrTfence, nitreOre, AbyIroOre, AbyGolOre, AbyDiaOre, AbyNitOre, AbyTinOre, AbyCopOre,
-	AbyPCorOre, AbyLCorOre, solidLava, ethaxium, ethaxiumbrick, ethaxiumpillar, ethaxiumstairs, ethaxiumslab1,
-	ethaxiumslab2, ethaxiumfence, omotholstone, ethaxiumblock, omotholportal, omotholfire, engraver,
-	house, darkethaxiumbrick, darkethaxiumpillar, darkethaxiumstairs, darkethaxiumslab1,
-	darkethaxiumslab2, darkethaxiumfence, ritualaltar, ritualpedestal, shoggothBlock, cthulhuStatue,
-	hasturStatue, jzaharStatue, azathothStatue, nyarlathotepStatue, yogsothothStatue, shubniggurathStatue,
-	monolithStone, shoggothBiomass, energyPedestal, monolithPillar, sacrificialAltar, tieredEnergyPedestal,
-	tieredSacrificialAltar, jzaharspawner, gatekeeperminionspawner, mimicFire;
+	public static Block Darkstone, Darkstone_brick, Darkstone_cobble, SGlow, DSGlow, Darkbrickslab1, Darkbrickslab2, Darkcobbleslab1, Darkcobbleslab2, Darkgrass, DBstairs, DCstairs, DLTLeaves, DLTLog, DLTSapling, abystone, abyssalsand, fusedabyssalsand, abybrick, abyslab1, abyslab2, abystairs, Coraliumore, abyore, abyfence, DSCwall, CoraliumInfusedStone, ODBcore, portal, Darkstoneslab1, Darkstoneslab2, Coraliumfire, DSbutton, DSpplate, DLTplank, DLTbutton, DLTpplate, DLTstairs, DLTslab1, DLTslab2, Cwater, PSDL, AbyCorOre, corblock, Altar, Abybutton, Abypplate, DSBfence, DLTfence, dreadstone, magicdreadstone, abydreadstone, abydreadore, dreadore, dreadbrick, abydreadbrick, dreadgrass, dreadlog, dreadleaves, dreadsapling, dreadplanks, dreadportal, dreadfire, dreadbrickfence, dreadbrickstairs, dreadbrickslab1, dreadbrickslab2, abydreadbrickfence, abydreadbrickstairs, abydreadbrickslab1, abydreadbrickslab2, DGhead, Phead, Whead, Ohead, anticwater, cstone, cstonebrick, cstonebrickfence,
+			cstonebrickstairs, cstonebrickslab1, cstonebrickslab2, cstonebutton, cstonepplate, dreadaltartop, dreadaltarbottom, dreadiumblock, dreadguardspawner, chagarothspawner, DrTfence, nitreOre, AbyIroOre, AbyGolOre, AbyDiaOre, AbyNitOre, AbyTinOre, AbyCopOre, AbyPCorOre, AbyLCorOre, solidLava, ethaxium, ethaxiumbrick, ethaxiumpillar, ethaxiumstairs, ethaxiumslab1, ethaxiumslab2, ethaxiumfence, omotholstone, ethaxiumblock, omotholportal, omotholfire, engraver, house, darkethaxiumbrick, darkethaxiumpillar, darkethaxiumstairs, darkethaxiumslab1, darkethaxiumslab2, darkethaxiumfence, ritualaltar, ritualpedestal, shoggothBlock, cthulhuStatue, hasturStatue, jzaharStatue, azathothStatue, nyarlathotepStatue, yogsothothStatue, shubniggurathStatue, monolithStone, shoggothBiomass, energyPedestal, monolithPillar, sacrificialAltar, tieredEnergyPedestal, tieredSacrificialAltar, jzaharspawner, gatekeeperminionspawner, mimicFire;
 
-	//"secret" dev stuff
+	// "secret" dev stuff
 	public static Item devsword;
-	//misc items
-	public static Item OC, Staff, portalPlacer, Cbucket, PSDLfinder, EoA, portalPlacerDL,
-	cbrick, cudgel, carbonCluster, denseCarbonCluster, methane, nitre, sulfur, portalPlacerJzh,
-	tinIngot, copperIngot, bronzeIngot, bronzeNugget, bronzeGrit, lifeCrystal, shoggothFlesh, eldritchScale, omotholFlesh, necronomicon,
-	necronomicon_cor, necronomicon_dre, necronomicon_omt, abyssalnomicon, nugget, essence, skin, charm, cthulhuCharm, hasturCharm, jzaharCharm,
-	azathothCharm, nyarlathotepCharm, yogsothothCharm, shubniggurathCharm, gatekeeperEssence;
-	//foodstuff
+	// misc items
+	public static Item antibucket, OC, Staff, portalPlacer, Cbucket, PSDLfinder, EoA, portalPlacerDL, cbrick, cudgel, carbonCluster, denseCarbonCluster, methane, nitre, sulfur, portalPlacerJzh, tinIngot, copperIngot, bronzeIngot, bronzeNugget, bronzeGrit, lifeCrystal, shoggothFlesh, eldritchScale, omotholFlesh, necronomicon, necronomicon_cor, necronomicon_dre, necronomicon_omt, abyssalnomicon, nugget, essence, skin, charm, cthulhuCharm, hasturCharm, jzaharCharm, azathothCharm, nyarlathotepCharm, yogsothothCharm, shubniggurathCharm, gatekeeperEssence;
+	// foodstuff
 	public static Item MRE, crushedwart, jellyfish, burger;
-	//coin stuff
-	public static Item coin, cthulhuCoin, elderCoin, jzaharCoin, engravingBlank, engravingCthulhu, engravingElder, engravingJzahar,
-	hasturCoin, azathothCoin, nyarlathotepCoin, yogsothothCoin, shubniggurathCoin, engravingHastur, engravingAzathoth, engravingNyarlathotep,
-	engravingYogsothoth, engravingShubniggurath;
-	//shadow items
+	// coin stuff
+	public static Item coin, cthulhuCoin, elderCoin, jzaharCoin, engravingBlank, engravingCthulhu, engravingElder, engravingJzahar, hasturCoin, azathothCoin, nyarlathotepCoin, yogsothothCoin, shubniggurathCoin, engravingHastur, engravingAzathoth, engravingNyarlathotep, engravingYogsothoth, engravingShubniggurath;
+	// shadow items
 	public static Item shadowfragment, shadowshard, shadowgem, oblivionshard, soulReaper, shadowPlate, drainStaff, drainStaffMonster, drainStaffBeast;
-	//dread items
+	// dread items
 	public static Item Dreadshard, dreadiumingot, dreadfragment, dreadcloth, dreadplate, dreadblade, dreadKey;
-	//coralium items
-	public static Item Coralium, Coraliumcluster2, Coraliumcluster3, Coraliumcluster4,
-	Coraliumcluster5, Coraliumcluster6, Coraliumcluster7, Coraliumcluster8, Coraliumcluster9,
-	Cpearl, Corb, Cchunk, Cingot, Cplate, Corflesh, Corbone, corbow, ethaxiumBow;
-	//tools
-	public static Item Corpickaxe, Coraxe, Corshovel, Corsword, Corhoe, dreadiumpickaxe, dreadiumaxe, dreadiumshovel,
-	dreadiumsword, dreadiumhoe, dreadhilt, dreadkatana, ethPickaxe, ethAxe, ethShovel, ethSword,
-	ethHoe, soulSword;
-	//armor
-	public static Item bootsD, helmetD, plateD, legsD, Corboots,
-	Corhelmet, Corplate, Corlegs, CorbootsP, CorhelmetP, CorplateP, CorlegsP, Depthsboots,
-	Depthshelmet, Depthsplate, Depthslegs, dreadiumboots, dreadiumhelmet, dreadiumplate,
-	dreadiumlegs, dreadiumSboots, dreadiumShelmet, dreadiumSplate, dreadiumSlegs, ethBoots,
-	ethHelmet, ethPlate, ethLegs;
-	//upgrade kits
+	// coralium items
+	public static Item Coralium, Coraliumcluster2, Coraliumcluster3, Coraliumcluster4, Coraliumcluster5, Coraliumcluster6, Coraliumcluster7, Coraliumcluster8, Coraliumcluster9, Cpearl, Corb, Cchunk, Cingot, Cplate, Corflesh, Corbone, corbow, ethaxiumBow;
+	// tools
+	public static Item Corpickaxe, Coraxe, Corshovel, Corsword, Corhoe, dreadiumpickaxe, dreadiumaxe, dreadiumshovel, dreadiumsword, dreadiumhoe, dreadhilt, dreadkatana, ethPickaxe, ethAxe, ethShovel, ethSword, ethHoe, soulSword;
+	// armor
+	public static Item bootsD, helmetD, plateD, legsD, Corboots, Corhelmet, Corplate, Corlegs, CorbootsP, CorhelmetP, CorplateP, CorlegsP, Depthsboots, Depthshelmet, Depthsplate, Depthslegs, dreadiumboots, dreadiumhelmet, dreadiumplate, dreadiumlegs, dreadiumSboots, dreadiumShelmet, dreadiumSplate, dreadiumSlegs, ethBoots, ethHelmet, ethPlate, ethLegs;
+	// upgrade kits
 	public static Item CobbleU, IronU, GoldU, DiamondU, AbyssalniteU, CoraliumU, DreadiumU, EthaxiumU;
-	//Anti-items
-	public static Item antibucket, antiBeef, antiPork, antiChicken, antiFlesh, antiBone, antiSpider_eye,
-	antiCorbone, antiCorflesh;
-	//Ethaxium items
+	// Ethaxium items
 	public static Item ethaxium_brick, ethaxiumIngot;
 
 	public static Potion Cplague, Dplague, antiMatter, earthquake, doom;
@@ -449,86 +406,65 @@ public class AbyssalCraft {
 			return Item.getItemFromBlock(Darkstone);
 		}
 	};
-	public static final CreativeTabs tabItems = new CreativeTabs("acitems"){
+	public static final CreativeTabs tabItems = new CreativeTabs("acitems") {
 		@Override
 		public Item getTabIconItem() {
 			return necronomicon;
 		}
 	};
-	public static final CreativeTabs tabTools = new CreativeTabs("actools"){
+	public static final CreativeTabs tabTools = new CreativeTabs("actools") {
 		@Override
 		public Item getTabIconItem() {
-			return Coraxe;
+			return ethAxe;
 		}
 	};
-	public static final CreativeTabs tabCombat = new CreativeTabs("acctools"){
-		@Override
-		public Item getTabIconItem() {
-			return Corsword;
-		}
-	};
-	public static final CreativeTabs tabFood = new CreativeTabs("acfood"){
-		@Override
-		public Item getTabIconItem() {
-			return MRE;
-		}
-	};
-	public static final CreativeTabs tabDecoration = new CreativeTabs("acdblocks"){
+	public static final CreativeTabs tabDecoration = new CreativeTabs("acdblocks") {
 		@Override
 		public Item getTabIconItem() {
 			return Item.getItemFromBlock(engraver);
 		}
 	};
-	public static final CreativeTabs tabCoins = new CreativeTabs("accoins"){
+	public static final CreativeTabs tabCoins = new CreativeTabs("accoins") {
 		@Override
 		public Item getTabIconItem() {
 			return coin;
 		}
 	};
 
-	//Dimension Ids
+	// Dimension Ids
 	public static int configDimId1, configDimId2, configDimId3, configDimId4;
 
 	public static boolean keepLoaded1, keepLoaded2, keepLoaded3, keepLoaded4;
 
-	//Biome Ids
-	public static int configBiomeId1, configBiomeId2, configBiomeId3, configBiomeId4,
-	configBiomeId5, configBiomeId6, configBiomeId7, configBiomeId8, configBiomeId9,
-	configBiomeId10, configBiomeId11, configBiomeId12, configBiomeId13, configBiomeId14;
+	// Biome Ids
+	public static int configBiomeId1, configBiomeId2, configBiomeId3, configBiomeId4, configBiomeId5, configBiomeId6, configBiomeId7, configBiomeId8, configBiomeId9, configBiomeId10, configBiomeId11, configBiomeId12, configBiomeId13, configBiomeId14;
 
 	public static boolean dark1, dark2, dark3, dark4, dark5, coralium1;
 	public static boolean darkspawn1, darkspawn2, darkspawn3, darkspawn4, darkspawn5, coraliumspawn1;
 	public static int darkWeight1, darkWeight2, darkWeight3, darkWeight4, darkWeight5, coraliumWeight;
 
-	public static boolean shouldSpread, shouldInfect, breakLogic, destroyOcean, demonAnimalFire, darkness,
-	particleBlock, particleEntity, hardcoreMode, useDynamicPotionIds, endAbyssalZombie, evilAnimalCreatureType,
-	antiItemDisintegration;
+	public static boolean shouldSpread, shouldInfect, breakLogic, destroyOcean, demonAnimalFire, darkness, particleBlock, particleEntity, hardcoreMode, useDynamicPotionIds, endAbyssalZombie, evilAnimalCreatureType, antiItemDisintegration;
 	public static int evilAnimalSpawnRate;
-	public static boolean shoggothOoze, oozeLeaves, oozeGrass, oozeGround, oozeSand, oozeRock, oozeCloth, oozeWood,
-	oozeGourd, oozeIron, oozeClay;
-	public static boolean generateDarklandsStructures, generateShoggothLairs, generateAbyssalWastelandPillars,
-	generateAbyssalWastelandRuins, generateAntimatterLake, generateCoraliumLake, generateDreadlandsStalagmite;
-	public static boolean generateCoraliumOre, generateNitreOre, generateAbyssalniteOre, generateAbyssalCoraliumOre,
-	generateDreadlandsAbyssalniteOre, generateDreadedAbyssalniteOre, generateAbyssalIronOre, generateAbyssalGoldOre,
-	generateAbyssalDiamondOre, generateAbyssalNitreOre, generateAbyssalTinOre, generateAbyssalCopperOre,
-	generatePearlescentCoraliumOre, generateLiquifiedCoraliumOre;
+	public static boolean shoggothOoze, oozeLeaves, oozeGrass, oozeGround, oozeSand, oozeRock, oozeCloth, oozeWood, oozeGourd, oozeIron, oozeClay;
+	public static boolean generateDarklandsStructures, generateShoggothLairs, generateAbyssalWastelandPillars, generateAbyssalWastelandRuins, generateAntimatterLake, generateCoraliumLake, generateDreadlandsStalagmite;
+	public static boolean generateCoraliumOre, generateNitreOre, generateAbyssalniteOre, generateAbyssalCoraliumOre, generateDreadlandsAbyssalniteOre, generateDreadedAbyssalniteOre, generateAbyssalIronOre, generateAbyssalGoldOre, generateAbyssalDiamondOre, generateAbyssalNitreOre, generateAbyssalTinOre, generateAbyssalCopperOre, generatePearlescentCoraliumOre, generateLiquifiedCoraliumOre;
 
 	static int startEntityId = 300;
 
 	public static final int engraverGuiID = 32;
 	public static final int necronmiconGuiID = 33;
-	
+
 	private Item registerItem(Item item, String id) {
 		GameRegistry.registerItem(item, id);
 		return item;
 	}
-	
+
 	private Block registerBlock(Block block, String id) {
 		block.setBlockName(id);
 		GameRegistry.registerBlock(block, id);
 		return block;
 	}
-	
+
 	private Block registerClassBlock(Block block, Class<? extends ItemBlock> clazz, String id) {
 		block.setBlockName(id).setBlockTextureName(modid + ":" + id);
 		GameRegistry.registerBlock(block, id);
@@ -539,8 +475,8 @@ public class AbyssalCraft {
 	public void preInit(FMLPreInitializationEvent event) {
 		ACLogger.info("Pre-initializing AbyssalCraft.");
 		metadata = event.getModMetadata();
-		metadata.description = metadata.description +"\n\n\u00a76Supporters: "+getSupporterList()+"\u00a7r";
-		
+		metadata.description = metadata.description + "\n\n\u00a76Supporters: " + getSupporterList() + "\u00a7r";
+
 		MinecraftForge.EVENT_BUS.register(new AbyssalCraftEventHooks());
 		FMLCommonHandler.instance().bus().register(new AbyssalCraftEventHooks());
 		MinecraftForge.TERRAIN_GEN_BUS.register(new AbyssalCraftEventHooks());
@@ -553,11 +489,11 @@ public class AbyssalCraft {
 		cfg = new Configuration(event.getSuggestedConfigurationFile());
 		syncConfig();
 
-		if(!useDynamicPotionIds) {
+		if (!useDynamicPotionIds) {
 			extendPotionArray();
 		}
 
-		if(!FluidRegistry.isFluidRegistered("liquidcoralium")){
+		if (!FluidRegistry.isFluidRegistered("liquidcoralium")) {
 			CFluid = LIQUID_CORALIUM;
 			FluidRegistry.registerFluid(CFluid);
 		} else {
@@ -566,7 +502,7 @@ public class AbyssalCraft {
 			FluidRegistry.registerFluid(LIQUID_CORALIUM);
 		}
 
-		if(!FluidRegistry.isFluidRegistered("liquidantimatter")){
+		if (!FluidRegistry.isFluidRegistered("liquidantimatter")) {
 			antifluid = LIQUID_ANTIMATTER;
 			FluidRegistry.registerFluid(antifluid);
 		} else {
@@ -575,7 +511,7 @@ public class AbyssalCraft {
 			FluidRegistry.registerFluid(LIQUID_ANTIMATTER);
 		}
 
-		//Blocks
+		// Blocks
 		Darkstone = registerBlock(new BlockDarkstone().setCreativeTab(tabBlock).setStepSound(Block.soundTypeStone).setHardness(1.65F).setResistance(12.0F).setBlockTextureName(modid + ":" + "darkstone"), "darkstone");
 		Darkstone_brick = new BlockACBasic(Material.rock, 1.65F, 12.0F, Block.soundTypeStone).setBlockName("DSB").setBlockTextureName(modid + ":" + "DSB");
 		Darkstone_cobble = new BlockACBasic(Material.rock, 2.2F, 12.0F, Block.soundTypeStone).setBlockName("DSC").setBlockTextureName(modid + ":" + "DSC");
@@ -583,8 +519,8 @@ public class AbyssalCraft {
 		SGlow = registerBlock(new BlockSGlow().setCreativeTab(tabBlock).setBlockName("DSGlow"), "SGlow");
 		Darkbrickslab1 = new BlockACSingleSlab(Material.rock).setStepSound(Block.soundTypeStone).setHardness(1.65F).setResistance(12.0F).setBlockName("DSBs1").setBlockTextureName(modid + ":" + "DSB");
 		Darkbrickslab2 = new BlockACDoubleSlab(Darkbrickslab1, Material.rock).setStepSound(Block.soundTypeStone).setHardness(1.65F).setResistance(12.0F).setBlockName("DSBs2").setBlockTextureName(modid + ":" + "DSB");
-		Darkcobbleslab1 = new BlockACSingleSlab(Material.rock).setStepSound(Block.soundTypeStone).setHardness(1.65F) .setResistance(12.0F).setBlockName("DSCs1").setBlockTextureName(modid + ":" + "DSC");
-		Darkcobbleslab2 = new BlockACDoubleSlab(Darkcobbleslab1, Material.rock).setStepSound(Block.soundTypeStone).setHardness(1.65F) .setResistance(12.0F).setBlockName("DSCs2").setBlockTextureName(modid + ":" + "DSC");
+		Darkcobbleslab1 = new BlockACSingleSlab(Material.rock).setStepSound(Block.soundTypeStone).setHardness(1.65F).setResistance(12.0F).setBlockName("DSCs1").setBlockTextureName(modid + ":" + "DSC");
+		Darkcobbleslab2 = new BlockACDoubleSlab(Darkcobbleslab1, Material.rock).setStepSound(Block.soundTypeStone).setHardness(1.65F).setResistance(12.0F).setBlockName("DSCs2").setBlockTextureName(modid + ":" + "DSC");
 		Darkgrass = new BlockDarklandsgrass().setCreativeTab(tabBlock).setHardness(0.4F).setBlockName("DLG");
 		DBstairs = new BlockACStairs(Darkstone_brick).setStepSound(Block.soundTypeStone).setHardness(1.65F).setResistance(12.0F).setBlockName("DSBs");
 		DCstairs = new BlockACStairs(Darkstone_cobble).setStepSound(Block.soundTypeStone).setHardness(1.65F).setResistance(12.0F).setBlockName("DSCs");
@@ -594,18 +530,20 @@ public class AbyssalCraft {
 		abystone = new BlockACBasic(Material.rock, "pickaxe", 2, 1.8F, 12.0F, Block.soundTypeStone).setBlockName("AS").setBlockTextureName(modid + ":" + "AS");
 		abyssalsand = new BlockACBasic(Material.sand, "shovel", 2, 1.8F, 12.0F, Block.soundTypeSand).setBlockName("abyssalsand").setBlockTextureName(modid + ":" + "abyssalsand");
 		fusedabyssalsand = new BlockAbyssalGrass().setStepSound(Block.soundTypeGrass).setBlockName("fusedabyssalsand").setBlockTextureName(modid + ":" + "fusedabyssalsand");
-		
+
 		abybrick = registerClassBlock(new BlockACBasic(Material.rock, "pickaxe", 2, 1.8F, 12.0F, Block.soundTypeStone), ItemBlockColorName.class, "ASB");
-		
+
 		abyslab1 = new BlockACSingleSlab(Material.rock, "pickaxe", 2).setCreativeTab(tabBlock).setStepSound(Block.soundTypeStone).setHardness(1.8F).setResistance(12.0F).setBlockName("ASBs1").setBlockTextureName(modid + ":" + "ASB");
 		abyslab2 = new BlockACDoubleSlab(abyslab1, Material.rock, "pickaxe", 2).setStepSound(Block.soundTypeStone).setHardness(1.8F).setResistance(12.0F).setBlockName("ASBs2").setBlockTextureName(modid + ":" + "ASB");
 		abystairs = new BlockACStairs(abybrick, "pickaxe", 2).setStepSound(Block.soundTypeStone).setHardness(1.65F).setResistance(12.0F).setBlockName("ASBs");
 		abyfence = new BlockACFence("ASBf", Material.rock, "pickaxe", 2).setHardness(1.8F).setResistance(12.0F).setStepSound(Block.soundTypeStone).setBlockName("ASBf").setBlockTextureName(modid + ":" + "ASBf");
 		abyore = registerBlock(new BlockACOre(2, 3.0F, 6.0F).setBlockTextureName(modid + ":" + "abyore"), "abyore");
 		Coraliumore = new BlockACOre(2, 3.0F, 6.0F).setBlockName("CO").setBlockTextureName(modid + ":" + "CO");
-		
+
 		DSCwall = new BlockDarkstonecobblewall(Darkstone_cobble).setHardness(1.65F).setResistance(12.0F).setStepSound(Block.soundTypeStone).setBlockName("DSCw").setBlockTextureName(modid + ":" + "DSC");
-		///Crate = new BlockCrate().setStepSound(Block.soundTypeStone).setHardness(3.0F).setResistance(6.0F).setBlockName("Crate").setBlockTextureName(modid + ":" + "Crate");
+		/// Crate = new
+		/// BlockCrate().setStepSound(Block.soundTypeStone).setHardness(3.0F).setResistance(6.0F).setBlockName("Crate").setBlockTextureName(modid
+		/// + ":" + "Crate");
 		CoraliumInfusedStone = new BlockACOre(3, 3.0F, 6.0F).setBlockName("CIS").setBlockTextureName(modid + ":" + "CIS");
 		ODBcore = new BlockODBcore().setStepSound(Block.soundTypeMetal).setHardness(3.0F).setResistance(0F).setBlockName("ODBC");
 		portal = new BlockAbyssPortal().setBlockName("AG").setBlockTextureName(modid + ":" + "AG");
@@ -647,8 +585,8 @@ public class AbyssalCraft {
 		Phead = registerBlock(new BlockPhead().setHardness(1.0F).setResistance(6.0F).setStepSound(Block.soundTypeCloth).setCreativeTab(tabDecoration).setBlockName("Phead").setBlockTextureName(modid + ":" + "phead"), "phead");
 		Whead = registerBlock(new BlockWhead().setHardness(1.0F).setResistance(6.0F).setStepSound(Block.soundTypeCloth).setCreativeTab(tabDecoration).setBlockName("Whead").setBlockTextureName(modid + ":" + "whead"), "whead");
 		Ohead = registerBlock(new BlockOhead().setHardness(1.0F).setResistance(6.0F).setStepSound(Block.soundTypeCloth).setCreativeTab(tabDecoration).setBlockName("Ohead").setBlockTextureName(modid + ":" + "ohead"), "ohead");
-		
-		//Bricks
+
+		// Bricks
 		dreadbrickstairs = new BlockACStairs(dreadbrick, "pickaxe", 4).setHardness(2.5F).setResistance(20.0F).setStepSound(Block.soundTypeStone).setBlockName("DrSBs");
 		dreadbrickfence = new BlockACFence("DrSBf", Material.rock, "pickaxe", 4).setHardness(2.5F).setResistance(20.0F).setStepSound(Block.soundTypeStone).setBlockName("DrSBf");
 		dreadbrickslab1 = new BlockACSingleSlab(Material.rock, "pickaxe", 4).setHardness(2.5F).setResistance(20.0F).setStepSound(Block.soundTypeStone).setBlockName("DrSBs1").setBlockTextureName(modid + ":" + "DrSB");
@@ -724,7 +662,7 @@ public class AbyssalCraft {
 
 		checkBiomeIds(true);
 
-		//Biome
+		// Biome
 		ACBiomes.darklands = new BiomeGenDarklands(configBiomeId1).setColor(522674).setBiomeName("Darklands");
 		ACBiomes.abyssal_wastelands = new BiomeGenAbywasteland(configBiomeId2).setColor(522674).setBiomeName("Abyssal Wastelands").setDisableRain();
 		ACBiomes.dreadlands = new BiomeGenDreadlands(configBiomeId3).setColor(522674).setBiomeName("Dreadlands").setDisableRain();
@@ -739,10 +677,10 @@ public class AbyssalCraft {
 		ACBiomes.omothol = new BiomeGenOmothol(configBiomeId12).setColor(5522674).setBiomeName("Omothol").setDisableRain();
 		ACBiomes.dark_realm = new BiomeGenDarkRealm(configBiomeId13).setColor(522674).setBiomeName("Dark Realm").setDisableRain();
 
-		//"secret" dev stuff
+		// "secret" dev stuff
 		devsword = new AbyssalCraftTool().setUnlocalizedName("DEV_BLADE").setTextureName(modid + ":" + "Sword");
 
-		//Misc items
+		// Misc items
 		OC = registerItem(new ItemOC().setCreativeTab(tabItems).setUnlocalizedName("OC").setTextureName(modid + ":" + "OC"), "OC");
 		Staff = registerItem(new ItemCrozier().setCreativeTab(tabTools).setFull3D().setUnlocalizedName("Staff").setTextureName(modid + ":" + "Staff"), "staff");
 		portalPlacer = registerItem(new ItemPortalPlacer().setUnlocalizedName("GK").setTextureName(modid + ":" + "GK"), "portalplacer");
@@ -751,7 +689,7 @@ public class AbyssalCraft {
 		EoA = registerItem(new ItemEoA().setCreativeTab(tabItems).setUnlocalizedName("EoA").setTextureName(modid + ":" + "EoA"), "eoa");
 		portalPlacerDL = registerItem(new ItemPortalPlacerDL().setUnlocalizedName("GKD").setTextureName(modid + ":" + "GKD"), "portalplacerdl");
 		cbrick = registerItem(new ItemACBasic("cbrick"), "cbrick");
-		cudgel = registerItem(new ItemCudgel().setCreativeTab(tabCombat).setFull3D().setUnlocalizedName("cudgel").setTextureName(modid + ":" + "cudgel"), "cudgel");
+		cudgel = registerItem(new ItemCudgel().setCreativeTab(tabTools).setFull3D().setUnlocalizedName("cudgel").setTextureName(modid + ":" + "cudgel"), "cudgel");
 		carbonCluster = registerItem(new ItemACBasic("CarbC"), "carboncluster");
 		denseCarbonCluster = registerItem(new ItemACBasic("DCarbC"), "densecarboncluster");
 		methane = registerItem(new ItemACBasic("methane"), "methane");
@@ -777,7 +715,7 @@ public class AbyssalCraft {
 		skin = registerItem(new ItemMetadata("skin", true, "abyssalwasteland", "dreadlands", "omothol"), "skin");
 		gatekeeperEssence = registerItem(new ItemGatekeeperEssence().setTextureName(modid + ":" + "gatekeeperessence"), "gatekeeperessence");
 
-		//Coins
+		// Coins
 		coin = registerItem(new ItemCoin("coin"), "coin");
 		cthulhuCoin = registerItem(new ItemCoin("cthulhucoin"), "cthulhucoin");
 		elderCoin = registerItem(new ItemCoin("eldercoin"), "eldercoin");
@@ -797,7 +735,7 @@ public class AbyssalCraft {
 		engravingYogsothoth = registerItem(new ItemEngraving("yogsothoth", 10).setCreativeTab(tabCoins).setTextureName(modid + ":" + "engraving_yogsothoth"), "engraving_yogsothoth");
 		engravingShubniggurath = registerItem(new ItemEngraving("shubniggurath", 10).setCreativeTab(tabCoins).setTextureName(modid + ":" + "engraving_shubniggurath"), "engraving_shubniggurath");
 
-		//Charms
+		// Charms
 		charm = registerItem(new ItemCharm("ritualCharm", true, null), "charm");
 		cthulhuCharm = registerItem(new ItemCharm("cthulhuCharm", false, DeityType.CTHULHU).setTextureName(modid + ":" + "charm_cthulhu"), "cthulhucharm");
 		hasturCharm = registerItem(new ItemCharm("hasturCharm", false, DeityType.HASTUR).setTextureName(modid + ":" + "charm_hastur"), "hasturcharm");
@@ -807,28 +745,20 @@ public class AbyssalCraft {
 		yogsothothCharm = registerItem(new ItemCharm("yogsothothCharm", false, DeityType.YOGSOTHOTH).setTextureName(modid + ":" + "charm_yogsothoth"), "yogsothothcharm");
 		shubniggurathCharm = registerItem(new ItemCharm("shubniggurathCharm", false, DeityType.SHUBNIGGURATH).setTextureName(modid + ":" + "charm_shubniggurath"), "shubniggurathcharm");
 
-		//Ethaxium
+		// Ethaxium
 		ethaxium_brick = registerItem(new ItemACBasic("EB"), "ethbrick");
 		ethaxiumIngot = registerItem(new ItemACBasic("EI"), "ethaxiumingot");
 
-		//anti-items
+		// anti-items
 		antibucket = registerItem(new ItemAntiBucket(anticwater).setCreativeTab(tabItems).setContainerItem(Items.bucket).setUnlocalizedName("Antibucket").setTextureName(modid + ":" + "Antibucket"), "antibucket");
-		antiBeef = registerItem(new ItemAntiFood("antiBeef"), "antibeef");
-		antiChicken = registerItem(new ItemAntiFood("antiChicken"), "antichicken");
-		antiPork = registerItem(new ItemAntiFood("antiPork"), "antipork");
-		antiFlesh = registerItem(new ItemAntiFood("antiFlesh"), "antiflesh");
-		antiBone = registerItem(new ItemACBasic("antiBone"), "antibone");
-		antiSpider_eye = registerItem(new ItemAntiFood("antiSpider_eye", false), "antispidereye");
-		antiCorflesh = registerItem(new ItemCorflesh(0, 0, false, "antiCF"), "anticorflesh");
-		antiCorbone = registerItem(new ItemCorbone(0, 0, false, "antiCB"), "anticorbone");
 
-		//Shadow items
+		// Shadow items
 		shadowfragment = registerItem(new ItemACBasic("SF"), "shadowfragment");
 		shadowshard = registerItem(new ItemACBasic("SS"), "shadowshard");
 		shadowgem = registerItem(new ItemACBasic("SG"), "shadowgem");
 		oblivionshard = registerItem(new ItemACBasic("OS"), "oblivionshard");
 
-		//Dread items
+		// Dread items
 		Dreadshard = registerItem(new ItemACBasic("DSOA"), "dreadshard");
 		dreadiumingot = registerItem(new ItemACBasic("DI"), "dreadumingot");
 		dreadfragment = registerItem(new ItemACBasic("DF"), "dreadfragment");
@@ -837,7 +767,7 @@ public class AbyssalCraft {
 		dreadblade = registerItem(new ItemACBasic("DB"), "dreadblade");
 		dreadKey = registerItem(new ItemACBasic("DK"), "dreadkey");
 
-		//Coralium items
+		// Coralium items
 		Coraliumcluster2 = registerItem(new ItemCoraliumcluster("2").setCreativeTab(tabItems).setUnlocalizedName("CGCA").setTextureName(modid + ":" + "CGCA"), "ccluster2");
 		Coraliumcluster3 = registerItem(new ItemCoraliumcluster("3").setCreativeTab(tabItems).setUnlocalizedName("CGCB").setTextureName(modid + ":" + "CGCB"), "ccluster3");
 		Coraliumcluster4 = registerItem(new ItemCoraliumcluster("4").setCreativeTab(tabItems).setUnlocalizedName("CGCC").setTextureName(modid + ":" + "CGCC"), "ccluster4");
@@ -857,12 +787,17 @@ public class AbyssalCraft {
 		corbow = registerItem(new ItemCoraliumBow(20.0F, 0, 8, 16).setUnlocalizedName("Corbow").setTextureName(modid + ":" + "Corbow"), "corbow");
 		ethaxiumBow = registerItem(new ItemEthaxiumBow(20.0F, 0, 8, 16).setUnlocalizedName("ethaxiumBow").setTextureName(modid + ":" + "ethaxiumBow"), "ethaxiumBow");
 
-		//Tools
-		///pickaxe = registerItem(new ItemACPickaxe(AbyssalCraftAPI.darkstoneTool, "DP", 1), "dpick");
-		///axe = registerItem(new ItemACAxe(AbyssalCraftAPI.darkstoneTool, "DA", 1), "daxe");
-		///shovel = registerItem(new ItemACShovel(AbyssalCraftAPI.darkstoneTool, "DS", 1), "dshovel");
-		///sword = registerItem(new ItemACSword(AbyssalCraftAPI.darkstoneTool, "DSW"), "dsword");
-		///hoe = registerItem(new ItemACHoe(AbyssalCraftAPI.darkstoneTool, "DH"), "dhoe");
+		// Tools
+		/// pickaxe = registerItem(new ItemACPickaxe(AbyssalCraftAPI.darkstoneTool,
+		// "DP", 1), "dpick");
+		/// axe = registerItem(new ItemACAxe(AbyssalCraftAPI.darkstoneTool, "DA", 1),
+		// "daxe");
+		/// shovel = registerItem(new ItemACShovel(AbyssalCraftAPI.darkstoneTool, "DS",
+		// 1), "dshovel");
+		/// sword = registerItem(new ItemACSword(AbyssalCraftAPI.darkstoneTool, "DSW"),
+		// "dsword");
+		/// hoe = registerItem(new ItemACHoe(AbyssalCraftAPI.darkstoneTool, "DH"),
+		// "dhoe");
 		Corpickaxe = registerItem(new ItemACPickaxe(AbyssalCraftAPI.refinedCoraliumTool, "RCP", 5, EnumChatFormatting.AQUA), "corpick");
 		Coraxe = registerItem(new ItemACAxe(AbyssalCraftAPI.refinedCoraliumTool, "RCA", 5, EnumChatFormatting.AQUA), "coraxe");
 		Corshovel = registerItem(new ItemACShovel(AbyssalCraftAPI.refinedCoraliumTool, "RCS", 5, EnumChatFormatting.AQUA), "corshovel");
@@ -885,11 +820,19 @@ public class AbyssalCraft {
 		drainStaffMonster = registerItem(new ItemDrainStaffMonster(), "drainstaffmonster");
 		drainStaffBeast = registerItem(new ItemDrainStaffBeast(), "drainstaffbeast");
 
-		//Armor
-		///boots = registerItem(new ItemAbyssalniteArmor(AbyssalCraftAPI.abyssalniteArmor, 5, 3).setUnlocalizedName("AAB").setTextureName(modid + ":" + "AAB"), "aboots");
-		///helmet = registerItem(new ItemAbyssalniteArmor(AbyssalCraftAPI.abyssalniteArmor, 5, 0).setUnlocalizedName("AAH").setTextureName(modid + ":" + "AAh"), "ahelmet");
-		///plate = registerItem(new ItemAbyssalniteArmor(AbyssalCraftAPI.abyssalniteArmor, 5, 1).setUnlocalizedName("AAC").setTextureName(modid + ":" + "AAC"), "aplate");
-		///legs = registerItem(new ItemAbyssalniteArmor(AbyssalCraftAPI.abyssalniteArmor, 5, 2).setUnlocalizedName("AAP").setTextureName(modid + ":" + "AAP"), "alegs");
+		// Armor
+		/// boots = registerItem(new
+		// ItemAbyssalniteArmor(AbyssalCraftAPI.abyssalniteArmor, 5,
+		// 3).setUnlocalizedName("AAB").setTextureName(modid + ":" + "AAB"), "aboots");
+		/// helmet = registerItem(new
+		// ItemAbyssalniteArmor(AbyssalCraftAPI.abyssalniteArmor, 5,
+		// 0).setUnlocalizedName("AAH").setTextureName(modid + ":" + "AAh"), "ahelmet");
+		/// plate = registerItem(new
+		// ItemAbyssalniteArmor(AbyssalCraftAPI.abyssalniteArmor, 5,
+		// 1).setUnlocalizedName("AAC").setTextureName(modid + ":" + "AAC"), "aplate");
+		/// legs = registerItem(new
+		// ItemAbyssalniteArmor(AbyssalCraftAPI.abyssalniteArmor, 5,
+		// 2).setUnlocalizedName("AAP").setTextureName(modid + ":" + "AAP"), "alegs");
 		bootsD = registerItem(new ItemDreadArmor(AbyssalCraftAPI.dreadedAbyssalniteArmor, 5, 3).setUnlocalizedName("ADAB").setTextureName(modid + ":" + "ADAB"), "dboots");
 		helmetD = registerItem(new ItemDreadArmor(AbyssalCraftAPI.dreadedAbyssalniteArmor, 5, 0).setUnlocalizedName("ADAH").setTextureName(modid + ":" + "ADAH"), "dhelmet");
 		plateD = registerItem(new ItemDreadArmor(AbyssalCraftAPI.dreadedAbyssalniteArmor, 5, 1).setUnlocalizedName("ADAC").setTextureName(modid + ":" + "ADAC"), "dplate");
@@ -923,10 +866,10 @@ public class AbyssalCraft {
 		crushedwart = registerItem(new ItemACBasic("crushedwart"), "crushedwart").setPotionEffect("+4");
 		jellyfish = registerItem(new ItemACBasic("jellyFish"), "jellyfish");
 
-		//Foodstuffs (MRE stays for remnant trades)
+		// Foodstuffs (MRE stays for remnant trades)
 		MRE = registerItem(new ItemACFood(20, 1F, false).setUnlocalizedName("MRE").setTextureName(modid + ":" + "MRE"), "mre");
-		
-		//Tile Entities
+
+		// Tile Entities
 		GameRegistry.registerTileEntity(TileEntityPSDL.class, "tileEntityPSDL");
 		GameRegistry.registerTileEntity(TileEntityAltar.class, "tileEntityAltar");
 		GameRegistry.registerTileEntity(TileEntityDGhead.class, "tileEntityDGhead");
@@ -956,13 +899,13 @@ public class AbyssalCraft {
 		GameRegistry.registerTileEntity(TileEntityTieredSacrificialAltar.class, "tileEntityTieredSacrificialAltar");
 		GameRegistry.registerTileEntity(TileEntityJzaharSpawner.class, "tileEntityJzaharSpawner");
 		GameRegistry.registerTileEntity(TileEntityGatekeeperMinionSpawner.class, "tileEntityGatekeeperMinionSpawner");
-		
+
 		Cplague = new PotionCplague(useDynamicPotionIds ? getNextAvailablePotionId() : AbyssalCraftAPI.potionId1, true, 0x00FFFF).setIconIndex(1, 0).setPotionName("potion.Cplague");
 		Dplague = new PotionDplague(useDynamicPotionIds ? getNextAvailablePotionId() : AbyssalCraftAPI.potionId2, true, 0xAD1313).setIconIndex(1, 0).setPotionName("potion.Dplague");
 		antiMatter = new PotionAntimatter(useDynamicPotionIds ? getNextAvailablePotionId() : AbyssalCraftAPI.potionId3, true, 0xFFFFFF).setIconIndex(1, 0).setPotionName("potion.Antimatter");
 		earthquake = new PotionEarthquake(useDynamicPotionIds ? getNextAvailablePotionId() : AbyssalCraftAPI.potionId4, true, 0x826C34).setIconIndex(1, 0).setPotionName("potion.Earthquake");
 		doom = new PotionDoomed(useDynamicPotionIds ? getNextAvailablePotionId() : AbyssalCraftAPI.potionId5, true, 0x826C34).setIconIndex(1, 0).setPotionName("potion.Doom");
-		
+
 		coraliumE = new EnchantmentWeaponInfusion(getNextAvailableEnchantmentId(), 2, "coralium");
 		dreadE = new EnchantmentWeaponInfusion(getNextAvailableEnchantmentId(), 2, "dread");
 		lightPierce = new EnchantmentLightPierce(getNextAvailableEnchantmentId());
@@ -971,7 +914,7 @@ public class AbyssalCraft {
 		AbyssalCraftAPI.enchId2 = dreadE.effectId;
 		AbyssalCraftAPI.enchId3 = lightPierce.effectId;
 
-		if(useDynamicPotionIds) {
+		if (useDynamicPotionIds) {
 			AbyssalCraftAPI.potionId1 = Cplague.id;
 			AbyssalCraftAPI.potionId2 = Dplague.id;
 			AbyssalCraftAPI.potionId3 = antiMatter.id;
@@ -979,8 +922,8 @@ public class AbyssalCraft {
 			AbyssalCraftAPI.potionId5 = doom.id;
 		}
 
-		//Block Register
-		//GameRegistry.registerBlock(Darkstone, "darkstone");
+		// Block Register
+		// GameRegistry.registerBlock(Darkstone, "darkstone");
 		GameRegistry.registerBlock(Darkstone_cobble, "darkstone_cobble");
 		GameRegistry.registerBlock(Darkstone_brick, "darkstone_brick");
 		GameRegistry.registerBlock(DSGlow, "dsglow");
@@ -1001,7 +944,7 @@ public class AbyssalCraft {
 		GameRegistry.registerBlock(abyslab2, ItemAbySlab.class, "abyslab2");
 		GameRegistry.registerBlock(abystairs, ItemBlockColorName.class, "abystairs");
 		GameRegistry.registerBlock(Coraliumore, "coraliumore");
-		
+
 		GameRegistry.registerBlock(abyfence, ItemBlockColorName.class, "abyfence");
 		GameRegistry.registerBlock(DSCwall, "dscwall");
 		GameRegistry.registerBlock(CoraliumInfusedStone, "coraliumstone");
@@ -1116,15 +1059,15 @@ public class AbyssalCraft {
 		GameRegistry.registerBlock(gatekeeperminionspawner, "gatekeeperminionspawner");
 		GameRegistry.registerBlock(mimicFire, "fire");
 
-		//Item Register
+		// Item Register
 		GameRegistry.registerItem(devsword, "devsword");
 
 		AbyssalCraftAPI.setRepairItems();
 		LIQUID_CORALIUM.setBlock(Cwater).setUnlocalizedName(Cwater.getUnlocalizedName());
 		LIQUID_ANTIMATTER.setBlock(anticwater).setUnlocalizedName(anticwater.getUnlocalizedName());
-		if(CFluid.getBlock() == null)
+		if (CFluid.getBlock() == null)
 			CFluid.setBlock(Cwater);
-		if(antifluid.getBlock() == null)
+		if (antifluid.getBlock() == null)
 			antifluid.setBlock(anticwater);
 		FluidContainerRegistry.registerFluidContainer(FluidRegistry.getFluidStack(CFluid.getName(), FluidContainerRegistry.BUCKET_VOLUME), new ItemStack(Cbucket), new ItemStack(Items.bucket));
 		BucketHandler.INSTANCE.buckets.put(CFluid.getBlock(), Cbucket);
@@ -1132,41 +1075,41 @@ public class AbyssalCraft {
 		BucketHandler.INSTANCE.buckets.put(antifluid.getBlock(), antibucket);
 		MinecraftForge.EVENT_BUS.register(BucketHandler.INSTANCE);
 
-		//Biome
-		if(dark1 == true){
+		// Biome
+		if (dark1 == true) {
 			registerBiomeWithTypes(ACBiomes.darklands, darkWeight1, BiomeType.WARM, Type.WASTELAND, Type.SPOOKY);
 			BiomeManager.addVillageBiome(ACBiomes.darklands, true);
 		}
-		if(dark2 == true){
+		if (dark2 == true) {
 			registerBiomeWithTypes(ACBiomes.darklands_forest, darkWeight2, BiomeType.WARM, Type.FOREST, Type.SPOOKY);
 			BiomeManager.addVillageBiome(ACBiomes.darklands_forest, true);
 		}
-		if(dark3 == true){
+		if (dark3 == true) {
 			registerBiomeWithTypes(ACBiomes.darklands_plains, darkWeight3, BiomeType.WARM, Type.PLAINS, Type.SPOOKY);
 			BiomeManager.addVillageBiome(ACBiomes.darklands_plains, true);
 		}
-		if(dark4 == true){
+		if (dark4 == true) {
 			registerBiomeWithTypes(ACBiomes.darklands_hills, darkWeight4, BiomeType.WARM, Type.HILLS, Type.SPOOKY);
 			BiomeManager.addVillageBiome(ACBiomes.darklands_hills, true);
 		}
-		if(dark5 == true){
+		if (dark5 == true) {
 			registerBiomeWithTypes(ACBiomes.darklands_mountains, darkWeight5, BiomeType.WARM, Type.MOUNTAIN, Type.SPOOKY);
 			BiomeManager.addVillageBiome(ACBiomes.darklands_mountains, true);
 			BiomeManager.addStrongholdBiome(ACBiomes.darklands_mountains);
 		}
-		if(coralium1 == true)
+		if (coralium1 == true)
 			registerBiomeWithTypes(ACBiomes.coralium_infested_swamp, coraliumWeight, BiomeType.WARM, Type.SWAMP);
-		if(darkspawn1 == true)
+		if (darkspawn1 == true)
 			BiomeManager.addSpawnBiome(ACBiomes.darklands);
-		if(darkspawn2 == true)
+		if (darkspawn2 == true)
 			BiomeManager.addSpawnBiome(ACBiomes.darklands_forest);
-		if(darkspawn3 == true)
+		if (darkspawn3 == true)
 			BiomeManager.addSpawnBiome(ACBiomes.darklands_plains);
-		if(darkspawn4 == true)
+		if (darkspawn4 == true)
 			BiomeManager.addSpawnBiome(ACBiomes.darklands_hills);
-		if(darkspawn5 == true)
+		if (darkspawn5 == true)
 			BiomeManager.addSpawnBiome(ACBiomes.darklands_mountains);
-		if(coraliumspawn1 == true)
+		if (coraliumspawn1 == true)
 			BiomeManager.addSpawnBiome(ACBiomes.coralium_infested_swamp);
 
 		BiomeDictionary.registerBiomeType(ACBiomes.abyssal_wastelands, Type.DEAD);
@@ -1177,34 +1120,30 @@ public class AbyssalCraft {
 		BiomeDictionary.registerBiomeType(ACBiomes.omothol, Type.DEAD);
 		BiomeDictionary.registerBiomeType(ACBiomes.dark_realm, Type.DEAD);
 
-		//Dimension
+		// Dimension
 		registerDimension(configDimId1, WorldProviderAbyss.class, keepLoaded1);
 		registerDimension(configDimId2, WorldProviderDreadlands.class, keepLoaded2);
 		registerDimension(configDimId3, WorldProviderOmothol.class, keepLoaded3);
 		registerDimension(configDimId4, WorldProviderDarkRealm.class, keepLoaded4);
 
-		//Mobs
+		// Mobs
 		registerEntityWithEgg(EntityDepthsGhoul.class, "depthsghoul", 25, 80, 3, true, 0x36A880, 0x012626);
 		EntityRegistry.addSpawn(EntityDepthsGhoul.class, 10, 1, 3, EnumCreatureType.monster, BiomeDictionary.getBiomesForType(Type.WATER));
 		EntityRegistry.addSpawn(EntityDepthsGhoul.class, 10, 1, 3, EnumCreatureType.monster, BiomeDictionary.getBiomesForType(Type.BEACH));
 		EntityRegistry.addSpawn(EntityDepthsGhoul.class, 10, 1, 3, EnumCreatureType.monster, BiomeDictionary.getBiomesForType(Type.SWAMP));
-		EntityRegistry.removeSpawn(EntityDepthsGhoul.class, EnumCreatureType.monster, new BiomeGenBase[]{ BiomeGenBase.mushroomIslandShore });
-	
-		registerEntityWithEgg(EntityEvilpig.class, "evilpig", 26, 80, 3, true, 15771042, 14377823);
-		if(evilAnimalSpawnRate > 0)
-			EntityRegistry.addSpawn(EntityEvilpig.class, evilAnimalSpawnRate, 1, 3, evilAnimalCreatureType ? EnumCreatureType.monster : EnumCreatureType.creature, new BiomeGenBase[] {
-				BiomeGenBase.taiga, BiomeGenBase.plains, BiomeGenBase.forest, BiomeGenBase.savanna,
-				BiomeGenBase.beach, BiomeGenBase.extremeHills, BiomeGenBase.jungle, BiomeGenBase.savannaPlateau,
-				BiomeGenBase.swampland, BiomeGenBase.icePlains, BiomeGenBase.birchForest,
-				BiomeGenBase.birchForestHills, BiomeGenBase.roofedForest});
+		EntityRegistry.removeSpawn(EntityDepthsGhoul.class, EnumCreatureType.monster, new BiomeGenBase[] { BiomeGenBase.mushroomIslandShore });
 
-		registerEntityWithEgg(EntityAbyssalZombie.class , "abyssalzombie", 27, 80, 3, true, 0x36A880, 0x052824);
+		registerEntityWithEgg(EntityEvilpig.class, "evilpig", 26, 80, 3, true, 15771042, 14377823);
+		if (evilAnimalSpawnRate > 0)
+			EntityRegistry.addSpawn(EntityEvilpig.class, evilAnimalSpawnRate, 1, 3, evilAnimalCreatureType ? EnumCreatureType.monster : EnumCreatureType.creature, new BiomeGenBase[] { BiomeGenBase.taiga, BiomeGenBase.plains, BiomeGenBase.forest, BiomeGenBase.savanna, BiomeGenBase.beach, BiomeGenBase.extremeHills, BiomeGenBase.jungle, BiomeGenBase.savannaPlateau, BiomeGenBase.swampland, BiomeGenBase.icePlains, BiomeGenBase.birchForest, BiomeGenBase.birchForestHills, BiomeGenBase.roofedForest });
+
+		registerEntityWithEgg(EntityAbyssalZombie.class, "abyssalzombie", 27, 80, 3, true, 0x36A880, 0x052824);
 		EntityRegistry.addSpawn(EntityAbyssalZombie.class, 10, 1, 3, EnumCreatureType.monster, BiomeDictionary.getBiomesForType(Type.WATER));
 		EntityRegistry.addSpawn(EntityAbyssalZombie.class, 10, 1, 3, EnumCreatureType.monster, BiomeDictionary.getBiomesForType(Type.BEACH));
 		EntityRegistry.addSpawn(EntityAbyssalZombie.class, 10, 1, 3, EnumCreatureType.monster, BiomeDictionary.getBiomesForType(Type.SWAMP));
-		if(endAbyssalZombie)
+		if (endAbyssalZombie)
 			EntityRegistry.addSpawn(EntityAbyssalZombie.class, 10, 1, 3, EnumCreatureType.monster, BiomeDictionary.getBiomesForType(Type.END));
-		EntityRegistry.removeSpawn(EntityAbyssalZombie.class, EnumCreatureType.monster, new BiomeGenBase[]{ BiomeGenBase.mushroomIslandShore });
+		EntityRegistry.removeSpawn(EntityAbyssalZombie.class, EnumCreatureType.monster, new BiomeGenBase[] { BiomeGenBase.mushroomIslandShore });
 
 		EntityRegistry.registerModEntity(EntityODBPrimed.class, "Primed ODB", 28, this, 80, 3, true);
 
@@ -1218,7 +1157,8 @@ public class AbyssalCraft {
 
 		EntityRegistry.registerModEntity(EntityPSDLTracker.class, "PowerstoneTracker", 33, this, 64, 10, true);
 
-		///registerEntityWithEgg(EntityDragonMinion.class, "dragonminion", 34, 80, 3, true, 0x433434, 0x344344);
+		/// registerEntityWithEgg(EntityDragonMinion.class, "dragonminion", 34, 80, 3,
+		/// true, 0x433434, 0x344344);
 
 		registerEntityWithEgg(EntityDragonBoss.class, "dragonboss", 35, 80, 3, true, 0x476767, 0x768833);
 
@@ -1273,7 +1213,7 @@ public class AbyssalCraft {
 		registerEntityWithEgg(EntityOmotholGhoul.class, "omotholghoul", 60, 80, 3, true, 0x133133, 0x342122);
 
 		EntityRegistry.registerModEntity(EntityCoraliumArrow.class, "CoraliumArrow", 61, this, 64, 10, true);
-		
+
 		EntityRegistry.registerModEntity(EntityAntimatterArrow.class, "AntimatterArrow", 61, this, 64, 10, true);
 
 		registerEntityWithEgg(EntityGatekeeperMinion.class, "jzaharminion", 62, 80, 3, true, 0x133133, 0x342122);
@@ -1285,32 +1225,22 @@ public class AbyssalCraft {
 		EntityRegistry.registerModEntity(EntityDreadSlug.class, "DreadSlug", 65, this, 64, 10, true);
 
 		registerEntityWithEgg(EntityLesserShoggoth.class, "lessershoggoth", 66, 80, 3, true, 0x133133, 0x342122);
-		EntityRegistry.addSpawn(EntityLesserShoggoth.class, 3, 1, 1, EnumCreatureType.monster, new BiomeGenBase[]{
-			ACBiomes.abyssal_wastelands, ACBiomes.dreadlands, ACBiomes.purified_dreadlands, ACBiomes.dreadlands_mountains,
-			ACBiomes.dreadlands_forest, ACBiomes.omothol, ACBiomes.dark_realm});
-		EntityRegistry.removeSpawn(EntityLesserShoggoth.class, EnumCreatureType.monster, new BiomeGenBase[]{ BiomeGenBase.mushroomIslandShore });
+		EntityRegistry.addSpawn(EntityLesserShoggoth.class, 3, 1, 1, EnumCreatureType.monster, new BiomeGenBase[] { ACBiomes.abyssal_wastelands, ACBiomes.dreadlands, ACBiomes.purified_dreadlands, ACBiomes.dreadlands_mountains, ACBiomes.dreadlands_forest, ACBiomes.omothol, ACBiomes.dark_realm });
+		EntityRegistry.removeSpawn(EntityLesserShoggoth.class, EnumCreatureType.monster, new BiomeGenBase[] { BiomeGenBase.mushroomIslandShore });
 
 		registerEntityWithEgg(EntityEvilCow.class, "evilcow", 67, 80, 3, true, 4470310, 10592673);
-		if(evilAnimalSpawnRate > 0)
-			EntityRegistry.addSpawn(EntityEvilCow.class, evilAnimalSpawnRate, 1, 3, evilAnimalCreatureType ? EnumCreatureType.monster : EnumCreatureType.creature, new BiomeGenBase[] {
-				BiomeGenBase.taiga, BiomeGenBase.plains, BiomeGenBase.forest, BiomeGenBase.savanna,
-				BiomeGenBase.beach, BiomeGenBase.extremeHills, BiomeGenBase.jungle, BiomeGenBase.savannaPlateau,
-				BiomeGenBase.swampland, BiomeGenBase.icePlains, BiomeGenBase.birchForest,
-				BiomeGenBase.birchForestHills, BiomeGenBase.roofedForest});
+		if (evilAnimalSpawnRate > 0)
+			EntityRegistry.addSpawn(EntityEvilCow.class, evilAnimalSpawnRate, 1, 3, evilAnimalCreatureType ? EnumCreatureType.monster : EnumCreatureType.creature, new BiomeGenBase[] { BiomeGenBase.taiga, BiomeGenBase.plains, BiomeGenBase.forest, BiomeGenBase.savanna, BiomeGenBase.beach, BiomeGenBase.extremeHills, BiomeGenBase.jungle, BiomeGenBase.savannaPlateau, BiomeGenBase.swampland, BiomeGenBase.icePlains, BiomeGenBase.birchForest, BiomeGenBase.birchForestHills, BiomeGenBase.roofedForest });
 
 		registerEntityWithEgg(EntityEvilChicken.class, "evilchicken", 68, 80, 3, true, 10592673, 16711680);
-		if(evilAnimalSpawnRate > 0)
-			EntityRegistry.addSpawn(EntityEvilChicken.class, evilAnimalSpawnRate, 1, 3, evilAnimalCreatureType ? EnumCreatureType.monster : EnumCreatureType.creature, new BiomeGenBase[] {
-				BiomeGenBase.taiga, BiomeGenBase.plains, BiomeGenBase.forest, BiomeGenBase.savanna,
-				BiomeGenBase.beach, BiomeGenBase.extremeHills, BiomeGenBase.jungle, BiomeGenBase.savannaPlateau,
-				BiomeGenBase.swampland, BiomeGenBase.icePlains, BiomeGenBase.birchForest,
-				BiomeGenBase.birchForestHills, BiomeGenBase.roofedForest});
+		if (evilAnimalSpawnRate > 0)
+			EntityRegistry.addSpawn(EntityEvilChicken.class, evilAnimalSpawnRate, 1, 3, evilAnimalCreatureType ? EnumCreatureType.monster : EnumCreatureType.creature, new BiomeGenBase[] { BiomeGenBase.taiga, BiomeGenBase.plains, BiomeGenBase.forest, BiomeGenBase.savanna, BiomeGenBase.beach, BiomeGenBase.extremeHills, BiomeGenBase.jungle, BiomeGenBase.savannaPlateau, BiomeGenBase.swampland, BiomeGenBase.icePlains, BiomeGenBase.birchForest, BiomeGenBase.birchForestHills, BiomeGenBase.roofedForest });
 
 		registerEntityWithEgg(EntityDemonCow.class, "demoncow", 69, 80, 3, true, 4470310, 10592673);
 		registerEntityWithEgg(EntityDemonChicken.class, "demonchicken", 70, 80, 3, true, 10592673, 16711680);
 
 		EntityRegistry.registerModEntity(EntityGatekeeperEssence.class, "GatekeeperEssence", 71, instance, 64, 10, true);
-		
+
 		registerEntityWithEgg(EntityWormHole.class, "wormhole", 72, 80, 3, true, 10592673, 16711680);
 
 		proxy.addArmor("Abyssalnite");
@@ -1334,30 +1264,30 @@ public class AbyssalCraft {
 	@EventHandler
 	public void Init(FMLInitializationEvent event) {
 		ACLogger.info("Initializing AbyssalCraft.");
-		//Achievements
+		// Achievements
 		necro = new Achievement("achievement.necro", "necro", 0, 0, necronomicon, AchievementList.openInventory).registerStat();
-		//Materials Achievements
+		// Materials Achievements
 		mineAby = new Achievement("achievement.mineAby", "mineAby", 2, 0, abyore, necro).registerStat();
 		mineCorgem = new Achievement("achievement.mineCorgem", "mineCorgem", 4, 0, Coralium, mineAby).registerStat();
 		shadowGems = new Achievement("achievement.shadowGems", "shadowGems", 6, 0, shadowgem, mineCorgem).registerStat();
-		//coraliumpearl
+		// coraliumpearl
 		mineCor = new Achievement("achievement.mineCor", "mineCor", 8, 0, AbyLCorOre, shadowGems).registerStat();
 		mineAbyOres = new Achievement("achievement.mineAbyOres", "mineAbyOres", 10, 0, AbyDiaOre, mineCor).registerStat();
 		mineDread = new Achievement("achievement.mineDread", "mineDread", 12, 0, dreadore, mineAbyOres).registerStat();
 		dreadium = new Achievement("achievement.dreadium", "dreadium", 14, 0, dreadiumingot, mineDread).registerStat();
 		eth = new Achievement("achievement.ethaxium", "ethaxium", 16, 0, ethaxiumIngot, dreadium).setSpecial().registerStat();
-		//Depths Ghoul Achievements
+		// Depths Ghoul Achievements
 		killghoul = new Achievement("achievement.killghoul", "killghoul", -2, 0, Corbone, necro).registerStat();
 		ghoulhead = new Achievement("achievement.ghoulhead", "ghoulhead", -4, 0, DGhead, killghoul).registerStat();
 		petehead = new Achievement("achievement.petehead", "petehead", -4, -2, Phead, ghoulhead).registerStat();
 		wilsonhead = new Achievement("achievement.wilsonhead", "wilsonhead", -4, -4, Whead, petehead).registerStat();
 		orangehead = new Achievement("achievement.orangehead", "orangehead", -4, -6, Ohead, wilsonhead).registerStat();
-		//Necronomicon Achievements
+		// Necronomicon Achievements
 		necrou1 = new Achievement("achievement.necrou1", "necrou1", 2, 1, necronomicon_cor, necro).registerStat();
 		necrou2 = new Achievement("achievement.necrou2", "necrou2", 4, 1, necronomicon_dre, necrou1).registerStat();
 		necrou3 = new Achievement("achievement.necrou3", "necrou3", 6, 1, necronomicon_omt, necrou2).registerStat();
 		abyssaln = new Achievement("achievement.abyssaln", "abyssaln", 8, 1, abyssalnomicon, necrou3).setSpecial().registerStat();
-		//Ritual Achievements
+		// Ritual Achievements
 		ritual = new Achievement("achievement.ritual", "ritual", -2, 1, ritualaltar, necro).setSpecial().registerStat();
 		ritualSummon = new Achievement("achievement.ritualSummon", "ritualSummon", -4, 1, DGhead, ritual).registerStat();
 		ritualCreate = new Achievement("achievement.ritualCreate", "ritualCreate", -4, 2, lifeCrystal, ritual).registerStat();
@@ -1366,7 +1296,7 @@ public class AbyssalCraft {
 		ritualPotionAoE = new Achievement("achievement.ritualPotionAoE", "ritualPotionAoE", -4, 5, new ItemStack(Items.potionitem, 1, 16384), ritual).registerStat();
 		ritualInfusion = new Achievement("achievement.ritualInfusion", "ritualInfusion", -4, 6, Depthshelmet, ritual).registerStat();
 		shoggothInfestation = new Achievement("achievement.shoggothInfestation", "shoggothInfestation", -6, 3, Items.skull, ritualBreed).registerStat();
-		//Progression Achievements
+		// Progression Achievements
 		enterabyss = new Achievement("achievement.enterabyss", "enterabyss", 0, 2, abystone, necro).setSpecial().registerStat();
 		killdragon = new Achievement("achievement.killdragon", "killdragon", 2, 2, Corflesh, enterabyss).registerStat();
 		summonAsorah = new Achievement("achievement.summonAsorah", "summonAsorah", 0, 4, Altar, enterabyss).registerStat();
@@ -1380,19 +1310,15 @@ public class AbyssalCraft {
 		killOmotholelite = new Achievement("achievement.killOmotholelite", "killOmotholelite", 6, 10, eldritchScale, enterOmothol).registerStat();
 		locateJzahar = new Achievement("achievement.locateJzahar", "locateJzahar", 4, 12, jzaharCharm, enterOmothol).registerStat();
 		killJzahar = new Achievement("achievement.killJzahar", "killJzahar", 6, 12, Staff, locateJzahar).setSpecial().registerStat();
-		//Gateway Key Achievements
+		// Gateway Key Achievements
 		GK1 = new Achievement("achievement.GK1", "GK1", 0, -2, portalPlacer, necro).registerStat();
 		findPSDL = new Achievement("achievement.findPSDL", "findPSDL", -2, -2, PSDL, GK1).registerStat();
 		GK2 = new Achievement("achievement.GK2", "GK2", 0, -4, portalPlacerDL, GK1).registerStat();
 		GK3 = new Achievement("achievement.GK3", "GK3", 0, -6, portalPlacerJzh, GK2).registerStat();
-		//Machinery Achievements
+		// Machinery Achievements
 		makeEngraver = new Achievement("achievement.makeEngraver", "makeEngraver", 2, -3, engraver, AchievementList.openInventory).registerStat();
 
-		AchievementPage.registerAchievementPage(new AchievementPage("AbyssalCraft", new Achievement[]{necro, mineAby, killghoul, enterabyss, killdragon, summonAsorah, killAsorah,
-				enterdreadlands, killdreadguard, ghoulhead, petehead, wilsonhead, orangehead, mineCorgem, mineCor, findPSDL, GK1, GK2, GK3, summonChagaroth, killChagaroth,
-				enterOmothol, enterDarkRealm, necrou1, necrou2, necrou3, abyssaln, ritual, ritualSummon, ritualCreate, killOmotholelite, locateJzahar, killJzahar, shadowGems,
-				mineAbyOres, mineDread, dreadium, eth, makeEngraver, ritualBreed, ritualPotion, ritualPotionAoE,
-				ritualInfusion, shoggothInfestation}));
+		AchievementPage.registerAchievementPage(new AchievementPage("AbyssalCraft", new Achievement[] { necro, mineAby, killghoul, enterabyss, killdragon, summonAsorah, killAsorah, enterdreadlands, killdreadguard, ghoulhead, petehead, wilsonhead, orangehead, mineCorgem, mineCor, findPSDL, GK1, GK2, GK3, summonChagaroth, killChagaroth, enterOmothol, enterDarkRealm, necrou1, necrou2, necrou3, abyssaln, ritual, ritualSummon, ritualCreate, killOmotholelite, locateJzahar, killJzahar, shadowGems, mineAbyOres, mineDread, dreadium, eth, makeEngraver, ritualBreed, ritualPotion, ritualPotionAoE, ritualInfusion, shoggothInfestation }));
 
 		proxy.init();
 		FMLCommonHandler.instance().bus().register(instance);
@@ -1422,37 +1348,35 @@ public class AbyssalCraft {
 	}
 
 	@EventHandler
-	public void serverStart(FMLServerAboutToStartEvent event){
+	public void serverStart(FMLServerAboutToStartEvent event) {
 		String clname = AbyssalCraftAPI.getInternalNDHandler().getClass().getName();
 		String expect = "com.shinoow.abyssalcraft.common.handlers.InternalNecroDataHandler";
-		if(!clname.equals(expect)) {
-			new IllegalAccessError("The AbyssalCraft API internal NecroData handler has been overriden. "
-					+ "Since things are not going to work correctly, the game will now shut down."
-					+ " (Expected classname: " + expect + ", Actual classname: " + clname + ")").printStackTrace();
+		if (!clname.equals(expect)) {
+			new IllegalAccessError("The AbyssalCraft API internal NecroData handler has been overriden. " + "Since things are not going to work correctly, the game will now shut down." + " (Expected classname: " + expect + ", Actual classname: " + clname + ")").printStackTrace();
 			FMLCommonHandler.instance().exitJava(1, true);
 		}
 	}
 
 	@SuppressWarnings("unchecked")
 	@EventHandler
-	public void handleIMC(FMLInterModComms.IMCEvent event){
+	public void handleIMC(FMLInterModComms.IMCEvent event) {
 
 		List<String> senders = new ArrayList<String>();
 		for (final FMLInterModComms.IMCMessage imcMessage : event.getMessages())
-			if(imcMessage.key.equals("shoggothFood"))
+			if (imcMessage.key.equals("shoggothFood"))
 				try {
-					AbyssalCraftAPI.addShoggothFood((Class<? extends EntityLivingBase>)Class.forName(imcMessage.getStringValue()));
+					AbyssalCraftAPI.addShoggothFood((Class<? extends EntityLivingBase>) Class.forName(imcMessage.getStringValue()));
 					ACLogger.imcInfo("Received Shoggoth Food addition %s from mod %s", imcMessage.getStringValue(), imcMessage.getSender());
-					if(!senders.contains(imcMessage.getSender()))
+					if (!senders.contains(imcMessage.getSender()))
 						senders.add(imcMessage.getSender());
 				} catch (ClassNotFoundException e) {
 					ACLogger.imcWarning("Could not find class %s", imcMessage.getStringValue());
 				}
-			else if(imcMessage.key.equals("registerTransmutatorFuel"))
+			else if (imcMessage.key.equals("registerTransmutatorFuel"))
 				try {
-					AbyssalCraftAPI.registerFuelHandler((IFuelHandler)Class.forName(imcMessage.getStringValue()).newInstance(), FuelType.TRANSMUTATOR);
+					AbyssalCraftAPI.registerFuelHandler((IFuelHandler) Class.forName(imcMessage.getStringValue()).newInstance(), FuelType.TRANSMUTATOR);
 					ACLogger.imcInfo("Recieved Transmutator fuel handler %s from mod %s", imcMessage.getStringValue(), imcMessage.getSender());
-					if(!senders.contains(imcMessage.getSender()))
+					if (!senders.contains(imcMessage.getSender()))
 						senders.add(imcMessage.getSender());
 				} catch (InstantiationException e) {
 					ACLogger.imcWarning("Could not create a instance of class %s (not a IFuelHandler?)", imcMessage.getStringValue());
@@ -1461,11 +1385,11 @@ public class AbyssalCraft {
 				} catch (ClassNotFoundException e) {
 					ACLogger.imcWarning("Could not find class %s", imcMessage.getStringValue());
 				}
-			else if(imcMessage.key.equals("registerCrystallizerFuel"))
+			else if (imcMessage.key.equals("registerCrystallizerFuel"))
 				try {
-					AbyssalCraftAPI.registerFuelHandler((IFuelHandler)Class.forName(imcMessage.getStringValue()).newInstance(), FuelType.CRYSTALLIZER);
+					AbyssalCraftAPI.registerFuelHandler((IFuelHandler) Class.forName(imcMessage.getStringValue()).newInstance(), FuelType.CRYSTALLIZER);
 					ACLogger.imcInfo("Recieved Crystallizer fuel handler %s from mod %s", imcMessage.getStringValue(), imcMessage.getSender());
-					if(!senders.contains(imcMessage.getSender()))
+					if (!senders.contains(imcMessage.getSender()))
 						senders.add(imcMessage.getSender());
 				} catch (InstantiationException e) {
 					ACLogger.imcWarning("Could not create a instance of class %s (not a IFuelHandler?)", imcMessage.getStringValue());
@@ -1474,184 +1398,190 @@ public class AbyssalCraft {
 				} catch (ClassNotFoundException e) {
 					ACLogger.imcWarning("Could not find class %s", imcMessage.getStringValue());
 				}
-			else if(imcMessage.key.equals("addCrystal")){
+			else if (imcMessage.key.equals("addCrystal")) {
 				boolean failed = false;
-				if(!imcMessage.isItemStackMessage())
+				if (!imcMessage.isItemStackMessage())
 					failed = true;
-				else{
+				else {
 					ItemStack crystal = imcMessage.getItemStackValue();
-					if(crystal == null){
+					if (crystal == null) {
 						failed = true;
 						return;
 					}
 					AbyssalCraftAPI.addCrystal(crystal);
 				}
-				if(failed)
+				if (failed)
 					ACLogger.imcWarning("Received invalid Crystal addition from mo %s", imcMessage.getSender());
-				else ACLogger.imcInfo("Received Crystal addition from mo %s", imcMessage.getSender());
-			} else if(imcMessage.key.equals("addCrystallization")){
+				else
+					ACLogger.imcInfo("Received Crystal addition from mo %s", imcMessage.getSender());
+			} else if (imcMessage.key.equals("addCrystallization")) {
 				boolean failed = false;
-				if(!imcMessage.isNBTMessage())
+				if (!imcMessage.isNBTMessage())
 					failed = true;
 				else {
-					if(!senders.contains(imcMessage.getSender()))
+					if (!senders.contains(imcMessage.getSender()))
 						senders.add(imcMessage.getSender());
 					NBTTagCompound stuff = imcMessage.getNBTValue();
-					if(!stuff.hasKey("input") || !stuff.hasKey("output1") || !stuff.hasKey("output2") || !stuff.hasKey("xp")){
+					if (!stuff.hasKey("input") || !stuff.hasKey("output1") || !stuff.hasKey("output2") || !stuff.hasKey("xp")) {
 						failed = true;
 						return;
 					}
 					ItemStack input = ItemStack.loadItemStackFromNBT(stuff.getCompoundTag("input"));
 					ItemStack output1 = ItemStack.loadItemStackFromNBT(stuff.getCompoundTag("output1"));
 					ItemStack output2 = ItemStack.loadItemStackFromNBT(stuff.getCompoundTag("output2"));
-					if(input == null || output1 == null || output2 == null){
+					if (input == null || output1 == null || output2 == null) {
 						failed = true;
 						return;
 					}
 					AbyssalCraftAPI.addCrystallization(input, output1, output2, stuff.getFloat("xp"));
 				}
-				if(failed)
+				if (failed)
 					ACLogger.imcWarning("Received invalid Crystallizer recipe from mod %s!", imcMessage.getSender());
-				else ACLogger.imcInfo("Received Crystallizer recipe from mod %s", imcMessage.getSender());
-			}
-			else if(imcMessage.key.equals("addSingleCrystallization")){
+				else
+					ACLogger.imcInfo("Received Crystallizer recipe from mod %s", imcMessage.getSender());
+			} else if (imcMessage.key.equals("addSingleCrystallization")) {
 				boolean failed = false;
-				if(!imcMessage.isNBTMessage())
+				if (!imcMessage.isNBTMessage())
 					failed = true;
 				else {
-					if(!senders.contains(imcMessage.getSender()))
+					if (!senders.contains(imcMessage.getSender()))
 						senders.add(imcMessage.getSender());
 					NBTTagCompound stuff = imcMessage.getNBTValue();
-					if(!stuff.hasKey("input") || !stuff.hasKey("output") || !stuff.hasKey("xp")){
+					if (!stuff.hasKey("input") || !stuff.hasKey("output") || !stuff.hasKey("xp")) {
 						failed = true;
 						return;
 					}
 					ItemStack input = ItemStack.loadItemStackFromNBT(stuff.getCompoundTag("input"));
 					ItemStack output = ItemStack.loadItemStackFromNBT(stuff.getCompoundTag("output"));
-					if(input == null || output == null){
+					if (input == null || output == null) {
 						failed = true;
 						return;
 					}
 					AbyssalCraftAPI.addSingleCrystallization(input, output, stuff.getFloat("xp"));
 				}
-				if(failed)
+				if (failed)
 					ACLogger.imcWarning("Received invalid Single Crystallizer recipe from mod %s!", imcMessage.getSender());
-				else ACLogger.imcInfo("Received Single Crystallizer recipe from mod %s", imcMessage.getSender());
-			}
-			else if(imcMessage.key.equals("addOredictCrystallization")){
+				else
+					ACLogger.imcInfo("Received Single Crystallizer recipe from mod %s", imcMessage.getSender());
+			} else if (imcMessage.key.equals("addOredictCrystallization")) {
 				boolean failed = false;
-				if(!imcMessage.isNBTMessage())
+				if (!imcMessage.isNBTMessage())
 					failed = true;
 				else {
-					if(!senders.contains(imcMessage.getSender()))
+					if (!senders.contains(imcMessage.getSender()))
 						senders.add(imcMessage.getSender());
 					NBTTagCompound stuff = imcMessage.getNBTValue();
-					if(!stuff.hasKey("input") || !stuff.hasKey("output1") || !stuff.hasKey("output2") || !stuff.hasKey("xp")){
+					if (!stuff.hasKey("input") || !stuff.hasKey("output1") || !stuff.hasKey("output2") || !stuff.hasKey("xp")) {
 						failed = true;
 						return;
 					}
 					String input = stuff.getString("input");
 					String output1 = stuff.getString("output1");
 					String output2 = stuff.getString("output2");
-					if(input == null || output1 == null || output2 == null){
+					if (input == null || output1 == null || output2 == null) {
 						failed = true;
 						return;
 					}
-					if(stuff.hasKey("quantity1") && stuff.hasKey("quantity2"))
+					if (stuff.hasKey("quantity1") && stuff.hasKey("quantity2"))
 						AbyssalCraftAPI.addCrystallization(input, output1, stuff.getInteger("quantity1"), output2, stuff.getInteger("quantity2"), stuff.getFloat("xp"));
-					else AbyssalCraftAPI.addCrystallization(input, output1, output2, stuff.getFloat("xp"));
+					else
+						AbyssalCraftAPI.addCrystallization(input, output1, output2, stuff.getFloat("xp"));
 				}
-				if(failed)
+				if (failed)
 					ACLogger.imcWarning("Received invalid OreDictionary Crystallizer recipe from mod %s!", imcMessage.getSender());
-				else ACLogger.imcInfo("Received OreDictionary Crystallizer recipe from mod %s", imcMessage.getSender());
-			}
-			else if(imcMessage.key.equals("addSingleOredictCrystallization")){
+				else
+					ACLogger.imcInfo("Received OreDictionary Crystallizer recipe from mod %s", imcMessage.getSender());
+			} else if (imcMessage.key.equals("addSingleOredictCrystallization")) {
 				boolean failed = false;
-				if(!imcMessage.isNBTMessage())
+				if (!imcMessage.isNBTMessage())
 					failed = true;
 				else {
-					if(!senders.contains(imcMessage.getSender()))
+					if (!senders.contains(imcMessage.getSender()))
 						senders.add(imcMessage.getSender());
 					NBTTagCompound stuff = imcMessage.getNBTValue();
-					if(!stuff.hasKey("input") || !stuff.hasKey("output") || !stuff.hasKey("xp")){
+					if (!stuff.hasKey("input") || !stuff.hasKey("output") || !stuff.hasKey("xp")) {
 						failed = true;
 						return;
 					}
 					String input = stuff.getString("input");
 					String output = stuff.getString("output");
-					if(input == null || output == null){
+					if (input == null || output == null) {
 						failed = true;
 						return;
 					}
-					if(stuff.hasKey("quantity"))
+					if (stuff.hasKey("quantity")) {
 						AbyssalCraftAPI.addSingleCrystallization(input, output, stuff.getInteger("quantity"), stuff.getFloat("xp"));
-					else AbyssalCraftAPI.addSingleCrystallization(input, output, stuff.getFloat("xp"));
+					} else {
+						AbyssalCraftAPI.addSingleCrystallization(input, output, stuff.getFloat("xp"));
+					}
 				}
-				if(failed)
+				if (failed) {
 					ACLogger.imcWarning("Received invalid Single OreDictionary Crystallizer recipe from mod %s!", imcMessage.getSender());
-				else ACLogger.imcInfo("Received Single OreDictionary Crystallizer recipe from mod %s", imcMessage.getSender());
+				} else {
+					ACLogger.imcInfo("Received Single OreDictionary Crystallizer recipe from mod %s", imcMessage.getSender());
+				}
 
-			}
-			else if(imcMessage.key.equals("addTransmutation")){
+			} else if (imcMessage.key.equals("addTransmutation")) {
 				boolean failed = false;
-				if(!imcMessage.isNBTMessage())
+				if (!imcMessage.isNBTMessage())
 					failed = true;
 				else {
-					if(!senders.contains(imcMessage.getSender()))
+					if (!senders.contains(imcMessage.getSender()))
 						senders.add(imcMessage.getSender());
 					NBTTagCompound stuff = imcMessage.getNBTValue();
-					if(!stuff.hasKey("input") || !stuff.hasKey("output") || !stuff.hasKey("xp")){
+					if (!stuff.hasKey("input") || !stuff.hasKey("output") || !stuff.hasKey("xp")) {
 						failed = true;
 						return;
 					}
 					ItemStack input = ItemStack.loadItemStackFromNBT(stuff.getCompoundTag("input"));
 					ItemStack output = ItemStack.loadItemStackFromNBT(stuff.getCompoundTag("output"));
-					if(input == null || output == null){
+					if (input == null || output == null) {
 						failed = true;
 						return;
 					}
 					AbyssalCraftAPI.addTransmutation(input, output, stuff.getFloat("xp"));
 				}
-				if(failed)
+				if (failed)
 					ACLogger.imcWarning("Received invalid Transmutator recipe from mod %s!", imcMessage.getSender());
-				else ACLogger.imcInfo("Received Transmutator recipe from mod %s", imcMessage.getSender());
-			}
-			else if(imcMessage.key.equals("addOredictTransmutation")){
+				else
+					ACLogger.imcInfo("Received Transmutator recipe from mod %s", imcMessage.getSender());
+			} else if (imcMessage.key.equals("addOredictTransmutation")) {
 				boolean failed = false;
-				if(!imcMessage.isNBTMessage())
+				if (!imcMessage.isNBTMessage())
 					failed = true;
 				else {
-					if(!senders.contains(imcMessage.getSender()))
+					if (!senders.contains(imcMessage.getSender()))
 						senders.add(imcMessage.getSender());
 					NBTTagCompound stuff = imcMessage.getNBTValue();
-					if(!stuff.hasKey("input") || !stuff.hasKey("output") || !stuff.hasKey("xp")){
+					if (!stuff.hasKey("input") || !stuff.hasKey("output") || !stuff.hasKey("xp")) {
 						failed = true;
 						return;
 					}
 					String input = stuff.getString("input");
 					String output = stuff.getString("output");
-					if(input == null || output == null){
+					if (input == null || output == null) {
 						failed = true;
 						return;
 					}
-					if(stuff.hasKey("quantity"))
+					if (stuff.hasKey("quantity"))
 						AbyssalCraftAPI.addTransmutation(input, output, stuff.getInteger("quantity"), stuff.getFloat("xp"));
-					else AbyssalCraftAPI.addTransmutation(input, output, stuff.getFloat("xp"));
+					else
+						AbyssalCraftAPI.addTransmutation(input, output, stuff.getFloat("xp"));
 				}
-				if(failed)
+				if (failed)
 					ACLogger.imcWarning("Received invalid OreDictionary Transmutator recipe from mod %s!", imcMessage.getSender());
-				else ACLogger.imcInfo("Received OreDictionary Transmutator recipe from mod %s", imcMessage.getSender());
-			}
-			else if(imcMessage.key.equals("addMaterialization")){ //TODO: rewrite this
+				else
+					ACLogger.imcInfo("Received OreDictionary Transmutator recipe from mod %s", imcMessage.getSender());
+			} else if (imcMessage.key.equals("addMaterialization")) { // TODO: rewrite this
 				boolean failed = false;
 				ItemStack[] items;
-				if(!imcMessage.isNBTMessage())
+				if (!imcMessage.isNBTMessage())
 					failed = true;
 				else {
-					if(!senders.contains(imcMessage.getSender()))
+					if (!senders.contains(imcMessage.getSender()))
 						senders.add(imcMessage.getSender());
 					NBTTagCompound stuff = imcMessage.getNBTValue();
-					if(!stuff.hasKey("input1") || !stuff.hasKey("output")){
+					if (!stuff.hasKey("input1") || !stuff.hasKey("output")) {
 						failed = true;
 						return;
 					}
@@ -1661,29 +1591,29 @@ public class AbyssalCraft {
 					ItemStack input4 = ItemStack.loadItemStackFromNBT(stuff.getCompoundTag("input4"));
 					ItemStack input5 = ItemStack.loadItemStackFromNBT(stuff.getCompoundTag("input5"));
 					ItemStack output = ItemStack.loadItemStackFromNBT(stuff.getCompoundTag("output"));
-					if(input1 == null || output == null){
+					if (input1 == null || output == null) {
 						failed = true;
 						return;
 					}
-					if(input5 != null){
+					if (input5 != null) {
 						items = new ItemStack[5];
 						items[0] = input1;
 						items[1] = input2;
 						items[2] = input3;
 						items[3] = input4;
 						items[4] = input5;
-					} else if(input4 != null){
+					} else if (input4 != null) {
 						items = new ItemStack[4];
 						items[0] = input1;
 						items[1] = input2;
 						items[2] = input3;
 						items[3] = input4;
-					} else if(input3 != null){
+					} else if (input3 != null) {
 						items = new ItemStack[3];
 						items[0] = input1;
 						items[1] = input2;
 						items[2] = input3;
-					} else if(input2 != null){
+					} else if (input2 != null) {
 						items = new ItemStack[2];
 						items[0] = input1;
 						items[1] = input2;
@@ -1693,33 +1623,34 @@ public class AbyssalCraft {
 					}
 					AbyssalCraftAPI.addMaterialization(items, output);
 				}
-				if(failed)
+				if (failed)
 					ACLogger.imcWarning("Received invalid Materializer recipe from mod %s!", imcMessage.getSender());
-				else ACLogger.imcInfo("Received Materializer recipe from mod %s", imcMessage.getSender());
-			}
-			else if(imcMessage.key.equals("shoggothBlacklist")){
+				else
+					ACLogger.imcInfo("Received Materializer recipe from mod %s", imcMessage.getSender());
+			} else if (imcMessage.key.equals("shoggothBlacklist")) {
 				boolean failed = false;
-				if(!imcMessage.isItemStackMessage())
+				if (!imcMessage.isItemStackMessage())
 					failed = true;
-				else if(Block.getBlockFromItem(imcMessage.getItemStackValue().getItem()) != null){
-					if(!senders.contains(imcMessage.getSender()))
+				else if (Block.getBlockFromItem(imcMessage.getItemStackValue().getItem()) != null) {
+					if (!senders.contains(imcMessage.getSender()))
 						senders.add(imcMessage.getSender());
 					AbyssalCraftAPI.addShoggothBlacklist(Block.getBlockFromItem(imcMessage.getItemStackValue().getItem()));
 				} else {
 					failed = true;
 				}
-				if(failed)
+				if (failed)
 					ACLogger.imcWarning("Received invalid Shoggoth Block Blacklist from mod %s!", imcMessage.getSender());
-				else ACLogger.imcInfo("Received Shoggoth Block Blacklist from mod %s", imcMessage.getSender());
-			}
-			else ACLogger.imcWarning("Received an IMC Message with unknown key (%s) from mod %s!", imcMessage.key, imcMessage.getSender());
-		if(!senders.isEmpty())
+				else
+					ACLogger.imcInfo("Received Shoggoth Block Blacklist from mod %s", imcMessage.getSender());
+			} else
+				ACLogger.imcWarning("Received an IMC Message with unknown key (%s) from mod %s!", imcMessage.key, imcMessage.getSender());
+		if (!senders.isEmpty())
 			ACLogger.imcInfo("Recieved messages from the following mods: %s", senders);
 	}
 
 	@SubscribeEvent
 	public void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent eventArgs) {
-		if(eventArgs.modID.equals("abyssalcraft"))
+		if (eventArgs.modID.equals("abyssalcraft"))
 			syncConfig();
 	}
 
@@ -1748,7 +1679,6 @@ public class AbyssalCraft {
 		configBiomeId12 = cfg.get("biomes", "Omothol", 112, "Main biome in Omothol, the realm of J'zahar.", 0, 255).getInt();
 		configBiomeId13 = cfg.get("biomes", "Dark Realm", 113, "Dark Realm biome, made out of Darkstone.", 0, 255).getInt();
 
-
 		dark1 = cfg.get("biome_generation", "Darklands", true, "Set true for the Darklands biome to generate.").getBoolean();
 		dark2 = cfg.get("biome_generation", "Darklands Forest", true, "Set true for the Darklands Forest biome to generate.").getBoolean();
 		dark3 = cfg.get("biome_generation", "Darklands Plains", true, "Set true for the Darklands Plains biome to generate.").getBoolean();
@@ -1774,9 +1704,7 @@ public class AbyssalCraft {
 		particleEntity = cfg.get(Configuration.CATEGORY_GENERAL, "Entity particles", true, "Toggles whether entities that emits particles should do so.").getBoolean();
 		hardcoreMode = cfg.get(Configuration.CATEGORY_GENERAL, "Hardcore Mode", false, "Toggles Hardcore mode. If set to true, all mobs will become tougher.").getBoolean();
 		endAbyssalZombie = cfg.get(Configuration.CATEGORY_GENERAL, "End Abyssal Zombies", true, "Toggles whether Abyssal Zombies should spawn in The End. Takes effect after restart.").getBoolean();
-		evilAnimalCreatureType = cfg.get(Configuration.CATEGORY_GENERAL, "Evil Animals Are Monsters", false, "If enabled, sets the creature type of Evil Animals to \"monster\". The creature type affects how a entity spawns, eg \"creature\" "
-				+ "treats the entity as an animal, while \"monster\" treats it as a hostile mob. If you enable this, Evil Animals will spawn like any other hostile mobs, instead of mimicking vanilla animals.\n"
-				+EnumChatFormatting.RED+"[Minecraft Restart Required]"+EnumChatFormatting.RESET).getBoolean();
+		evilAnimalCreatureType = cfg.get(Configuration.CATEGORY_GENERAL, "Evil Animals Are Monsters", false, "If enabled, sets the creature type of Evil Animals to \"monster\". The creature type affects how a entity spawns, eg \"creature\" " + "treats the entity as an animal, while \"monster\" treats it as a hostile mob. If you enable this, Evil Animals will spawn like any other hostile mobs, instead of mimicking vanilla animals.\n" + EnumChatFormatting.RED + "[Minecraft Restart Required]" + EnumChatFormatting.RESET).getBoolean();
 		antiItemDisintegration = cfg.get(Configuration.CATEGORY_GENERAL, "Liquid Antimatter item disintegration", true, "Toggles whether or not Liquid Antimatter will disintegrate any items dropped into a pool of it.").getBoolean();
 
 		darkWeight1 = cfg.get("biome_weight", "Darklands", 10, "Biome weight for the Darklands biome, controls the chance of it generating", 0, 100).getInt();
@@ -1829,7 +1757,7 @@ public class AbyssalCraft {
 		generatePearlescentCoraliumOre = cfg.get("worldgen", "Pearlescent Coralium Ore", true, "Toggles whether or not to generate Pearlescent Coralium Ore in the Abyssal Wasteland.").getBoolean();
 		generateLiquifiedCoraliumOre = cfg.get("worldgen", "Liquified Coralium Ore", true, "Toggles whether or not to generate Liquified Coralium Ore in the Abyssal Wasteland.").getBoolean();
 
-		if(cfg.hasChanged()) {
+		if (cfg.hasChanged()) {
 			cfg.save();
 		}
 	}
@@ -1886,7 +1814,7 @@ public class AbyssalCraft {
 	private void addChestGenHooks() {
 		ChestGenHooks.addItem(ChestGenHooks.DUNGEON_CHEST, new WeightedRandomChestContent(new ItemStack(copperIngot), 1, 5, 7));
 		ChestGenHooks.addItem(ChestGenHooks.DUNGEON_CHEST, new WeightedRandomChestContent(new ItemStack(Cingot), 1, 2, 1));
-		
+
 		ChestGenHooks.addItem(ChestGenHooks.DUNGEON_CHEST, new WeightedRandomChestContent(new ItemStack(MRE), 1, 1, 5));
 		ChestGenHooks.addItem(ChestGenHooks.DUNGEON_CHEST, new WeightedRandomChestContent(new ItemStack(Coralium), 1, 5, 8));
 		ChestGenHooks.addItem(ChestGenHooks.DUNGEON_CHEST, new WeightedRandomChestContent(new ItemStack(shadowfragment), 1, 10, 8));
@@ -1901,7 +1829,7 @@ public class AbyssalCraft {
 		ChestGenHooks.addItem(ChestGenHooks.STRONGHOLD_CORRIDOR, new WeightedRandomChestContent(new ItemStack(copperIngot), 1, 5, 7));
 	}
 
-	private void addDungeonHooks(){
+	private void addDungeonHooks() {
 		DungeonHooks.addDungeonMob("abyssalcraft.abyssalzombie", 150);
 		DungeonHooks.addDungeonMob("abyssalcraft.depthsghoul", 100);
 		DungeonHooks.addDungeonMob("abyssalcraft.shadowcreature", 120);
@@ -1918,93 +1846,67 @@ public class AbyssalCraft {
 	}
 
 	private void checkBiomeIds(boolean first) {
-		if(first) {
+		if (first) {
 			ACLogger.info("Scanning biome IDs to see if the ones needed are available.");
 
-			if(BiomeGenBase.getBiomeGenArray()[configBiomeId1] != null && dark1)
-				throw new RuntimeException(String.format("Biome ID %d is already occupied by the biome %s (%s)!", configBiomeId1, BiomeGenBase.getBiome(configBiomeId1).biomeName,
-						BiomeGenBase.getBiome(configBiomeId1).getBiomeClass().getName()));
-			if(BiomeGenBase.getBiomeGenArray()[configBiomeId2] != null)
-				throw new RuntimeException(String.format("Biome ID %d is already occupied by the biome %s (%s)!", configBiomeId2, BiomeGenBase.getBiome(configBiomeId2).biomeName,
-						BiomeGenBase.getBiome(configBiomeId2).getBiomeClass().getName()));
-			if(BiomeGenBase.getBiomeGenArray()[configBiomeId3] != null)
-				throw new RuntimeException(String.format("Biome ID %d is already occupied by the biome %s (%s)!", configBiomeId3, BiomeGenBase.getBiome(configBiomeId3).biomeName,
-						BiomeGenBase.getBiome(configBiomeId3).getBiomeClass().getName()));
-			if(BiomeGenBase.getBiomeGenArray()[configBiomeId4] != null)
-				throw new RuntimeException(String.format("Biome ID %d is already occupied by the biome %s (%s)!", configBiomeId4, BiomeGenBase.getBiome(configBiomeId4).biomeName,
-						BiomeGenBase.getBiome(configBiomeId4).getBiomeClass().getName()));
-			if(BiomeGenBase.getBiomeGenArray()[configBiomeId5] != null)
-				throw new RuntimeException(String.format("Biome ID %d is already occupied by the biome %s (%s)!", configBiomeId5, BiomeGenBase.getBiome(configBiomeId5).biomeName,
-						BiomeGenBase.getBiome(configBiomeId5).getBiomeClass().getName()));
-			if(BiomeGenBase.getBiomeGenArray()[configBiomeId6] != null)
-				throw new RuntimeException(String.format("Biome ID %d is already occupied by the biome %s (%s)!", configBiomeId6, BiomeGenBase.getBiome(configBiomeId6).biomeName,
-						BiomeGenBase.getBiome(configBiomeId6).getBiomeClass().getName()));
-			if(BiomeGenBase.getBiomeGenArray()[configBiomeId7] != null && dark2)
-				throw new RuntimeException(String.format("Biome ID %d is already occupied by the biome %s (%s)!", configBiomeId7, BiomeGenBase.getBiome(configBiomeId7).biomeName,
-						BiomeGenBase.getBiome(configBiomeId7).getBiomeClass().getName()));
-			if(BiomeGenBase.getBiomeGenArray()[configBiomeId8] != null && dark3)
-				throw new RuntimeException(String.format("Biome ID %d is already occupied by the biome %s (%s)!", configBiomeId8, BiomeGenBase.getBiome(configBiomeId8).biomeName,
-						BiomeGenBase.getBiome(configBiomeId8).getBiomeClass().getName()));
-			if(BiomeGenBase.getBiomeGenArray()[configBiomeId9] != null && dark4)
-				throw new RuntimeException(String.format("Biome ID %d is already occupied by the biome %s (%s)!", configBiomeId9, BiomeGenBase.getBiome(configBiomeId9).biomeName,
-						BiomeGenBase.getBiome(configBiomeId9).getBiomeClass().getName()));
-			if(BiomeGenBase.getBiomeGenArray()[configBiomeId10] != null && dark5)
-				throw new RuntimeException(String.format("Biome ID %d is already occupied by the biome %s (%s)!", configBiomeId10, BiomeGenBase.getBiome(configBiomeId10).biomeName,
-						BiomeGenBase.getBiome(configBiomeId10).getBiomeClass().getName()));
-			if(BiomeGenBase.getBiomeGenArray()[configBiomeId11] != null && coralium1)
-				throw new RuntimeException(String.format("Biome ID %d is already occupied by the biome %s (%s)!", configBiomeId11, BiomeGenBase.getBiome(configBiomeId11).biomeName,
-						BiomeGenBase.getBiome(configBiomeId11).getBiomeClass().getName()));
-			if(BiomeGenBase.getBiomeGenArray()[configBiomeId12] != null)
-				throw new RuntimeException(String.format("Biome ID %d is already occupied by the biome %s (%s)!", configBiomeId12, BiomeGenBase.getBiome(configBiomeId12).biomeName,
-						BiomeGenBase.getBiome(configBiomeId12).getBiomeClass().getName()));
-			if(BiomeGenBase.getBiomeGenArray()[configBiomeId13] != null)
-				throw new RuntimeException(String.format("Biome ID %d is already occupied by the biome %s (%s)!", configBiomeId13, BiomeGenBase.getBiome(configBiomeId13).biomeName,
-						BiomeGenBase.getBiome(configBiomeId13).getBiomeClass().getName()));
+			if (BiomeGenBase.getBiomeGenArray()[configBiomeId1] != null && dark1)
+				throw new RuntimeException(String.format("Biome ID %d is already occupied by the biome %s (%s)!", configBiomeId1, BiomeGenBase.getBiome(configBiomeId1).biomeName, BiomeGenBase.getBiome(configBiomeId1).getBiomeClass().getName()));
+			if (BiomeGenBase.getBiomeGenArray()[configBiomeId2] != null)
+				throw new RuntimeException(String.format("Biome ID %d is already occupied by the biome %s (%s)!", configBiomeId2, BiomeGenBase.getBiome(configBiomeId2).biomeName, BiomeGenBase.getBiome(configBiomeId2).getBiomeClass().getName()));
+			if (BiomeGenBase.getBiomeGenArray()[configBiomeId3] != null)
+				throw new RuntimeException(String.format("Biome ID %d is already occupied by the biome %s (%s)!", configBiomeId3, BiomeGenBase.getBiome(configBiomeId3).biomeName, BiomeGenBase.getBiome(configBiomeId3).getBiomeClass().getName()));
+			if (BiomeGenBase.getBiomeGenArray()[configBiomeId4] != null)
+				throw new RuntimeException(String.format("Biome ID %d is already occupied by the biome %s (%s)!", configBiomeId4, BiomeGenBase.getBiome(configBiomeId4).biomeName, BiomeGenBase.getBiome(configBiomeId4).getBiomeClass().getName()));
+			if (BiomeGenBase.getBiomeGenArray()[configBiomeId5] != null)
+				throw new RuntimeException(String.format("Biome ID %d is already occupied by the biome %s (%s)!", configBiomeId5, BiomeGenBase.getBiome(configBiomeId5).biomeName, BiomeGenBase.getBiome(configBiomeId5).getBiomeClass().getName()));
+			if (BiomeGenBase.getBiomeGenArray()[configBiomeId6] != null)
+				throw new RuntimeException(String.format("Biome ID %d is already occupied by the biome %s (%s)!", configBiomeId6, BiomeGenBase.getBiome(configBiomeId6).biomeName, BiomeGenBase.getBiome(configBiomeId6).getBiomeClass().getName()));
+			if (BiomeGenBase.getBiomeGenArray()[configBiomeId7] != null && dark2)
+				throw new RuntimeException(String.format("Biome ID %d is already occupied by the biome %s (%s)!", configBiomeId7, BiomeGenBase.getBiome(configBiomeId7).biomeName, BiomeGenBase.getBiome(configBiomeId7).getBiomeClass().getName()));
+			if (BiomeGenBase.getBiomeGenArray()[configBiomeId8] != null && dark3)
+				throw new RuntimeException(String.format("Biome ID %d is already occupied by the biome %s (%s)!", configBiomeId8, BiomeGenBase.getBiome(configBiomeId8).biomeName, BiomeGenBase.getBiome(configBiomeId8).getBiomeClass().getName()));
+			if (BiomeGenBase.getBiomeGenArray()[configBiomeId9] != null && dark4)
+				throw new RuntimeException(String.format("Biome ID %d is already occupied by the biome %s (%s)!", configBiomeId9, BiomeGenBase.getBiome(configBiomeId9).biomeName, BiomeGenBase.getBiome(configBiomeId9).getBiomeClass().getName()));
+			if (BiomeGenBase.getBiomeGenArray()[configBiomeId10] != null && dark5)
+				throw new RuntimeException(String.format("Biome ID %d is already occupied by the biome %s (%s)!", configBiomeId10, BiomeGenBase.getBiome(configBiomeId10).biomeName, BiomeGenBase.getBiome(configBiomeId10).getBiomeClass().getName()));
+			if (BiomeGenBase.getBiomeGenArray()[configBiomeId11] != null && coralium1)
+				throw new RuntimeException(String.format("Biome ID %d is already occupied by the biome %s (%s)!", configBiomeId11, BiomeGenBase.getBiome(configBiomeId11).biomeName, BiomeGenBase.getBiome(configBiomeId11).getBiomeClass().getName()));
+			if (BiomeGenBase.getBiomeGenArray()[configBiomeId12] != null)
+				throw new RuntimeException(String.format("Biome ID %d is already occupied by the biome %s (%s)!", configBiomeId12, BiomeGenBase.getBiome(configBiomeId12).biomeName, BiomeGenBase.getBiome(configBiomeId12).getBiomeClass().getName()));
+			if (BiomeGenBase.getBiomeGenArray()[configBiomeId13] != null)
+				throw new RuntimeException(String.format("Biome ID %d is already occupied by the biome %s (%s)!", configBiomeId13, BiomeGenBase.getBiome(configBiomeId13).biomeName, BiomeGenBase.getBiome(configBiomeId13).getBiomeClass().getName()));
 
 			ACLogger.info("None of the needed biome IDs are occupied!");
 		} else {
 			ACLogger.info("Checking so that no other mod has overridden a used biome ID.");
 
-			if(BiomeGenBase.getBiomeGenArray()[configBiomeId1] != ACBiomes.darklands && dark1)
-				throw new RuntimeException(String.format("Biome ID %d was overridden by the biome %s (%s)!", configBiomeId1, BiomeGenBase.getBiome(configBiomeId1).biomeName,
-						BiomeGenBase.getBiome(configBiomeId1).getBiomeClass().getName()));
-			if(BiomeGenBase.getBiomeGenArray()[configBiomeId2] != ACBiomes.abyssal_wastelands)
-				throw new RuntimeException(String.format("Biome ID %d was overridden by the biome %s (%s)!", configBiomeId2, BiomeGenBase.getBiome(configBiomeId2).biomeName,
-						BiomeGenBase.getBiome(configBiomeId2).getBiomeClass().getName()));
-			if(BiomeGenBase.getBiomeGenArray()[configBiomeId3] != ACBiomes.dreadlands)
-				throw new RuntimeException(String.format("Biome ID %d was overridden by the biome %s (%s)!", configBiomeId3, BiomeGenBase.getBiome(configBiomeId3).biomeName,
-						BiomeGenBase.getBiome(configBiomeId3).getBiomeClass().getName()));
-			if(BiomeGenBase.getBiomeGenArray()[configBiomeId4] != ACBiomes.purified_dreadlands)
-				throw new RuntimeException(String.format("Biome ID %d was overridden by the biome %s (%s)!", configBiomeId4, BiomeGenBase.getBiome(configBiomeId4).biomeName,
-						BiomeGenBase.getBiome(configBiomeId4).getBiomeClass().getName()));
-			if(BiomeGenBase.getBiomeGenArray()[configBiomeId5] != ACBiomes.dreadlands_forest)
-				throw new RuntimeException(String.format("Biome ID %d was overridden by the biome %s (%s)!", configBiomeId5, BiomeGenBase.getBiome(configBiomeId5).biomeName,
-						BiomeGenBase.getBiome(configBiomeId5).getBiomeClass().getName()));
-			if(BiomeGenBase.getBiomeGenArray()[configBiomeId6] != ACBiomes.dreadlands_mountains)
-				throw new RuntimeException(String.format("Biome ID %d was overridden by the biome %s (%s)!", configBiomeId6, BiomeGenBase.getBiome(configBiomeId6).biomeName,
-						BiomeGenBase.getBiome(configBiomeId6).getBiomeClass().getName()));
-			if(BiomeGenBase.getBiomeGenArray()[configBiomeId7] != ACBiomes.darklands_forest && dark2)
-				throw new RuntimeException(String.format("Biome ID %d was overridden by the biome %s (%s)!", configBiomeId7, BiomeGenBase.getBiome(configBiomeId7).biomeName,
-						BiomeGenBase.getBiome(configBiomeId7).getBiomeClass().getName()));
-			if(BiomeGenBase.getBiomeGenArray()[configBiomeId8] != ACBiomes.darklands_plains && dark3)
-				throw new RuntimeException(String.format("Biome ID %d was overridden by the biome %s (%s)!", configBiomeId8, BiomeGenBase.getBiome(configBiomeId8).biomeName,
-						BiomeGenBase.getBiome(configBiomeId8).getBiomeClass().getName()));
-			if(BiomeGenBase.getBiomeGenArray()[configBiomeId9] != ACBiomes.darklands_hills && dark4)
-				throw new RuntimeException(String.format("Biome ID %d was overridden by the biome %s (%s)!", configBiomeId9, BiomeGenBase.getBiome(configBiomeId9).biomeName,
-						BiomeGenBase.getBiome(configBiomeId9).getBiomeClass().getName()));
-			if(BiomeGenBase.getBiomeGenArray()[configBiomeId10] != ACBiomes.darklands_mountains && dark5)
-				throw new RuntimeException(String.format("Biome ID %d was overridden by the biome %s (%s)!", configBiomeId10, BiomeGenBase.getBiome(configBiomeId10).biomeName,
-						BiomeGenBase.getBiome(configBiomeId10).getBiomeClass().getName()));
-			if(BiomeGenBase.getBiomeGenArray()[configBiomeId11] != ACBiomes.coralium_infested_swamp && coralium1)
-				throw new RuntimeException(String.format("Biome ID %d was overridden by the biome %s (%s)!", configBiomeId11, BiomeGenBase.getBiome(configBiomeId11).biomeName,
-						BiomeGenBase.getBiome(configBiomeId11).getBiomeClass().getName()));
-			if(BiomeGenBase.getBiomeGenArray()[configBiomeId12] != ACBiomes.omothol)
-				throw new RuntimeException(String.format("Biome ID %d was overridden by the biome %s (%s)!", configBiomeId12, BiomeGenBase.getBiome(configBiomeId12).biomeName,
-						BiomeGenBase.getBiome(configBiomeId12).getBiomeClass().getName()));
-			if(BiomeGenBase.getBiomeGenArray()[configBiomeId13] != ACBiomes.dark_realm)
-				throw new RuntimeException(String.format("Biome ID %d was overridden by the biome %s (%s)!", configBiomeId13, BiomeGenBase.getBiome(configBiomeId13).biomeName,
-						BiomeGenBase.getBiome(configBiomeId13).getBiomeClass().getName()));
-			
+			if (BiomeGenBase.getBiomeGenArray()[configBiomeId1] != ACBiomes.darklands && dark1)
+				throw new RuntimeException(String.format("Biome ID %d was overridden by the biome %s (%s)!", configBiomeId1, BiomeGenBase.getBiome(configBiomeId1).biomeName, BiomeGenBase.getBiome(configBiomeId1).getBiomeClass().getName()));
+			if (BiomeGenBase.getBiomeGenArray()[configBiomeId2] != ACBiomes.abyssal_wastelands)
+				throw new RuntimeException(String.format("Biome ID %d was overridden by the biome %s (%s)!", configBiomeId2, BiomeGenBase.getBiome(configBiomeId2).biomeName, BiomeGenBase.getBiome(configBiomeId2).getBiomeClass().getName()));
+			if (BiomeGenBase.getBiomeGenArray()[configBiomeId3] != ACBiomes.dreadlands)
+				throw new RuntimeException(String.format("Biome ID %d was overridden by the biome %s (%s)!", configBiomeId3, BiomeGenBase.getBiome(configBiomeId3).biomeName, BiomeGenBase.getBiome(configBiomeId3).getBiomeClass().getName()));
+			if (BiomeGenBase.getBiomeGenArray()[configBiomeId4] != ACBiomes.purified_dreadlands)
+				throw new RuntimeException(String.format("Biome ID %d was overridden by the biome %s (%s)!", configBiomeId4, BiomeGenBase.getBiome(configBiomeId4).biomeName, BiomeGenBase.getBiome(configBiomeId4).getBiomeClass().getName()));
+			if (BiomeGenBase.getBiomeGenArray()[configBiomeId5] != ACBiomes.dreadlands_forest)
+				throw new RuntimeException(String.format("Biome ID %d was overridden by the biome %s (%s)!", configBiomeId5, BiomeGenBase.getBiome(configBiomeId5).biomeName, BiomeGenBase.getBiome(configBiomeId5).getBiomeClass().getName()));
+			if (BiomeGenBase.getBiomeGenArray()[configBiomeId6] != ACBiomes.dreadlands_mountains)
+				throw new RuntimeException(String.format("Biome ID %d was overridden by the biome %s (%s)!", configBiomeId6, BiomeGenBase.getBiome(configBiomeId6).biomeName, BiomeGenBase.getBiome(configBiomeId6).getBiomeClass().getName()));
+			if (BiomeGenBase.getBiomeGenArray()[configBiomeId7] != ACBiomes.darklands_forest && dark2)
+				throw new RuntimeException(String.format("Biome ID %d was overridden by the biome %s (%s)!", configBiomeId7, BiomeGenBase.getBiome(configBiomeId7).biomeName, BiomeGenBase.getBiome(configBiomeId7).getBiomeClass().getName()));
+			if (BiomeGenBase.getBiomeGenArray()[configBiomeId8] != ACBiomes.darklands_plains && dark3)
+				throw new RuntimeException(String.format("Biome ID %d was overridden by the biome %s (%s)!", configBiomeId8, BiomeGenBase.getBiome(configBiomeId8).biomeName, BiomeGenBase.getBiome(configBiomeId8).getBiomeClass().getName()));
+			if (BiomeGenBase.getBiomeGenArray()[configBiomeId9] != ACBiomes.darklands_hills && dark4)
+				throw new RuntimeException(String.format("Biome ID %d was overridden by the biome %s (%s)!", configBiomeId9, BiomeGenBase.getBiome(configBiomeId9).biomeName, BiomeGenBase.getBiome(configBiomeId9).getBiomeClass().getName()));
+			if (BiomeGenBase.getBiomeGenArray()[configBiomeId10] != ACBiomes.darklands_mountains && dark5)
+				throw new RuntimeException(String.format("Biome ID %d was overridden by the biome %s (%s)!", configBiomeId10, BiomeGenBase.getBiome(configBiomeId10).biomeName, BiomeGenBase.getBiome(configBiomeId10).getBiomeClass().getName()));
+			if (BiomeGenBase.getBiomeGenArray()[configBiomeId11] != ACBiomes.coralium_infested_swamp && coralium1)
+				throw new RuntimeException(String.format("Biome ID %d was overridden by the biome %s (%s)!", configBiomeId11, BiomeGenBase.getBiome(configBiomeId11).biomeName, BiomeGenBase.getBiome(configBiomeId11).getBiomeClass().getName()));
+			if (BiomeGenBase.getBiomeGenArray()[configBiomeId12] != ACBiomes.omothol)
+				throw new RuntimeException(String.format("Biome ID %d was overridden by the biome %s (%s)!", configBiomeId12, BiomeGenBase.getBiome(configBiomeId12).biomeName, BiomeGenBase.getBiome(configBiomeId12).getBiomeClass().getName()));
+			if (BiomeGenBase.getBiomeGenArray()[configBiomeId13] != ACBiomes.dark_realm)
+				throw new RuntimeException(String.format("Biome ID %d was overridden by the biome %s (%s)!", configBiomeId13, BiomeGenBase.getBiome(configBiomeId13).biomeName, BiomeGenBase.getBiome(configBiomeId13).getBiomeClass().getName()));
+
 			ACLogger.info("None of the biome IDs has been overridden.");
 		}
 	}
@@ -2017,15 +1919,16 @@ public class AbyssalCraft {
 		return startEntityId;
 	}
 
-	private int getNextAvailablePotionId(){
+	private int getNextAvailablePotionId() {
 
 		int pot = Potion.potionTypes.length;
 		int i = 1;
 
-		do{
+		do {
 			i++;
-			if (i >= 128) throw new RuntimeException("Out of available Potion IDs, AbyssalCraft can't load unless some IDs are freed up!");
-			if(i == pot)
+			if (i >= 128)
+				throw new RuntimeException("Out of available Potion IDs, AbyssalCraft can't load unless some IDs are freed up!");
+			if (i == pot)
 				for (Field f : Potion.class.getDeclaredFields()) {
 					f.setAccessible(true);
 					try {
@@ -2034,38 +1937,38 @@ public class AbyssalCraft {
 							modfield.setAccessible(true);
 							modfield.setInt(f, f.getModifiers() & ~Modifier.FINAL);
 
-							Potion[] potionTypes = (Potion[])f.get(null);
+							Potion[] potionTypes = (Potion[]) f.get(null);
 							final Potion[] newPotionTypes = new Potion[pot++];
 							System.arraycopy(potionTypes, 0, newPotionTypes, 0, potionTypes.length);
 							f.set(null, newPotionTypes);
 						}
-					}
-					catch (Exception e) {
+					} catch (Exception e) {
 						System.err.println("Whoops, something screwed up here, please report this to shinoow:");
 						System.err.println(e);
 					}
 				}
 
-		} while(Potion.potionTypes[i] != null);
+		} while (Potion.potionTypes[i] != null);
 
 		return i;
 	}
 
-	private int getNextAvailableEnchantmentId(){
+	private int getNextAvailableEnchantmentId() {
 
 		int i = 0;
 
-		do{
+		do {
 			i++;
-			if(i >= 256) throw new RuntimeException("Out of available Enchantment IDs, AbyssalCraft can't load unless some IDs are freed up!");
+			if (i >= 256)
+				throw new RuntimeException("Out of available Enchantment IDs, AbyssalCraft can't load unless some IDs are freed up!");
 
-		} while(Enchantment.enchantmentsList[i] != null);
+		} while (Enchantment.enchantmentsList[i] != null);
 
 		return i;
 	}
 
-	private void extendPotionArray(){
-		if(Potion.potionTypes.length < 128){
+	private void extendPotionArray() {
+		if (Potion.potionTypes.length < 128) {
 			Potion[] potionTypes = null;
 			for (Field f : Potion.class.getDeclaredFields()) {
 				f.setAccessible(true);
@@ -2075,18 +1978,18 @@ public class AbyssalCraft {
 						modfield.setAccessible(true);
 						modfield.setInt(f, f.getModifiers() & ~Modifier.FINAL);
 
-						potionTypes = (Potion[])f.get(null);
+						potionTypes = (Potion[]) f.get(null);
 						final Potion[] newPotionTypes = new Potion[128];
 						System.arraycopy(potionTypes, 0, newPotionTypes, 0, potionTypes.length);
 						f.set(null, newPotionTypes);
 					}
-				}
-				catch (Exception e) {
+				} catch (Exception e) {
 					System.err.println("Whoops, something screwed up here, please report this to shinoow:");
 					System.err.println(e);
 				}
 			}
-		} else ACLogger.info("The potion array has already been extended (%d), so we're not doing it again.", Potion.potionTypes.length);
+		} else
+			ACLogger.info("The potion array has already been extended (%d), so we're not doing it again.", Potion.potionTypes.length);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -2097,7 +2000,7 @@ public class AbyssalCraft {
 		EntityList.IDtoClassMapping.put(id, entity);
 		EntityList.entityEggs.put(id, new EntityEggInfo(id, primaryColor, secondaryColor));
 	}
-	
+
 	@SuppressWarnings({ "unchecked", "unused" })
 	private static void registerEntity(Class<? extends Entity> entity, String name, int modid, int trackingRange, int updateFrequency, boolean sendsVelocityUpdates) {
 		final int id = getUniqueEntityId();
@@ -2106,17 +2009,17 @@ public class AbyssalCraft {
 		EntityList.IDtoClassMapping.put(id, entity);
 	}
 
-	private static void registerDimension(int id, Class<? extends WorldProvider> provider, boolean keepLoaded){
+	private static void registerDimension(int id, Class<? extends WorldProvider> provider, boolean keepLoaded) {
 		DimensionManager.registerProviderType(id, provider, keepLoaded);
 		DimensionManager.registerDimension(id, id);
 	}
 
-	private static void registerBiomeWithTypes(BiomeGenBase biome, int weight, BiomeType btype, Type...types){
+	private static void registerBiomeWithTypes(BiomeGenBase biome, int weight, BiomeType btype, Type... types) {
 		BiomeDictionary.registerBiomeType(biome, types);
 		BiomeManager.addBiome(btype, new BiomeEntry(biome, weight));
 	}
 
-	private String getSupporterList(){
+	private String getSupporterList() {
 		BufferedReader nameFile;
 		String names = "";
 		try {

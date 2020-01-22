@@ -54,6 +54,7 @@ public class IntegrationHandler {
 				temp.add(plugin);
 	}
 
+	@SuppressWarnings("rawtypes")
 	private static <T> List<T> fetchPlugins(ASMDataTable asmDataTable, Class annotationClass, Class<T> instanceClass){
 		String annotationClassName = annotationClass.getCanonicalName();
 		Set<ASMDataTable.ASMData> asmDatas = asmDataTable.getAll(annotationClassName);

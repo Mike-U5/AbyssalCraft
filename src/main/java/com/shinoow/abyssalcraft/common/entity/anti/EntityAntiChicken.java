@@ -11,6 +11,8 @@
  ******************************************************************************/
 package com.shinoow.abyssalcraft.common.entity.anti;
 
+import com.shinoow.abyssalcraft.api.entity.IAntiEntity;
+
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
@@ -32,9 +34,6 @@ import net.minecraft.item.ItemSeeds;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
-import com.shinoow.abyssalcraft.AbyssalCraft;
-import com.shinoow.abyssalcraft.api.entity.IAntiEntity;
-
 public class EntityAntiChicken extends EntityAnimal implements IAntiEntity {
 
 	public float field_70886_e;
@@ -45,8 +44,7 @@ public class EntityAntiChicken extends EntityAnimal implements IAntiEntity {
 	/** The time until the next egg is spawned. */
 	public int timeUntilNextEgg;
 
-	public EntityAntiChicken(World par1World)
-	{
+	public EntityAntiChicken(World par1World) {
 		super(par1World);
 		setSize(0.3F, 0.7F);
 		timeUntilNextEgg = rand.nextInt(6000) + 6000;
@@ -61,26 +59,23 @@ public class EntityAntiChicken extends EntityAnimal implements IAntiEntity {
 	}
 
 	@Override
-	public boolean isAIEnabled()
-	{
+	public boolean isAIEnabled() {
 		return true;
 	}
 
 	@Override
-	protected void applyEntityAttributes()
-	{
+	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
 		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(8.0D);
 		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.25D);
 	}
 
 	@Override
-	public void onLivingUpdate()
-	{
+	public void onLivingUpdate() {
 		super.onLivingUpdate();
 		field_70888_h = field_70886_e;
 		field_70884_g = destPos;
-		destPos = (float)(destPos + (onGround ? -1 : 4) * 0.3D);
+		destPos = (float) (destPos + (onGround ? -1 : 4) * 0.3D);
 
 		if (destPos < 0.0F)
 			destPos = 0.0F;
@@ -91,15 +86,14 @@ public class EntityAntiChicken extends EntityAnimal implements IAntiEntity {
 		if (!onGround && field_70889_i < 1.0F)
 			field_70889_i = 1.0F;
 
-		field_70889_i = (float)(field_70889_i * 0.9D);
+		field_70889_i = (float) (field_70889_i * 0.9D);
 
 		if (!onGround && motionY < 0.0D)
 			motionY *= 0.6D;
 
 		field_70886_e += field_70889_i * 2.0F;
 
-		if (!isChild() && !worldObj.isRemote && --timeUntilNextEgg <= 0)
-		{
+		if (!isChild() && !worldObj.isRemote && --timeUntilNextEgg <= 0) {
 			playSound("mob.chicken.plop", 1.0F, (rand.nextFloat() - rand.nextFloat()) * 0.2F + 1.0F);
 			dropItem(Items.egg, 1);
 			timeUntilNextEgg = rand.nextInt(6000) + 6000;
@@ -107,72 +101,60 @@ public class EntityAntiChicken extends EntityAnimal implements IAntiEntity {
 	}
 
 	@Override
-	protected void fall(float par1) {}
+	protected void fall(float par1) {
+	}
 
 	@Override
-	protected String getLivingSound()
-	{
+	protected String getLivingSound() {
 		return "mob.chicken.say";
 	}
 
 	@Override
-	protected String getHurtSound()
-	{
+	protected String getHurtSound() {
 		return "mob.chicken.hurt";
 	}
 
 	@Override
-	protected String getDeathSound()
-	{
+	protected String getDeathSound() {
 		return "mob.chicken.hurt";
 	}
 
 	@Override
-	protected void func_145780_a(int p_145780_1_, int p_145780_2_, int p_145780_3_, Block p_145780_4_)
-	{
+	protected void func_145780_a(int p_145780_1_, int p_145780_2_, int p_145780_3_, Block p_145780_4_) {
 		playSound("mob.chicken.step", 0.15F, 1.0F);
 	}
 
 	@Override
-	protected Item getDropItem()
-	{
+	protected Item getDropItem() {
 		return Items.feather;
 	}
 
 	@Override
-	protected void dropFewItems(boolean par1, int par2)
-	{
+	protected void dropFewItems(boolean par1, int par2) {
 		int j = rand.nextInt(3) + rand.nextInt(1 + par2);
 
 		for (int k = 0; k < j; ++k)
 			dropItem(Items.feather, 1);
 
-		if (isBurning())
-			dropItem(AbyssalCraft.antiChicken, 1);
-		else
-			dropItem(AbyssalCraft.antiChicken, 1);
 	}
 
 	@Override
-	protected void collideWithEntity(Entity par1Entity)
-	{
-		if(!worldObj.isRemote && par1Entity instanceof EntityChicken){
+	protected void collideWithEntity(Entity par1Entity) {
+		if (!worldObj.isRemote && par1Entity instanceof EntityChicken) {
 			boolean flag = worldObj.getGameRules().getGameRuleBooleanValue("mobGriefing");
 			worldObj.createExplosion(this, posX, posY, posZ, 5, flag);
 			setDead();
-		}
-		else par1Entity.applyEntityCollision(this);
+		} else
+			par1Entity.applyEntityCollision(this);
 	}
 
 	@Override
-	public EntityAntiChicken createChild(EntityAgeable par1EntityAgeable)
-	{
+	public EntityAntiChicken createChild(EntityAgeable par1EntityAgeable) {
 		return new EntityAntiChicken(worldObj);
 	}
 
 	@Override
-	public boolean isBreedingItem(ItemStack par1ItemStack)
-	{
+	public boolean isBreedingItem(ItemStack par1ItemStack) {
 		return par1ItemStack != null && par1ItemStack.getItem() instanceof ItemSeeds;
 	}
 }

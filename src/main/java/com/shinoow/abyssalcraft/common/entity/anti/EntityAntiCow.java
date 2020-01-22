@@ -36,8 +36,7 @@ import com.shinoow.abyssalcraft.api.entity.IAntiEntity;
 
 public class EntityAntiCow extends EntityAnimal implements IAntiEntity {
 
-	public EntityAntiCow(World par1World)
-	{
+	public EntityAntiCow(World par1World) {
 		super(par1World);
 		setSize(0.9F, 1.3F);
 		getNavigator().setAvoidsWater(true);
@@ -52,91 +51,71 @@ public class EntityAntiCow extends EntityAnimal implements IAntiEntity {
 	}
 
 	@Override
-	public boolean isAIEnabled()
-	{
+	public boolean isAIEnabled() {
 		return true;
 	}
 
 	@Override
-	protected void applyEntityAttributes()
-	{
+	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
 		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(20.0D);
 		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.20000000298023224D);
 	}
 
 	@Override
-	protected String getLivingSound()
-	{
+	protected String getLivingSound() {
 		return "mob.cow.say";
 	}
 
 	@Override
-	protected String getHurtSound()
-	{
+	protected String getHurtSound() {
 		return "mob.cow.hurt";
 	}
 
 	@Override
-	protected String getDeathSound()
-	{
+	protected String getDeathSound() {
 		return "mob.cow.hurt";
 	}
 
 	@Override
-	protected void func_145780_a(int par1, int par2, int par3, Block par4Block)
-	{
+	protected void func_145780_a(int par1, int par2, int par3, Block par4Block) {
 		playSound("mob.cow.step", 0.15F, 1.0F);
 	}
 
 	@Override
-	protected float getSoundVolume()
-	{
+	protected float getSoundVolume() {
 		return 0.4F;
 	}
 
 	@Override
-	protected Item getDropItem()
-	{
+	protected Item getDropItem() {
 		return Items.leather;
 	}
 
 	@Override
-	protected void dropFewItems(boolean par1, int par2)
-	{
+	protected void dropFewItems(boolean par1, int par2) {
 		int j = rand.nextInt(3) + rand.nextInt(1 + par2);
 		int k;
 
 		for (k = 0; k < j; ++k)
 			dropItem(Items.leather, 1);
-
-		j = rand.nextInt(3) + 1 + rand.nextInt(1 + par2);
-
-		for (k = 0; k < j; ++k)
-			if (isBurning())
-				dropItem(AbyssalCraft.antiBeef, 1);
-			else
-				dropItem(AbyssalCraft.antiBeef, 1);
 	}
 
 	@Override
-	protected void collideWithEntity(Entity par1Entity)
-	{
-		if(!worldObj.isRemote && par1Entity instanceof EntityCow){
+	protected void collideWithEntity(Entity par1Entity) {
+		if (!worldObj.isRemote && par1Entity instanceof EntityCow) {
 			boolean flag = worldObj.getGameRules().getGameRuleBooleanValue("mobGriefing");
 			worldObj.createExplosion(this, posX, posY, posZ, 5, flag);
 			setDead();
-		}
-		else par1Entity.applyEntityCollision(this);
+		} else
+			par1Entity.applyEntityCollision(this);
 	}
 
 	@Override
-	public boolean interact(EntityPlayer par1EntityPlayer)
-	{
+	public boolean interact(EntityPlayer par1EntityPlayer) {
 		ItemStack itemstack = par1EntityPlayer.inventory.getCurrentItem();
 
-		if (itemstack != null && itemstack.getItem() == Items.bucket && !par1EntityPlayer.capabilities.isCreativeMode)
-		{
+		if (itemstack != null && itemstack.getItem() == Items.bucket && !par1EntityPlayer.capabilities.isCreativeMode) {
 			if (itemstack.stackSize-- == 1)
 				par1EntityPlayer.inventory.setInventorySlotContents(par1EntityPlayer.inventory.currentItem, new ItemStack(Items.milk_bucket));
 			else if (!par1EntityPlayer.inventory.addItemStackToInventory(new ItemStack(AbyssalCraft.antibucket)))
@@ -148,8 +127,7 @@ public class EntityAntiCow extends EntityAnimal implements IAntiEntity {
 	}
 
 	@Override
-	public EntityAntiCow createChild(EntityAgeable par1EntityAgeable)
-	{
+	public EntityAntiCow createChild(EntityAgeable par1EntityAgeable) {
 		return new EntityAntiCow(worldObj);
 	}
 }

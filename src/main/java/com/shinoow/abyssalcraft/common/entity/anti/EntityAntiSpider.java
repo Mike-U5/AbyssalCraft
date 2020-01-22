@@ -33,22 +33,19 @@ import com.shinoow.abyssalcraft.api.entity.IAntiEntity;
 
 public class EntityAntiSpider extends EntityMob implements IAntiEntity {
 
-	public EntityAntiSpider(World par1World)
-	{
+	public EntityAntiSpider(World par1World) {
 		super(par1World);
 		setSize(1.4F, 0.9F);
 	}
 
 	@Override
-	protected void entityInit()
-	{
+	protected void entityInit() {
 		super.entityInit();
-		dataWatcher.addObject(16, new Byte((byte)0));
+		dataWatcher.addObject(16, new Byte((byte) 0));
 	}
 
 	@Override
-	public void onUpdate()
-	{
+	public void onUpdate() {
 		super.onUpdate();
 
 		if (!worldObj.isRemote)
@@ -56,22 +53,21 @@ public class EntityAntiSpider extends EntityMob implements IAntiEntity {
 	}
 
 	@Override
-	protected void applyEntityAttributes()
-	{
+	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
 
 		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.800000011920929D);
-		if(AbyssalCraft.hardcoreMode) getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(64.0D);
-		else getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(32.0D);
+		if (AbyssalCraft.hardcoreMode)
+			getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(64.0D);
+		else
+			getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(32.0D);
 	}
 
 	@Override
-	protected Entity findPlayerToAttack()
-	{
+	protected Entity findPlayerToAttack() {
 		float f = getBrightness(1.0F);
 
-		if (f < 0.5F)
-		{
+		if (f < 0.5F) {
 			double d0 = 16.0D;
 			return worldObj.getClosestVulnerablePlayerToEntity(this, d0);
 		} else
@@ -79,40 +75,33 @@ public class EntityAntiSpider extends EntityMob implements IAntiEntity {
 	}
 
 	@Override
-	protected String getLivingSound()
-	{
+	protected String getLivingSound() {
 		return "mob.spider.say";
 	}
 
 	@Override
-	protected String getHurtSound()
-	{
+	protected String getHurtSound() {
 		return "mob.spider.say";
 	}
 
 	@Override
-	protected String getDeathSound()
-	{
+	protected String getDeathSound() {
 		return "mob.spider.death";
 	}
 
 	@Override
-	protected void func_145780_a(int par1, int par2, int par3, Block par4Block)
-	{
+	protected void func_145780_a(int par1, int par2, int par3, Block par4Block) {
 		playSound("mob.spider.step", 0.15F, 1.0F);
 	}
 
 	@Override
-	protected void attackEntity(Entity par1Entity, float par2)
-	{
+	protected void attackEntity(Entity par1Entity, float par2) {
 		float f1 = getBrightness(1.0F);
 
 		if (f1 > 0.5F && rand.nextInt(100) == 0)
 			entityToAttack = null;
-		else if (par2 > 2.0F && par2 < 6.0F && rand.nextInt(10) == 0)
-		{
-			if (onGround)
-			{
+		else if (par2 > 2.0F && par2 < 6.0F && rand.nextInt(10) == 0) {
+			if (onGround) {
 				double d0 = par1Entity.posX - posX;
 				double d1 = par1Entity.posZ - posZ;
 				float f2 = MathHelper.sqrt_double(d0 * d0 + d1 * d1);
@@ -125,71 +114,56 @@ public class EntityAntiSpider extends EntityMob implements IAntiEntity {
 	}
 
 	@Override
-	protected Item getDropItem()
-	{
+	protected Item getDropItem() {
 		return Items.string;
 	}
 
 	@Override
-	protected void dropFewItems(boolean par1, int par2)
-	{
-		super.dropFewItems(par1, par2);
-
-		if (par1 && (rand.nextInt(3) == 0 || rand.nextInt(1 + par2) > 0))
-			dropItem(AbyssalCraft.antiSpider_eye, 1);
-	}
-
-	@Override
-	public boolean isOnLadder()
-	{
+	public boolean isOnLadder() {
 		return isBesideClimbableBlock();
 	}
 
 	@Override
-	public void setInWeb() {}
+	public void setInWeb() {
+	}
 
 	@Override
-	public EnumCreatureAttribute getCreatureAttribute()
-	{
+	public EnumCreatureAttribute getCreatureAttribute() {
 		return EnumCreatureAttribute.ARTHROPOD;
 	}
 
 	@Override
-	public boolean isPotionApplicable(PotionEffect par1PotionEffect)
-	{
+	public boolean isPotionApplicable(PotionEffect par1PotionEffect) {
 		return par1PotionEffect.getPotionID() == Potion.poison.id ? false : super.isPotionApplicable(par1PotionEffect);
 	}
 
 	@Override
-	protected void collideWithEntity(Entity par1Entity)
-	{
-		if(!worldObj.isRemote && par1Entity instanceof EntitySpider){
+	protected void collideWithEntity(Entity par1Entity) {
+		if (!worldObj.isRemote && par1Entity instanceof EntitySpider) {
 			boolean flag = worldObj.getGameRules().getGameRuleBooleanValue("mobGriefing");
 			worldObj.createExplosion(this, posX, posY, posZ, 5, flag);
 			setDead();
-		}
-		else par1Entity.applyEntityCollision(this);
+		} else
+			par1Entity.applyEntityCollision(this);
 	}
 
 	/**
-	 * Returns true if the WatchableObject (Byte) is 0x01 otherwise returns false. The WatchableObject is updated using
-	 * setBesideClimableBlock.
+	 * Returns true if the WatchableObject (Byte) is 0x01 otherwise returns false.
+	 * The WatchableObject is updated using setBesideClimableBlock.
 	 */
-	public boolean isBesideClimbableBlock()
-	{
+	public boolean isBesideClimbableBlock() {
 		return (dataWatcher.getWatchableObjectByte(16) & 1) != 0;
 	}
 
 	/**
-	 * Updates the WatchableObject (Byte) created in entityInit(), setting it to 0x01 if par1 is true or 0x00 if it is
-	 * false.
+	 * Updates the WatchableObject (Byte) created in entityInit(), setting it to
+	 * 0x01 if par1 is true or 0x00 if it is false.
 	 */
-	public void setBesideClimbableBlock(boolean par1)
-	{
+	public void setBesideClimbableBlock(boolean par1) {
 		byte b0 = dataWatcher.getWatchableObjectByte(16);
 
 		if (par1)
-			b0 = (byte)(b0 | 1);
+			b0 = (byte) (b0 | 1);
 		else
 			b0 &= -2;
 
@@ -197,44 +171,38 @@ public class EntityAntiSpider extends EntityMob implements IAntiEntity {
 	}
 
 	@Override
-	public IEntityLivingData onSpawnWithEgg(IEntityLivingData par1EntityLivingData)
-	{
+	public IEntityLivingData onSpawnWithEgg(IEntityLivingData par1EntityLivingData) {
 		Object p_110161_1_1 = super.onSpawnWithEgg(par1EntityLivingData);
 
-		if (worldObj.rand.nextInt(100) == 0)
-		{
+		if (worldObj.rand.nextInt(100) == 0) {
 			EntityFallenHero entityskeleton = new EntityFallenHero(worldObj);
 			entityskeleton.setLocationAndAngles(posX, posY, posZ, rotationYaw, 0.0F);
-			entityskeleton.onSpawnWithEgg((IEntityLivingData)null);
+			entityskeleton.onSpawnWithEgg((IEntityLivingData) null);
 			worldObj.spawnEntityInWorld(entityskeleton);
 			entityskeleton.mountEntity(this);
 		}
 
-		if (p_110161_1_1 == null)
-		{
+		if (p_110161_1_1 == null) {
 			p_110161_1_1 = new EntityAntiSpider.GroupData();
 
 			if (worldObj.difficultySetting == EnumDifficulty.HARD && worldObj.rand.nextFloat() < 0.1F * worldObj.func_147462_b(posX, posY, posZ))
-				((EntityAntiSpider.GroupData)p_110161_1_1).func_111104_a(worldObj.rand);
+				((EntityAntiSpider.GroupData) p_110161_1_1).func_111104_a(worldObj.rand);
 		}
 
-		if (p_110161_1_1 instanceof EntityAntiSpider.GroupData)
-		{
-			int i = ((EntityAntiSpider.GroupData)p_110161_1_1).field_111105_a;
+		if (p_110161_1_1 instanceof EntityAntiSpider.GroupData) {
+			int i = ((EntityAntiSpider.GroupData) p_110161_1_1).field_111105_a;
 
 			if (i > 0 && Potion.potionTypes[i] != null)
 				addPotionEffect(new PotionEffect(i, Integer.MAX_VALUE));
 		}
 
-		return (IEntityLivingData)p_110161_1_1;
+		return (IEntityLivingData) p_110161_1_1;
 	}
 
-	public static class GroupData implements IEntityLivingData
-	{
+	public static class GroupData implements IEntityLivingData {
 		public int field_111105_a;
 
-		public void func_111104_a(Random par1Random)
-		{
+		public void func_111104_a(Random par1Random) {
 			int i = par1Random.nextInt(5);
 
 			if (i <= 1)

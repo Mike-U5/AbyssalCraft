@@ -11,6 +11,8 @@
  ******************************************************************************/
 package com.shinoow.abyssalcraft.common.entity.anti;
 
+import com.shinoow.abyssalcraft.api.entity.IAntiEntity;
+
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
@@ -28,17 +30,12 @@ import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.passive.EntityPig;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
-import com.shinoow.abyssalcraft.AbyssalCraft;
-import com.shinoow.abyssalcraft.api.entity.IAntiEntity;
-
 public class EntityAntiPig extends EntityAnimal implements IAntiEntity {
 
-	public EntityAntiPig(World par1World)
-	{
+	public EntityAntiPig(World par1World) {
 		super(par1World);
 		setSize(0.9F, 0.9F);
 		getNavigator().setAvoidsWater(true);
@@ -55,87 +52,60 @@ public class EntityAntiPig extends EntityAnimal implements IAntiEntity {
 	}
 
 	@Override
-	public boolean isAIEnabled()
-	{
+	public boolean isAIEnabled() {
 		return true;
 	}
 
 	@Override
-	protected void applyEntityAttributes()
-	{
+	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
 		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(20.0D);
 		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.25D);
 	}
 
 	@Override
-	protected void updateAITasks()
-	{
+	protected void updateAITasks() {
 		super.updateAITasks();
 	}
 
 	@Override
-	protected String getLivingSound()
-	{
+	protected String getLivingSound() {
 		return "mob.pig.say";
 	}
 
 	@Override
-	protected String getHurtSound()
-	{
+	protected String getHurtSound() {
 		return "mob.pig.say";
 	}
 
 	@Override
-	protected String getDeathSound()
-	{
+	protected String getDeathSound() {
 		return "mob.pig.death";
 	}
 
 	@Override
-	protected void func_145780_a(int par1, int par2, int par3, Block par4Block)
-	{
+	protected void func_145780_a(int par1, int par2, int par3, Block par4Block) {
 		playSound("mob.pig.step", 0.15F, 1.0F);
 	}
 
 	@Override
-	protected Item getDropItem()
-	{
-		return isBurning() ? AbyssalCraft.antiPork : AbyssalCraft.antiPork;
-	}
-
-	@Override
-	protected void dropFewItems(boolean par1, int par2)
-	{
-		int j = rand.nextInt(3) + 1 + rand.nextInt(1 + par2);
-
-		for (int k = 0; k < j; ++k)
-			if (isBurning())
-				dropItem(AbyssalCraft.antiPork, 1);
-			else
-				dropItem(AbyssalCraft.antiPork, 1);
-	}
-
-	@Override
-	protected void collideWithEntity(Entity par1Entity)
-	{
-		if(!worldObj.isRemote && par1Entity instanceof EntityPig){
+	protected void collideWithEntity(Entity par1Entity) {
+		if (!worldObj.isRemote && par1Entity instanceof EntityPig) {
 			boolean flag = worldObj.getGameRules().getGameRuleBooleanValue("mobGriefing");
 			worldObj.createExplosion(this, posX, posY, posZ, 5, flag);
 			setDead();
+		} else {
+			par1Entity.applyEntityCollision(this);
 		}
-		else par1Entity.applyEntityCollision(this);
 	}
 
 	@Override
-	public EntityAntiPig createChild(EntityAgeable par1EntityAgeable)
-	{
+	public EntityAntiPig createChild(EntityAgeable par1EntityAgeable) {
 		return new EntityAntiPig(worldObj);
 	}
 
 	@Override
-	public boolean isBreedingItem(ItemStack par1ItemStack)
-	{
+	public boolean isBreedingItem(ItemStack par1ItemStack) {
 		return par1ItemStack != null && par1ItemStack.getItem() == Items.carrot;
 	}
 }

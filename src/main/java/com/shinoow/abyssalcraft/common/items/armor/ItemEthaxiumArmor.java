@@ -30,7 +30,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class ItemEthaxiumArmor extends ItemArmor {
 	public ItemEthaxiumArmor(ArmorMaterial par2EnumArmorMaterial, int par3, int par4) {
 		super(par2EnumArmorMaterial, par3, par4);
-		setCreativeTab(AbyssalCraft.tabCombat);
+		setCreativeTab(AbyssalCraft.tabTools);
 	}
 
 	@Override

@@ -283,9 +283,9 @@ public class EntityLesserShoggoth extends ACMob implements ICoraliumEntity, IDre
 
 	@Override
 	public boolean attackEntityAsMob(Entity entity) {
-		if (getDistanceToEntity(entity) > 3) {
-			return false;
-		}
+		///if (getDistanceToEntity(entity) > 3) {
+		///	return false;
+		///}
 		if (super.attackEntityAsMob(entity) && entity instanceof EntityLivingBase) {
 			EntityLivingBase victim = (EntityLivingBase) entity;
 			if(getShoggothType() == 1 && !EntityUtil.isEntityCoralium(victim)) {
@@ -304,8 +304,11 @@ public class EntityLesserShoggoth extends ACMob implements ICoraliumEntity, IDre
 	@Override
 	public boolean attackEntityFrom(DamageSource dmgSrc, float damage) {
 		if(dmgSrc.isProjectile()) {
-			playSound("mob.slime.small", getSoundVolume(), ((rand.nextFloat() - rand.nextFloat()) * 0.2F + 1.0F) / 0.8F);
-			return false;
+			final String sourceName = EntityList.getEntityString(dmgSrc.getSourceOfDamage());
+			if (sourceName != "Thaumcraft.FrostShard") {
+				playSound("mob.slime.small", getSoundVolume(), ((rand.nextFloat() - rand.nextFloat()) * 0.2F + 1.0F) / 0.8F);
+				return false;
+			}
 		}
 		if (dmgSrc == DamageSource.cactus) return false;
 		if (dmgSrc == DamageSource.drown) return false;

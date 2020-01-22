@@ -24,28 +24,19 @@ import com.shinoow.abyssalcraft.common.util.EntityUtil;
 
 public class ItemCorbone extends ItemFood {
 
-
-
 	public ItemCorbone(int j, float f, boolean b, String name) {
 		super(j, f, b);
 		setUnlocalizedName(name);
 		setTextureName("abyssalcraft:" + name);
-		setCreativeTab(AbyssalCraft.tabFood);
+		setCreativeTab(AbyssalCraft.tabItems);
 	}
 
 	@Override
-	public void onFoodEaten(ItemStack itemStack, World world, EntityPlayer entityPlayer)
-	{
-		if(itemStack.getItem() == AbyssalCraft.antiCorbone){
-			entityPlayer.addPotionEffect(new PotionEffect(Potion.field_76443_y.id, 600, 1));
-			entityPlayer.addPotionEffect(new PotionEffect(Potion.regeneration.id, 600, 0));
-			entityPlayer.inventory.addItemStackToInventory(new ItemStack(AbyssalCraft.antiBone));
-		} else {
-			entityPlayer.addPotionEffect(new PotionEffect(Potion.hunger.id, 600, 1));
-			if(!EntityUtil.isPlayerCoralium(entityPlayer))
-				entityPlayer.addPotionEffect(new PotionEffect(AbyssalCraft.Cplague.id, 600, 0));
-			entityPlayer.addPotionEffect(new PotionEffect(Potion.confusion.id, 600, 0));
-			entityPlayer.inventory.addItemStackToInventory(new ItemStack(Items.bone));
-		}
+	public void onFoodEaten(ItemStack itemStack, World world, EntityPlayer entityPlayer) {
+		entityPlayer.addPotionEffect(new PotionEffect(Potion.hunger.id, 600, 1));
+		if (!EntityUtil.isPlayerCoralium(entityPlayer))
+			entityPlayer.addPotionEffect(new PotionEffect(AbyssalCraft.Cplague.id, 600, 0));
+		entityPlayer.addPotionEffect(new PotionEffect(Potion.confusion.id, 600, 0));
+		entityPlayer.inventory.addItemStackToInventory(new ItemStack(Items.bone));
 	}
 }

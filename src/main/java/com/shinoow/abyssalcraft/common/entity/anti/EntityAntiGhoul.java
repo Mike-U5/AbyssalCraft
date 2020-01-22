@@ -107,12 +107,6 @@ public class EntityAntiGhoul extends EntityMob implements IAntiEntity {
 	}
 
 	@Override
-	protected Item getDropItem()
-	{
-		return AbyssalCraft.antiCorbone;
-	}
-
-	@Override
 	public EnumCreatureAttribute getCreatureAttribute()
 	{
 		return EnumCreatureAttribute.UNDEAD;

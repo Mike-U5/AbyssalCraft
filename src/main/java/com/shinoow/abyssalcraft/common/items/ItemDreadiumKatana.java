@@ -31,7 +31,7 @@ public class ItemDreadiumKatana extends Item {
 	public ItemDreadiumKatana(String name, float dmg, int durability){
 		super();
 		setUnlocalizedName(name);
-		setCreativeTab(AbyssalCraft.tabCombat);
+		setCreativeTab(AbyssalCraft.tabTools);
 		setTextureName("abyssalcraft:" + name);
 		weaponDamage = dmg;
 		setMaxDamage(durability);

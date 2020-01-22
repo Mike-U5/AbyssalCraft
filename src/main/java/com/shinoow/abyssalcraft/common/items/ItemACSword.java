@@ -28,7 +28,7 @@ public class ItemACSword extends ItemSword {
 
 	public ItemACSword(ToolMaterial mat, String name, EnumChatFormatting format) {
 		super(mat);
-		setCreativeTab(AbyssalCraft.tabCombat);
+		setCreativeTab(AbyssalCraft.tabTools);
 		setUnlocalizedName(name);
 		setTextureName(AbyssalCraft.modid + ":" + name);
 		this.format = format;

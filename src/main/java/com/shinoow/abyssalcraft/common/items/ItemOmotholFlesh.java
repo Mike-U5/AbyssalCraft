@@ -27,7 +27,7 @@ public class ItemOmotholFlesh extends ItemFood {
 		super(par1, par2, par3);
 		setUnlocalizedName("omotholflesh");
 		setTextureName("abyssalcraft:" + "omotholflesh");
-		setCreativeTab(AbyssalCraft.tabFood);
+		setCreativeTab(AbyssalCraft.tabTools);
 	}
 
 	@Override

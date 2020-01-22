@@ -27,7 +27,7 @@ import net.minecraft.world.World;
 public class ItemCoraliumArmor extends ItemArmor {
 	public ItemCoraliumArmor(ArmorMaterial par2EnumArmorMaterial, int par3, int par4){
 		super(par2EnumArmorMaterial, par3, par4);
-		setCreativeTab(AbyssalCraft.tabCombat);
+		setCreativeTab(AbyssalCraft.tabTools);
 	}
 
 	@Override
