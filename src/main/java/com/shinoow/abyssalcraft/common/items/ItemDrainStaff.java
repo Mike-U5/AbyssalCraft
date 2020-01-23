@@ -14,6 +14,7 @@ package com.shinoow.abyssalcraft.common.items;
 import java.util.List;
 
 import com.shinoow.abyssalcraft.AbyssalCraft;
+import com.shinoow.abyssalcraft.api.AbyssalCraftAPI;
 import com.shinoow.abyssalcraft.api.entity.ICoraliumEntity;
 import com.shinoow.abyssalcraft.api.entity.IDreadEntity;
 import com.shinoow.abyssalcraft.api.entity.IOmotholEntity;
@@ -25,7 +26,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.DamageSource;
 import net.minecraft.util.StatCollector;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
@@ -80,7 +80,6 @@ public class ItemDrainStaff extends Item {
 		}
 		
 		// Drain life
-		DamageSource srcDmg = DamageSource.magic.setDamageBypassesArmor();
 		Vec3 vec = player.getLookVec().normalize();
 		for(int i = 1; i < 32; i++) {
 			// Make the cone thicker at close range
@@ -100,15 +99,15 @@ public class ItemDrainStaff extends Item {
 					int trueDmg = (int)Math.min(Math.ceil(target.getHealth()), drainPower);
 					
 					if(world.provider.dimensionId == AbyssalCraft.configDimId1 && target instanceof ICoraliumEntity) {
-						if(target.attackEntityFrom(srcDmg, trueDmg)) {
+						if(target.attackEntityFrom(AbyssalCraftAPI.vajra, trueDmg)) {
 							increaseEnergy(stack, "Abyssal", trueDmg);
 						}
 					} else if(world.provider.dimensionId == AbyssalCraft.configDimId2 && target instanceof IDreadEntity) {
-						if(target.attackEntityFrom(srcDmg, trueDmg)) {
+						if(target.attackEntityFrom(AbyssalCraftAPI.vajra, trueDmg)) {
 							increaseEnergy(stack, "Dread", trueDmg);
 						}
 					} else if(world.provider.dimensionId == AbyssalCraft.configDimId3 && target instanceof IOmotholEntity) {
-						if(target.attackEntityFrom(srcDmg, trueDmg)) {
+						if(target.attackEntityFrom(AbyssalCraftAPI.vajra, trueDmg)) {
 							increaseEnergy(stack, "Omothol", trueDmg);
 						}
 					} else if (world.provider.dimensionId == AbyssalCraft.configDimId3 || target.getMaxHealth() == 33) {
@@ -116,7 +115,7 @@ public class ItemDrainStaff extends Item {
 						if (trueDmg <= 0) {
 							return;
 						}
-						if(target.attackEntityFrom(srcDmg, trueDmg)) {
+						if(target.attackEntityFrom(AbyssalCraftAPI.vajra, trueDmg)) {
 							increaseEnergy(stack, "Omothol", trueDmg);
 						}
 					}

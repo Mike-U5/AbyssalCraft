@@ -21,7 +21,6 @@ import java.util.Random;
 import com.shinoow.abyssalcraft.AbyssalCraft;
 import com.shinoow.abyssalcraft.api.APIUtils;
 import com.shinoow.abyssalcraft.api.AbyssalCraftAPI;
-import com.shinoow.abyssalcraft.api.entity.IOmotholEntity;
 import com.shinoow.abyssalcraft.common.items.ItemDrainStaff;
 import com.shinoow.abyssalcraft.common.items.ItemNecronomicon;
 import com.shinoow.abyssalcraft.common.util.EntityUtil;
@@ -66,7 +65,7 @@ import net.minecraft.village.MerchantRecipe;
 import net.minecraft.village.MerchantRecipeList;
 import net.minecraft.world.World;
 
-public class EntityRemnant extends ACMob implements IMerchant, IOmotholEntity {
+public class EntityRemnant extends ACMob implements IMerchant {
 
 	private EntityPlayer tradingPlayer;
 	private MerchantRecipeList tradingList;
@@ -96,17 +95,10 @@ public class EntityRemnant extends ACMob implements IMerchant, IOmotholEntity {
 	@Override
 	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
-
 		getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(64.0D);
-		getEntityAttribute(SharedMonsterAttributes.knockbackResistance).setBaseValue(0.2D);
-
-		if (AbyssalCraft.hardcoreMode) {
-			getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(200.0D);
-			getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(20.0D);
-		} else {
-			getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(150.0D);
-			getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(10.0D);
-		}
+		getEntityAttribute(SharedMonsterAttributes.knockbackResistance).setBaseValue(0.1D);
+		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(150.0D);
+		getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(10.0D);
 	}
 
 	@Override

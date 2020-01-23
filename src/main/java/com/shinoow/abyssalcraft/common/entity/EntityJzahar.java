@@ -284,7 +284,7 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IAntiEntity
 		super.onDeath(dmgSrc);
 	}
 
-	private double func_82214_u(int par1) {
+	private double findSkullX(int par1) {
 		if (par1 <= 0)
 			return posX;
 		else {
@@ -294,11 +294,11 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IAntiEntity
 		}
 	}
 
-	private double func_82208_v(int par1) {
+	private double findSkullY(int par1) {
 		return par1 <= 0 ? posY + 3.0D : posY + 2.2D;
 	}
 
-	private double func_82213_w(int par1) {
+	private double findSkullZ(int par1) {
 		if (par1 <= 0) {
 			return posZ;
 		} else {
@@ -741,9 +741,9 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IAntiEntity
 
 	private void fireSkull(int par1, double par2, double par4, double par6, boolean isInvuln) {
 		worldObj.playAuxSFXAtEntity((EntityPlayer) null, 1014, (int) posX, (int) posY, (int) posZ, 0);
-		double x = func_82214_u(par1);
-		double y = func_82208_v(par1);
-		double z = func_82213_w(par1);
+		double x = findSkullX(par1);
+		double y = findSkullY(par1);
+		double z = findSkullZ(par1);
 		double dX = par2 - x;
 		double dY = par4 - y;
 		double dZ = par6 - z;
