@@ -53,6 +53,7 @@ public class NecronomiconBreedingRitual extends NecronomiconRitual {
 		world.spawnEntityInWorld(shoggoth);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public boolean canCompleteRitual(World world, int x, int y, int z, EntityPlayer player) {
 
@@ -60,6 +61,7 @@ public class NecronomiconBreedingRitual extends NecronomiconRitual {
 		return !animals.isEmpty();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	protected void completeRitualServer(World world, int x, int y, int z, EntityPlayer player){
 

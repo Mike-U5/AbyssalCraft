@@ -59,7 +59,6 @@ import net.minecraft.util.StatCollector;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
-import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.EnderTeleportEvent;
 
@@ -79,7 +78,7 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IAntiEntity
 		tasks.addTask(2, new EntityAIMoveTowardsRestriction(this, 0.35D));
 		tasks.addTask(3, new EntityAIWander(this, 0.35D));
 		tasks.addTask(4, new EntityAILookIdle(this));
-		tasks.addTask(4, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
+		tasks.addTask(5, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
 		targetTasks.addTask(1, new EntityAIHurtByTarget(this, true));
 		targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true));
 		isImmuneToFire = true;

@@ -82,6 +82,7 @@ public class APIUtils {
 	 * @param obj Object to convert
 	 * @return An ItemStack, or a ClassCastException if not possible
 	 */
+	@SuppressWarnings("rawtypes")
 	public static ItemStack convertToStack(Object obj){
 		if(obj == null)
 			return (ItemStack)obj;

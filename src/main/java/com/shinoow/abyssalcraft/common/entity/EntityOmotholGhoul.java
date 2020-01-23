@@ -32,6 +32,7 @@ import net.minecraft.world.World;
 
 import com.shinoow.abyssalcraft.AbyssalCraft;
 import com.shinoow.abyssalcraft.api.entity.*;
+import com.shinoow.abyssalcraft.common.util.EntityUtil;
 
 public class EntityOmotholGhoul extends ACMob implements IOmotholEntity, ICoraliumEntity {
 
@@ -44,7 +45,7 @@ public class EntityOmotholGhoul extends ACMob implements IOmotholEntity, ICorali
 		tasks.addTask(7, new EntityAILookIdle(this));
 		tasks.addTask(7, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
 		targetTasks.addTask(1, new EntityAIHurtByTarget(this, false));
-		targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true));
+		targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true, false, EntityUtil.selectorCrozier));
 		setSize(1.3F, 3.7F);
 	}
 

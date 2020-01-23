@@ -18,7 +18,9 @@ import com.shinoow.abyssalcraft.api.entity.*;
 import com.shinoow.abyssalcraft.common.entity.EntityGatekeeperMinion;
 import com.shinoow.abyssalcraft.common.entity.EntityOmotholGhoul;
 import com.shinoow.abyssalcraft.common.entity.EntityRemnant;
+import com.shinoow.abyssalcraft.common.items.ItemCrozier;
 
+import net.minecraft.command.IEntitySelector;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -114,4 +116,20 @@ public final class EntityUtil {
 		dist.normalize();
 		return dist;
 	}
+	
+	/**
+	 * This selector will target players unless they hold a Crozier
+	 */
+	public static IEntitySelector selectorCrozier = new IEntitySelector() {
+		@Override
+		public boolean isEntityApplicable(Entity e) {
+			if (e instanceof EntityLivingBase) {
+				final ItemStack stack = ((EntityLivingBase)e).getHeldItem();
+				if (stack != null && stack.getItem() instanceof ItemCrozier) {
+					return false;
+				}
+			}
+			return true;
+		}
+	};
 }

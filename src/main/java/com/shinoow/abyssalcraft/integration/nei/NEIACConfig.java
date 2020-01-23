@@ -21,12 +21,6 @@ public class NEIACConfig implements IConfigureNEI {
 
 	@Override
 	public void loadConfig() {
-		API.registerRecipeHandler(new CrystallizerRecipeHandler());
-		API.registerUsageHandler(new CrystallizerRecipeHandler());
-
-		API.registerRecipeHandler(new TransmutatorRecipeHandler());
-		API.registerUsageHandler(new TransmutatorRecipeHandler());
-
 		API.registerRecipeHandler(new EngraverRecipeHandler());
 		API.registerUsageHandler(new EngraverRecipeHandler());
 
@@ -40,13 +34,11 @@ public class NEIACConfig implements IConfigureNEI {
 
 	@Override
 	public String getName() {
-
 		return "AbyssalCraft Plugin";
 	}
 
 	@Override
 	public String getVersion() {
-
 		return AbyssalCraft.version;
 	}
 }

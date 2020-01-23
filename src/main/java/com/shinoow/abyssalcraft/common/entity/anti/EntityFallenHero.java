@@ -21,6 +21,7 @@ import net.minecraft.entity.IRangedAttackMob;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIArrowAttack;
 import net.minecraft.entity.ai.EntityAILookIdle;
+import net.minecraft.entity.ai.EntityAIMoveTowardsRestriction;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAIWander;
@@ -41,10 +42,14 @@ public class EntityFallenHero extends EntityMob implements IRangedAttackMob, IOm
 	public EntityFallenHero(World world) {
 		super(world);
 		tasks.addTask(1, new EntityAISwimming(this));
+		tasks.addTask(2, new EntityAIMoveTowardsRestriction(this, 0.35D));
+		tasks.addTask(3, new EntityAIWander(this, 0.35D));
+		tasks.addTask(4, new EntityAILookIdle(this));
 		tasks.addTask(5, new EntityAIWander(this, 1.0D));
 		tasks.addTask(6, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
 		tasks.addTask(6, new EntityAILookIdle(this));
 		targetTasks.addTask(1, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true));
+		targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true));
 		tasks.addTask(4, aiArrowAttack);
 		isImmuneToFire = true;
 		

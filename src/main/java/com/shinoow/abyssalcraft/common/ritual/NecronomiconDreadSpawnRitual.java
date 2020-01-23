@@ -33,6 +33,7 @@ public class NecronomiconDreadSpawnRitual extends NecronomiconRitual {
 				AbyssalCraft.abybrick, AbyssalCraft.dreadstone, Items.rotten_flesh, AbyssalCraft.Dreadshard, AbyssalCraft.abydreadstone});
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public boolean canCompleteRitual(World world, int x, int y, int z, EntityPlayer player) {
 		List<EntityDreadSpawn> dreadSpawns = world.getEntitiesWithinAABB(EntityDreadSpawn.class, AxisAlignedBB.getBoundingBox(x, y, z, x + 1, y + 1, z + 1).expand(16, 3, 16));
@@ -41,6 +42,7 @@ public class NecronomiconDreadSpawnRitual extends NecronomiconRitual {
 		return !dreadSpawns.isEmpty() || !greaterDreadSpawns.isEmpty() || !lesserDreadBeasts.isEmpty();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	protected void completeRitualServer(World world, int x, int y, int z, EntityPlayer player) {
 		List<EntityDreadSpawn> dreadSpawns = Lists.newArrayList();

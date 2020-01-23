@@ -368,9 +368,9 @@ public class AbyssalCraft {
 		}
 	}.setDensity(4000).setViscosity(1500).setTemperature(100);
 
-	public static Achievement mineAby, killghoul, enterabyss, killdragon, summonAsorah, killAsorah, enterdreadlands, killdreadguard, ghoulhead, petehead, wilsonhead, orangehead, mineCorgem, mineCor, findPSDL, GK1, GK2, GK3, summonChagaroth, killChagaroth, enterOmothol, enterDarkRealm, killJzahar, killOmotholelite, locateJzahar, necro, necrou1, necrou2, necrou3, abyssaln, ritual, ritualSummon, ritualCreate, shadowGems, mineAbyOres, mineDread, dreadium, eth, makeEngraver, ritualBreed, ritualPotion, ritualPotionAoE, ritualInfusion, shoggothInfestation;
+	public static Achievement killghoul, enterabyss, killdragon, summonAsorah, killAsorah, enterdreadlands, killdreadguard, ghoulhead, petehead, wilsonhead, orangehead, mineCorgem, mineCor, findPSDL, GK1, GK2, GK3, summonChagaroth, killChagaroth, enterOmothol, enterDarkRealm, killJzahar, killOmotholelite, locateJzahar, necro, necrou1, necrou2, necrou3, abyssaln, ritual, ritualSummon, ritualCreate, shadowGems, mineAbyOres, mineDread, dreadium, eth, makeEngraver, ritualBreed, ritualPotion, ritualPotionAoE, ritualInfusion, shoggothInfestation;
 
-	public static Block Darkstone, Darkstone_brick, Darkstone_cobble, SGlow, DSGlow, Darkbrickslab1, Darkbrickslab2, Darkcobbleslab1, Darkcobbleslab2, Darkgrass, DBstairs, DCstairs, DLTLeaves, DLTLog, DLTSapling, abystone, abyssalsand, fusedabyssalsand, abybrick, abyslab1, abyslab2, abystairs, Coraliumore, abyore, abyfence, DSCwall, CoraliumInfusedStone, ODBcore, portal, Darkstoneslab1, Darkstoneslab2, Coraliumfire, DSbutton, DSpplate, DLTplank, DLTbutton, DLTpplate, DLTstairs, DLTslab1, DLTslab2, Cwater, PSDL, AbyCorOre, corblock, Altar, Abybutton, Abypplate, DSBfence, DLTfence, dreadstone, magicdreadstone, abydreadstone, abydreadore, dreadore, dreadbrick, abydreadbrick, dreadgrass, dreadlog, dreadleaves, dreadsapling, dreadplanks, dreadportal, dreadfire, dreadbrickfence, dreadbrickstairs, dreadbrickslab1, dreadbrickslab2, abydreadbrickfence, abydreadbrickstairs, abydreadbrickslab1, abydreadbrickslab2, DGhead, Phead, Whead, Ohead, anticwater, cstone, cstonebrick, cstonebrickfence,
+	public static Block abyore, Darkstone, Darkstone_brick, Darkstone_cobble, SGlow, DSGlow, Darkbrickslab1, Darkbrickslab2, Darkcobbleslab1, Darkcobbleslab2, Darkgrass, DBstairs, DCstairs, DLTLeaves, DLTLog, DLTSapling, abystone, abyssalsand, fusedabyssalsand, abybrick, abyslab1, abyslab2, abystairs, Coraliumore, abyfence, DSCwall, CoraliumInfusedStone, ODBcore, portal, Darkstoneslab1, Darkstoneslab2, Coraliumfire, DSbutton, DSpplate, DLTplank, DLTbutton, DLTpplate, DLTstairs, DLTslab1, DLTslab2, Cwater, PSDL, AbyCorOre, corblock, Altar, Abybutton, Abypplate, DSBfence, DLTfence, dreadstone, magicdreadstone, abydreadstone, abydreadore, dreadore, dreadbrick, abydreadbrick, dreadgrass, dreadlog, dreadleaves, dreadsapling, dreadplanks, dreadportal, dreadfire, dreadbrickfence, dreadbrickstairs, dreadbrickslab1, dreadbrickslab2, abydreadbrickfence, abydreadbrickstairs, abydreadbrickslab1, abydreadbrickslab2, DGhead, Phead, Whead, Ohead, anticwater, cstone, cstonebrick, cstonebrickfence,
 			cstonebrickstairs, cstonebrickslab1, cstonebrickslab2, cstonebutton, cstonepplate, dreadaltartop, dreadaltarbottom, dreadiumblock, dreadguardspawner, chagarothspawner, DrTfence, nitreOre, AbyIroOre, AbyGolOre, AbyDiaOre, AbyNitOre, AbyTinOre, AbyCopOre, AbyPCorOre, AbyLCorOre, solidLava, ethaxium, ethaxiumbrick, ethaxiumpillar, ethaxiumstairs, ethaxiumslab1, ethaxiumslab2, ethaxiumfence, omotholstone, ethaxiumblock, omotholportal, omotholfire, engraver, house, darkethaxiumbrick, darkethaxiumpillar, darkethaxiumstairs, darkethaxiumslab1, darkethaxiumslab2, darkethaxiumfence, ritualaltar, ritualpedestal, shoggothBlock, cthulhuStatue, hasturStatue, jzaharStatue, azathothStatue, nyarlathotepStatue, yogsothothStatue, shubniggurathStatue, monolithStone, shoggothBiomass, energyPedestal, monolithPillar, sacrificialAltar, tieredEnergyPedestal, tieredSacrificialAltar, jzaharspawner, gatekeeperminionspawner, mimicFire;
 
 	// "secret" dev stuff
@@ -537,7 +537,7 @@ public class AbyssalCraft {
 		abyslab2 = new BlockACDoubleSlab(abyslab1, Material.rock, "pickaxe", 2).setStepSound(Block.soundTypeStone).setHardness(1.8F).setResistance(12.0F).setBlockName("ASBs2").setBlockTextureName(modid + ":" + "ASB");
 		abystairs = new BlockACStairs(abybrick, "pickaxe", 2).setStepSound(Block.soundTypeStone).setHardness(1.65F).setResistance(12.0F).setBlockName("ASBs");
 		abyfence = new BlockACFence("ASBf", Material.rock, "pickaxe", 2).setHardness(1.8F).setResistance(12.0F).setStepSound(Block.soundTypeStone).setBlockName("ASBf").setBlockTextureName(modid + ":" + "ASBf");
-		abyore = registerBlock(new BlockACOre(2, 3.0F, 6.0F).setBlockTextureName(modid + ":" + "abyore"), "abyore");
+	///	abyore = registerBlock(new BlockACOre(2, 3.0F, 6.0F).setBlockTextureName(modid + ":" + "abyore"), "abyore");
 		Coraliumore = new BlockACOre(2, 3.0F, 6.0F).setBlockName("CO").setBlockTextureName(modid + ":" + "CO");
 
 		DSCwall = new BlockDarkstonecobblewall(Darkstone_cobble).setHardness(1.65F).setResistance(12.0F).setStepSound(Block.soundTypeStone).setBlockName("DSCw").setBlockTextureName(modid + ":" + "DSC");
@@ -1267,8 +1267,7 @@ public class AbyssalCraft {
 		// Achievements
 		necro = new Achievement("achievement.necro", "necro", 0, 0, necronomicon, AchievementList.openInventory).registerStat();
 		// Materials Achievements
-		mineAby = new Achievement("achievement.mineAby", "mineAby", 2, 0, abyore, necro).registerStat();
-		mineCorgem = new Achievement("achievement.mineCorgem", "mineCorgem", 4, 0, Coralium, mineAby).registerStat();
+		mineCorgem = new Achievement("achievement.mineCorgem", "mineCorgem", 4, 0, Coralium, necro).registerStat();
 		shadowGems = new Achievement("achievement.shadowGems", "shadowGems", 6, 0, shadowgem, mineCorgem).registerStat();
 		// coraliumpearl
 		mineCor = new Achievement("achievement.mineCor", "mineCor", 8, 0, AbyLCorOre, shadowGems).registerStat();
@@ -1318,7 +1317,7 @@ public class AbyssalCraft {
 		// Machinery Achievements
 		makeEngraver = new Achievement("achievement.makeEngraver", "makeEngraver", 2, -3, engraver, AchievementList.openInventory).registerStat();
 
-		AchievementPage.registerAchievementPage(new AchievementPage("AbyssalCraft", new Achievement[] { necro, mineAby, killghoul, enterabyss, killdragon, summonAsorah, killAsorah, enterdreadlands, killdreadguard, ghoulhead, petehead, wilsonhead, orangehead, mineCorgem, mineCor, findPSDL, GK1, GK2, GK3, summonChagaroth, killChagaroth, enterOmothol, enterDarkRealm, necrou1, necrou2, necrou3, abyssaln, ritual, ritualSummon, ritualCreate, killOmotholelite, locateJzahar, killJzahar, shadowGems, mineAbyOres, mineDread, dreadium, eth, makeEngraver, ritualBreed, ritualPotion, ritualPotionAoE, ritualInfusion, shoggothInfestation }));
+		AchievementPage.registerAchievementPage(new AchievementPage("AbyssalCraft", new Achievement[] { necro, killghoul, enterabyss, killdragon, summonAsorah, killAsorah, enterdreadlands, killdreadguard, ghoulhead, petehead, wilsonhead, orangehead, mineCorgem, mineCor, findPSDL, GK1, GK2, GK3, summonChagaroth, killChagaroth, enterOmothol, enterDarkRealm, necrou1, necrou2, necrou3, abyssaln, ritual, ritualSummon, ritualCreate, killOmotholelite, locateJzahar, killJzahar, shadowGems, mineAbyOres, mineDread, dreadium, eth, makeEngraver, ritualBreed, ritualPotion, ritualPotionAoE, ritualInfusion, shoggothInfestation }));
 
 		proxy.init();
 		FMLCommonHandler.instance().bus().register(instance);
@@ -1765,7 +1764,6 @@ public class AbyssalCraft {
 	private void addOreDictionaryStuff() {
 		OreDictionary.registerOre("ingotLiquifiedCoralium", Cingot);
 		OreDictionary.registerOre("gemCoralium", Coralium);
-		OreDictionary.registerOre("oreAbyssalnite", abyore);
 		OreDictionary.registerOre("oreCoralium", Coraliumore);
 		OreDictionary.registerOre("oreCoralium", AbyCorOre);
 		OreDictionary.registerOre("oreDreadedAbyssalnite", dreadore);

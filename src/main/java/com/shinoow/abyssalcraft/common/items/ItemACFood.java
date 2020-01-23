@@ -19,6 +19,6 @@ public class ItemACFood extends ItemFood {
 	public ItemACFood(int foodPts, float saturation, boolean dogFood) {
 		super(foodPts, saturation, dogFood);
 		setCreativeTab(AbyssalCraft.tabItems);
-		setMaxStackSize((foodPts >= 20) ? 16 : 64);
+		setMaxStackSize(64);
 	}
 }

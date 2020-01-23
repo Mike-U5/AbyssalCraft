@@ -19,6 +19,7 @@ import com.shinoow.abyssalcraft.api.AbyssalCraftAPI;
 import com.shinoow.abyssalcraft.api.entity.IOmotholEntity;
 import com.shinoow.abyssalcraft.api.item.ACItems;
 import com.shinoow.abyssalcraft.common.items.ItemCrozier;
+import com.shinoow.abyssalcraft.common.util.EntityUtil;
 
 import net.minecraft.block.Block;
 import net.minecraft.command.IEntitySelector;
@@ -43,19 +44,6 @@ public class EntityGatekeeperMinion extends ACMob implements IOmotholEntity {
 
 	public EntityGatekeeperMinion(World world) {
 		super(world);
-		// Custom Selector to not target those who hold the Gatekeeper's Crozier
-		final IEntitySelector selector = new IEntitySelector() {
-			@Override
-			public boolean isEntityApplicable(Entity e) {
-				if (e instanceof EntityLivingBase) {
-					final ItemStack stack = ((EntityLivingBase)e).getHeldItem();
-					if (stack != null && stack.getItem() instanceof ItemCrozier) {
-						return false;
-					}
-				}
-				return true;
-			}
-		};
 		// Init AI
 		tasks.addTask(0, new EntityAISwimming(this));
 		tasks.addTask(2, new EntityAIAttackOnCollide(this, EntityLivingBase.class, 0.35D, false));
@@ -66,7 +54,7 @@ public class EntityGatekeeperMinion extends ACMob implements IOmotholEntity {
 		tasks.addTask(7, new EntityAIWatchClosest(this, EntityGatekeeperMinion.class, 8.0F));
 		tasks.addTask(7, new EntityAIWatchClosest(this, EntityRemnant.class, 8.0F));
 		targetTasks.addTask(1, new EntityAIHurtByTarget(this, false));
-		targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true, false, selector));
+		targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true, false, EntityUtil.selectorCrozier));
 		setSize(1.3F, 2.8F);
 	}
 
