@@ -17,12 +17,9 @@ import java.util.List;
 import com.shinoow.abyssalcraft.AbyssalCraft;
 import com.shinoow.abyssalcraft.api.AbyssalCraftAPI;
 import com.shinoow.abyssalcraft.api.entity.IOmotholEntity;
-import com.shinoow.abyssalcraft.api.item.ACItems;
-import com.shinoow.abyssalcraft.common.items.ItemCrozier;
 import com.shinoow.abyssalcraft.common.util.EntityUtil;
 
 import net.minecraft.block.Block;
-import net.minecraft.command.IEntitySelector;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.EnumCreatureAttribute;
@@ -89,6 +86,11 @@ public class EntityGatekeeperMinion extends ACMob implements IOmotholEntity {
 		swingItem();
 		return super.attackEntityAsMob(target);
 	}
+	
+	@Override
+	protected String getHurtSound() {
+		return "abyssalcraft:remnant.hurt";
+	}
 
 	@Override
 	protected String getDeathSound() {
@@ -111,17 +113,17 @@ public class EntityGatekeeperMinion extends ACMob implements IOmotholEntity {
 		if(dmgSrc.getSourceOfDamage() != null && dmgSrc.getSourceOfDamage() instanceof EntityLivingBase) {
 			enemy = (EntityLivingBase) dmgSrc.getSourceOfDamage();
 		}
-		if(rand.nextInt(10) == 0) {
+		if(rand.nextInt(10) == 0 && !dmgSrc.isFireDamage()) {
 			List<EntityRemnant> remnants = worldObj.getEntitiesWithinAABB(EntityRemnant.class, boundingBox.expand(16D, 16D, 16D));
 			if(remnants != null) {
 				if(enemy != null) {
 					Iterator<EntityRemnant> iter = remnants.iterator();
 					while(iter.hasNext()) {
 						iter.next().enrage(false, enemy);
+						worldObj.playSoundAtEntity(this, "abyssalcraft:remnant.scream", 3F, 1F);
 					}
 				}
 			}
-			worldObj.playSoundAtEntity(this, "abyssalcraft:remnant.scream", 3F, 1F);
 		}
 		return super.attackEntityFrom(dmgSrc, amount);
 	}
@@ -144,12 +146,5 @@ public class EntityGatekeeperMinion extends ACMob implements IOmotholEntity {
 	@Override
 	public EnumCreatureAttribute getCreatureAttribute() {
 		return AbyssalCraftAPI.SHADOW;
-	}
-	
-	@Override
-	protected void dropRareDrop(int par1) {
-		if (worldObj.provider.dimensionId == AbyssalCraft.configDimId3) {
-			dropItem(ACItems.ethaxium_ingot, 1);
-		}
 	}
 }

@@ -235,8 +235,8 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IAntiEntity
 				if (block.getMaterial().blocksMovement()) {
 					flag1 = true;
 				} else {
-					--posY;
-					--j;
+					posY--;
+					j--;
 				}
 			}
 
@@ -537,9 +537,6 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IAntiEntity
 		if (eA instanceof IBossDisplayData && !(eB instanceof EntityPlayer)) {
 			return false;
 		}
-		if (eB instanceof IBossDisplayData && !(eA instanceof EntityPlayer)) {
-			return false;
-		}
 		return true;
 	}
 
@@ -550,7 +547,7 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IAntiEntity
 			if (!worldObj.isRemote) {
 				for (int i = 0; i < players.size(); i++) {
 					EntityLivingBase p = (EntityLivingBase) players.get(i);
-					fireSkull(0, p.posX, p.posY + p.getEyeHeight() * 0.35D, p.posZ, false);
+					fireSkull(0, p.posX, p.posY + p.getEyeHeight() * 0.35D, p.posZ, true);
 				}
 			}
 		}
@@ -748,9 +745,9 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IAntiEntity
 		double dY = par4 - y;
 		double dZ = par6 - z;
 		EntityWitherSkull entityskull = new EntityWitherSkull(worldObj, this, dX, dY, dZ);
-		if (isInvuln) {
-			entityskull.setInvulnerable(true);
-		}
+		entityskull.accelerationX *= 4;
+		entityskull.accelerationY *= 4;
+		entityskull.accelerationZ *= 4;
 		entityskull.posY = y;
 		entityskull.posX = x;
 		entityskull.posZ = z;

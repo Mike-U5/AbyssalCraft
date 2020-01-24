@@ -126,6 +126,14 @@
 			"abyssalcraft:shadow/hurt3"
 		]
 	},
+	"remnant.hurt": {
+		"category": "hostile",
+		"sounds": [
+			"abyssalcraft:remnant/hurt1",
+			"abyssalcraft:remnant/hurt2",
+			"abyssalcraft:remnant/hurt3"
+		]
+	},
 	"remnant.scream": {
 		"category": "hostile",
 		"sounds": [

@@ -29,7 +29,7 @@ import com.shinoow.abyssalcraft.api.energy.IEnergyTransporter;
 import com.shinoow.abyssalcraft.api.energy.EnergyEnum.AmplifierType;
 import com.shinoow.abyssalcraft.api.energy.disruption.DisruptionHandler;
 import com.shinoow.abyssalcraft.common.util.EntityUtil;
-import com.shinoow.abyssalcraft.common.blocks.BlockODBcore;
+import com.shinoow.abyssalcraft.common.blocks.BlockDivineRelic;
 
 public class TileStatueDirectional extends TEDirectional implements IEnergyManipulator {
 
@@ -47,7 +47,7 @@ public class TileStatueDirectional extends TEDirectional implements IEnergyManip
 	
 	private boolean onArtifact() {
 		Block block = worldObj.getBlock(xCoord, yCoord - 1, zCoord);
-		return (block instanceof BlockODBcore);
+		return (block instanceof BlockDivineRelic);
 	}
 
 	@Override

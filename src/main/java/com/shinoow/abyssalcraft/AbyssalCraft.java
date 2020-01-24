@@ -81,7 +81,7 @@ import com.shinoow.abyssalcraft.common.blocks.BlockJzaharStatue;
 import com.shinoow.abyssalcraft.common.blocks.BlockMimicFire;
 import com.shinoow.abyssalcraft.common.blocks.BlockMonolithPillar;
 import com.shinoow.abyssalcraft.common.blocks.BlockNyarlathotepStatue;
-import com.shinoow.abyssalcraft.common.blocks.BlockODBcore;
+import com.shinoow.abyssalcraft.common.blocks.BlockDivineRelic;
 import com.shinoow.abyssalcraft.common.blocks.BlockOhead;
 import com.shinoow.abyssalcraft.common.blocks.BlockOmotholFire;
 import com.shinoow.abyssalcraft.common.blocks.BlockOmotholPortal;
@@ -545,7 +545,7 @@ public class AbyssalCraft {
 		/// BlockCrate().setStepSound(Block.soundTypeStone).setHardness(3.0F).setResistance(6.0F).setBlockName("Crate").setBlockTextureName(modid
 		/// + ":" + "Crate");
 		CoraliumInfusedStone = new BlockACOre(3, 3.0F, 6.0F).setBlockName("CIS").setBlockTextureName(modid + ":" + "CIS");
-		ODBcore = new BlockODBcore().setStepSound(Block.soundTypeMetal).setHardness(3.0F).setResistance(0F).setBlockName("ODBC");
+		ODBcore = new BlockDivineRelic().setStepSound(Block.soundTypeMetal).setHardness(3.0F).setResistance(0F).setBlockName("ODBC");
 		portal = new BlockAbyssPortal().setBlockName("AG").setBlockTextureName(modid + ":" + "AG");
 		Darkstoneslab1 = new BlockDarkstoneSlab().setStepSound(Block.soundTypeStone).setCreativeTab(tabBlock).setHardness(1.65F).setResistance(12.0F).setBlockName("DSs1");
 		Darkstoneslab2 = new BlockDarkstoneSlabDouble().setStepSound(Block.soundTypeStone).setHardness(1.65F).setResistance(12.0F).setBlockName("DSs2");

@@ -19,6 +19,7 @@ import com.shinoow.abyssalcraft.api.entity.ICoraliumEntity;
 import com.shinoow.abyssalcraft.api.entity.IDreadEntity;
 import com.shinoow.abyssalcraft.api.entity.IOmotholEntity;
 
+import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.boss.IBossDisplayData;
 import net.minecraft.entity.player.EntityPlayer;
@@ -49,7 +50,7 @@ public class ItemDrainStaff extends Item {
 		if(!stack.hasTagCompound()) {
 			stack.setTagCompound(new NBTTagCompound());
 		}
-		stack.stackTagCompound.setInteger("energy"+type, getEnergy(stack, type) + 1);
+		stack.stackTagCompound.setInteger("energy"+type, getEnergy(stack, type) + amount);
 	}
 
 	public void setEnergy(int amount, ItemStack stack, String type) {
@@ -62,19 +63,21 @@ public class ItemDrainStaff extends Item {
 	
 	@SuppressWarnings("unchecked")
 	protected void drain(ItemStack stack, World world, EntityPlayer player, int drainPower) {
+		world.playSoundAtEntity(player, "mob.silverfish.say", 0.4F, 2.5F);
+		
 		// Give essence
 		if(getEnergy(stack, "Abyssal") >= 100) {
-			world.playSoundAtEntity(player, "random.pop", 1.0F, 0.6F);
+			world.playSoundAtEntity(player, "random.pop", 2.0F, 0.5F);
 			player.inventory.addItemStackToInventory(new ItemStack(AbyssalCraft.essence, 1, 0));
 			setEnergy(0, stack, "Abyssal");
 		}
 		if(getEnergy(stack, "Dread") >= 100) {
-			world.playSoundAtEntity(player, "random.pop", 1.0F, 0.6F);
+			world.playSoundAtEntity(player, "random.pop", 2.0F, 0.5F);
 			player.inventory.addItemStackToInventory(new ItemStack(AbyssalCraft.essence, 1, 1));
 			setEnergy(0, stack, "Dread");
 		}
 		if(getEnergy(stack, "Omothol") >= 100) {
-			world.playSoundAtEntity(player, "random.pop", 1.0F, 0.6F);
+			world.playSoundAtEntity(player, "random.pop", 2.0F, 0.5F);
 			player.inventory.addItemStackToInventory(new ItemStack(AbyssalCraft.essence, 1, 2));
 			setEnergy(0, stack, "Omothol");
 		}
@@ -83,7 +86,7 @@ public class ItemDrainStaff extends Item {
 		Vec3 vec = player.getLookVec().normalize();
 		for(int i = 1; i < 32; i++) {
 			// Make the cone thicker at close range
-			double cone = 1.4 - (i*0.04);
+			double cone = 1.2 - (i*0.03);
 			double pXa = player.posX - cone;
 			double pYa = player.posY - cone + player.getEyeHeight();
 			double pZa = player.posZ - cone;
@@ -96,7 +99,7 @@ public class ItemDrainStaff extends Item {
 				EntityLiving target = list.get(0);
 				
 				if (!target.isDead && !(target instanceof IBossDisplayData)) {
-					int trueDmg = (int)Math.min(Math.ceil(target.getHealth()), drainPower);
+					final int trueDmg = (int)Math.min(Math.floor(target.getHealth()), drainPower);
 					
 					if(world.provider.dimensionId == AbyssalCraft.configDimId1 && target instanceof ICoraliumEntity) {
 						if(target.attackEntityFrom(AbyssalCraftAPI.vajra, trueDmg)) {
@@ -106,15 +109,7 @@ public class ItemDrainStaff extends Item {
 						if(target.attackEntityFrom(AbyssalCraftAPI.vajra, trueDmg)) {
 							increaseEnergy(stack, "Dread", trueDmg);
 						}
-					} else if(world.provider.dimensionId == AbyssalCraft.configDimId3 && target instanceof IOmotholEntity) {
-						if(target.attackEntityFrom(AbyssalCraftAPI.vajra, trueDmg)) {
-							increaseEnergy(stack, "Omothol", trueDmg);
-						}
-					} else if (world.provider.dimensionId == AbyssalCraft.configDimId3 || target.getMaxHealth() == 33) {
-						trueDmg -= 2;
-						if (trueDmg <= 0) {
-							return;
-						}
+					} else if((world.provider.dimensionId == AbyssalCraft.configDimId3 && target instanceof IOmotholEntity) || EntityList.getEntityString(target).equals("w_angels.EntityWeepingAngel")) {
 						if(target.attackEntityFrom(AbyssalCraftAPI.vajra, trueDmg)) {
 							increaseEnergy(stack, "Omothol", trueDmg);
 						}
@@ -136,11 +131,11 @@ public class ItemDrainStaff extends Item {
 	@Override
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void addInformation(ItemStack is, EntityPlayer player, List l, boolean B) {
-		int abyssal = getEnergy(is, "Abyssal");
-		int dread = getEnergy(is, "Dread");
-		int omothol = getEnergy(is, "Omothol");
-		l.add(StatCollector.translateToLocal("tooltip.drainstaff.energy.1")+": " + abyssal + "/100");
-		l.add(StatCollector.translateToLocal("tooltip.drainstaff.energy.2")+": " + dread + "/100");
-		l.add(StatCollector.translateToLocal("tooltip.drainstaff.energy.3")+": " + omothol + "/100");
+		final int aE = getEnergy(is, "Abyssal");
+		final int dE = getEnergy(is, "Dread");
+		final int oE = getEnergy(is, "Omothol");
+		l.add("\u001b" + StatCollector.translateToLocal("tooltip.drainstaff.energy.1")+": " + aE + "/100");
+		l.add("\u001b" + StatCollector.translateToLocal("tooltip.drainstaff.energy.2")+": " + dE + "/100");
+		l.add("\u001b" + StatCollector.translateToLocal("tooltip.drainstaff.energy.3")+": " + oE + "/100");
 	}
 }

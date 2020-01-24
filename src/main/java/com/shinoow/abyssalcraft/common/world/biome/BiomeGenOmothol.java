@@ -33,6 +33,7 @@ public class BiomeGenOmothol extends BiomeGenBase {
 		spawnableMonsterList.add(new SpawnListEntry(EntityGatekeeperMinion.class, 3, 1, 2));
 		spawnableMonsterList.add(new SpawnListEntry(EntityShadowCreature.class, 18, 1, 4));
 		spawnableMonsterList.add(new SpawnListEntry(EntityShadowMonster.class, 12, 1, 2));
+		spawnableMonsterList.add(new SpawnListEntry(EntityShadowBeast.class, 3, 1, 1));
 	}
 
 	@Override
