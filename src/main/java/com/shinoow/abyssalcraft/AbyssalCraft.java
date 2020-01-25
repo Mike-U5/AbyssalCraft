@@ -537,13 +537,9 @@ public class AbyssalCraft {
 		abyslab2 = new BlockACDoubleSlab(abyslab1, Material.rock, "pickaxe", 2).setStepSound(Block.soundTypeStone).setHardness(1.8F).setResistance(12.0F).setBlockName("ASBs2").setBlockTextureName(modid + ":" + "ASB");
 		abystairs = new BlockACStairs(abybrick, "pickaxe", 2).setStepSound(Block.soundTypeStone).setHardness(1.65F).setResistance(12.0F).setBlockName("ASBs");
 		abyfence = new BlockACFence("ASBf", Material.rock, "pickaxe", 2).setHardness(1.8F).setResistance(12.0F).setStepSound(Block.soundTypeStone).setBlockName("ASBf").setBlockTextureName(modid + ":" + "ASBf");
-	///	abyore = registerBlock(new BlockACOre(2, 3.0F, 6.0F).setBlockTextureName(modid + ":" + "abyore"), "abyore");
 		Coraliumore = new BlockACOre(2, 3.0F, 6.0F).setBlockName("CO").setBlockTextureName(modid + ":" + "CO");
 
 		DSCwall = new BlockDarkstonecobblewall(Darkstone_cobble).setHardness(1.65F).setResistance(12.0F).setStepSound(Block.soundTypeStone).setBlockName("DSCw").setBlockTextureName(modid + ":" + "DSC");
-		/// Crate = new
-		/// BlockCrate().setStepSound(Block.soundTypeStone).setHardness(3.0F).setResistance(6.0F).setBlockName("Crate").setBlockTextureName(modid
-		/// + ":" + "Crate");
 		CoraliumInfusedStone = new BlockACOre(3, 3.0F, 6.0F).setBlockName("CIS").setBlockTextureName(modid + ":" + "CIS");
 		ODBcore = new BlockDivineRelic().setStepSound(Block.soundTypeMetal).setHardness(3.0F).setResistance(0F).setBlockName("ODBC");
 		portal = new BlockAbyssPortal().setBlockName("AG").setBlockTextureName(modid + ":" + "AG");

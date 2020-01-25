@@ -80,9 +80,6 @@ public class AbyssalCrafting {
 		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.abyslab1, 6), new Object[] { "###", '#', AbyssalCraft.abybrick });
 		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.abyfence, 6), new Object[] { "###", "###", '#', AbyssalCraft.abybrick });
 		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.DSCwall, 6), new Object[] { "###", "###", '#', AbyssalCraft.Darkstone_cobble });
-		/// GameRegistry.addRecipe(new ItemStack(AbyssalCraft.Crate, 2), new Object[]
-		/// {"#&#", "&%&", "#&#", '#', Items.stick, '&', Blocks.planks, '%',
-		/// Blocks.chest});
 		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.DSbutton, 1), new Object[] { "#", '#', AbyssalCraft.Darkstone });
 		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.DSpplate, 1), new Object[] { "##", '#', AbyssalCraft.Darkstone });
 		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.DLTbutton, 1), new Object[] { "#", '#', AbyssalCraft.DLTplank });
@@ -144,8 +141,6 @@ public class AbyssalCrafting {
 		GameRegistry.addSmelting(AbyssalCraft.CoraliumInfusedStone, new ItemStack(AbyssalCraft.Cpearl), 3F);
 		GameRegistry.addSmelting(AbyssalCraft.AbyPCorOre, new ItemStack(AbyssalCraft.Cpearl), 3F);
 		GameRegistry.addSmelting(AbyssalCraft.AbyLCorOre, new ItemStack(AbyssalCraft.Cingot), 3F);
-		/// GameRegistry.addSmelting(AbyssalCraft.dreadore, new
-		/// ItemStack(AbyssalCraft.abyingot, 1), 3F);
 		GameRegistry.addSmelting(AbyssalCraft.cstone, new ItemStack(AbyssalCraft.cbrick, 1), 0.1F);
 		GameRegistry.addSmelting(AbyssalCraft.nitreOre, new ItemStack(AbyssalCraft.nitre, 1), 1F);
 		GameRegistry.addSmelting(AbyssalCraft.AbyIroOre, new ItemStack(Items.iron_ingot, 1), 0.7F);
@@ -248,26 +243,8 @@ public class AbyssalCrafting {
 
 	private static void addItemSmelting() {
 		GameRegistry.addSmelting(AbyssalCraft.Cchunk, new ItemStack(AbyssalCraft.Cingot, 2), 3F);
-		/// GameRegistry.addSmelting(AbyssalCraft.dreadchunk, new
-		/// ItemStack(AbyssalCraft.abyingot), 3F);
 		GameRegistry.addSmelting(AbyssalCraft.Cbucket, new ItemStack(AbyssalCraft.cstone, 1), 0.2F);
-
 		GameRegistry.addSmelting(AbyssalCraft.coin, new ItemStack(Items.iron_ingot, 4), 0.5F);
-
-		GameRegistry.addSmelting(Items.leather_helmet, new ItemStack(Items.leather), 1F);
-		GameRegistry.addSmelting(Items.leather_chestplate, new ItemStack(Items.leather), 1F);
-		GameRegistry.addSmelting(Items.leather_leggings, new ItemStack(Items.leather), 1F);
-		GameRegistry.addSmelting(Items.leather_boots, new ItemStack(Items.leather), 1F);
-
-		GameRegistry.addSmelting(Items.iron_helmet, new ItemStack(Items.iron_ingot), 1F);
-		GameRegistry.addSmelting(Items.iron_chestplate, new ItemStack(Items.iron_ingot), 1F);
-		GameRegistry.addSmelting(Items.iron_leggings, new ItemStack(Items.iron_ingot), 1F);
-		GameRegistry.addSmelting(Items.iron_boots, new ItemStack(Items.iron_ingot), 1F);
-
-		GameRegistry.addSmelting(Items.golden_helmet, new ItemStack(Items.gold_ingot), 1F);
-		GameRegistry.addSmelting(Items.golden_chestplate, new ItemStack(Items.gold_ingot), 1F);
-		GameRegistry.addSmelting(Items.golden_leggings, new ItemStack(Items.gold_ingot), 1F);
-		GameRegistry.addSmelting(Items.golden_boots, new ItemStack(Items.gold_ingot), 1F);
 	}
 
 	private static void addEngraving() {
@@ -337,17 +314,6 @@ public class AbyssalCrafting {
 		RitualRegistry.instance().registerRitual(new NecronomiconInfusionRitual("yogsothothStatue", 4, AbyssalCraft.configDimId3, 20000F, true, new ItemStack(AbyssalCraft.yogsothothStatue), AbyssalCraft.monolithStone, yogsothothofferings));
 		Object[] shubniggurathofferings = new Object[] { new ItemStack(AbyssalCraft.shoggothFlesh, 1, 4), new ItemStack(AbyssalCraft.shoggothFlesh, 1, 4), new ItemStack(AbyssalCraft.shoggothFlesh, 1, 4), new ItemStack(AbyssalCraft.shoggothFlesh, 1, 4), new ItemStack(AbyssalCraft.shoggothFlesh, 1, 4), new ItemStack(AbyssalCraft.essence, 1, 0), new ItemStack(AbyssalCraft.essence, 1, 1), new ItemStack(AbyssalCraft.essence, 1, 2) };
 		RitualRegistry.instance().registerRitual(new NecronomiconInfusionRitual("shubniggurathStatue", 4, AbyssalCraft.configDimId3, 20000F, true, new ItemStack(AbyssalCraft.shubniggurathStatue), AbyssalCraft.monolithStone, shubniggurathofferings));
-		/// Object[] psdlofferings = new Object[]{new ItemStack(AbyssalCraft.essence, 1,
-		/// 1), new ItemStack(AbyssalCraft.essence, 1, 1), new
-		/// ItemStack(AbyssalCraft.essence, 1, 1), new ItemStack(AbyssalCraft.essence,
-		/// 1, 1),
-		/// new ItemStack(AbyssalCraft.essence, 1, 1), new
-		/// ItemStack(AbyssalCraft.essence, 1, 1), new ItemStack(AbyssalCraft.essence,
-		/// 1, 1), new ItemStack(AbyssalCraft.essence, 1, 1)};
-		/// RitualRegistry.instance().registerRitual(new
-		/// NecronomiconInfusionRitual("powerStone", 3, AbyssalCraft.configDimId2,
-		/// 5000F, new ItemStack(AbyssalCraft.PSDL), AbyssalCraft.Cpearl,
-		/// psdlofferings));
 		Object[] ethofferings = new Object[] { AbyssalCraft.ethaxium_brick, AbyssalCraft.ethaxium_brick, AbyssalCraft.lifeCrystal, AbyssalCraft.ethaxium_brick, AbyssalCraft.ethaxium_brick };
 		RitualRegistry.instance().registerRitual(new NecronomiconCreationRitual("ethaxiumIngot", 3, AbyssalCraft.configDimId3, 1000F, new ItemStack(AbyssalCraft.ethaxiumIngot), ethofferings));
 		Object[] dreadofferings = new Object[] { new ItemStack(AbyssalCraft.essence, 1, 1), AbyssalCraft.Dreadshard, AbyssalCraft.Dreadshard, AbyssalCraft.Dreadshard, AbyssalCraft.Dreadshard, AbyssalCraft.Dreadshard, AbyssalCraft.Dreadshard, AbyssalCraft.Dreadshard };
@@ -416,9 +382,9 @@ public class AbyssalCrafting {
 		// Beast Drain Staff
 		Object[] rendingBeastofferings = new Object[] { AbyssalCraft.dreadfragment, AbyssalCraft.dreadfragment, AbyssalCraft.omotholFlesh, AbyssalCraft.omotholFlesh, AbyssalCraft.shadowgem, AbyssalCraft.omotholFlesh, AbyssalCraft.omotholFlesh, AbyssalCraft.dreadfragment };
 		RitualRegistry.instance().registerRitual(new NecronomiconInfusionRitual("drainStaffBeast", 3, AbyssalCraft.configDimId2, 3000F, false, new ItemStack(AbyssalCraft.drainStaffBeast), AbyssalCraft.drainStaffMonster, rendingBeastofferings));
-		// Jzahar Staff
+		// Jzahar Crozier
 		Object[] staffofferings = new Object[] { new ItemStack(AbyssalCraft.essence, 1, 1), new ItemStack(AbyssalCraft.essence, 1, 2), AbyssalCraft.eldritchScale, AbyssalCraft.ethaxiumIngot, AbyssalCraft.portalPlacerJzh, AbyssalCraft.ethaxiumIngot, AbyssalCraft.eldritchScale, new ItemStack(AbyssalCraft.essence, 1, 0) };
-		RitualRegistry.instance().registerRitual(new NecronomiconInfusionRitual("jzaharStaff", 4, AbyssalCraft.configDimId3, 15000F, true, new ItemStack(AbyssalCraft.Staff), AbyssalCraft.drainStaffBeast, staffofferings));
+		RitualRegistry.instance().registerRitual(new NecronomiconInfusionRitual("jzaharStaff", 4, AbyssalCraft.configDimId3, 50000F, true, new ItemStack(AbyssalCraft.Staff), AbyssalCraft.drainStaffBeast, staffofferings));
 	}
 
 	@SuppressWarnings("unchecked")
@@ -438,8 +404,6 @@ public class AbyssalCrafting {
 		DisruptionHandler.instance().registerDisruption(new DisruptionSwarm("swarmHeroes", null, EntityFallenHero.class));
 		DisruptionHandler.instance().registerDisruption(new DisruptionFireRain());
 		DisruptionHandler.instance().registerDisruption(new DisruptionTaintRain());
-		// DisruptionHandler.instance().registerDisruption(new
-		// DisruptionEarthquake("earthquake", null));
 		DisruptionHandler.instance().registerDisruption(new DisruptionDisplaceEntities());
 		DisruptionHandler.instance().registerDisruption(new DisruptionTeleportRandomly());
 		DisruptionHandler.instance().registerDisruption(new DisruptionOoze());

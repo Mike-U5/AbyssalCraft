@@ -49,13 +49,8 @@ public class ItemCrozier extends ItemDrainStaff {
 	
 	@Override
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public void addInformation(ItemStack is, EntityPlayer player, List list, boolean B) {
-		int abyssal = getEnergy(is, "Abyssal");
-		int dread = getEnergy(is, "Dread");
-		int omothol = getEnergy(is, "Omothol");
-		list.add(StatCollector.translateToLocal("tooltip.drainstaff.energy.1")+": " + abyssal + "/100");
-		list.add(StatCollector.translateToLocal("tooltip.drainstaff.energy.2")+": " + dread + "/100");
-		list.add(StatCollector.translateToLocal("tooltip.drainstaff.energy.3")+": " + omothol + "/100");
+	public void addInformation(ItemStack is, EntityPlayer player, List list, boolean bl) {
+		super.addInformation(is, player, list, bl);
 		list.add(StatCollector.translateToLocal("tooltip.portalplacer.3"));
 		list.add(StatCollector.translateToLocal("tooltip.portalplacer.4"));
 	}

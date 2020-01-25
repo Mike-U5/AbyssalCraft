@@ -78,7 +78,6 @@ public class AbyssalCraftAPI {
 	public static DamageSource dread = new DamageSource("dread").setDamageBypassesArmor().setMagicDamage();
 	public static DamageSource antimatter = new DamageSource("antimatter").setDamageBypassesArmor().setMagicDamage();
 	public static DamageSource earthquake = new DamageSource("earthquake").setDamageBypassesArmor();
-	public static DamageSource vajra = new DamageSource("vajra").setDamageBypassesArmor().setDamageIsAbsolute();
 
 	private static List<Class<? extends EntityLivingBase>> shoggothFood = Lists.newArrayList();
 
