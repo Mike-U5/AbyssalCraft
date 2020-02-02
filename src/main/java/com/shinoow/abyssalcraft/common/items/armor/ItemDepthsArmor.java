@@ -39,8 +39,7 @@ import cpw.mods.fml.common.Optional.Method;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-@InterfaceList(value = { @Interface(iface = "thaumcraft.api.IVisDiscountGear", modid = "Thaumcraft"),
-		@Interface(iface = "thaumcraft.api.nodes.IRevealer", modid = "Thaumcraft")})
+@InterfaceList(value = { @Interface(iface = "thaumcraft.api.IVisDiscountGear", modid = "Thaumcraft"),@Interface(iface = "thaumcraft.api.nodes.IRevealer", modid = "Thaumcraft")})
 public class ItemDepthsArmor extends ItemArmor implements IVisDiscountGear, IRevealer {
 	
 	private final Item[] armorSet = new Item[] {
@@ -136,22 +135,16 @@ public class ItemDepthsArmor extends ItemArmor implements IVisDiscountGear, IRev
 	@Override
 	@Method(modid = "Thaumcraft")
 	public int getVisDiscount(ItemStack stack, EntityPlayer player, Aspect aspect) {
-		return stack.getItem() == AbyssalCraft.Depthshelmet ? 5 : stack.getItem() == AbyssalCraft.Depthsplate ? 2 :
-			stack.getItem() == AbyssalCraft.Depthslegs ? 2 : stack.getItem() == AbyssalCraft.Depthsboots ? 1 : 0;
+		return (stack.getItem() == AbyssalCraft.Depthshelmet && aspect == Aspect.WATER) ? 7 : 0;
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public void addInformation(ItemStack is, EntityPlayer player, List l, boolean B){
-		if(Loader.isModLoaded("Thaumcraft")){
-			if(is.getItem() == AbyssalCraft.Depthshelmet)
-				l.add("\u00A75"+StatCollector.translateToLocal("tc.visdiscount")+": 5%");
-			if(is.getItem() == AbyssalCraft.Depthsplate)
-				l.add("\u00A75"+StatCollector.translateToLocal("tc.visdiscount")+": 2%");
-			if(is.getItem() == AbyssalCraft.Depthslegs)
-				l.add("\u00A75"+StatCollector.translateToLocal("tc.visdiscount")+": 2%");
-			if(is.getItem() == AbyssalCraft.Depthsboots)
-				l.add("\u00A75"+StatCollector.translateToLocal("tc.visdiscount")+": 1%");
+		if(Loader.isModLoaded("Thaumcraft")) {
+			if(is.getItem() == AbyssalCraft.Depthshelmet) {
+				l.add("\u00A75"+StatCollector.translateToLocal("tc.visdiscount")+" (Aer) : 7%");
+			}
 		}
 	}
 

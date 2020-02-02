@@ -13,6 +13,7 @@ package com.shinoow.abyssalcraft.common.items.armor;
 
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
@@ -24,9 +25,17 @@ import net.minecraft.world.World;
 
 import com.shinoow.abyssalcraft.AbyssalCraft;
 
+import cpw.mods.fml.common.Optional.Interface;
+import cpw.mods.fml.common.Optional.InterfaceList;
+import cpw.mods.fml.common.Optional.Method;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
+import thaumcraft.api.IVisDiscountGear;
+import thaumcraft.api.aspects.Aspect;
+import thaumcraft.api.nodes.IRevealer;
+
+@Interface(iface = "thaumcraft.api.nodes.IRevealer", modid = "Thaumcraft")
 public class ItemEthaxiumArmor extends ItemArmor {
 	public ItemEthaxiumArmor(ArmorMaterial par2EnumArmorMaterial, int par3, int par4) {
 		super(par2EnumArmorMaterial, par3, par4);
@@ -58,15 +67,6 @@ public class ItemEthaxiumArmor extends ItemArmor {
 
 	@Override
 	public void onArmorTick(World world, EntityPlayer player, ItemStack itemstack) {
-		if (itemstack.getItem() == AbyssalCraft.ethHelmet) {
-			if ((world.provider.isSurfaceWorld() && !world.provider.isDaytime()) || player.dimension == AbyssalCraft.configDimId3 || player.dimension == AbyssalCraft.configDimId4) {
-				player.addPotionEffect(new PotionEffect(Potion.nightVision.getId(), 260, 0));
-			}
-			if (player.getActivePotionEffect(Potion.hunger) != null) {
-				player.removePotionEffect(Potion.hunger.getId());
-			}
-		}
-
 		if (itemstack.getItem() == AbyssalCraft.ethPlate) {
 			player.addPotionEffect(new PotionEffect(Potion.fireResistance.id, 10));
 			if (player.getActivePotionEffect(Potion.poison) != null) {
@@ -93,5 +93,11 @@ public class ItemEthaxiumArmor extends ItemArmor {
 			player.removePotionEffect(Potion.fireResistance.id);
 		if (player.getActivePotionEffect(Potion.jump) != null && player.getActivePotionEffect(Potion.jump).getDuration() == 0)
 			player.removePotionEffect(Potion.jump.id);
+	}
+	
+	//@Override
+	@Method(modid = "Thaumcraft")
+	public boolean showNodes(ItemStack itemstack, EntityLivingBase player) {
+		return itemstack.getItem() == AbyssalCraft.ethHelmet;
 	}
 }

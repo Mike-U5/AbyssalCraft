@@ -210,12 +210,12 @@ public class AbyssalCrafting {
 		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.necronomicon_dre, 1), new Object[] { "###", "#%#", "###", '#', new ItemStack(AbyssalCraft.skin, 1, 1), '%', AbyssalCraft.necronomicon_cor });
 		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.necronomicon_omt, 1), new Object[] { "###", "#%#", "###", '#', new ItemStack(AbyssalCraft.skin, 1, 2), '%', AbyssalCraft.necronomicon_dre });
 		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.abyssalnomicon, 1), new Object[] { "#$#", "%&%", "#%#", '#', AbyssalCraft.ethaxiumIngot, '%', AbyssalCraft.eldritchScale, '&', AbyssalCraft.necronomicon_omt, '$', AbyssalCraft.gatekeeperEssence });
-		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.nugget, 9, 1), new Object[] { "#", '#', AbyssalCraft.Cingot });
-		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.nugget, 9, 2), new Object[] { "#", '#', AbyssalCraft.dreadiumingot });
-		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.nugget, 9, 3), new Object[] { "#", '#', AbyssalCraft.ethaxiumIngot });
-		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.Cingot), new Object[] { "###", "###", "###", '#', new ItemStack(AbyssalCraft.nugget, 1, 1) });
-		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.dreadiumingot), new Object[] { "###", "###", "###", '#', new ItemStack(AbyssalCraft.nugget, 1, 2) });
-		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.ethaxiumIngot), new Object[] { "###", "###", "###", '#', new ItemStack(AbyssalCraft.nugget, 1, 3) });
+		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.nugget, 9, 0), new Object[] { "#", '#', AbyssalCraft.Cingot });
+		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.nugget, 9, 1), new Object[] { "#", '#', AbyssalCraft.dreadiumingot });
+		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.nugget, 9, 2), new Object[] { "#", '#', AbyssalCraft.ethaxiumIngot });
+		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.Cingot), new Object[] { "###", "###", "###", '#', new ItemStack(AbyssalCraft.nugget, 1, 0) });
+		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.dreadiumingot), new Object[] { "###", "###", "###", '#', new ItemStack(AbyssalCraft.nugget, 1, 1) });
+		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.ethaxiumIngot), new Object[] { "###", "###", "###", '#', new ItemStack(AbyssalCraft.nugget, 1, 2) });
 		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.skin, 1, 0), new Object[] { "###", "#%#", "###", '#', AbyssalCraft.Corflesh, '%', new ItemStack(AbyssalCraft.essence, 1, 0) });
 		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.skin, 1, 1), new Object[] { "###", "#%#", "###", '#', AbyssalCraft.dreadfragment, '%', new ItemStack(AbyssalCraft.essence, 1, 1) });
 		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.skin, 1, 2), new Object[] { "###", "#%#", "###", '#', AbyssalCraft.omotholFlesh, '%', new ItemStack(AbyssalCraft.essence, 1, 2) });
@@ -376,6 +376,10 @@ public class AbyssalCrafting {
 		RitualRegistry.instance().registerRitual(new NecronomiconInfusionRitual("saDLupgrade", 2, 1200F, new ItemStack(AbyssalCraft.tieredSacrificialAltar, 1, 2), new ItemStack(AbyssalCraft.tieredSacrificialAltar, 1, 1), dloffers));
 		RitualRegistry.instance().registerRitual(new NecronomiconInfusionRitual("saOMTupgrade", 3, 1600F, new ItemStack(AbyssalCraft.tieredSacrificialAltar, 1, 3), new ItemStack(AbyssalCraft.tieredSacrificialAltar, 1, 2), omtoffers));
 
+		// Anti-Jzhar Amulet
+		Object[] amuletOfferings = new Object[] { new ItemStack(AbyssalCraft.essence, 1, 1), new ItemStack(AbyssalCraft.essence, 1, 2), AbyssalCraft.eldritchScale, AbyssalCraft.eldritchScale, AbyssalCraft.eldritchScale, AbyssalCraft.eldritchScale, AbyssalCraft.eldritchScale, new ItemStack(AbyssalCraft.essence, 1, 0) };
+		RitualRegistry.instance().registerRitual(new NecronomiconInfusionRitual("jzaharStaff", 4, AbyssalCraft.configDimId3, 50000F, true, new ItemStack(AbyssalCraft.Staff), AbyssalCraft.bronzeIngot, amuletOfferings));
+		
 		// Monster Drain Staff
 		Object[] rendingMonsterOfferings = new Object[] { AbyssalCraft.dreadfragment, AbyssalCraft.dreadfragment, AbyssalCraft.Corflesh, AbyssalCraft.Corflesh, AbyssalCraft.shadowgem, AbyssalCraft.Corflesh, AbyssalCraft.Corflesh, AbyssalCraft.dreadfragment };
 		RitualRegistry.instance().registerRitual(new NecronomiconInfusionRitual("drainStaffMonster", 2, AbyssalCraft.configDimId1, 1500F, false, new ItemStack(AbyssalCraft.drainStaffMonster), AbyssalCraft.drainStaff, rendingMonsterOfferings));

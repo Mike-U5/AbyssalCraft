@@ -234,6 +234,7 @@ import com.shinoow.abyssalcraft.common.items.ItemPortalPlacerDL;
 import com.shinoow.abyssalcraft.common.items.ItemPortalPlacerJzh;
 import com.shinoow.abyssalcraft.common.items.ItemSoulReaper;
 import com.shinoow.abyssalcraft.common.items.ItemTrackerPSDL;
+import com.shinoow.abyssalcraft.common.items.armor.ItemBaubleTrapezohedron;
 import com.shinoow.abyssalcraft.common.items.armor.ItemCoraliumArmor;
 import com.shinoow.abyssalcraft.common.items.armor.ItemCoraliumPArmor;
 import com.shinoow.abyssalcraft.common.items.armor.ItemDepthsArmor;
@@ -395,7 +396,10 @@ public class AbyssalCraft {
 	public static Item CobbleU, IronU, GoldU, DiamondU, AbyssalniteU, CoraliumU, DreadiumU, EthaxiumU;
 	// Ethaxium items
 	public static Item ethaxium_brick, ethaxiumIngot;
-
+	// Baubles
+	public static Item trapezohedron;
+	
+	
 	public static Potion Cplague, Dplague, antiMatter, earthquake, doom;
 
 	public static Enchantment coraliumE, dreadE, lightPierce;
@@ -858,6 +862,9 @@ public class AbyssalCraft {
 		ethPlate = registerItem(new ItemEthaxiumArmor(AbyssalCraftAPI.ethaxiumArmor, 5, 1).setUnlocalizedName("AEC").setTextureName(modid + ":" + "AEC"), "ethaxiumplate");
 		ethLegs = registerItem(new ItemEthaxiumArmor(AbyssalCraftAPI.ethaxiumArmor, 5, 2).setUnlocalizedName("AEP").setTextureName(modid + ":" + "AEP"), "ethaxiumlegs");
 
+		// Baubles
+		trapezohedron = registerItem(new ItemBaubleTrapezohedron(), "trapezohedron").setTextureName(modid + ":" + "trapezohedron").setUnlocalizedName("trapezohedron");
+		
 		// Special
 		crushedwart = registerItem(new ItemACBasic("crushedwart"), "crushedwart").setPotionEffect("+4");
 		jellyfish = registerItem(new ItemACBasic("jellyFish"), "jellyfish");
@@ -1263,14 +1270,14 @@ public class AbyssalCraft {
 		// Achievements
 		necro = new Achievement("achievement.necro", "necro", 0, 0, necronomicon, AchievementList.openInventory).registerStat();
 		// Materials Achievements
-		mineCorgem = new Achievement("achievement.mineCorgem", "mineCorgem", 4, 0, Coralium, necro).registerStat();
-		shadowGems = new Achievement("achievement.shadowGems", "shadowGems", 6, 0, shadowgem, mineCorgem).registerStat();
+		mineCorgem = new Achievement("achievement.mineCorgem", "mineCorgem", 2, 0, Coralium, necro).registerStat();
+		shadowGems = new Achievement("achievement.shadowGems", "shadowGems", 4, 0, shadowgem, mineCorgem).registerStat();
 		// coraliumpearl
-		mineCor = new Achievement("achievement.mineCor", "mineCor", 8, 0, AbyLCorOre, shadowGems).registerStat();
-		mineAbyOres = new Achievement("achievement.mineAbyOres", "mineAbyOres", 10, 0, AbyDiaOre, mineCor).registerStat();
-		mineDread = new Achievement("achievement.mineDread", "mineDread", 12, 0, dreadore, mineAbyOres).registerStat();
-		dreadium = new Achievement("achievement.dreadium", "dreadium", 14, 0, dreadiumingot, mineDread).registerStat();
-		eth = new Achievement("achievement.ethaxium", "ethaxium", 16, 0, ethaxiumIngot, dreadium).setSpecial().registerStat();
+		mineCor = new Achievement("achievement.mineCor", "mineCor", 6, 0, AbyLCorOre, shadowGems).registerStat();
+		mineAbyOres = new Achievement("achievement.mineAbyOres", "mineAbyOres", 8, 0, AbyDiaOre, mineCor).registerStat();
+		mineDread = new Achievement("achievement.mineDread", "mineDread", 10, 0, dreadore, mineAbyOres).registerStat();
+		dreadium = new Achievement("achievement.dreadium", "dreadium", 12, 0, dreadiumingot, mineDread).registerStat();
+		eth = new Achievement("achievement.ethaxium", "ethaxium", 14, 0, ethaxiumIngot, dreadium).setSpecial().registerStat();
 		// Depths Ghoul Achievements
 		killghoul = new Achievement("achievement.killghoul", "killghoul", -2, 0, Corbone, necro).registerStat();
 		ghoulhead = new Achievement("achievement.ghoulhead", "ghoulhead", -4, 0, DGhead, killghoul).registerStat();
@@ -1304,7 +1311,7 @@ public class AbyssalCraft {
 		enterDarkRealm = new Achievement("achievement.darkRealm", "darkRealm", 2, 10, Darkstone, enterOmothol).registerStat();
 		killOmotholelite = new Achievement("achievement.killOmotholelite", "killOmotholelite", 6, 10, eldritchScale, enterOmothol).registerStat();
 		locateJzahar = new Achievement("achievement.locateJzahar", "locateJzahar", 4, 12, jzaharCharm, enterOmothol).registerStat();
-		killJzahar = new Achievement("achievement.killJzahar", "killJzahar", 6, 12, Staff, locateJzahar).setSpecial().registerStat();
+		killJzahar = new Achievement("achievement.killJzahar", "killJzahar", 6, 12, Staff, necro).setSpecial().registerStat();
 		// Gateway Key Achievements
 		GK1 = new Achievement("achievement.GK1", "GK1", 0, -2, portalPlacer, necro).registerStat();
 		findPSDL = new Achievement("achievement.findPSDL", "findPSDL", -2, -2, PSDL, GK1).registerStat();

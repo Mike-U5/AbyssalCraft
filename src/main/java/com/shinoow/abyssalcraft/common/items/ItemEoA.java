@@ -31,19 +31,17 @@ public class ItemEoA extends Item {
 
 	@Override
 	public String getItemStackDisplayName(ItemStack par1ItemStack) {
-
 		return EnumChatFormatting.AQUA + StatCollector.translateToLocal(this.getUnlocalizedName() + ".name");
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
-	public void addInformation(ItemStack is, EntityPlayer player, List l, boolean B){
+	public void addInformation(ItemStack is, EntityPlayer player, List l, boolean B) {
 		l.add(StatCollector.translateToLocal("tooltip.eoa"));
 	}
 
 	@Override
-	public void registerIcons(IIconRegister par1IconRegister)
-	{
+	public void registerIcons(IIconRegister par1IconRegister) {
 		itemIcon = par1IconRegister.registerIcon(AbyssalCraft.modid + ":" + this.getUnlocalizedName().substring(5));
 	}
 }

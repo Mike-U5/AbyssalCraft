@@ -55,7 +55,6 @@ public class AbyssalCraftTool extends Item {
 
 	@Override
 	public String getItemStackDisplayName(ItemStack par1ItemStack) {
-
 		return EnumChatFormatting.DARK_RED + StatCollector.translateToLocal(this.getUnlocalizedName() + ".name");
 	}
 
