@@ -378,6 +378,25 @@
 			"abyssalcraft:jzahar/attack"
 		]
 	},
+	"jzahar.speak": {
+		"category": "hostile",
+		"sounds": [
+			"abyssalcraft:jzahar/word2",
+			"abyssalcraft:jzahar/word1",
+			"abyssalcraft:jzahar/word3",
+			"abyssalcraft:jzahar/word4",
+			"abyssalcraft:jzahar/word1",
+			"abyssalcraft:jzahar/word5",
+			"abyssalcraft:jzahar/word1",
+			"abyssalcraft:jzahar/word6",
+			"abyssalcraft:jzahar/word7",
+			"abyssalcraft:jzahar/word8",
+			"abyssalcraft:jzahar/word9",
+			"abyssalcraft:jzahar/word1",
+			"abyssalcraft:jzahar/word5",
+			"abyssalcraft:jzahar/word10"
+		]
+	},
 	"stray.ambient": {
 		"category": "hostile",
 		"sounds": [
