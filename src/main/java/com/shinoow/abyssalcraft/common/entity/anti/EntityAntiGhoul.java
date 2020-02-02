@@ -11,6 +11,12 @@
  ******************************************************************************/
 package com.shinoow.abyssalcraft.common.entity.anti;
 
+import com.shinoow.abyssalcraft.AbyssalCraft;
+import com.shinoow.abyssalcraft.api.AbyssalCraftAPI;
+import com.shinoow.abyssalcraft.api.entity.IAntiEntity;
+import com.shinoow.abyssalcraft.common.entity.EntityDepthsGhoul;
+import com.shinoow.abyssalcraft.common.entity.EntityOmotholGhoul;
+
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EnumCreatureAttribute;
@@ -30,12 +36,6 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
-
-import com.shinoow.abyssalcraft.AbyssalCraft;
-import com.shinoow.abyssalcraft.api.AbyssalCraftAPI;
-import com.shinoow.abyssalcraft.api.entity.IAntiEntity;
-import com.shinoow.abyssalcraft.common.entity.EntityDepthsGhoul;
-import com.shinoow.abyssalcraft.common.entity.EntityOmotholGhoul;
 
 public class EntityAntiGhoul extends EntityMob implements IAntiEntity {
 
@@ -63,31 +63,36 @@ public class EntityAntiGhoul extends EntityMob implements IAntiEntity {
 		getEntityAttribute(SharedMonsterAttributes.knockbackResistance).setBaseValue(0.3D);
 		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.23000000417232513D);
 
-		if(AbyssalCraft.hardcoreMode){
+		if (AbyssalCraft.hardcoreMode) {
 			getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(120.0D);
 			getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(10.0D);
 		} else {
-			getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(60.0D);
+			getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(120.0D);
 			getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(5.0D);
 		}
 	}
-
+	
+	@Override
+	public boolean attackEntityFrom(DamageSource dmgSrc, float amount) {
+		/**if (this.lastOwie >= 0) {
+			SpecialTextUtil.JzaharGroup(worldObj, "Ticks between attack: " + (this.lastOwie - this.ticksExisted));
+		}
+		this.lastOwie = this.ticksExisted;**/
+		return super.attackEntityFrom(dmgSrc, amount);
+	}
 
 	@Override
-	protected boolean isAIEnabled()
-	{
+	protected boolean isAIEnabled() {
 		return true;
 	}
 
 	@Override
-	protected String getLivingSound()
-	{
+	protected String getLivingSound() {
 		return "abyssalcraft:ghoul.normal.idle";
 	}
 
 	@Override
-	protected String getHurtSound()
-	{
+	protected String getHurtSound() {
 		return "abyssalcraft:ghoul.normal.hit";
 	}
 
@@ -95,28 +100,23 @@ public class EntityAntiGhoul extends EntityMob implements IAntiEntity {
 	 * Returns the sound this mob makes on death.
 	 */
 	@Override
-	protected String getDeathSound()
-	{
+	protected String getDeathSound() {
 		return "abyssalcraft:ghoul.normal.death";
 	}
 
 	@Override
-	protected void func_145780_a(int par1, int par2, int par3, Block par4)
-	{
+	protected void func_145780_a(int par1, int par2, int par3, Block par4) {
 		playSound("mob.zombie.step", 0.15F, 1.0F);
 	}
 
 	@Override
-	public EnumCreatureAttribute getCreatureAttribute()
-	{
+	public EnumCreatureAttribute getCreatureAttribute() {
 		return EnumCreatureAttribute.UNDEAD;
 	}
 
 	@Override
-	protected void dropRareDrop(int par1)
-	{
-		switch (rand.nextInt(3))
-		{
+	protected void dropRareDrop(int par1) {
+		switch (rand.nextInt(3)) {
 		case 0:
 			dropItem(Items.bone, 1);
 			break;
@@ -130,14 +130,13 @@ public class EntityAntiGhoul extends EntityMob implements IAntiEntity {
 	}
 
 	@Override
-	protected void collideWithEntity(Entity par1Entity)
-	{
-		if(!worldObj.isRemote && par1Entity instanceof EntityDepthsGhoul){
+	protected void collideWithEntity(Entity par1Entity) {
+		if (!worldObj.isRemote && par1Entity instanceof EntityDepthsGhoul) {
 			boolean flag = worldObj.getGameRules().getGameRuleBooleanValue("mobGriefing");
 			worldObj.createExplosion(this, posX, posY, posZ, 5, flag);
 			setDead();
-		}
-		else par1Entity.applyEntityCollision(this);
+		} else
+			par1Entity.applyEntityCollision(this);
 	}
 
 	@Override
@@ -145,18 +144,17 @@ public class EntityAntiGhoul extends EntityMob implements IAntiEntity {
 
 		super.onDeath(par1DamageSource);
 
-		if(par1DamageSource == AbyssalCraftAPI.coralium || par1DamageSource == AbyssalCraftAPI.dread){
+		if (par1DamageSource == AbyssalCraftAPI.coralium || par1DamageSource == AbyssalCraftAPI.dread) {
 			EntityOmotholGhoul entity = new EntityOmotholGhoul(worldObj);
 			entity.copyLocationAndAnglesFrom(this);
 			worldObj.removeEntity(this);
-			entity.onSpawnWithEgg((IEntityLivingData)null);
+			entity.onSpawnWithEgg((IEntityLivingData) null);
 			worldObj.spawnEntityInWorld(entity);
 		}
 	}
 
 	@Override
-	public IEntityLivingData onSpawnWithEgg(IEntityLivingData par1EntityLivingData)
-	{
+	public IEntityLivingData onSpawnWithEgg(IEntityLivingData par1EntityLivingData) {
 		par1EntityLivingData = super.onSpawnWithEgg(par1EntityLivingData);
 
 		float f = worldObj.func_147462_b(posX, posY, posZ);

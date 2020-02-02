@@ -19,6 +19,7 @@ import java.util.Random;
 import com.shinoow.abyssalcraft.AbyssalCraft;
 import com.shinoow.abyssalcraft.common.structures.abyss.stronghold.StructureAbyStrongholdPieces.ChestCorridor;
 
+import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntityChest;
@@ -213,7 +214,8 @@ public class Abyruin extends WorldGenerator
 		world.setBlock(i, j - 8, k - 1, AbyssalCraft.cstonebrick, 0, 0);
 		world.setBlock(i, j - 8, k, AbyssalCraft.cstonebrick, 0, 0);
 		world.setBlock(i, j - 7, k - 4, AbyssalCraft.cstonebrick, 0, 0);
-		int rollA = rand.nextInt(50);
+		this.setBasementFurniture(world, i, j, k);
+		/*final int rollA = rand.nextInt(50);
 		if (rollA == 0) {
 			world.setBlock(i, j - 7, k - 3, Blocks.anvil, 8, 0);
 		} else if (rollA == 1) {
@@ -234,7 +236,7 @@ public class Abyruin extends WorldGenerator
 			if(tileentitychest != null) {
 				WeightedRandomChestContent.generateChestContents(rand, ChestCorridor.strongholdChestContents, tileentitychest, ChestGenHooks.getCount(STRONGHOLD_CORRIDOR, rand));
 			}
-		}
+		}*/
 		world.setBlock(i, j - 7, k + 1, AbyssalCraft.cstonebrick, 0, 0);
 		world.setBlock(i, j - 6, k - 4, AbyssalCraft.cstonebrick, 0, 0);
 		world.setBlock(i, j - 6, k + 1, AbyssalCraft.cstonebrick, 0, 0);
@@ -268,8 +270,9 @@ public class Abyruin extends WorldGenerator
 			world.setBlock(i, j + 1, k + 1, Blocks.chest, 3, 0);
 			world.setBlockMetadataWithNotify(i, j + 1, k + 1, 1, 1);
 			TileEntityChest tileentitychest2 = (TileEntityChest)world.getTileEntity(i, j + 1, k + 1);
-			if(tileentitychest2 != null)
+			if(tileentitychest2 != null) {
 				WeightedRandomChestContent.generateChestContents(rand, ChestGenHooks.getItems(DUNGEON_CHEST, rand), tileentitychest2, ChestGenHooks.getCount(DUNGEON_CHEST, rand));
+			}
 		}
 		world.setBlock(i, j + 1, k + 2, AbyssalCraft.cstonebrick, 0, 0);
 		world.setBlock(i, j + 2, k + 2, AbyssalCraft.cstonebrick, 0, 0);
@@ -668,5 +671,46 @@ public class Abyruin extends WorldGenerator
 		world.setBlock(i + 3, j + 4, k + 1, Blocks.air, 0, 0);
 
 		return true;
+	}
+	
+	private void setBasementFurniture(World world, int i, int j, int k) {
+		final int roll = world.rand.nextInt(40);
+		Block block = null;
+		int meta = 0;
+		
+		if (roll == 0) {
+			block = Blocks.anvil;
+			meta = 8;
+		} else if (roll == 1) {
+			block = Blocks.brewing_stand;
+		} else if (roll == 2) {
+			block = Blocks.cauldron;
+		} else if (roll == 3) {
+			block = Blocks.flower_pot;
+		} else if (roll == 4) {
+			block = Blocks.hay_block;
+		} else if (roll == 5) {
+			block = Blocks.furnace;
+		} else if (roll == 6) {
+			block = AbyssalCraft.ODBcore;
+		} else if (roll == 7) {
+			block = GameRegistry.findBlock("Botania", "pool");
+		} else if (roll == 8) {
+			block = GameRegistry.findBlock("Thaumcraft", "blockTable");
+			meta = 15;
+		} else if (roll == 9) {
+			block = AbyssalCraft.gatekeeperminionspawner;
+		}
+		
+		// Place Chest or Special Block
+		if (block != null) {
+			world.setBlock(i, j - 7, k - 3, block, meta, 0);
+		} else {
+			world.setBlock(i, j - 7, k - 3, Blocks.chest, 0, 0);
+			TileEntityChest tileentitychest = (TileEntityChest)world.getTileEntity(i, j - 7, k - 3);
+			if(tileentitychest != null) {
+				WeightedRandomChestContent.generateChestContents(world.rand, ChestCorridor.strongholdChestContents, tileentitychest, ChestGenHooks.getCount(STRONGHOLD_CORRIDOR, world.rand));
+			}
+		}
 	}
 }
