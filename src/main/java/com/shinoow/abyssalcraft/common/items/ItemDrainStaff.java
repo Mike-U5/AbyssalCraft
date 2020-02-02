@@ -63,6 +63,7 @@ public class ItemDrainStaff extends Item {
 		return stack.hasTagCompound() && stack.stackTagCompound.hasKey("energy"+type) ? (int)stack.stackTagCompound.getInteger("energy"+type) : 0;
 	}
 	
+	@SuppressWarnings("unchecked")
 	protected void drain(ItemStack stack, World world, EntityPlayer player, int drainPower) {
 		world.playSoundAtEntity(player, "mob.silverfish.say", 0.4F, 2.5F);
 		
@@ -84,37 +85,57 @@ public class ItemDrainStaff extends Item {
 		}
 		
 		// Drain life
-		final EntityLiving target = getLookingTarget(player, world);
-		
-		if (target != null && !target.isDead && !(target instanceof IBossDisplayData)) {
-			final DamageSource dmgSrc = new EntityDamageSource("vajra", player).setDamageIsAbsolute();
-			final int trueDmg = (int)Math.min(Math.floor(target.getHealth()), drainPower);
-			
-			if(world.provider.dimensionId == AbyssalCraft.configDimId1 && target instanceof ICoraliumEntity) {
-				if(target.attackEntityFrom(dmgSrc, trueDmg)) {
-					target.setLastAttacker(player);
-					increaseEnergy(stack, "Abyssal", trueDmg);
-				}
-			} else if(world.provider.dimensionId == AbyssalCraft.configDimId2 && target instanceof IDreadEntity) {
-				if(target.attackEntityFrom(dmgSrc, trueDmg)) {
-					target.setLastAttacker(player);
-					increaseEnergy(stack, "Dread", trueDmg);
-				}
-			} else if((world.provider.dimensionId == AbyssalCraft.configDimId3 && target instanceof IOmotholEntity) || EntityList.getEntityString(target).equals("w_angels.EntityWeepingAngel")) {
-				if(target.attackEntityFrom(dmgSrc, trueDmg)) {
-					target.setLastAttacker(player);
-					increaseEnergy(stack, "Omothol", trueDmg);
+		final Vec3 vec = player.getLookVec().normalize();
+		for(int i = 1; i < 32; i++) {
+			// Make the cone thicker at close range
+			double cone = 1.2 - (i*0.03);
+			double pXa = player.posX - cone;
+			double pYa = player.posY - cone + player.getEyeHeight();
+			double pZa = player.posZ - cone;
+			double pXb = player.posX + cone;
+			double pYb = player.posY + cone + player.getEyeHeight();
+			double pZb = player.posZ + cone;
+			final AxisAlignedBB aabb = AxisAlignedBB.getBoundingBox(pXa + vec.xCoord * i, pYa + vec.yCoord * i, pZa + vec.zCoord * i, pXb + vec.xCoord * i, pYb + vec.yCoord * i, pZb + vec.zCoord * i);
+			final List<EntityLiving> list = world.getEntitiesWithinAABB(EntityLiving.class, aabb);
+			if(list.iterator().hasNext()) {
+				for (int j = 0; j < list.size(); j++) {
+					// Drain Energy
+					final EntityLiving target = list.get(j);
+					if (target != null && !target.isDead && !(target instanceof IBossDisplayData)) {
+						final DamageSource dmgSrc = new EntityDamageSource("vajra", player).setDamageBypassesArmor().setDamageIsAbsolute();
+						final int trueDmg = (int)Math.min(Math.floor(target.getHealth()), drainPower);
+						// Find drain type
+						if(world.provider.dimensionId == AbyssalCraft.configDimId1 && target instanceof ICoraliumEntity) {
+							if(target.attackEntityFrom(dmgSrc, trueDmg)) {
+								target.setLastAttacker(player);
+								increaseEnergy(stack, "Abyssal", trueDmg);
+								return;
+							}
+						} else if(world.provider.dimensionId == AbyssalCraft.configDimId2 && target instanceof IDreadEntity) {
+							if(target.attackEntityFrom(dmgSrc, trueDmg)) {
+								target.setLastAttacker(player);
+								increaseEnergy(stack, "Dread", trueDmg);
+								return;
+							}
+						} else if((world.provider.dimensionId == AbyssalCraft.configDimId3 && target instanceof IOmotholEntity) || EntityList.getEntityString(target).equals("w_angels.EntityWeepingAngel")) {
+							if(target.attackEntityFrom(dmgSrc, trueDmg)) {
+								target.setLastAttacker(player);
+								increaseEnergy(stack, "Omothol", trueDmg);
+								return;
+							}
+						}
+					}
 				}
 			}
 		}
 	}
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "unused" })
 	private EntityLiving getLookingTarget(EntityPlayer player, World world) {
-		Vec3 vec = player.getLookVec().normalize();
-		for(int i = 1; i < 32; i++) {
+		final Vec3 vec = player.getLookVec().normalize();
+		for(int i = 0; i <= 30; i++) {
 			// Make the cone thicker at close range
-			double cone = 1.2 - (i*0.03);
+			double cone = 1.15 - (i*0.03);
 			double pXa = player.posX - cone;
 			double pYa = player.posY - cone + player.getEyeHeight();
 			double pZa = player.posZ - cone;
@@ -146,6 +167,6 @@ public class ItemDrainStaff extends Item {
 		final int oE = getEnergy(is, "Omothol");
 		l.add(EnumChatFormatting.DARK_GREEN + StatCollector.translateToLocal("tooltip.drainstaff.energy.1")+": " + EnumChatFormatting.WHITE + aE + "%");
 		l.add(EnumChatFormatting.DARK_RED + StatCollector.translateToLocal("tooltip.drainstaff.energy.2")+": " + EnumChatFormatting.WHITE + dE + "%");
-		l.add(EnumChatFormatting.LIGHT_PURPLE + StatCollector.translateToLocal("tooltip.drainstaff.energy.3")+": " + EnumChatFormatting.WHITE + oE + "%");
+		l.add(EnumChatFormatting.DARK_AQUA + StatCollector.translateToLocal("tooltip.drainstaff.energy.3")+": " + EnumChatFormatting.WHITE + oE + "%");
 	}
 }
