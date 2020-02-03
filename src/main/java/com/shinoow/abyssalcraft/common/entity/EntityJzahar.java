@@ -43,6 +43,7 @@ import net.minecraft.entity.boss.IBossDisplayData;
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.item.EntityXPOrb;
+import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.projectile.EntityWitherSkull;
@@ -59,13 +60,15 @@ import net.minecraft.util.StatCollector;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
+import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.EnderTeleportEvent;
 
-public class EntityJzahar extends ACMob implements IBossDisplayData, IAntiEntity, ICoraliumEntity, IDreadEntity, IOmotholEntity {
+public class EntityJzahar extends EntityMob implements IBossDisplayData, IAntiEntity, ICoraliumEntity, IDreadEntity, IOmotholEntity {
 
 	public int deathTicks;
 	private int skillTicks;
+	private int skullCooldown = 0;
 	private boolean that = false;
 	private double speed = 0.05D;
 	private float damageCap = 0F;
@@ -92,7 +95,6 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IAntiEntity
 	@Override
 	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
-
 		if (AbyssalCraft.hardcoreMode) {
 			getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(1000.0D);
 		} else {
@@ -169,34 +171,28 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IAntiEntity
 		return super.attackEntityFrom(dmgSrc, amount);
 	}
 
-	/* 
-	 * Apply Damage Cap 
+	/*
+	 * Apply Damage Cap
 	 */
-	/**@Override
-	protected void damageEntity(DamageSource dmgSrc, float amount) {
-		if (!this.isEntityInvulnerable()) {
-			amount = ForgeHooks.onLivingHurt(this, dmgSrc, amount);
-			if (amount <= 0) {
-				return;
-			}
-			amount = this.applyArmorCalculations(dmgSrc, amount);
-			amount = this.applyPotionDamageCalculations(dmgSrc, amount);
-			float f1 = amount;
-			amount = Math.max(amount - this.getAbsorptionAmount(), 0.0F);
-			this.setAbsorptionAmount(this.getAbsorptionAmount() - (f1 - amount));
-
-			// DAMAGE CAP
-			amount = Math.min(amount, damageCap);
-			damageCap -= amount;
-
-			if (amount != 0.0F) {
-				float f2 = this.getHealth();
-				this.setHealth(f2 - amount);
-				this.func_110142_aN().func_94547_a(dmgSrc, f2, amount);
-				this.setAbsorptionAmount(this.getAbsorptionAmount() - amount);
-			}
-		}
-	}**/
+	/**
+	 * @Override protected void damageEntity(DamageSource dmgSrc, float amount) { if
+	 *           (!this.isEntityInvulnerable()) { amount =
+	 *           ForgeHooks.onLivingHurt(this, dmgSrc, amount); if (amount <= 0) {
+	 *           return; } amount = this.applyArmorCalculations(dmgSrc, amount);
+	 *           amount = this.applyPotionDamageCalculations(dmgSrc, amount); float
+	 *           f1 = amount; amount = Math.max(amount - this.getAbsorptionAmount(),
+	 *           0.0F); this.setAbsorptionAmount(this.getAbsorptionAmount() - (f1 -
+	 *           amount));
+	 * 
+	 *           // DAMAGE CAP amount = Math.min(amount, damageCap); damageCap -=
+	 *           amount;
+	 * 
+	 *           if (amount != 0.0F) { float f2 = this.getHealth();
+	 *           this.setHealth(f2 - amount);
+	 *           this.func_110142_aN().func_94547_a(dmgSrc, f2, amount);
+	 *           this.setAbsorptionAmount(this.getAbsorptionAmount() - amount); } }
+	 *           }
+	 **/
 
 	@Override
 	public EnumCreatureAttribute getCreatureAttribute() {
@@ -313,6 +309,7 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IAntiEntity
 		return height * 0.90F;
 	}
 
+	/** Banish other bosses and apply warp to nearby players **/
 	private void banishBosses() {
 		final float f = (rand.nextFloat() - 0.5F) * 8.0F;
 		final float f1 = (rand.nextFloat() - 0.5F) * 4.0F;
@@ -360,6 +357,8 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IAntiEntity
 					} else if (AbyssalCraft.particleEntity) {
 						worldObj.spawnParticle("hugeexplosion", entity.posX + f, entity.posY + 2.0D + f1, entity.posZ + f2, 0.0D, 0.0D, 0.0D);
 					}
+				} else if (entity instanceof EntityPlayer && worldObj.rand.nextInt(30) == 0) {
+					EntityPlayer player = (EntityPlayer) entity;
 				}
 			}
 		}
@@ -368,11 +367,25 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IAntiEntity
 	@Override
 	public void onLivingUpdate() {
 		// Banish other bosses
-		banishBosses();
+		if (this.ticksExisted % 10 == 0) {
+			banishBosses();
+		}
 
 		// Prevents J'zhar falling to it's untimely demise
 		if (posY <= 0) {
 			teleportRandomly();
+		}
+		
+		// Fire Skulls
+		if (skullCooldown > 0) {
+			skullCooldown -= 1;
+		}
+		if (skullCooldown <= 0 && getAttackTarget() != null) {
+			EntityLivingBase target = getAttackTarget();
+			if (motionX == 0 && motionZ == 0) {
+				skullCooldown = 30 + (int)(Math.random() * 25);
+				launchSkullAt(target);
+			}
 		}
 
 		// Update Damage Cap
@@ -399,15 +412,14 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IAntiEntity
 	}
 
 	/*
-	 * ------------------------- 
-	 * Skill-related functions. 1 cycle = 35 ticks.
+	 * ------------------------- Skill-related functions. 1 cycle = 35 ticks.
 	 * -------------------------
 	 */
 	@SuppressWarnings("unchecked")
 	private void performSpecialAttack(int cycle) {
 		// Set the cast time
 		final int castTime = 1;
-		
+
 		// Chant SUMMON
 		if (cycle == 9) {
 			playSound("abyssalcraft:jzahar.chant.summon", 4.5F, 1F);
@@ -485,7 +497,7 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IAntiEntity
 		}
 
 		// Chant WITHER
-		if (cycle == 36) {
+		/**if (cycle == 36) {
 			playSound("abyssalcraft:jzahar.chant.wither", 4.5F, 1F);
 			return;
 		}
@@ -494,7 +506,7 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IAntiEntity
 		if (cycle == 36 + castTime) {
 			launchSkullsAtPlayers();
 			return;
-		}
+		}**/
 
 		// Chant BLACK HOLE
 		if (cycle == 45) {
@@ -518,7 +530,7 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IAntiEntity
 		}
 
 		// Chant WITHER AGAIN
-		if (cycle == 54) {
+		/**if (cycle == 54) {
 			playSound("abyssalcraft:jzahar.chant.wither", 4.5F, 1F);
 			return;
 		}
@@ -527,7 +539,7 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IAntiEntity
 		if (cycle == 54 + castTime) {
 			launchSkullsAtPlayers();
 			return;
-		}
+		}*/
 	}
 
 	/*
@@ -547,11 +559,20 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IAntiEntity
 			if (!worldObj.isRemote) {
 				for (int i = 0; i < players.size(); i++) {
 					EntityLivingBase p = (EntityLivingBase) players.get(i);
+					launchSkullAt(p);
 					fireSkull(0, p.posX, p.posY + p.getEyeHeight() * 0.35D, p.posZ, true);
 				}
 			}
 		}
 	}
+	
+	private void launchSkullAt(EntityLivingBase target) {
+		if (!worldObj.isRemote) {
+			swingItem();
+			fireSkull(0, target.posX, target.posY + target.getEyeHeight() * 0.35D, target.posZ, true);
+		}
+	}
+
 
 	private void teleStunEntity(EntityLivingBase target) {
 		if (!(target instanceof EntityPlayer)) {
@@ -745,9 +766,9 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IAntiEntity
 		double dY = par4 - y;
 		double dZ = par6 - z;
 		EntityWitherSkull entityskull = new EntityWitherSkull(worldObj, this, dX, dY, dZ);
-		entityskull.accelerationX *= 4;
-		entityskull.accelerationY *= 4;
-		entityskull.accelerationZ *= 4;
+		//entityskull.accelerationX *= 4;
+		//entityskull.accelerationY *= 4;
+		//entityskull.accelerationZ *= 4;
 		entityskull.posY = y;
 		entityskull.posX = x;
 		entityskull.posZ = z;
@@ -757,5 +778,26 @@ public class EntityJzahar extends ACMob implements IBossDisplayData, IAntiEntity
 	@Override
 	public void onStruckByLightning(EntityLightningBolt bolt) {
 		return;
+	}
+
+	/**
+	 * Superjump!
+	 */
+	protected void jump() {
+		//this.motionY = 0.41999998688697815D;
+		this.motionY = 0.8D;
+
+		if (this.isPotionActive(Potion.jump)) {
+			this.motionY += (double) ((float) (this.getActivePotionEffect(Potion.jump).getAmplifier() + 1) * 0.1F);
+		}
+
+		if (this.isSprinting()) {
+			final float f = this.rotationYaw * 0.017453292F;
+			this.motionX -= (double) (MathHelper.sin(f) * 0.2F);
+			this.motionZ += (double) (MathHelper.cos(f) * 0.2F);
+		}
+
+		this.isAirBorne = true;
+		ForgeHooks.onLivingJump(this);
 	}
 }

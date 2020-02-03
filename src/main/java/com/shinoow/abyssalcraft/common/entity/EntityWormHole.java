@@ -31,6 +31,7 @@ import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.projectile.EntityWitherSkull;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
@@ -207,7 +208,7 @@ public class EntityWormHole extends EntityMob {
 		List<Entity> list = worldObj.getEntitiesWithinAABB(Entity.class, boundingBox.expand(size, size, size));
 
 		for(Entity entity : list) {
-			if (entity instanceof IOmotholEntity) {
+			if (entity instanceof IOmotholEntity || entity instanceof EntityWitherSkull) {
 				continue;
 			}
 			float velocity = -power;
