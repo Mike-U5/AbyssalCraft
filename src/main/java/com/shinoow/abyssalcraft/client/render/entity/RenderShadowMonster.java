@@ -28,20 +28,17 @@ public class RenderShadowMonster extends RenderLiving {
 
 	private static final ResourceLocation mobTexture = new ResourceLocation("abyssalcraft:textures/model/ShadowMonster.png");
 
-	public RenderShadowMonster (ModelShadowMonster ModelShadowMonster, float f)
-	{
+	public RenderShadowMonster(ModelShadowMonster ModelShadowMonster, float f) {
 		super(ModelShadowMonster, f);
-		model = (ModelShadowMonster)mainModel;
+		model = (ModelShadowMonster) mainModel;
 	}
 
-	public void doRender(EntityShadowMonster entity, double par2, double par4, double par6, float par8, float par9)
-	{
+	public void doRender(EntityShadowMonster entity, double par2, double par4, double par6, float par8, float par9) {
 		super.doRender(entity, par2, par4, par6, par8, par9);
 	}
 
 	@Override
 	protected ResourceLocation getEntityTexture(Entity entity) {
-
 		return mobTexture;
 	}
 }
