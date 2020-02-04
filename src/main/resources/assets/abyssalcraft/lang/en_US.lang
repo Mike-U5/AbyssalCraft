@@ -1209,7 +1209,7 @@ entity.abyssalcraft.evilchicken.name=Chicken
 entity.abyssalcraft.demoncow.name=Demon Cow
 entity.abyssalcraft.demonchicken.name=Demon Chicken
 
-#Potions
+# Potions
 potion.Cplague=Coralium Plague
 potion.Cplague.postfix=Potion of Coralium Plague
 potion.Dplague=Dread Plague
@@ -1217,6 +1217,7 @@ potion.Dplague.postfix=Potion of Dread Plague
 potion.Antimatter=Antimatter
 potion.Antimatter.postfix=Potion of Annihilation
 potion.Earthquake=Earthquake
+potion.Auditory=I see you
 
 #Enchantments
 enchantment.coralium=Coralium

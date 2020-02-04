@@ -69,7 +69,7 @@ public class AbyssalCraftAPI {
 	 * Potion IDs, first one is the Coralium Plague, second Dread Plague, and third Antimatter
 	 */
 	public static int potionId1, potionId2, potionId3;
-	public static int potionId4, potionId5;
+	public static int potionId4, potionId5, potionId6;
 
 	private static List<IFuelHandler> crystallizerFuelHandlers = Lists.newArrayList();
 	private static List<IFuelHandler> transmutatorFuelHandlers = Lists.newArrayList();

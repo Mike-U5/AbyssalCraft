@@ -244,6 +244,7 @@ import com.shinoow.abyssalcraft.common.items.armor.ItemDreadiumSamuraiArmor;
 import com.shinoow.abyssalcraft.common.items.armor.ItemEthaxiumArmor;
 import com.shinoow.abyssalcraft.common.network.PacketDispatcher;
 import com.shinoow.abyssalcraft.common.potion.PotionAntimatter;
+import com.shinoow.abyssalcraft.common.potion.PotionAuditory;
 import com.shinoow.abyssalcraft.common.potion.PotionCplague;
 import com.shinoow.abyssalcraft.common.potion.PotionDoomed;
 import com.shinoow.abyssalcraft.common.potion.PotionDplague;
@@ -400,7 +401,7 @@ public class AbyssalCraft {
 	public static Item trapezohedron;
 	
 	
-	public static Potion Cplague, Dplague, antiMatter, earthquake, doom;
+	public static Potion Cplague, Dplague, antiMatter, earthquake, doom, auditory;
 
 	public static Enchantment coraliumE, dreadE, lightPierce;
 
@@ -906,8 +907,9 @@ public class AbyssalCraft {
 		Cplague = new PotionCplague(useDynamicPotionIds ? getNextAvailablePotionId() : AbyssalCraftAPI.potionId1, true, 0x00FFFF).setIconIndex(1, 0).setPotionName("potion.Cplague");
 		Dplague = new PotionDplague(useDynamicPotionIds ? getNextAvailablePotionId() : AbyssalCraftAPI.potionId2, true, 0xAD1313).setIconIndex(1, 0).setPotionName("potion.Dplague");
 		antiMatter = new PotionAntimatter(useDynamicPotionIds ? getNextAvailablePotionId() : AbyssalCraftAPI.potionId3, true, 0xFFFFFF).setIconIndex(1, 0).setPotionName("potion.Antimatter");
-		earthquake = new PotionEarthquake(useDynamicPotionIds ? getNextAvailablePotionId() : AbyssalCraftAPI.potionId4, true, 0x826C34).setIconIndex(1, 0).setPotionName("potion.Earthquake");
-		doom = new PotionDoomed(useDynamicPotionIds ? getNextAvailablePotionId() : AbyssalCraftAPI.potionId5, true, 0x826C34).setIconIndex(1, 0).setPotionName("potion.Doom");
+		earthquake = new PotionEarthquake(useDynamicPotionIds ? getNextAvailablePotionId() : AbyssalCraftAPI.potionId4, true, 0x826C34).setPotionName("potion.Earthquake");
+		doom = new PotionDoomed(useDynamicPotionIds ? getNextAvailablePotionId() : AbyssalCraftAPI.potionId5, true, 0x826C34).setPotionName("potion.Doom");
+		auditory = new PotionAuditory(useDynamicPotionIds ? getNextAvailablePotionId() : AbyssalCraftAPI.potionId6, true, 0x826C34).setPotionName("potion.Auditory");
 
 		coraliumE = new EnchantmentWeaponInfusion(getNextAvailableEnchantmentId(), 2, "coralium");
 		dreadE = new EnchantmentWeaponInfusion(getNextAvailableEnchantmentId(), 2, "dread");
@@ -923,6 +925,7 @@ public class AbyssalCraft {
 			AbyssalCraftAPI.potionId3 = antiMatter.id;
 			AbyssalCraftAPI.potionId4 = earthquake.id;
 			AbyssalCraftAPI.potionId5 = doom.id;
+			AbyssalCraftAPI.potionId6 = auditory.id;
 		}
 
 		// Block Register

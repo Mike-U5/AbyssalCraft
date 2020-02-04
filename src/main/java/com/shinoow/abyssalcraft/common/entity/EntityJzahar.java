@@ -63,6 +63,7 @@ import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.EnderTeleportEvent;
+import thaumcraft.api.ThaumcraftApiHelper;
 
 public class EntityJzahar extends EntityMob implements IBossDisplayData, IAntiEntity, ICoraliumEntity, IDreadEntity, IOmotholEntity {
 
@@ -357,8 +358,13 @@ public class EntityJzahar extends EntityMob implements IBossDisplayData, IAntiEn
 					} else if (AbyssalCraft.particleEntity) {
 						worldObj.spawnParticle("hugeexplosion", entity.posX + f, entity.posY + 2.0D + f1, entity.posZ + f2, 0.0D, 0.0D, 0.0D);
 					}
-				} else if (entity instanceof EntityPlayer && worldObj.rand.nextInt(30) == 0) {
+				} else if (entity instanceof EntityPlayer) {
+					// 
 					EntityPlayer player = (EntityPlayer) entity;
+					if (player.isPotionActive(AbyssalCraftAPI.potionId6)) {
+						player.removePotionEffect(AbyssalCraftAPI.potionId6);
+						ThaumcraftApiHelper.addWarpToPlayer(player, 2, true);
+					}
 				}
 			}
 		}
@@ -377,13 +383,13 @@ public class EntityJzahar extends EntityMob implements IBossDisplayData, IAntiEn
 		}
 		
 		// Fire Skulls
-		if (skullCooldown > 0) {
-			skullCooldown -= 1;
-		}
 		if (skullCooldown <= 0 && getAttackTarget() != null) {
 			EntityLivingBase target = getAttackTarget();
 			if (motionX == 0 && motionZ == 0) {
-				skullCooldown = 30 + (int)(Math.random() * 25);
+				if (skullCooldown > 0) {
+					skullCooldown -= 1;
+				}
+				skullCooldown = 15 + (int)(Math.random() * 15);
 				launchSkullAt(target);
 			}
 		}

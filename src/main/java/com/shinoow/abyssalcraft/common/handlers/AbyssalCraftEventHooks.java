@@ -12,6 +12,7 @@
 package com.shinoow.abyssalcraft.common.handlers;
 
 import com.shinoow.abyssalcraft.AbyssalCraft;
+import com.shinoow.abyssalcraft.api.AbyssalCraftAPI;
 import com.shinoow.abyssalcraft.api.biome.ACBiomes;
 import com.shinoow.abyssalcraft.api.biome.IDarklandsBiome;
 import com.shinoow.abyssalcraft.api.event.ACEvents.RitualEvent;
@@ -25,9 +26,11 @@ import com.shinoow.abyssalcraft.common.blocks.BlockDLTSapling;
 import com.shinoow.abyssalcraft.common.blocks.BlockDreadSapling;
 import com.shinoow.abyssalcraft.common.entity.EntityJzahar;
 import com.shinoow.abyssalcraft.common.items.ItemNecronomicon;
+import com.shinoow.abyssalcraft.common.potion.CurseEffect;
 import com.shinoow.abyssalcraft.common.ritual.NecronomiconBreedingRitual;
 import com.shinoow.abyssalcraft.common.ritual.NecronomiconDreadSpawnRitual;
 import com.shinoow.abyssalcraft.common.util.SpecialTextUtil;
+import com.shinoow.abyssalcraft.common.world.TeleporterDarkRealm;
 
 import cpw.mods.fml.common.eventhandler.Event.Result;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -44,6 +47,7 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.stats.StatisticsFile;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.StatCollector;
+import net.minecraft.world.WorldServer;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
 import net.minecraftforge.event.entity.living.EnderTeleportEvent;
@@ -52,7 +56,6 @@ import net.minecraftforge.event.entity.player.BonemealEvent;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.event.terraingen.BiomeEvent;
 import net.minecraftforge.event.terraingen.PopulateChunkEvent;
-import thaumcraft.api.ThaumcraftApiHelper;
 
 public class AbyssalCraftEventHooks {
 
@@ -143,18 +146,19 @@ public class AbyssalCraftEventHooks {
 	 * PotionEffect(AbyssalCraft.Dplague.id, 100)); } } } }
 	 */
 
-	/*
-	 * @SubscribeEvent public void darkRealm(LivingUpdateEvent event){
-	 * if(event.entityLiving instanceof EntityPlayerMP){ WorldServer worldServer =
-	 * (WorldServer)event.entityLiving.worldObj; EntityPlayerMP player =
-	 * (EntityPlayerMP)event.entityLiving; if(player.dimension ==
-	 * AbyssalCraft.configDimId3 && player.posY <= 0){ player.addPotionEffect(new
-	 * PotionEffect(Potion.resistance.getId(), 80, 255)); player.addPotionEffect(new
-	 * PotionEffect(Potion.blindness.getId(), 20));
-	 * player.mcServer.getConfigurationManager().transferPlayerToDimension(player,
-	 * AbyssalCraft.configDimId4, new TeleporterDarkRealm(worldServer));
-	 * player.addStat(AbyssalCraft.enterDarkRealm, 1); } } }
-	 */
+	@SubscribeEvent
+	public void darkRealm(LivingUpdateEvent event) {
+		if (event.entityLiving instanceof EntityPlayerMP) {
+			WorldServer worldServer = (WorldServer) event.entityLiving.worldObj;
+			EntityPlayerMP player = (EntityPlayerMP) event.entityLiving;
+			if (player.dimension == AbyssalCraft.configDimId3 && player.posY <= 0) {
+				player.addPotionEffect(new PotionEffect(Potion.resistance.getId(), 80, 255));
+				player.addPotionEffect(new PotionEffect(Potion.blindness.getId(), 20));
+				player.mcServer.getConfigurationManager().transferPlayerToDimension(player, AbyssalCraft.configDimId4, new TeleporterDarkRealm(worldServer));
+				player.addStat(AbyssalCraft.enterDarkRealm, 1);
+			}
+		}
+	}
 
 	@SubscribeEvent
 	public void onCraftingEvent(PlayerEvent.ItemCraftedEvent event) {
@@ -303,28 +307,28 @@ public class AbyssalCraftEventHooks {
 		if (event.ritual instanceof NecronomiconInfusionRitual)
 			event.entityPlayer.addStat(AbyssalCraft.ritualInfusion, 1);
 	}
-	
+
 	//
 	@SubscribeEvent
 	public void onEntityLiving(LivingUpdateEvent event) {
-		if(event.entity instanceof EntityPlayer && event.entity.ticksExisted % 1250 == 0) {
-			final EntityPlayer player = (EntityPlayer)event.entity;
+		if (event.entity instanceof EntityPlayer && event.entity.ticksExisted % 1250 == 0) {
+			final EntityPlayer player = (EntityPlayer) event.entity;
 			// Check if player is in Omothol or the Dark Realm
-			if(player.dimension != AbyssalCraft.configDimId3 && player.dimension != AbyssalCraft.configDimId4) {
+			if (player.dimension != AbyssalCraft.configDimId3 && player.dimension != AbyssalCraft.configDimId4) {
 				return;
 			}
 			// If the player killed Jzhar once, they gain no warp in Omothol
-			if (player instanceof EntityPlayerMP && ((EntityPlayerMP)player).func_147099_x() != null) {
-				StatisticsFile stats = ((EntityPlayerMP)player).func_147099_x();
+			if (player instanceof EntityPlayerMP && ((EntityPlayerMP) player).func_147099_x() != null) {
+				StatisticsFile stats = ((EntityPlayerMP) player).func_147099_x();
 				if (stats.hasAchievementUnlocked(AbyssalCraft.killJzahar)) {
 					return;
 				}
 			}
 			// Add temporary warp to the player
-			ThaumcraftApiHelper.addWarpToPlayer(player, 5, true);
-			player.playSound("abyssalcraft:jzahar.speak", 2F, 1F);
+			///ThaumcraftApiHelper.addWarpToPlayer(player, 4, true);
+			///player.playSound("abyssalcraft:jzahar.speak", 2F, 1F);
+			player.addPotionEffect(new CurseEffect(AbyssalCraftAPI.potionId6, 12));
 		}
 	}
-	
-	
+
 }
