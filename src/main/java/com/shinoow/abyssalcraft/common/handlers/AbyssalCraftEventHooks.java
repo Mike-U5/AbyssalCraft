@@ -35,6 +35,7 @@ import com.shinoow.abyssalcraft.common.world.TeleporterDarkRealm;
 import cpw.mods.fml.common.eventhandler.Event.Result;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent;
+import cpw.mods.fml.common.gameevent.TickEvent.PlayerTickEvent;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
@@ -56,6 +57,7 @@ import net.minecraftforge.event.entity.player.BonemealEvent;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.event.terraingen.BiomeEvent;
 import net.minecraftforge.event.terraingen.PopulateChunkEvent;
+import thaumcraft.api.ThaumcraftApiHelper;
 
 public class AbyssalCraftEventHooks {
 
@@ -310,24 +312,23 @@ public class AbyssalCraftEventHooks {
 
 	//
 	@SubscribeEvent
-	public void onEntityLiving(LivingUpdateEvent event) {
-		if (event.entity instanceof EntityPlayer && event.entity.ticksExisted % 1250 == 0) {
-			final EntityPlayer player = (EntityPlayer) event.entity;
+	public void onEntityLiving(PlayerTickEvent event) {
+		if (event.player.ticksExisted % 1250 == 0) {
 			// Check if player is in Omothol or the Dark Realm
-			if (player.dimension != AbyssalCraft.configDimId3 && player.dimension != AbyssalCraft.configDimId4) {
+			if (event.player.dimension != AbyssalCraft.configDimId3 && event.player.dimension != AbyssalCraft.configDimId4) {
 				return;
 			}
 			// If the player killed Jzhar once, they gain no warp in Omothol
-			if (player instanceof EntityPlayerMP && ((EntityPlayerMP) player).func_147099_x() != null) {
-				StatisticsFile stats = ((EntityPlayerMP) player).func_147099_x();
+			if (event.player instanceof EntityPlayerMP && ((EntityPlayerMP) event.player).func_147099_x() != null) {
+				StatisticsFile stats = ((EntityPlayerMP) event.player).func_147099_x();
 				if (stats.hasAchievementUnlocked(AbyssalCraft.killJzahar)) {
 					return;
 				}
 			}
 			// Add temporary warp to the player
-			///ThaumcraftApiHelper.addWarpToPlayer(player, 4, true);
-			///player.playSound("abyssalcraft:jzahar.speak", 2F, 1F);
-			player.addPotionEffect(new CurseEffect(AbyssalCraftAPI.potionId6, 12));
+			ThaumcraftApiHelper.addWarpToPlayer(event.player, 1, true);
+			event.player.playSound("abyssalcraft:jzahar.speak", 2F, 1F);
+			///event.player.addPotionEffect(new CurseEffect(AbyssalCraftAPI.potionId6, 12));
 		}
 	}
 
