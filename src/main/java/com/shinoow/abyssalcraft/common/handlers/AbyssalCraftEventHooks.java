@@ -11,8 +11,12 @@
  ******************************************************************************/
 package com.shinoow.abyssalcraft.common.handlers;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
+
 import com.shinoow.abyssalcraft.AbyssalCraft;
-import com.shinoow.abyssalcraft.api.AbyssalCraftAPI;
 import com.shinoow.abyssalcraft.api.biome.ACBiomes;
 import com.shinoow.abyssalcraft.api.biome.IDarklandsBiome;
 import com.shinoow.abyssalcraft.api.event.ACEvents.RitualEvent;
@@ -26,16 +30,17 @@ import com.shinoow.abyssalcraft.common.blocks.BlockDLTSapling;
 import com.shinoow.abyssalcraft.common.blocks.BlockDreadSapling;
 import com.shinoow.abyssalcraft.common.entity.EntityJzahar;
 import com.shinoow.abyssalcraft.common.items.ItemNecronomicon;
-import com.shinoow.abyssalcraft.common.potion.CurseEffect;
 import com.shinoow.abyssalcraft.common.ritual.NecronomiconBreedingRitual;
 import com.shinoow.abyssalcraft.common.ritual.NecronomiconDreadSpawnRitual;
 import com.shinoow.abyssalcraft.common.util.SpecialTextUtil;
 import com.shinoow.abyssalcraft.common.world.TeleporterDarkRealm;
 
 import cpw.mods.fml.common.eventhandler.Event.Result;
+import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent;
-import cpw.mods.fml.common.gameevent.TickEvent.PlayerTickEvent;
+import cpw.mods.fml.common.gameevent.TickEvent;
+import cpw.mods.fml.common.gameevent.TickEvent.WorldTickEvent;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
@@ -48,6 +53,7 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.stats.StatisticsFile;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.StatCollector;
+import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
@@ -129,6 +135,9 @@ public class AbyssalCraftEventHooks {
 			event.entityPlayer.addStat(AbyssalCraft.GK3, 1);
 		if (event.item.getEntityItem().getItem() == Item.getItemFromBlock(AbyssalCraft.engraver))
 			event.entityPlayer.addStat(AbyssalCraft.makeEngraver, 1);
+		if (event.item.getEntityItem().getItem() == AbyssalCraft.abyssalnomicon) {
+			event.entityPlayer.addStat(AbyssalCraft.killJzahar, 1);
+		}
 	}
 
 	/*
@@ -309,11 +318,39 @@ public class AbyssalCraftEventHooks {
 		if (event.ritual instanceof NecronomiconInfusionRitual)
 			event.entityPlayer.addStat(AbyssalCraft.ritualInfusion, 1);
 	}
-
-	//
+	
+	//Called when the world ticks
+	@SuppressWarnings("unchecked")
 	@SubscribeEvent
-	public void onEntityLiving(PlayerTickEvent event) {
-		if (event.player.ticksExisted % 1250 == 0) {
+	public void onWorldTick(TickEvent.WorldTickEvent event) {
+		// Only run at end of tick
+		if(event.phase == TickEvent.Phase.END) {
+			return;
+		}
+		// Only exec every X world ticks
+		if (event.world.getTotalWorldTime() % 1250 != 0) {
+			return;
+		}
+		// Hit one random player
+		final List<EntityPlayer> players = event.world.playerEntities;
+		Collections.shuffle(players); 
+		
+		for (int i = 0; i < players.size(); i++) {
+			final EntityPlayer p = players.get(i);
+			if (p.dimension != AbyssalCraft.configDimId3 && p.dimension != AbyssalCraft.configDimId4) {
+				continue;
+			}
+			// Add temporary warp to the player
+			ThaumcraftApiHelper.addWarpToPlayer(p, 1, true);
+			event.world.playSoundAtEntity(p, "abyssalcraft:jzahar.speak", 1.5F, 1F);
+			return;
+		}
+	}
+
+	/*
+	@SubscribeEvent
+	public void onPlayerTick(PlayerTickEvent event) {
+		if (event.player.ticksExisted % 1250 == 0 && event.phase == TickEvent.Phase.END) {
 			// Check if player is in Omothol or the Dark Realm
 			if (event.player.dimension != AbyssalCraft.configDimId3 && event.player.dimension != AbyssalCraft.configDimId4) {
 				return;
@@ -328,8 +365,7 @@ public class AbyssalCraftEventHooks {
 			// Add temporary warp to the player
 			ThaumcraftApiHelper.addWarpToPlayer(event.player, 1, true);
 			event.player.playSound("abyssalcraft:jzahar.speak", 2F, 1F);
-			///event.player.addPotionEffect(new CurseEffect(AbyssalCraftAPI.potionId6, 12));
 		}
-	}
+	}*/
 
 }

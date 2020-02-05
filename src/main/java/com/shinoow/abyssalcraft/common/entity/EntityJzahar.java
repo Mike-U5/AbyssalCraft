@@ -274,7 +274,7 @@ public class EntityJzahar extends EntityMob implements IBossDisplayData, IAntiEn
 	@SuppressWarnings("unchecked")
 	@Override
 	public void onDeath(DamageSource dmgSrc) {
-		List<EntityPlayer> players = worldObj.getEntitiesWithinAABB(EntityPlayer.class, boundingBox.expand(10, 10, 10));
+		List<EntityPlayer> players = worldObj.getEntitiesWithinAABB(EntityPlayer.class, boundingBox.expand(48, 48, 48));
 		for (EntityPlayer player : players) {
 			player.addStat(AbyssalCraft.killJzahar, 1);
 		}

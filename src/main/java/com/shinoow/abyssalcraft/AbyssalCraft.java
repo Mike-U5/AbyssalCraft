@@ -1314,7 +1314,7 @@ public class AbyssalCraft {
 		enterDarkRealm = new Achievement("achievement.darkRealm", "darkRealm", 2, 10, Darkstone, enterOmothol).registerStat();
 		killOmotholelite = new Achievement("achievement.killOmotholelite", "killOmotholelite", 6, 10, eldritchScale, enterOmothol).registerStat();
 		locateJzahar = new Achievement("achievement.locateJzahar", "locateJzahar", 4, 12, jzaharCharm, enterOmothol).registerStat();
-		killJzahar = new Achievement("achievement.killJzahar", "killJzahar", 6, 12, Staff, necro).setSpecial().registerStat();
+		killJzahar = new Achievement("achievement.killJzahar", "killJzahar", 6, 12, Staff, AchievementList.openInventory).setSpecial().registerStat();
 		// Gateway Key Achievements
 		GK1 = new Achievement("achievement.GK1", "GK1", 0, -2, portalPlacer, necro).registerStat();
 		findPSDL = new Achievement("achievement.findPSDL", "findPSDL", -2, -2, PSDL, GK1).registerStat();
