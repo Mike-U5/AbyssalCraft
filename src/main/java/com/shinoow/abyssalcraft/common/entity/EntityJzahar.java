@@ -369,7 +369,7 @@ public class EntityJzahar extends EntityMob implements IBossDisplayData, IAntiEn
 	@Override
 	public void onLivingUpdate() {
 		// Banish other bosses
-		if (!worldObj.isRemote && this.ticksExisted % 15 == 0) {
+		if (!worldObj.isRemote && this.ticksExisted % 10 == 0) {
 			banishBosses();
 		}
 

@@ -27,24 +27,23 @@ public class EntityGatekeeperEssence extends EntityItem {
 	}
 
 	public EntityGatekeeperEssence(World worldIn, double x, double y, double z) {
-		super(worldIn, x, y, z, new ItemStack(ACItems.essence_of_the_gatekeeper));
+		super(worldIn, x, y, z, new ItemStack(ACItems.abyssalnomicon));
 		motionX = motionY = motionZ = 0;
 	}
 
 	public EntityGatekeeperEssence(World worldIn, double x, double y, double z, ItemStack stack) {
-		super(worldIn, x, y, z, new ItemStack(ACItems.essence_of_the_gatekeeper));
+		super(worldIn, x, y, z, new ItemStack(ACItems.abyssalnomicon));
 		motionX = motionY = motionZ = 0;
 	}
 
 	@Override
-	public void onUpdate()
-	{
+	public void onUpdate() {
 		ItemStack stack = getDataWatcher().getWatchableObjectItemStack(10);
-		if (stack != null && stack.getItem() != null && stack.getItem().onEntityItemUpdate(this)) return;
-		if (getEntityItem() == null)
+		if (stack != null && stack.getItem() != null && stack.getItem().onEntityItemUpdate(this))
+			return;
+		if (getEntityItem() == null) {
 			setDead();
-		else
-		{
+		} else {
 			onEntityUpdate();
 
 			prevPosX = posX;
@@ -52,35 +51,28 @@ public class EntityGatekeeperEssence extends EntityItem {
 			prevPosZ = posZ;
 			noClip = func_145771_j(posX, (boundingBox.minY + boundingBox.maxY) / 2.0D, posZ);
 
-			if (age != -32768)
+			if (age != -32768) {
 				++age;
+			}
 
 			handleWaterMovement();
 
 			ItemStack item = getDataWatcher().getWatchableObjectItemStack(10);
 
-			if (!this.worldObj.isRemote && this.age >= lifespan)
-			{
-				if (item != null)
-				{   
+			if (!this.worldObj.isRemote && this.age >= lifespan) {
+				if (item != null) {
 					ItemExpireEvent event = new ItemExpireEvent(this, (item.getItem() == null ? 6000 : item.getItem().getEntityLifespan(item, worldObj)));
-					if (MinecraftForge.EVENT_BUS.post(event))
-					{
+					if (MinecraftForge.EVENT_BUS.post(event)) {
 						lifespan += event.extraLife;
-					}
-					else
-					{
+					} else {
 						this.setDead();
 					}
-				}
-				else
-				{
+				} else {
 					this.setDead();
 				}
 			}
 
-			if (item != null && item.stackSize <= 0)
-			{
+			if (item != null && item.stackSize <= 0) {
 				this.setDead();
 			}
 		}

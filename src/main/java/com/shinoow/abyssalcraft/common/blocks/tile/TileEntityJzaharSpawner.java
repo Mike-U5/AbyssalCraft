@@ -13,12 +13,10 @@ package com.shinoow.abyssalcraft.common.blocks.tile;
 
 import java.util.List;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.EnumCreatureAttribute;
-import net.minecraft.entity.boss.EntityDragon;
-import net.minecraft.entity.boss.EntityWither;
-import net.minecraft.entity.boss.IBossDisplayData;
+import com.shinoow.abyssalcraft.AbyssalCraft;
+import com.shinoow.abyssalcraft.common.entity.EntityJzahar;
+import com.shinoow.abyssalcraft.common.util.EntityUtil;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.Packet;
@@ -26,15 +24,6 @@ import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
-import net.minecraft.util.StatCollector;
-
-import com.shinoow.abyssalcraft.AbyssalCraft;
-import com.shinoow.abyssalcraft.common.entity.EntityChagaroth;
-import com.shinoow.abyssalcraft.common.entity.EntityDragonBoss;
-import com.shinoow.abyssalcraft.common.entity.EntityJzahar;
-import com.shinoow.abyssalcraft.common.entity.EntitySacthoth;
-import com.shinoow.abyssalcraft.common.util.EntityUtil;
-import com.shinoow.abyssalcraft.common.util.SpecialTextUtil;
 
 public class TileEntityJzaharSpawner extends TileEntity {
 
