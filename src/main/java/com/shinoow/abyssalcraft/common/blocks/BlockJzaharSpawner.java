@@ -11,22 +11,30 @@
  ******************************************************************************/
 package com.shinoow.abyssalcraft.common.blocks;
 
-import net.minecraft.block.BlockContainer;
-import net.minecraft.block.material.Material;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.World;
+import java.util.Random;
 
 import com.shinoow.abyssalcraft.common.blocks.tile.TileEntityJzaharSpawner;
+
+import net.minecraft.block.BlockContainer;
+import net.minecraft.block.material.Material;
+import net.minecraft.item.Item;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
 
 public class BlockJzaharSpawner extends BlockContainer {
 
 	public BlockJzaharSpawner() {
 		super(Material.rock);
+		this.blockHardness = -1;
 	}
 
 	@Override
-	public boolean isOpaqueCube()
-	{
+	public Item getItemDropped(int num, Random rand, int amt) {
+		return null;
+	}
+
+	@Override
+	public boolean isOpaqueCube() {
 		return false;
 	}
 

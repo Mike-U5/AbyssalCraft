@@ -13,19 +13,32 @@ package com.shinoow.abyssalcraft.common.blocks.tile;
 
 import java.util.List;
 
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.EnumCreatureAttribute;
+import net.minecraft.entity.boss.EntityDragon;
+import net.minecraft.entity.boss.EntityWither;
+import net.minecraft.entity.boss.IBossDisplayData;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.StatCollector;
 
 import com.shinoow.abyssalcraft.AbyssalCraft;
+import com.shinoow.abyssalcraft.common.entity.EntityChagaroth;
+import com.shinoow.abyssalcraft.common.entity.EntityDragonBoss;
 import com.shinoow.abyssalcraft.common.entity.EntityJzahar;
+import com.shinoow.abyssalcraft.common.entity.EntitySacthoth;
+import com.shinoow.abyssalcraft.common.util.EntityUtil;
+import com.shinoow.abyssalcraft.common.util.SpecialTextUtil;
 
 public class TileEntityJzaharSpawner extends TileEntity {
 
-	private int activatingRangeFromPlayer = 12;
+	private final int activatingRangeFromPlayer = 12;
 
 	@Override
 	public Packet getDescriptionPacket() {
@@ -35,12 +48,11 @@ public class TileEntityJzaharSpawner extends TileEntity {
 	}
 
 	public boolean isActivated() {
-		return worldObj.getClosestPlayer(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D,
-				activatingRangeFromPlayer) != null &&
-				!worldObj.getClosestPlayer(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D,
-						activatingRangeFromPlayer).capabilities.isCreativeMode &&
-						worldObj.getClosestPlayer(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D,
-								activatingRangeFromPlayer).posY >= yCoord -1;
+		final EntityPlayer p = worldObj.getClosestPlayer(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D, activatingRangeFromPlayer);
+		if (p != null && !p.capabilities.isCreativeMode && p.posY >= yCoord - 1 && EntityUtil.isPlayerWearingPendant(p)) {
+			return true;
+		}
+		return false;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -52,9 +64,14 @@ public class TileEntityJzaharSpawner extends TileEntity {
 			worldObj.spawnEntityInWorld(mob);
 			worldObj.setBlockToAir(xCoord, yCoord, zCoord);
 			List<EntityPlayer> players = worldObj.getEntitiesWithinAABB(EntityPlayer.class, mob.boundingBox.expand(64, 64, 64));
-			for(EntityPlayer player : players)
+			for(EntityPlayer player : players) {
 				player.addStat(AbyssalCraft.locateJzahar, 1);
+			}
+		} else if (!worldObj.isRemote) {
+			final List<EntityPlayer> players = worldObj.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(xCoord, yCoord, zCoord, xCoord + 1, yCoord + 1, zCoord + 1).expand(48, 48, 48));
+			for(EntityPlayer p : players) {
+				EntityUtil.meltEyes(p);
+			}
 		}
-
 	}
 }

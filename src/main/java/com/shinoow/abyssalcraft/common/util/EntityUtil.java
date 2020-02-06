@@ -11,7 +11,6 @@
  ******************************************************************************/
 package com.shinoow.abyssalcraft.common.util;
 
-import java.util.List;
 import java.util.UUID;
 
 import com.shinoow.abyssalcraft.AbyssalCraft;
@@ -23,6 +22,7 @@ import com.shinoow.abyssalcraft.common.entity.EntityOmotholGhoul;
 import com.shinoow.abyssalcraft.common.entity.EntityRemnant;
 import com.shinoow.abyssalcraft.common.items.ItemCrozier;
 
+import baubles.api.BaublesApi;
 import net.minecraft.command.IEntitySelector;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -30,10 +30,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.launchwrapper.Launch;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.Vec3;
-import net.minecraft.world.World;
 
 public final class EntityUtil {
 
@@ -139,41 +138,22 @@ public final class EntityUtil {
 		}
 	};
 	
-	/**
-	 * 
-	 */
-	@SuppressWarnings("unchecked")
-	public static Entity getPointedEntity(final World world, final EntityPlayer entityplayer, final double range, final Class<?> clazz) {
-        Entity pointedEntity = null;
-        final double d = range;
-        final Vec3 vec3d = Vec3.createVectorHelper(entityplayer.posX, entityplayer.posY + entityplayer.getEyeHeight(), entityplayer.posZ);
-        final Vec3 vec3d2 = entityplayer.getLookVec();
-        final Vec3 vec3d3 = vec3d.addVector(vec3d2.xCoord * d, vec3d2.yCoord * d, vec3d2.zCoord * d);
-        final float f1 = 1.1f;
-        final List<Entity> list = world.getEntitiesWithinAABBExcludingEntity((Entity)entityplayer, entityplayer.boundingBox.addCoord(vec3d2.xCoord * d, vec3d2.yCoord * d, vec3d2.zCoord * d).expand((double)f1, (double)f1, (double)f1));
-        double d2 = 0.0;
-        for (int i = 0; i < list.size(); ++i) {
-            final Entity entity = list.get(i);
-            if (entity.canBeCollidedWith() && world.func_147447_a(Vec3.createVectorHelper(entityplayer.posX, entityplayer.posY + entityplayer.getEyeHeight(), entityplayer.posZ), Vec3.createVectorHelper(entity.posX, entity.posY + entity.getEyeHeight(), entity.posZ), false, true, false) == null) {
-                if (!clazz.isInstance(entity)) {
-                    final float f2 = Math.max(0.8f, entity.getCollisionBorderSize());
-                    final AxisAlignedBB axisalignedbb = entity.boundingBox.expand((double)f2, (double)f2, (double)f2);
-                    final MovingObjectPosition movingobjectposition = axisalignedbb.calculateIntercept(vec3d, vec3d3);
-                    if (axisalignedbb.isVecInside(vec3d) && (0.0 < d2 || d2 == 0.0)) {
-                        if (0.0 < d2 || d2 == 0.0) {
-                            pointedEntity = entity;
-                            d2 = 0.0;
-                        }
-                    } else if (movingobjectposition != null) {
-                        final double d3 = vec3d.distanceTo(movingobjectposition.hitVec);
-                        if (d3 < d2 || d2 == 0.0) {
-                            pointedEntity = entity;
-                            d2 = d3;
-                        }
-                    }
-                }
-            }
-        }
-        return pointedEntity;
-    }
+	public static boolean isPlayerWearingPendant(EntityPlayer player) {
+		final ItemStack amulet = BaublesApi.getBaubles(player).getStackInSlot(0);
+		if (amulet != null && amulet.getItem() == AbyssalCraft.trapezohedron) {
+			return true;
+		}
+		return false;
+	}
+	
+	public static void meltEyes(EntityPlayer player) {
+		// Check if player is wearing pendant
+		if (!EntityUtil.isPlayerWearingPendant(player)) {
+			// Apply BAD THINGS
+			player.addPotionEffect(new PotionEffect(AbyssalCraft.blurred.id, 20));
+			if (!player.isPotionActive(Potion.confusion) || player.getActivePotionEffect(Potion.confusion).getDuration() > 25) {
+				player.addPotionEffect(new PotionEffect(Potion.confusion.id, 115));
+			}
+		}
+	}
 }

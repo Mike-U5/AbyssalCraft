@@ -11,16 +11,11 @@
  ******************************************************************************/
 package com.shinoow.abyssalcraft.common.potion;
 
-import com.shinoow.abyssalcraft.AbyssalCraft;
-
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.ResourceLocation;
-import thaumcraft.api.ThaumcraftApiHelper;
 
 public class PotionAuditory extends Potion {
 
@@ -35,22 +30,8 @@ public class PotionAuditory extends Potion {
 	}
 
 	@Override
-	public void performEffect(EntityLivingBase entity, int amp) {
-		if (entity instanceof EntityPlayer) {
-			final EntityPlayer player = (EntityPlayer)entity;
-			if (player.dimension == AbyssalCraft.configDimId3 || player.dimension == AbyssalCraft.configDimId4) {
-				if (player.worldObj.isRemote) {
-					player.playSound("abyssalcraft:jzahar.speak", 2F, 1F);
-				} else {
-					ThaumcraftApiHelper.addWarpToPlayer(player, 1, true);
-				}
-			}
-		}
-	}
-
-	@Override
 	public boolean isReady(int ticksLeft, int amp) {
-		return ticksLeft == 1;
+		return false;
 	}
 
 	@Override

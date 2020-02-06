@@ -21,6 +21,7 @@ import com.shinoow.abyssalcraft.api.entity.IDreadEntity;
 import com.shinoow.abyssalcraft.api.entity.IOmotholEntity;
 import com.shinoow.abyssalcraft.common.entity.anti.EntityFallenHero;
 import com.shinoow.abyssalcraft.common.potion.CurseEffect;
+import com.shinoow.abyssalcraft.common.util.EntityUtil;
 import com.shinoow.abyssalcraft.common.util.SpecialTextUtil;
 import com.shinoow.abyssalcraft.common.world.TeleporterDarkRealm;
 
@@ -60,16 +61,14 @@ import net.minecraft.util.StatCollector;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
-import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.EnderTeleportEvent;
-import thaumcraft.api.ThaumcraftApiHelper;
 
 public class EntityJzahar extends EntityMob implements IBossDisplayData, IAntiEntity, ICoraliumEntity, IDreadEntity, IOmotholEntity {
 
 	public int deathTicks;
 	private int skillTicks;
-	private int skullCooldown = 0;
+	private int skullCooldown;
 	private boolean that = false;
 	private double speed = 0.05D;
 	private float damageCap = 0F;
@@ -112,11 +111,6 @@ public class EntityJzahar extends EntityMob implements IBossDisplayData, IAntiEn
 	}
 
 	@Override
-	protected String getLivingSound() {
-		return "mob.blaze.breathe";
-	}
-
-	@Override
 	protected String getHurtSound() {
 		return "mob.enderdragon.hit";
 	}
@@ -152,21 +146,25 @@ public class EntityJzahar extends EntityMob implements IBossDisplayData, IAntiEn
 
 	@Override
 	public boolean attackEntityFrom(DamageSource dmgSrc, float amount) {
-		// If I can't see you then you can't see me!
-		/**
-		 * if (getAttackTarget() == null) { return false; }
-		 **/
+		EntityPlayer player;
 
-		final Entity srcEntity = dmgSrc.getEntity();
+		// Check is either attacker or target is a player
+		if (dmgSrc.getEntity() instanceof EntityPlayer) {
+			player = (EntityPlayer)dmgSrc.getEntity();
+		} else if (dmgSrc.damageType == "player" && getAttackTarget() instanceof EntityPlayer) {
+			player = (EntityPlayer)getAttackTarget();
+		} else {
+			return false;
+		}
+		
+		// Check is attacker or target is wearing a pendant
+		if (!EntityUtil.isPlayerWearingPendant(player)) {
+			return false;
+		}
 
 		// Resistant to arrows
 		if (dmgSrc.damageType == "arrow") {
 			amount *= 0.5F;
-		}
-
-		// Jz can never be harmed by his own minions or damage without source
-		if (srcEntity == null || srcEntity instanceof ACMob) {
-			return false;
 		}
 
 		return super.attackEntityFrom(dmgSrc, amount);
@@ -359,11 +357,9 @@ public class EntityJzahar extends EntityMob implements IBossDisplayData, IAntiEn
 						worldObj.spawnParticle("hugeexplosion", entity.posX + f, entity.posY + 2.0D + f1, entity.posZ + f2, 0.0D, 0.0D, 0.0D);
 					}
 				} else if (entity instanceof EntityPlayer) {
-					// 
-					EntityPlayer player = (EntityPlayer) entity;
-					if (player.isPotionActive(AbyssalCraftAPI.potionId6)) {
-						player.removePotionEffect(AbyssalCraftAPI.potionId6);
-						ThaumcraftApiHelper.addWarpToPlayer(player, 2, true);
+					EntityPlayer player = (EntityPlayer)entity;
+					if (player.canEntityBeSeen(this)) {
+						EntityUtil.meltEyes(player);
 					}
 				}
 			}
@@ -373,7 +369,7 @@ public class EntityJzahar extends EntityMob implements IBossDisplayData, IAntiEn
 	@Override
 	public void onLivingUpdate() {
 		// Banish other bosses
-		if (this.ticksExisted % 10 == 0) {
+		if (!worldObj.isRemote && this.ticksExisted % 15 == 0) {
 			banishBosses();
 		}
 
@@ -383,14 +379,28 @@ public class EntityJzahar extends EntityMob implements IBossDisplayData, IAntiEn
 		}
 		
 		// Fire Skulls
-		if (skullCooldown <= 0 && getAttackTarget() != null) {
-			EntityLivingBase target = getAttackTarget();
+		if (getAttackTarget() != null) {
+			boolean skullUp = false;
+			
+			// If player is flying charge up skull
+			if (getAttackTarget() instanceof EntityPlayer) {
+				EntityPlayer player = (EntityPlayer)getAttackTarget();
+				skullUp = player.capabilities.isFlying;
+			}
+			
+			// OR if Jzhar is standing still, charge skull
 			if (motionX == 0 && motionZ == 0) {
-				if (skullCooldown > 0) {
+				skullUp = true;
+			}
+			
+			// Increment skull timer
+			if (skullUp) {
+				if (skullCooldown <= 0) {
+					skullCooldown = 15 + (int)(Math.random() * 15);
+					launchSkullAt(getAttackTarget());
+				} else {
 					skullCooldown -= 1;
 				}
-				skullCooldown = 15 + (int)(Math.random() * 15);
-				launchSkullAt(target);
 			}
 		}
 
@@ -418,8 +428,7 @@ public class EntityJzahar extends EntityMob implements IBossDisplayData, IAntiEn
 	}
 
 	/*
-	 * ------------------------- Skill-related functions. 1 cycle = 35 ticks.
-	 * -------------------------
+	 * -------Skill-related functions. 1 cycle = 35 ticks.---------
 	 */
 	@SuppressWarnings("unchecked")
 	private void performSpecialAttack(int cycle) {
@@ -558,27 +567,12 @@ public class EntityJzahar extends EntityMob implements IBossDisplayData, IAntiEn
 		return true;
 	}
 
-	private void launchSkullsAtPlayers() {
-		List<?> players = worldObj.getEntitiesWithinAABB(EntityPlayer.class, boundingBox.expand(64.0D, 64.0D, 64.0D));
-		if (players != null && players.size() > 0) {
-			swingItem();
-			if (!worldObj.isRemote) {
-				for (int i = 0; i < players.size(); i++) {
-					EntityLivingBase p = (EntityLivingBase) players.get(i);
-					launchSkullAt(p);
-					fireSkull(0, p.posX, p.posY + p.getEyeHeight() * 0.35D, p.posZ, true);
-				}
-			}
-		}
-	}
-	
 	private void launchSkullAt(EntityLivingBase target) {
 		if (!worldObj.isRemote) {
 			swingItem();
 			fireSkull(0, target.posX, target.posY + target.getEyeHeight() * 0.35D, target.posZ, true);
 		}
 	}
-
 
 	private void teleStunEntity(EntityLivingBase target) {
 		if (!(target instanceof EntityPlayer)) {
@@ -595,6 +589,7 @@ public class EntityJzahar extends EntityMob implements IBossDisplayData, IAntiEn
 		super.writeEntityToNBT(nbt);
 		nbt.setInteger("DeathTicks", deathTicks);
 		nbt.setInteger("SkillTicks", skillTicks);
+		nbt.setInteger("SkullCooldown", skullCooldown);
 	}
 
 	@Override
@@ -602,6 +597,7 @@ public class EntityJzahar extends EntityMob implements IBossDisplayData, IAntiEn
 		super.readEntityFromNBT(nbt);
 		deathTicks = nbt.getInteger("DeathTicks");
 		skillTicks = nbt.getInteger("SkillTicks");
+		skullCooldown = nbt.getInteger("SkullCooldown");
 	}
 
 	@SuppressWarnings("unchecked")
@@ -772,9 +768,6 @@ public class EntityJzahar extends EntityMob implements IBossDisplayData, IAntiEn
 		double dY = par4 - y;
 		double dZ = par6 - z;
 		EntityWitherSkull entityskull = new EntityWitherSkull(worldObj, this, dX, dY, dZ);
-		//entityskull.accelerationX *= 4;
-		//entityskull.accelerationY *= 4;
-		//entityskull.accelerationZ *= 4;
 		entityskull.posY = y;
 		entityskull.posX = x;
 		entityskull.posZ = z;
@@ -785,25 +778,9 @@ public class EntityJzahar extends EntityMob implements IBossDisplayData, IAntiEn
 	public void onStruckByLightning(EntityLightningBolt bolt) {
 		return;
 	}
-
-	/**
-	 * Superjump!
-	 */
-	protected void jump() {
-		//this.motionY = 0.41999998688697815D;
-		this.motionY = 0.8D;
-
-		if (this.isPotionActive(Potion.jump)) {
-			this.motionY += (double) ((float) (this.getActivePotionEffect(Potion.jump).getAmplifier() + 1) * 0.1F);
-		}
-
-		if (this.isSprinting()) {
-			final float f = this.rotationYaw * 0.017453292F;
-			this.motionX -= (double) (MathHelper.sin(f) * 0.2F);
-			this.motionZ += (double) (MathHelper.cos(f) * 0.2F);
-		}
-
-		this.isAirBorne = true;
-		ForgeHooks.onLivingJump(this);
+	
+	@Override
+	public boolean canBreatheUnderwater() {
+		return true;
 	}
 }

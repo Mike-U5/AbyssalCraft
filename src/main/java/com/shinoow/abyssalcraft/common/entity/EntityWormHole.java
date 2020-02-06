@@ -64,7 +64,9 @@ public class EntityWormHole extends EntityMob {
 	
 	@Override
 	public void onLivingUpdate() {
-		motionX = motionY = motionZ = 0;
+		motionX = 0;
+		motionY = 0;
+		motionZ = 0;
 		if (isEntityAlive() && getHealth() > 0) {
 			setHealth(0);
 		}

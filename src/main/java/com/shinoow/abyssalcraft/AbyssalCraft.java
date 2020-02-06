@@ -256,6 +256,7 @@ import com.shinoow.abyssalcraft.common.structures.dreadlands.mineshaft.Structure
 import com.shinoow.abyssalcraft.common.structures.omothol.MapGenOmothol;
 import com.shinoow.abyssalcraft.common.structures.omothol.StructureOmotholPieces;
 import com.shinoow.abyssalcraft.common.util.ACLogger;
+import com.shinoow.abyssalcraft.common.util.InitUtil;
 import com.shinoow.abyssalcraft.common.util.RitualUtil;
 import com.shinoow.abyssalcraft.common.world.AbyssalCraftWorldGenerator;
 import com.shinoow.abyssalcraft.common.world.WorldProviderAbyss;
@@ -402,6 +403,7 @@ public class AbyssalCraft {
 	
 	
 	public static Potion Cplague, Dplague, antiMatter, earthquake, doom, auditory;
+	public static Potion blurred;
 
 	public static Enchantment coraliumE, dreadE, lightPierce;
 
@@ -1344,12 +1346,15 @@ public class AbyssalCraft {
 
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
+		// Do Stuff
 		ACLogger.info("Post-initializing AbyssalCraft");
 		proxy.postInit();
 		IntegrationHandler.postInit();
 		((BlockShoggothOoze) shoggothBlock).initBlacklist();
 		checkBiomeIds(false);
 		ACLogger.info("AbyssalCraft loaded.");
+		// Try to get TC's blur pot id
+		blurred = InitUtil.getBlurPot();
 	}
 
 	@EventHandler

@@ -11,10 +11,8 @@
  ******************************************************************************/
 package com.shinoow.abyssalcraft.common.handlers;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
 import com.shinoow.abyssalcraft.AbyssalCraft;
 import com.shinoow.abyssalcraft.api.biome.ACBiomes;
@@ -32,15 +30,14 @@ import com.shinoow.abyssalcraft.common.entity.EntityJzahar;
 import com.shinoow.abyssalcraft.common.items.ItemNecronomicon;
 import com.shinoow.abyssalcraft.common.ritual.NecronomiconBreedingRitual;
 import com.shinoow.abyssalcraft.common.ritual.NecronomiconDreadSpawnRitual;
+import com.shinoow.abyssalcraft.common.util.EntityUtil;
 import com.shinoow.abyssalcraft.common.util.SpecialTextUtil;
 import com.shinoow.abyssalcraft.common.world.TeleporterDarkRealm;
 
 import cpw.mods.fml.common.eventhandler.Event.Result;
-import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
-import cpw.mods.fml.common.gameevent.TickEvent.WorldTickEvent;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
@@ -53,7 +50,6 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.stats.StatisticsFile;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.StatCollector;
-import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
@@ -337,35 +333,29 @@ public class AbyssalCraftEventHooks {
 		
 		for (int i = 0; i < players.size(); i++) {
 			final EntityPlayer p = players.get(i);
+			
+			// Only happens in Omothol
 			if (p.dimension != AbyssalCraft.configDimId3 && p.dimension != AbyssalCraft.configDimId4) {
 				continue;
 			}
+			
+			// If the player killed Jzhar once, they gain no warp in Omothol
+			if (p instanceof EntityPlayerMP && ((EntityPlayerMP) p).func_147099_x() != null) {
+				final StatisticsFile stats = ((EntityPlayerMP) p).func_147099_x();
+				if (stats.hasAchievementUnlocked(AbyssalCraft.killJzahar)) {
+					continue;
+				}
+			}
+			
+			// If pendant is worn, cancel warp
+			if (EntityUtil.isPlayerWearingPendant(p)) {
+				continue;
+			}
+			
 			// Add temporary warp to the player
 			ThaumcraftApiHelper.addWarpToPlayer(p, 1, true);
 			event.world.playSoundAtEntity(p, "abyssalcraft:jzahar.speak", 1.5F, 1F);
 			return;
 		}
 	}
-
-	/*
-	@SubscribeEvent
-	public void onPlayerTick(PlayerTickEvent event) {
-		if (event.player.ticksExisted % 1250 == 0 && event.phase == TickEvent.Phase.END) {
-			// Check if player is in Omothol or the Dark Realm
-			if (event.player.dimension != AbyssalCraft.configDimId3 && event.player.dimension != AbyssalCraft.configDimId4) {
-				return;
-			}
-			// If the player killed Jzhar once, they gain no warp in Omothol
-			if (event.player instanceof EntityPlayerMP && ((EntityPlayerMP) event.player).func_147099_x() != null) {
-				StatisticsFile stats = ((EntityPlayerMP) event.player).func_147099_x();
-				if (stats.hasAchievementUnlocked(AbyssalCraft.killJzahar)) {
-					return;
-				}
-			}
-			// Add temporary warp to the player
-			ThaumcraftApiHelper.addWarpToPlayer(event.player, 1, true);
-			event.player.playSound("abyssalcraft:jzahar.speak", 2F, 1F);
-		}
-	}*/
-
 }

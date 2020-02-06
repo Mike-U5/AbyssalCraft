@@ -681,6 +681,11 @@ ac.ritual.jzaharStaff.desc=A Crozier of The Gatekeeper is created by infusing a 
 ac.ritual.respawnJzahar=Ritual of reversed time
 ac.ritual.respawnJzahar.desc=If you in some way failed to obtain a Eidolon of The Gatekeeper, you can revert time and fight J'zahar again. Can only be performed at the Ritual Altar inside the Temple of J'zahar (X=4, Y=54, Z=85).
 
+ac.ritual.drainStaffBeast.desc=If you in some way failed to obtain a Eidolon of The Gatekeeper, you can revert time and fight J'zahar again. Can only be performed at the Ritual Altar inside the Temple of J'zahar (X=4, Y=54, Z=85).
+ac.ritual.jzaharAmulet=Pendant of Sedefkar
+ac.ritual.jzaharAmulet.desc=This pendant must be worn in order to even face The Gatekeeper of the Abyss.
+
+
 #Configuration
 ac_dimensions=Dimensions
 ac_dimensions.tooltip=Dimension ID configuration
@@ -1160,7 +1165,7 @@ item.engraving.shubniggurath.name=Shub-Niggurath Coin Engraving
 item.gatekeeperessence.name=Eidolon of The Gatekeeper
 item.crushedwart.name=Crushed Wart
 item.jellyfish.name=Jellyfish
-item.trapezohedron.name=Amulet of Sedefkar
+item.trapezohedron.name=Pendant of Sedefkar
 
 #Entities
 entity.abyssalcraft.depthsghoul.name=Depths Ghoul

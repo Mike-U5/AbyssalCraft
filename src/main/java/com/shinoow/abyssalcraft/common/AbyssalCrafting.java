@@ -377,8 +377,8 @@ public class AbyssalCrafting {
 		RitualRegistry.instance().registerRitual(new NecronomiconInfusionRitual("saOMTupgrade", 3, 1600F, new ItemStack(AbyssalCraft.tieredSacrificialAltar, 1, 3), new ItemStack(AbyssalCraft.tieredSacrificialAltar, 1, 2), omtoffers));
 
 		// Anti-Jzhar Amulet
-		Object[] amuletOfferings = new Object[] { new ItemStack(AbyssalCraft.essence, 1, 1), new ItemStack(AbyssalCraft.essence, 1, 2), AbyssalCraft.eldritchScale, AbyssalCraft.eldritchScale, AbyssalCraft.Cpearl, AbyssalCraft.eldritchScale, AbyssalCraft.eldritchScale, new ItemStack(AbyssalCraft.essence, 1, 0) };
-		RitualRegistry.instance().registerRitual(new NecronomiconInfusionRitual("jzaharAmulet", 3, AbyssalCraft.configDimId3, 666F, false, new ItemStack(AbyssalCraft.trapezohedron), AbyssalCraft.bronzeIngot, amuletOfferings));
+		Object[] amuletOfferings = new Object[] { new ItemStack(AbyssalCraft.essence, 1, 1), new ItemStack(AbyssalCraft.essence, 1, 2), AbyssalCraft.ethaxium_brick, AbyssalCraft.eldritchScale, AbyssalCraft.ethaxiumIngot, AbyssalCraft.eldritchScale, AbyssalCraft.ethaxium_brick, new ItemStack(AbyssalCraft.essence, 1, 0) };
+		RitualRegistry.instance().registerRitual(new NecronomiconInfusionRitual("jzaharAmulet", 3, AbyssalCraft.configDimId3, 666F, false, new ItemStack(AbyssalCraft.trapezohedron), AbyssalCraft.Cpearl, amuletOfferings));
 		
 		// Monster Drain Staff
 		Object[] rendingMonsterOfferings = new Object[] { AbyssalCraft.dreadfragment, AbyssalCraft.dreadfragment, AbyssalCraft.Corflesh, AbyssalCraft.Corflesh, AbyssalCraft.shadowgem, AbyssalCraft.Corflesh, AbyssalCraft.Corflesh, AbyssalCraft.dreadfragment };
