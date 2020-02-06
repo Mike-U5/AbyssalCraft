@@ -237,7 +237,7 @@ import com.shinoow.abyssalcraft.common.items.armor.ItemBaubleTrapezohedron;
 import com.shinoow.abyssalcraft.common.items.armor.ItemCoraliumArmor;
 import com.shinoow.abyssalcraft.common.items.armor.ItemCoraliumPArmor;
 import com.shinoow.abyssalcraft.common.items.armor.ItemDepthsArmor;
-import com.shinoow.abyssalcraft.common.items.armor.ItemDreadArmor;
+import com.shinoow.abyssalcraft.common.items.armor.ItemGuardArmor;
 import com.shinoow.abyssalcraft.common.items.armor.ItemDreadiumArmor;
 import com.shinoow.abyssalcraft.common.items.armor.ItemDreadiumSamuraiArmor;
 import com.shinoow.abyssalcraft.common.items.armor.ItemEthaxiumArmor;
@@ -835,10 +835,10 @@ public class AbyssalCraft {
 		/// legs = registerItem(new
 		// ItemAbyssalniteArmor(AbyssalCraftAPI.abyssalniteArmor, 5,
 		// 2).setUnlocalizedName("AAP").setTextureName(modid + ":" + "AAP"), "alegs");
-		bootsD = registerItem(new ItemDreadArmor(AbyssalCraftAPI.dreadedAbyssalniteArmor, 5, 3).setUnlocalizedName("ADAB").setTextureName(modid + ":" + "ADAB"), "dboots");
-		helmetD = registerItem(new ItemDreadArmor(AbyssalCraftAPI.dreadedAbyssalniteArmor, 5, 0).setUnlocalizedName("ADAH").setTextureName(modid + ":" + "ADAH"), "dhelmet");
-		plateD = registerItem(new ItemDreadArmor(AbyssalCraftAPI.dreadedAbyssalniteArmor, 5, 1).setUnlocalizedName("ADAC").setTextureName(modid + ":" + "ADAC"), "dplate");
-		legsD = registerItem(new ItemDreadArmor(AbyssalCraftAPI.dreadedAbyssalniteArmor, 5, 2).setUnlocalizedName("ADAP").setTextureName(modid + ":" + "ADAP"), "dlegs");
+		bootsD = registerItem(new ItemGuardArmor(AbyssalCraftAPI.dreadedAbyssalniteArmor, 5, 3).setUnlocalizedName("ADAB").setTextureName(modid + ":" + "ADAB"), "dboots");
+		helmetD = registerItem(new ItemGuardArmor(AbyssalCraftAPI.dreadedAbyssalniteArmor, 5, 0).setUnlocalizedName("ADAH").setTextureName(modid + ":" + "ADAH"), "dhelmet");
+		plateD = registerItem(new ItemGuardArmor(AbyssalCraftAPI.dreadedAbyssalniteArmor, 5, 1).setUnlocalizedName("ADAC").setTextureName(modid + ":" + "ADAC"), "dplate");
+		legsD = registerItem(new ItemGuardArmor(AbyssalCraftAPI.dreadedAbyssalniteArmor, 5, 2).setUnlocalizedName("ADAP").setTextureName(modid + ":" + "ADAP"), "dlegs");
 		Corboots = registerItem(new ItemCoraliumArmor(AbyssalCraftAPI.refinedCoraliumArmor, 5, 3).setUnlocalizedName("ACB").setTextureName(modid + ":" + "ACB"), "corboots");
 		Corhelmet = registerItem(new ItemCoraliumArmor(AbyssalCraftAPI.refinedCoraliumArmor, 5, 0).setUnlocalizedName("ACH").setTextureName(modid + ":" + "ACH"), "corhelmet");
 		Corplate = registerItem(new ItemCoraliumArmor(AbyssalCraftAPI.refinedCoraliumArmor, 5, 1).setUnlocalizedName("ACC").setTextureName(modid + ":" + "ACC"), "corplate");

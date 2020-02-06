@@ -36,8 +36,8 @@ import cpw.mods.fml.common.Optional.Method;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ItemDreadArmor extends ItemArmor implements IVisDiscountGear, IRevealer {
-	public ItemDreadArmor(ArmorMaterial par2EnumArmorMaterial, int par3, int par4) {
+public class ItemGuardArmor extends ItemArmor implements IVisDiscountGear, IRevealer {
+	public ItemGuardArmor(ArmorMaterial par2EnumArmorMaterial, int par3, int par4) {
 		super(par2EnumArmorMaterial, par3, par4);
 		setCreativeTab(AbyssalCraft.tabTools);
 	}
@@ -110,14 +110,14 @@ public class ItemDreadArmor extends ItemArmor implements IVisDiscountGear, IReve
 	@Override
 	@Method(modid = "Thaumcraft")
 	public int getVisDiscount(ItemStack stack, EntityPlayer player, Aspect aspect) {
-		return (stack.getItem() == AbyssalCraft.dreadiumhelmet && aspect == Aspect.ORDER) ? 7 : 0;
+		return (stack.getItem() == AbyssalCraft.helmetD && aspect == Aspect.ORDER) ? 7 : 0;
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public void addInformation(ItemStack is, EntityPlayer player, List l, boolean B){
 		if(Loader.isModLoaded("Thaumcraft")) {
-			if(is.getItem() == AbyssalCraft.dreadiumhelmet) {
+			if(is.getItem() == AbyssalCraft.helmetD) {
 				l.add("\u00A75"+StatCollector.translateToLocal("tc.visdiscount")+" (Ordo) : 7%");
 			}
 		}
@@ -126,6 +126,6 @@ public class ItemDreadArmor extends ItemArmor implements IVisDiscountGear, IReve
 	@Override
 	@Method(modid = "Thaumcraft")
 	public boolean showNodes(ItemStack itemstack, EntityLivingBase player) {
-		return itemstack.getItem() == AbyssalCraft.dreadiumhelmet;
+		return itemstack.getItem() == AbyssalCraft.helmetD;
 	}
 }
