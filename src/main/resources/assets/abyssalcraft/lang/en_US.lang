@@ -178,7 +178,7 @@ message.jzahar.death.6=But you... your mind has been twisting itself harder the 
 message.jzahar.death.7=The fact that you thought for a second that you had killed me shows just how insane you've become.
 message.jzahar.death.8=My readings have already led you here, so wouldn't you want more knowledge. Perhaps death is what you truly desire.
 message.jzahar.death.9=Let me unleash the last power contained within this hollow puppet. It'll give me the answer.
-message.jzahar.death.10=If you survived the blast, take this mere fragment of my being, it will give you access to the Abyssalnomicon.
+message.jzahar.death.10=If you survived the blast, take this Abyssalnomicon.
 message.jzahar.banish.vanilla=I never asked to be within the same dimension as you. Begone, foul beast!
 message.jzahar.banish.ac=Ahem... I thought I gave you an assignment aeons ago, did it ever occur to you that it was permanent?
 message.jzahar.banish.jzh=There can only be ONE! *Creates sword out of thin air*
@@ -437,8 +437,8 @@ necronomicon.text.overworld.progression.4=When you have 4 Shards of Oblivion, us
 necronomicon.text.overworld.progression.5=Once the Gateway Key is crafted, simply right-click on the ground to form a portal. For more information, you will need the Abyssal Wasteland Necronomicon, which requires 8 Skins of The Abyssal Wasteland in order to upgrade.
 
 necronomicon.text.abyssal.progression.1=Once you have reached the Abyssal Wasteland, your next goal is to reach the Dreadlands. You will need 3 components in order to upgrade your Gateway Key, an Eye of The Abyss, a Dreadlands Infused Powerstone and a Transmutation Gem. The first is obtained by defeating Asorah, The Fallen, summoned through the ritual "Ritual of The Sleeper" (in ritual section).
-necronomicon.text.abyssal.progression.2=Asorah uses Spectral Dragons to heal himself, so they should be taken out quickly throughout the fight. Once defeated, Asorah will drop his eye with a large quantity of exp and materials found in the dimension. The Dreadlands Infused Powerstone is located inside a Abyssal Stronghold, which can be found using Powerstone Trackers (recipe in special materials section).
-necronomicon.text.abyssal.progression.3=Once you have tracked down the Powerstone, you can mine it with a Refined Coralium Pickaxe. Lastly you can upgrade your Gateway Key by infusing it with the required components ("Asorah's Dreaded Gateway Key" ritual). Upgrading your Necronomicon to the Dreadlands Necronomicon requires 8 Skins of The Dreadlands.
+necronomicon.text.abyssal.progression.2=Once defeated, Asorah will drop his eye with a large quantity of exp and materials found in the dimension. The Dreadlands Infused Powerstone is located inside a Abyssal Stronghold, which can be found using Powerstone Trackers.
+necronomicon.text.abyssal.progression.3=Once you have tracked down the Powerstone, you can mine it with a Refined Coralium Pickaxe. Lastly you can upgrade your Gateway Key by infusing it with the required components. Upgrading your Necronomicon to the Dreadlands Necronomicon requires 8 Skins of The Dreadlands.
 
 necronomicon.text.dreadlands.progression.1=Once you have reached the Dreadlands, your next goal is to reach Omothol. You will need to own a Transmutator, and you need to defeat Cha'garoth, The Dreadbeast. In order to reach Cha'garoth, you need the Altar of Cha'garoth, made out of 2 pieces. Both recipes are found in the special materials section.
 necronomicon.text.dreadlands.progression.2=Once you have both Altar pieces, you need to place them at Y = 40 inside a Dreadlands Mountain biome and right-click it. Doing so will grant you entry to The Lair of Cha'garoth. After fighting through Dreadguards and eventually killing Cha'garoth, you will receive the Legendary Treasure of The Dreadlands.

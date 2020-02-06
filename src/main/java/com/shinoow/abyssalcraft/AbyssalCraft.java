@@ -59,6 +59,7 @@ import com.shinoow.abyssalcraft.common.blocks.BlockDarkstone;
 import com.shinoow.abyssalcraft.common.blocks.BlockDarkstoneSlab;
 import com.shinoow.abyssalcraft.common.blocks.BlockDarkstoneSlabDouble;
 import com.shinoow.abyssalcraft.common.blocks.BlockDarkstonecobblewall;
+import com.shinoow.abyssalcraft.common.blocks.BlockDivineRelic;
 import com.shinoow.abyssalcraft.common.blocks.BlockDreadAltarBottom;
 import com.shinoow.abyssalcraft.common.blocks.BlockDreadAltarTop;
 import com.shinoow.abyssalcraft.common.blocks.BlockDreadFire;
@@ -81,7 +82,6 @@ import com.shinoow.abyssalcraft.common.blocks.BlockJzaharStatue;
 import com.shinoow.abyssalcraft.common.blocks.BlockMimicFire;
 import com.shinoow.abyssalcraft.common.blocks.BlockMonolithPillar;
 import com.shinoow.abyssalcraft.common.blocks.BlockNyarlathotepStatue;
-import com.shinoow.abyssalcraft.common.blocks.BlockDivineRelic;
 import com.shinoow.abyssalcraft.common.blocks.BlockOhead;
 import com.shinoow.abyssalcraft.common.blocks.BlockOmotholFire;
 import com.shinoow.abyssalcraft.common.blocks.BlockOmotholPortal;
@@ -224,7 +224,6 @@ import com.shinoow.abyssalcraft.common.items.ItemDrainStaffMonster;
 import com.shinoow.abyssalcraft.common.items.ItemEoA;
 import com.shinoow.abyssalcraft.common.items.ItemEthaxiumBow;
 import com.shinoow.abyssalcraft.common.items.ItemEthaxiumPickaxe;
-import com.shinoow.abyssalcraft.common.items.ItemGatekeeperEssence;
 import com.shinoow.abyssalcraft.common.items.ItemMetadata;
 import com.shinoow.abyssalcraft.common.items.ItemNecronomicon;
 import com.shinoow.abyssalcraft.common.items.ItemOC;
@@ -716,7 +715,7 @@ public class AbyssalCraft {
 		nugget = registerItem(new ItemMetadata("nugget", true, "coralium", "dreadium", "ethaxium"), "ingotnugget");
 		essence = registerItem(new ItemMetadata("essence", true, "abyssalwasteland", "dreadlands", "omothol"), "essence");
 		skin = registerItem(new ItemMetadata("skin", true, "abyssalwasteland", "dreadlands", "omothol"), "skin");
-		gatekeeperEssence = registerItem(new ItemGatekeeperEssence().setTextureName(modid + ":" + "gatekeeperessence"), "gatekeeperessence");
+		///gatekeeperEssence = registerItem(new ItemGatekeeperEssence().setTextureName(modid + ":" + "gatekeeperessence"), "gatekeeperessence");
 
 		// Coins
 		coin = registerItem(new ItemCoin("coin"), "coin");
