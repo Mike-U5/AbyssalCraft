@@ -683,7 +683,7 @@ ac.ritual.respawnJzahar.desc=If you in some way failed to obtain a Eidolon of Th
 
 ac.ritual.drainStaffBeast.desc=If you in some way failed to obtain a Eidolon of The Gatekeeper, you can revert time and fight J'zahar again. Can only be performed at the Ritual Altar inside the Temple of J'zahar (X=4, Y=54, Z=85).
 ac.ritual.jzaharAmulet=Pendant of Sedefkar
-ac.ritual.jzaharAmulet.desc=This pendant must be worn in order to even face The Gatekeeper of the Abyss.
+ac.ritual.jzaharAmulet.desc=This pendant allows it's wearer to gaze upon The Gatekeeper of the Abyss.
 
 
 #Configuration

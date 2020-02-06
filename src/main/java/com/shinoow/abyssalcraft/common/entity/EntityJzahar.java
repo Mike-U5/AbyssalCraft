@@ -151,8 +151,6 @@ public class EntityJzahar extends EntityMob implements IBossDisplayData, IAntiEn
 		// Check is either attacker or target is a player
 		if (dmgSrc.getEntity() instanceof EntityPlayer) {
 			player = (EntityPlayer)dmgSrc.getEntity();
-		} else if (dmgSrc.damageType == "player" && getAttackTarget() instanceof EntityPlayer) {
-			player = (EntityPlayer)getAttackTarget();
 		} else {
 			return false;
 		}
