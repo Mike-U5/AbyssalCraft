@@ -132,6 +132,7 @@ public class ItemDepthsArmor extends ItemArmor implements IVisDiscountGear, IRev
 		}
 	}
 
+	// Thaumcraft Bonuses
 	@Override
 	@Method(modid = "Thaumcraft")
 	public int getVisDiscount(ItemStack stack, EntityPlayer player, Aspect aspect) {
@@ -143,7 +144,7 @@ public class ItemDepthsArmor extends ItemArmor implements IVisDiscountGear, IRev
 	public void addInformation(ItemStack is, EntityPlayer player, List l, boolean B){
 		if(Loader.isModLoaded("Thaumcraft")) {
 			if(is.getItem() == AbyssalCraft.Depthshelmet) {
-				l.add("\u00A75"+StatCollector.translateToLocal("tc.visdiscount")+" (Aer) : 7%");
+				l.add("\u00A75"+StatCollector.translateToLocal("tc.visdiscount")+" (Aqua) : 7%");
 			}
 		}
 	}

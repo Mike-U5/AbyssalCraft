@@ -11,6 +11,15 @@
  ******************************************************************************/
 package com.shinoow.abyssalcraft.common.items.armor;
 
+import java.util.List;
+
+import com.shinoow.abyssalcraft.AbyssalCraft;
+
+import cpw.mods.fml.common.Loader;
+import cpw.mods.fml.common.Optional.Interface;
+import cpw.mods.fml.common.Optional.Method;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -22,21 +31,12 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
-
-import com.shinoow.abyssalcraft.AbyssalCraft;
-
-import cpw.mods.fml.common.Optional.Interface;
-import cpw.mods.fml.common.Optional.InterfaceList;
-import cpw.mods.fml.common.Optional.Method;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-
 import thaumcraft.api.IVisDiscountGear;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.nodes.IRevealer;
 
 @Interface(iface = "thaumcraft.api.nodes.IRevealer", modid = "Thaumcraft")
-public class ItemEthaxiumArmor extends ItemArmor {
+public class ItemEthaxiumArmor extends ItemArmor implements IVisDiscountGear, IRevealer {
 	public ItemEthaxiumArmor(ArmorMaterial par2EnumArmorMaterial, int par3, int par4) {
 		super(par2EnumArmorMaterial, par3, par4);
 		setCreativeTab(AbyssalCraft.tabTools);
@@ -95,7 +95,24 @@ public class ItemEthaxiumArmor extends ItemArmor {
 			player.removePotionEffect(Potion.jump.id);
 	}
 	
-	//@Override
+	// Thaumcraft Bonuses
+	@Override
+	@Method(modid = "Thaumcraft")
+	public int getVisDiscount(ItemStack stack, EntityPlayer player, Aspect aspect) {
+		return (stack.getItem() == AbyssalCraft.ethHelmet && aspect == Aspect.ENTROPY) ? 7 : 0;
+	}
+
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@Override
+	public void addInformation(ItemStack is, EntityPlayer player, List l, boolean B){
+		if(Loader.isModLoaded("Thaumcraft")) {
+			if(is.getItem() == AbyssalCraft.ethHelmet) {
+				l.add("\u00A75"+StatCollector.translateToLocal("tc.visdiscount")+" (Perditio) : 7%");
+			}
+		}
+	}
+
+	@Override
 	@Method(modid = "Thaumcraft")
 	public boolean showNodes(ItemStack itemstack, EntityLivingBase player) {
 		return itemstack.getItem() == AbyssalCraft.ethHelmet;

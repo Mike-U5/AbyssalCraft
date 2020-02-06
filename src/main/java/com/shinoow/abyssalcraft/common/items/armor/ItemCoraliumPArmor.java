@@ -11,10 +11,11 @@
  ******************************************************************************/
 package com.shinoow.abyssalcraft.common.items.armor;
 
+import java.util.List;
+
 import com.shinoow.abyssalcraft.AbyssalCraft;
 
-import cpw.mods.fml.common.Optional.Interface;
-import cpw.mods.fml.common.Optional.InterfaceList;
+import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Optional.Method;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -29,7 +30,6 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
-
 import thaumcraft.api.IVisDiscountGear;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.nodes.IRevealer;
@@ -93,16 +93,26 @@ public class ItemCoraliumPArmor extends ItemArmor implements IVisDiscountGear, I
 		}
 	}
 
+	// Thaumcraft Bonuses
 	@Override
-	public boolean showNodes(ItemStack itemstack, EntityLivingBase player) {
-		return itemstack.getItem() == AbyssalCraft.CorhelmetP;
+	@Method(modid = "Thaumcraft")
+	public int getVisDiscount(ItemStack stack, EntityPlayer player, Aspect aspect) {
+		return (stack.getItem() == AbyssalCraft.CorhelmetP && aspect == Aspect.EARTH) ? 7 : 0;
+	}
+
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@Override
+	public void addInformation(ItemStack is, EntityPlayer player, List l, boolean B){
+		if(Loader.isModLoaded("Thaumcraft")) {
+			if(is.getItem() == AbyssalCraft.CorhelmetP) {
+				l.add("\u00A75"+StatCollector.translateToLocal("tc.visdiscount")+" (Terra) : 7%");
+			}
+		}
 	}
 
 	@Override
-	public int getVisDiscount(ItemStack stack, EntityPlayer player, Aspect aspect) {
-		if (stack.getItem() == AbyssalCraft.CorhelmetP && aspect == Aspect.EARTH) {
-			return 7;
-		}
-		return 0;
+	@Method(modid = "Thaumcraft")
+	public boolean showNodes(ItemStack itemstack, EntityLivingBase player) {
+		return itemstack.getItem() == AbyssalCraft.CorhelmetP;
 	}
 }

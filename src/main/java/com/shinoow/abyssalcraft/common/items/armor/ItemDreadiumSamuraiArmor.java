@@ -29,8 +29,11 @@ import thaumcraft.api.IVisDiscountGear;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.nodes.IRevealer;
 
+import java.util.List;
+
 import com.shinoow.abyssalcraft.AbyssalCraft;
 
+import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Optional.Interface;
 import cpw.mods.fml.common.Optional.InterfaceList;
 import cpw.mods.fml.common.Optional.Method;
@@ -38,7 +41,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @InterfaceList(value = { @Interface(iface = "thaumcraft.api.IVisDiscountGear", modid = "Thaumcraft"), @Interface(iface = "thaumcraft.api.nodes.IRevealer", modid = "Thaumcraft") })
-public class ItemDreadiumSamuraiArmor extends ItemArmor {
+public class ItemDreadiumSamuraiArmor extends ItemArmor implements IVisDiscountGear, IRevealer {
 	public ItemDreadiumSamuraiArmor(ArmorMaterial par2EnumArmorMaterial, int par3, int par4) {
 		super(par2EnumArmorMaterial, par3, par4);
 		setCreativeTab(AbyssalCraft.tabTools);
@@ -140,6 +143,24 @@ public class ItemDreadiumSamuraiArmor extends ItemArmor {
 
 	}
 	
+	// Thaumcraft Bonuses
+	@Override
+	@Method(modid = "Thaumcraft")
+	public int getVisDiscount(ItemStack stack, EntityPlayer player, Aspect aspect) {
+		return (stack.getItem() == AbyssalCraft.dreadiumShelmet && aspect == Aspect.FIRE) ? 7 : 0;
+	}
+
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@Override
+	public void addInformation(ItemStack is, EntityPlayer player, List l, boolean B){
+		if(Loader.isModLoaded("Thaumcraft")) {
+			if(is.getItem() == AbyssalCraft.dreadiumShelmet) {
+				l.add("\u00A75"+StatCollector.translateToLocal("tc.visdiscount")+" (Ignis) : 7%");
+			}
+		}
+	}
+
+	@Override
 	@Method(modid = "Thaumcraft")
 	public boolean showNodes(ItemStack itemstack, EntityLivingBase player) {
 		return itemstack.getItem() == AbyssalCraft.dreadiumShelmet;
