@@ -104,30 +104,31 @@ public class ItemDrainStaff extends Item {
 					if (target != null && !target.isDead && !(target instanceof IBossDisplayData)) {
 						final DamageSource dmgSrc = new EntityDamageSource("vajra", player).setDamageBypassesArmor().setDamageIsAbsolute();
 						final int trueDmg = (int)Math.min(Math.floor(target.getHealth()), drainPower);
-						// Find drain type
-						if(world.provider.dimensionId == AbyssalCraft.configDimId1 && target instanceof ICoraliumEntity) {
-							if(target.attackEntityFrom(dmgSrc, trueDmg)) {
-								target.setLastAttacker(player);
-								increaseEnergy(stack, "Abyssal", trueDmg);
-								return;
-							}
-						} else if(world.provider.dimensionId == AbyssalCraft.configDimId2 && target instanceof IDreadEntity) {
-							if(target.attackEntityFrom(dmgSrc, trueDmg)) {
-								target.setLastAttacker(player);
-								increaseEnergy(stack, "Dread", trueDmg);
-								return;
-							}
-						} else if((world.provider.dimensionId == AbyssalCraft.configDimId3 && target instanceof IOmotholEntity) || EntityList.getEntityString(target).equals("w_angels.EntityWeepingAngel")) {
-							if(target.attackEntityFrom(dmgSrc, trueDmg)) {
-								target.setLastAttacker(player);
-								increaseEnergy(stack, "Omothol", trueDmg);
-								return;
-							}
+						final String type = this.getEnemyType(world, target);
+						// If target can be harmed, increase energy
+						if(target.attackEntityFrom(dmgSrc, trueDmg)) {
+							target.setLastAttacker(player);
+							increaseEnergy(stack, type, trueDmg);
+							player.addExhaustion(0.01F);
+							return;
 						}
 					}
 				}
 			}
 		}
+	}
+	
+	private String getEnemyType(World world, EntityLiving target) {
+		if (target != null && !target.isDead && !(target instanceof IBossDisplayData)) {
+			if(world.provider.dimensionId == AbyssalCraft.configDimId1 && target instanceof ICoraliumEntity) {
+				return "Abyssal";
+			} else if(world.provider.dimensionId == AbyssalCraft.configDimId2 && target instanceof IDreadEntity) {
+				return "Dread";
+			} else if((world.provider.dimensionId == AbyssalCraft.configDimId3 && target instanceof IOmotholEntity) || EntityList.getEntityString(target).equals("w_angels.EntityWeepingAngel")) {
+				return "Omothol";
+			}
+		}
+		return null;
 	}
 	
 	@SuppressWarnings({ "unchecked", "unused" })

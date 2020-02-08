@@ -24,6 +24,7 @@ import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
+import net.minecraft.world.EnumDifficulty;
 
 public class TileEntityJzaharSpawner extends TileEntity {
 
@@ -38,7 +39,7 @@ public class TileEntityJzaharSpawner extends TileEntity {
 
 	public boolean isActivated() {
 		final EntityPlayer p = worldObj.getClosestPlayer(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D, activatingRangeFromPlayer);
-		if (p != null && !p.capabilities.isCreativeMode && p.posY >= yCoord - 1 && EntityUtil.isPlayerWearingPendant(p)) {
+		if (p != null && worldObj.difficultySetting != EnumDifficulty.PEACEFUL && !p.capabilities.isCreativeMode && p.posY >= yCoord - 1 && EntityUtil.isPlayerWearingPendant(p)) {
 			return true;
 		}
 		return false;
@@ -57,7 +58,7 @@ public class TileEntityJzaharSpawner extends TileEntity {
 				player.addStat(AbyssalCraft.locateJzahar, 1);
 			}
 		} else if (!worldObj.isRemote) {
-			final List<EntityPlayer> players = worldObj.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(xCoord, yCoord, zCoord, xCoord + 1, yCoord + 1, zCoord + 1).expand(48, 48, 48));
+			final List<EntityPlayer> players = worldObj.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(xCoord, yCoord, zCoord, xCoord + 1, yCoord + 1, zCoord + 1).expand(48, 16, 48));
 			for(EntityPlayer p : players) {
 				EntityUtil.meltEyes(p);
 			}

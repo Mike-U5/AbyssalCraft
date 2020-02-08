@@ -29,10 +29,10 @@ public class NecronomiconPurificationRitual extends NecronomiconRitual {
 
 	public NecronomiconPurificationRitual() {
 		super("purification", 4, 10000F, new Object[] {
-			Item.getItemFromBlock(AbyssalCraft.ODBcore), new ItemStack(Items.dye, 1, 15), 
-			Item.getItemFromBlock(AbyssalCraft.ODBcore), new ItemStack(Items.dye, 1, 15), 
-			Item.getItemFromBlock(AbyssalCraft.ODBcore), new ItemStack(Items.dye, 1, 15), 
-			Item.getItemFromBlock(AbyssalCraft.ODBcore), new ItemStack(Items.dye, 1, 15)
+			Item.getItemFromBlock(AbyssalCraft.relic), new ItemStack(Items.dye, 1, 15), 
+			Item.getItemFromBlock(AbyssalCraft.relic), new ItemStack(Items.dye, 1, 15), 
+			Item.getItemFromBlock(AbyssalCraft.relic), new ItemStack(Items.dye, 1, 15), 
+			Item.getItemFromBlock(AbyssalCraft.relic), new ItemStack(Items.dye, 1, 15)
 		});
 	}
 

@@ -210,6 +210,11 @@ public class AbyssalCrafting {
 		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.necronomicon_dre, 1), new Object[] { "###", "#%#", "###", '#', new ItemStack(AbyssalCraft.skin, 1, 1), '%', AbyssalCraft.necronomicon_cor });
 		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.necronomicon_omt, 1), new Object[] { "###", "#%#", "###", '#', new ItemStack(AbyssalCraft.skin, 1, 2), '%', AbyssalCraft.necronomicon_dre });
 		///GameRegistry.addRecipe(new ItemStack(AbyssalCraft.abyssalnomicon, 1), new Object[] { "#$#", "%&%", "#%#", '#', AbyssalCraft.ethaxiumIngot, '%', AbyssalCraft.eldritchScale, '&', AbyssalCraft.necronomicon_omt, '$', AbyssalCraft.gatekeeperEssence });
+		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.crystalbag_s, 1), new Object[] {"#%#", "%&%", "%%%", '#', Items.string, '%', Items.leather, '&', Items.gold_ingot});
+		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.crystalbag_m, 1), new Object[] {"###", "#%#", "###", '#', new ItemStack(AbyssalCraft.skin, 1, 0), '%', AbyssalCraft.crystalbag_s});
+		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.crystalbag_l, 1), new Object[] {"###", "#%#", "###", '#', new ItemStack(AbyssalCraft.skin, 1, 1), '%', AbyssalCraft.crystalbag_m});
+		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.crystalbag_h, 1), new Object[] {"###", "#%#", "###", '#', new ItemStack(AbyssalCraft.skin, 1, 2), '%', AbyssalCraft.crystalbag_l});
+		
 		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.nugget, 9, 0), new Object[] { "#", '#', AbyssalCraft.Cingot });
 		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.nugget, 9, 1), new Object[] { "#", '#', AbyssalCraft.dreadiumingot });
 		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.nugget, 9, 2), new Object[] { "#", '#', AbyssalCraft.ethaxiumIngot });
@@ -291,7 +296,7 @@ public class AbyssalCrafting {
 		RitualRegistry.instance().registerRitual(new NecronomiconBreedingRitual());
 		RitualRegistry.instance().registerRitual(new NecronomiconPurificationRitual());
 
-		Object[] sacthothofferings = new Object[] { new ItemStack(AbyssalCraft.OC), new ItemStack(Blocks.obsidian), new ItemStack(AbyssalCraft.Cbucket), new ItemStack(Blocks.obsidian), new ItemStack(AbyssalCraft.antibucket), new ItemStack(Blocks.obsidian), new ItemStack(AbyssalCraft.ODBcore), new ItemStack(Blocks.obsidian) };
+		Object[] sacthothofferings = new Object[] { new ItemStack(AbyssalCraft.OC), new ItemStack(Blocks.obsidian), new ItemStack(AbyssalCraft.Cbucket), new ItemStack(Blocks.obsidian), new ItemStack(AbyssalCraft.antibucket), new ItemStack(Blocks.obsidian), new ItemStack(AbyssalCraft.relic), new ItemStack(Blocks.obsidian) };
 		RitualRegistry.instance().registerRitual(new NecronomiconSummonRitual("summonSacthoth", 1, 1000F, EntitySacthoth.class, sacthothofferings));
 		RitualRegistry.instance().registerRitual(new NecronomiconDreadSpawnRitual());
 		Object[] coraoeofferings = new Object[] { new ItemStack(AbyssalCraft.Corflesh), new ItemStack(Items.potionitem, 1, 0), new ItemStack(AbyssalCraft.Corflesh), new ItemStack(Items.potionitem, 1, 0), new ItemStack(AbyssalCraft.Corflesh), new ItemStack(Items.potionitem, 1, 0), new ItemStack(AbyssalCraft.Corflesh), new ItemStack(Items.gunpowder) };

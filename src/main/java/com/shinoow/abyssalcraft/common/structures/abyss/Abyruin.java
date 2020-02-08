@@ -692,7 +692,7 @@ public class Abyruin extends WorldGenerator
 		} else if (roll == 5) {
 			block = Blocks.furnace;
 		} else if (roll == 6) {
-			block = AbyssalCraft.ODBcore;
+			block = AbyssalCraft.relic;
 		} else if (roll == 7) {
 			block = GameRegistry.findBlock("Botania", "pool");
 		} else if (roll == 8) {

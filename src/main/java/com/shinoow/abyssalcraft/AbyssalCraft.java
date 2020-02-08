@@ -217,6 +217,7 @@ import com.shinoow.abyssalcraft.common.items.ItemCorb;
 import com.shinoow.abyssalcraft.common.items.ItemCorbone;
 import com.shinoow.abyssalcraft.common.items.ItemCorflesh;
 import com.shinoow.abyssalcraft.common.items.ItemCrozier;
+import com.shinoow.abyssalcraft.common.items.ItemCrystalBag;
 import com.shinoow.abyssalcraft.common.items.ItemCudgel;
 import com.shinoow.abyssalcraft.common.items.ItemDrainStaff;
 import com.shinoow.abyssalcraft.common.items.ItemDrainStaffBeast;
@@ -372,11 +373,13 @@ public class AbyssalCraft {
 
 	public static Achievement killghoul, enterabyss, killdragon, summonAsorah, killAsorah, enterdreadlands, killdreadguard, ghoulhead, petehead, wilsonhead, orangehead, mineCorgem, mineCor, findPSDL, GK1, GK2, GK3, summonChagaroth, killChagaroth, enterOmothol, enterDarkRealm, killJzahar, killOmotholelite, locateJzahar, necro, necrou1, necrou2, necrou3, abyssaln, ritual, ritualSummon, ritualCreate, shadowGems, mineAbyOres, mineDread, dreadium, eth, makeEngraver, ritualBreed, ritualPotion, ritualPotionAoE, ritualInfusion, shoggothInfestation;
 
-	public static Block abyore, Darkstone, Darkstone_brick, Darkstone_cobble, SGlow, DSGlow, Darkbrickslab1, Darkbrickslab2, Darkcobbleslab1, Darkcobbleslab2, Darkgrass, DBstairs, DCstairs, DLTLeaves, DLTLog, DLTSapling, abystone, abyssalsand, fusedabyssalsand, abybrick, abyslab1, abyslab2, abystairs, Coraliumore, abyfence, DSCwall, CoraliumInfusedStone, ODBcore, portal, Darkstoneslab1, Darkstoneslab2, Coraliumfire, DSbutton, DSpplate, DLTplank, DLTbutton, DLTpplate, DLTstairs, DLTslab1, DLTslab2, Cwater, PSDL, AbyCorOre, corblock, Altar, Abybutton, Abypplate, DSBfence, DLTfence, dreadstone, magicdreadstone, abydreadstone, abydreadore, dreadore, dreadbrick, abydreadbrick, dreadgrass, dreadlog, dreadleaves, dreadsapling, dreadplanks, dreadportal, dreadfire, dreadbrickfence, dreadbrickstairs, dreadbrickslab1, dreadbrickslab2, abydreadbrickfence, abydreadbrickstairs, abydreadbrickslab1, abydreadbrickslab2, DGhead, Phead, Whead, Ohead, anticwater, cstone, cstonebrick, cstonebrickfence,
+	public static Block abyore, Darkstone, Darkstone_brick, Darkstone_cobble, SGlow, DSGlow, Darkbrickslab1, Darkbrickslab2, Darkcobbleslab1, Darkcobbleslab2, Darkgrass, DBstairs, DCstairs, DLTLeaves, DLTLog, DLTSapling, abystone, abyssalsand, fusedabyssalsand, abybrick, abyslab1, abyslab2, abystairs, Coraliumore, abyfence, DSCwall, CoraliumInfusedStone, relic, portal, Darkstoneslab1, Darkstoneslab2, Coraliumfire, DSbutton, DSpplate, DLTplank, DLTbutton, DLTpplate, DLTstairs, DLTslab1, DLTslab2, Cwater, PSDL, AbyCorOre, corblock, Altar, Abybutton, Abypplate, DSBfence, DLTfence, dreadstone, magicdreadstone, abydreadstone, abydreadore, dreadore, dreadbrick, abydreadbrick, dreadgrass, dreadlog, dreadleaves, dreadsapling, dreadplanks, dreadportal, dreadfire, dreadbrickfence, dreadbrickstairs, dreadbrickslab1, dreadbrickslab2, abydreadbrickfence, abydreadbrickstairs, abydreadbrickslab1, abydreadbrickslab2, DGhead, Phead, Whead, Ohead, anticwater, cstone, cstonebrick, cstonebrickfence,
 			cstonebrickstairs, cstonebrickslab1, cstonebrickslab2, cstonebutton, cstonepplate, dreadaltartop, dreadaltarbottom, dreadiumblock, dreadguardspawner, chagarothspawner, DrTfence, nitreOre, AbyIroOre, AbyGolOre, AbyDiaOre, AbyNitOre, AbyTinOre, AbyCopOre, AbyPCorOre, AbyLCorOre, solidLava, ethaxium, ethaxiumbrick, ethaxiumpillar, ethaxiumstairs, ethaxiumslab1, ethaxiumslab2, ethaxiumfence, omotholstone, ethaxiumblock, omotholportal, omotholfire, engraver, house, darkethaxiumbrick, darkethaxiumpillar, darkethaxiumstairs, darkethaxiumslab1, darkethaxiumslab2, darkethaxiumfence, ritualaltar, ritualpedestal, shoggothBlock, cthulhuStatue, hasturStatue, jzaharStatue, azathothStatue, nyarlathotepStatue, yogsothothStatue, shubniggurathStatue, monolithStone, shoggothBiomass, energyPedestal, monolithPillar, sacrificialAltar, tieredEnergyPedestal, tieredSacrificialAltar, jzaharspawner, gatekeeperminionspawner, mimicFire;
 
 	// "secret" dev stuff
 	public static Item devsword;
+	// crystal bags
+	public static Item crystalbag_s, crystalbag_m, crystalbag_l, crystalbag_h;
 	// misc items
 	public static Item antibucket, OC, Staff, portalPlacer, Cbucket, PSDLfinder, EoA, portalPlacerDL, cbrick, cudgel, carbonCluster, denseCarbonCluster, methane, nitre, sulfur, portalPlacerJzh, tinIngot, copperIngot, bronzeIngot, bronzeNugget, bronzeGrit, lifeCrystal, shoggothFlesh, eldritchScale, omotholFlesh, necronomicon, necronomicon_cor, necronomicon_dre, necronomicon_omt, abyssalnomicon, nugget, essence, skin, charm, cthulhuCharm, hasturCharm, jzaharCharm, azathothCharm, nyarlathotepCharm, yogsothothCharm, shubniggurathCharm, gatekeeperEssence;
 	// foodstuff
@@ -459,6 +462,7 @@ public class AbyssalCraft {
 
 	public static final int engraverGuiID = 32;
 	public static final int necronmiconGuiID = 33;
+	public static final int crystalbagGuiID = 34;
 
 	private Item registerItem(Item item, String id) {
 		GameRegistry.registerItem(item, id);
@@ -547,7 +551,7 @@ public class AbyssalCraft {
 
 		DSCwall = new BlockDarkstonecobblewall(Darkstone_cobble).setHardness(1.65F).setResistance(12.0F).setStepSound(Block.soundTypeStone).setBlockName("DSCw").setBlockTextureName(modid + ":" + "DSC");
 		CoraliumInfusedStone = new BlockACOre(3, 3.0F, 6.0F).setBlockName("CIS").setBlockTextureName(modid + ":" + "CIS");
-		ODBcore = new BlockDivineRelic().setStepSound(Block.soundTypeMetal).setHardness(3.0F).setResistance(0F).setBlockName("ODBC");
+		relic = new BlockDivineRelic().setStepSound(Block.soundTypeMetal).setHardness(3.0F).setResistance(0F).setBlockName("relic");
 		portal = new BlockAbyssPortal().setBlockName("AG").setBlockTextureName(modid + ":" + "AG");
 		Darkstoneslab1 = new BlockDarkstoneSlab().setStepSound(Block.soundTypeStone).setCreativeTab(tabBlock).setHardness(1.65F).setResistance(12.0F).setBlockName("DSs1");
 		Darkstoneslab2 = new BlockDarkstoneSlabDouble().setStepSound(Block.soundTypeStone).setHardness(1.65F).setResistance(12.0F).setBlockName("DSs2");
@@ -712,6 +716,10 @@ public class AbyssalCraft {
 		necronomicon_dre = registerItem(new ItemNecronomicon("necronomicon_dre", 2), "necronomicon_dre");
 		necronomicon_omt = registerItem(new ItemNecronomicon("necronomicon_omt", 3), "necronomicon_omt");
 		abyssalnomicon = registerItem(new ItemNecronomicon("abyssalnomicon", 4), "abyssalnomicon");
+		crystalbag_s = registerItem(new ItemCrystalBag("crystalbag_small"), "crystalbag_small");
+		crystalbag_m = registerItem(new ItemCrystalBag("crystalbag_medium"), "crystalbag_medium");
+		crystalbag_l = registerItem(new ItemCrystalBag("crystalbag_large"), "crystalbag_large");
+		crystalbag_h = registerItem(new ItemCrystalBag("crystalbag_huge"), "crystalbag_huge");
 		nugget = registerItem(new ItemMetadata("nugget", true, "coralium", "dreadium", "ethaxium"), "ingotnugget");
 		essence = registerItem(new ItemMetadata("essence", true, "abyssalwasteland", "dreadlands", "omothol"), "essence");
 		skin = registerItem(new ItemMetadata("skin", true, "abyssalwasteland", "dreadlands", "omothol"), "skin");
@@ -955,7 +963,7 @@ public class AbyssalCraft {
 		GameRegistry.registerBlock(abyfence, ItemBlockColorName.class, "abyfence");
 		GameRegistry.registerBlock(DSCwall, "dscwall");
 		GameRegistry.registerBlock(CoraliumInfusedStone, "coraliumstone");
-		GameRegistry.registerBlock(ODBcore, ItemBlockColorName.class, "odbcore");
+		GameRegistry.registerBlock(relic, ItemBlockColorName.class, "odbcore");
 		/// GameRegistry.registerBlock(Crate, "Crate");
 		GameRegistry.registerBlock(portal, "portal");
 		GameRegistry.registerBlock(Darkstoneslab1, ItemDarkstoneSlab.class, "darkstoneslab1");

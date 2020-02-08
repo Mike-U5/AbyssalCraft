@@ -21,6 +21,7 @@ import java.util.Random;
 import com.shinoow.abyssalcraft.AbyssalCraft;
 import com.shinoow.abyssalcraft.api.APIUtils;
 import com.shinoow.abyssalcraft.api.AbyssalCraftAPI;
+import com.shinoow.abyssalcraft.api.entity.IOmotholEntity;
 import com.shinoow.abyssalcraft.common.items.ItemDrainStaff;
 import com.shinoow.abyssalcraft.common.items.ItemNecronomicon;
 import com.shinoow.abyssalcraft.common.util.EntityUtil;
@@ -66,7 +67,7 @@ import net.minecraft.village.MerchantRecipe;
 import net.minecraft.village.MerchantRecipeList;
 import net.minecraft.world.World;
 
-public class EntityRemnant extends ACMob implements IMerchant {
+public class EntityRemnant extends ACMob implements IMerchant, IOmotholEntity {
 
 	private EntityPlayer tradingPlayer;
 	private MerchantRecipeList tradingList;
@@ -153,7 +154,7 @@ public class EntityRemnant extends ACMob implements IMerchant {
 
 	@Override
 	public boolean interact(EntityPlayer player) {
-		if (isEntityAlive() && !player.isSneaking() && !isAngry) {
+		if (isEntityAlive() && !isAngry) {
 			if (EntityUtil.hasNecronomicon(player)) {
 				if (!isTrading()) {
 					if (!worldObj.isRemote) {
@@ -254,8 +255,9 @@ public class EntityRemnant extends ACMob implements IMerchant {
 			List<EntityRemnant> friends = worldObj.getEntitiesWithinAABB(getClass(), boundingBox.expand(16D, 16D, 16D));
 			if (friends != null) {
 				Iterator<EntityRemnant> iter = friends.iterator();
-				while (iter.hasNext())
+				while (iter.hasNext()) {
 					iter.next().enrage(false, (EntityLivingBase) entityToAttack);
+				}
 			}
 			worldObj.playSoundAtEntity(this, "abyssalcraft:remnant.scream", 3F, 1F);
 		}
@@ -408,7 +410,7 @@ public class EntityRemnant extends ACMob implements IMerchant {
 			// Statue Trader
 			Block[] statues = new Block[] { AbyssalCraft.cthulhuStatue, AbyssalCraft.jzaharStatue, AbyssalCraft.azathothStatue, AbyssalCraft.nyarlathotepStatue, AbyssalCraft.yogsothothStatue, AbyssalCraft.shubniggurathStatue };
 			shuffle(statues);
-			ItemStack relic = new ItemStack(Item.getItemFromBlock(AbyssalCraft.ODBcore), 1);
+			ItemStack relic = new ItemStack(Item.getItemFromBlock(AbyssalCraft.relic), 1);
 
 			for (int i = 0; i < statues.length; i++) {
 				ItemStack statue = new ItemStack(Item.getItemFromBlock(statues[i]), 1);

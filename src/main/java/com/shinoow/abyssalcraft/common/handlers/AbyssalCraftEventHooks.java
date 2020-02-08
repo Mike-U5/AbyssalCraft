@@ -27,6 +27,7 @@ import com.shinoow.abyssalcraft.api.ritual.NecronomiconSummonRitual;
 import com.shinoow.abyssalcraft.common.blocks.BlockDLTSapling;
 import com.shinoow.abyssalcraft.common.blocks.BlockDreadSapling;
 import com.shinoow.abyssalcraft.common.entity.EntityJzahar;
+import com.shinoow.abyssalcraft.common.items.ItemCrystalBag;
 import com.shinoow.abyssalcraft.common.items.ItemNecronomicon;
 import com.shinoow.abyssalcraft.common.ritual.NecronomiconBreedingRitual;
 import com.shinoow.abyssalcraft.common.ritual.NecronomiconDreadSpawnRitual;
@@ -176,7 +177,7 @@ public class AbyssalCraftEventHooks {
 						ItemStack k = event.craftMatrix.getStackInSlot(h);
 						ItemStack j = event.craftMatrix.getStackInSlot(i);
 
-						if (k.getItem() != null && j.getItem() != null && k.getItem() instanceof ItemUpgradeKit) {
+						if (j.getItem() != null && k.getItem() instanceof ItemUpgradeKit) {
 							NBTTagCompound compound = new NBTTagCompound();
 							NBTTagList tag = new NBTTagList();
 
@@ -190,13 +191,33 @@ public class AbyssalCraftEventHooks {
 
 								event.craftMatrix.setInventorySlotContents(i, l);
 							}
+						} else if(k.getItem() instanceof ItemCrystalBag){
+							NBTTagCompound compound = new NBTTagCompound();
+							NBTTagList items = new NBTTagList();
+
+							if(k.stackTagCompound == null) {
+								k.stackTagCompound = compound;
+							}
+							items = k.stackTagCompound.getTagList("ItemInventory", 10);
+
+							ItemStack l = event.crafting;
+
+							if(l.getItem() instanceof ItemCrystalBag){
+								((ItemCrystalBag)l.getItem()).setInventorySize(l);
+								if(l.stackTagCompound == null)
+									l.stackTagCompound = compound;
+								l.stackTagCompound.setTag("ItemInventory", items);
+
+								event.craftMatrix.setInventorySlotContents(i, l);
+							}
 						} else if (k.getItem() != null && k.getItem() instanceof ItemNecronomicon) {
 							NBTTagCompound compound = new NBTTagCompound();
 							String owner = "";
 							float energy = 0;
 
-							if (k.stackTagCompound == null)
+							if (k.stackTagCompound == null) {
 								k.stackTagCompound = compound;
+							}
 							owner = k.stackTagCompound.getString("owner");
 							energy = k.stackTagCompound.getFloat("PotEnergy");
 

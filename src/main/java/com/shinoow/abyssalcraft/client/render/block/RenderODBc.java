@@ -37,7 +37,7 @@ public class RenderODBc extends Render {
 	public void doRender(EntityODBcPrimed par1EntityODBcPrimed, double par2, double par4, double par6, float par8, float par9) {
 
 		GL11.glPushMatrix();
-		GL11.glTranslatef((float)par2, (float)par4, (float)par6);
+		GL11.glTranslatef((float) par2, (float) par4, (float) par6);
 		float var10;
 
 		if (par1EntityODBcPrimed.fuse - par9 + 1.0F < 10.0F) {
@@ -56,7 +56,7 @@ public class RenderODBc extends Render {
 
 		var10 = (1.0F - (par1EntityODBcPrimed.fuse - par9 + 1.0F) / 100.0F) * 0.8F;
 		bindEntityTexture(par1EntityODBcPrimed);
-		blockRenderer.renderBlockAsItem(AbyssalCraft.ODBcore, 0, par1EntityODBcPrimed.getBrightness(par9));
+		blockRenderer.renderBlockAsItem(AbyssalCraft.relic, 0, par1EntityODBcPrimed.getBrightness(par9));
 
 		if (par1EntityODBcPrimed.fuse / 5 % 2 == 0) {
 			GL11.glDisable(GL11.GL_TEXTURE_2D);
@@ -64,7 +64,7 @@ public class RenderODBc extends Render {
 			GL11.glEnable(GL11.GL_BLEND);
 			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_DST_ALPHA);
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, var10);
-			blockRenderer.renderBlockAsItem(AbyssalCraft.ODBcore, 0, 1.0F);
+			blockRenderer.renderBlockAsItem(AbyssalCraft.relic, 0, 1.0F);
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 			GL11.glDisable(GL11.GL_BLEND);
 			GL11.glEnable(GL11.GL_LIGHTING);
@@ -73,19 +73,18 @@ public class RenderODBc extends Render {
 		GL11.glPopMatrix();
 	}
 
-	protected ResourceLocation getEntityTexture(EntityODBcPrimed par1EntityODBPrimed)
-	{
+	protected ResourceLocation getEntityTexture(EntityODBcPrimed par1EntityODBPrimed) {
 		return TextureMap.locationBlocksTexture;
 	}
 
 	@Override
 	protected ResourceLocation getEntityTexture(Entity entity) {
 
-		return getEntityTexture((EntityODBcPrimed)entity);
+		return getEntityTexture((EntityODBcPrimed) entity);
 	}
 
 	@Override
 	public void doRender(Entity par1Entity, double par2, double par4, double par6, float par8, float par9) {
-		doRender((EntityODBcPrimed)par1Entity, par2, par4, par6, par8, par9);
+		doRender((EntityODBcPrimed) par1Entity, par2, par4, par6, par8, par9);
 	}
 }
