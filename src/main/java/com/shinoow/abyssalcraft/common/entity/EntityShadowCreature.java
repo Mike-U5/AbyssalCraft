@@ -32,7 +32,7 @@ public class EntityShadowCreature extends ACMob implements IOmotholEntity {
 
 	public EntityShadowCreature(World world) {
 		super(world);
-		setSize(0.5F, 1.0F);
+		setSize(0.6F, 0.6F);
 		setDrop(AbyssalCraft.shadowfragment, 2.0F);
 		tasks.addTask(2, new EntityAIAttackOnCollide(this, EntityPlayer.class, 1D, true));
 		tasks.addTask(3, new EntityAIMoveTowardsRestriction(this, 1D));

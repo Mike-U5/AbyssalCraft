@@ -43,7 +43,7 @@ public class ModelShadowMonster extends ModelBase {
 		textureWidth = 64;
 		textureHeight = 32;
 		
-		final float y = 6F;
+		final float y = 5.5F;
 
 		Head = new ModelRenderer(this, 0, 0);
 		Head.addBox(-3.5F, -7F, -3.5F, 7, 7, 7);
