@@ -54,10 +54,11 @@ public class ModelShadowBeast extends ModelBase {
 	public ModelRenderer leftleg;
 	public ModelRenderer rightleg;
 
-	public ModelShadowBeast()
-	{
+	public ModelShadowBeast() {
 		textureWidth = 128;
 		textureHeight = 64;
+		
+		final float f = 0;
 
 		head = new ModelRenderer(this, 0, 0);
 		head.addBox(-4.5F, -9F, -4.5F, 9, 9, 9);
@@ -102,7 +103,7 @@ public class ModelShadowBeast extends ModelBase {
 		head.addChild(btooth5);
 		jaw = new ModelRenderer(this, 36, 0);
 		jaw.addBox(-4.5F, 1.9F, -5F, 9, 1, 9);
-		jaw.setRotationPoint(0,0,0);
+		jaw.setRotationPoint(0, 0, 0);
 		jaw.setTextureSize(128, 64);
 		jaw.mirror = true;
 		setRotation(jaw, 0.4461433F, 0F, 0F);
@@ -161,49 +162,49 @@ public class ModelShadowBeast extends ModelBase {
 		setRotation(larm1, 0F, 0F, 0F);
 		larm2 = new ModelRenderer(this, 0, 19);
 		larm2.addBox(0F, 6F, 5F, 3, 7, 3);
-		larm2.setRotationPoint(0,0,0);
+		larm2.setRotationPoint(0, 0, 0);
 		larm2.setTextureSize(128, 64);
 		larm2.mirror = true;
 		setRotation(larm2, -0.7807508F, 0F, 0F);
 		larm1.addChild(larm2);
 		laspike1 = new ModelRenderer(this, 0, 0);
 		laspike1.addBox(6F, -1F, -0.5F, 1, 4, 1);
-		laspike1.setRotationPoint(0,0,0);
+		laspike1.setRotationPoint(0, 0, 0);
 		laspike1.setTextureSize(128, 64);
 		laspike1.mirror = true;
 		setRotation(laspike1, 0F, 0F, 0.8179311F);
 		larm1.addChild(laspike1);
 		laspike2 = new ModelRenderer(this, 34, 0);
 		laspike2.addBox(-1F, 10F, 5.5F, 4, 1, 1);
-		laspike2.setRotationPoint(0,0,0);
+		laspike2.setRotationPoint(0, 0, 0);
 		laspike2.setTextureSize(128, 64);
 		laspike2.mirror = true;
 		setRotation(laspike2, -0.7744724F, -0.2617994F, -0.2617994F);
 		larm1.addChild(laspike2);
 		lfinger1 = new ModelRenderer(this, 30, 0);
 		lfinger1.addBox(3F, 11F, 6F, 1, 5, 1);
-		lfinger1.setRotationPoint(0,0,0);
+		lfinger1.setRotationPoint(0, 0, 0);
 		lfinger1.setTextureSize(128, 64);
 		lfinger1.mirror = true;
 		setRotation(lfinger1, -0.7807556F, 0F, 0F);
 		larm1.addChild(lfinger1);
 		lfinger3 = new ModelRenderer(this, 30, 0);
 		lfinger3.addBox(1F, 11F, 4F, 1, 5, 1);
-		lfinger3.setRotationPoint(0,0,0);
+		lfinger3.setRotationPoint(0, 0, 0);
 		lfinger3.setTextureSize(128, 64);
 		lfinger3.mirror = true;
 		setRotation(lfinger3, -0.7807556F, 0F, 0F);
 		larm1.addChild(lfinger3);
 		lfinger2 = new ModelRenderer(this, 30, 0);
 		lfinger2.addBox(-1F, 11F, 6F, 1, 5, 1);
-		lfinger2.setRotationPoint(0,0,0);
+		lfinger2.setRotationPoint(0, 0, 0);
 		lfinger2.setTextureSize(128, 64);
 		lfinger2.mirror = true;
 		setRotation(lfinger2, -0.7807556F, 0F, 0F);
 		larm1.addChild(lfinger2);
 		lfinger4 = new ModelRenderer(this, 30, 0);
 		lfinger4.addBox(1F, 11F, 8F, 1, 5, 1);
-		lfinger4.setRotationPoint(0,0,0);
+		lfinger4.setRotationPoint(0, 0, 0);
 		lfinger4.setTextureSize(128, 64);
 		lfinger4.mirror = true;
 		setRotation(lfinger4, -0.7807556F, 0F, 0F);
@@ -228,49 +229,49 @@ public class ModelShadowBeast extends ModelBase {
 		setRotation(rarm1, 0F, 0F, 0F);
 		rarm2 = new ModelRenderer(this, 0, 19);
 		rarm2.addBox(-3F, 6F, 5F, 3, 7, 3);
-		rarm2.setRotationPoint(0,0,0);
+		rarm2.setRotationPoint(0, 0, 0);
 		rarm2.setTextureSize(128, 64);
 		rarm2.mirror = true;
 		setRotation(rarm2, -0.7807508F, 0F, 0F);
 		rarm1.addChild(rarm2);
 		raspike1 = new ModelRenderer(this, 0, 0);
 		raspike1.addBox(-7F, -1F, -0.5F, 1, 4, 1);
-		raspike1.setRotationPoint(0,0,0);
+		raspike1.setRotationPoint(0, 0, 0);
 		raspike1.setTextureSize(128, 64);
 		raspike1.mirror = true;
 		setRotation(raspike1, 0F, 0F, -0.8179294F);
 		rarm1.addChild(raspike1);
 		raspike2 = new ModelRenderer(this, 34, 0);
 		raspike2.addBox(-3F, 10F, 5.5F, 4, 1, 1);
-		raspike2.setRotationPoint(0,0,0);
+		raspike2.setRotationPoint(0, 0, 0);
 		raspike2.setTextureSize(128, 64);
 		raspike2.mirror = true;
 		setRotation(raspike2, -0.7807556F, 0.2617994F, 0.2617994F);
 		rarm1.addChild(raspike2);
 		rfinger1 = new ModelRenderer(this, 30, 0);
 		rfinger1.addBox(0F, 11F, 6F, 1, 5, 1);
-		rfinger1.setRotationPoint(0,0,0);
+		rfinger1.setRotationPoint(0, 0, 0);
 		rfinger1.setTextureSize(128, 64);
 		rfinger1.mirror = true;
 		setRotation(rfinger1, -0.7807556F, 0F, 0F);
 		rarm1.addChild(rfinger1);
 		rfinger2 = new ModelRenderer(this, 30, 0);
 		rfinger2.addBox(-4F, 11F, 6F, 1, 5, 1);
-		rfinger2.setRotationPoint(0,0,0);
+		rfinger2.setRotationPoint(0, 0, 0);
 		rfinger2.setTextureSize(128, 64);
 		rfinger2.mirror = true;
 		setRotation(rfinger2, -0.7807556F, 0F, 0F);
 		rarm1.addChild(rfinger2);
 		rfinger3 = new ModelRenderer(this, 30, 0);
 		rfinger3.addBox(-2F, 11F, 4F, 1, 5, 1);
-		rfinger3.setRotationPoint(0,0,0);
+		rfinger3.setRotationPoint(0, 0, 0);
 		rfinger3.setTextureSize(128, 64);
 		rfinger3.mirror = true;
 		setRotation(rfinger3, -0.7807556F, 0F, 0F);
 		rarm1.addChild(rfinger3);
 		rfinger4 = new ModelRenderer(this, 30, 0);
 		rfinger4.addBox(-2F, 11F, 8F, 1, 5, 1);
-		rfinger4.setRotationPoint(0,0,0);
+		rfinger4.setRotationPoint(0, 0, 0);
 		rfinger4.setTextureSize(128, 64);
 		rfinger4.mirror = true;
 		setRotation(rfinger4, -0.7807556F, 0F, 0F);
@@ -296,8 +297,7 @@ public class ModelShadowBeast extends ModelBase {
 	}
 
 	@Override
-	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
-	{
+	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
 		super.render(entity, f, f1, f2, f3, f4, f5);
 		setRotationAngles(f, f1, f2, f3, f4, f5, entity);
 		head.render(f5);
@@ -305,55 +305,53 @@ public class ModelShadowBeast extends ModelBase {
 		leftshoulder.render(f5);
 		lsspike.render(f5);
 		larm1.render(f5);
-		//		larm2.render(f5);
-		//		laspike1.render(f5);
-		//		laspike2.render(f5);
-		//		lfinger1.render(f5);
-		//		lfinger3.render(f5);
-		//		lfinger2.render(f5);
-		//		lfinger4.render(f5);
+		// larm2.render(f5);
+		// laspike1.render(f5);
+		// laspike2.render(f5);
+		// lfinger1.render(f5);
+		// lfinger3.render(f5);
+		// lfinger2.render(f5);
+		// lfinger4.render(f5);
 		rightshoulder.render(f5);
 		rsspike.render(f5);
 		rarm1.render(f5);
-		//		rarm2.render(f5);
-		//		raspike1.render(f5);
-		//		raspike2.render(f5);
-		//		rfinger1.render(f5);
-		//		rfinger2.render(f5);
-		//		rfinger3.render(f5);
-		//		rfinger4.render(f5);
+		// rarm2.render(f5);
+		// raspike1.render(f5);
+		// raspike2.render(f5);
+		// rfinger1.render(f5);
+		// rfinger2.render(f5);
+		// rfinger3.render(f5);
+		// rfinger4.render(f5);
 		pelvis.render(f5);
 		leftleg.render(f5);
 		rightleg.render(f5);
 	}
 
-	private void setRotation(ModelRenderer model, float x, float y, float z)
-	{
+	private void setRotation(ModelRenderer model, float x, float y, float z) {
 		model.rotateAngleX = x;
 		model.rotateAngleY = y;
 		model.rotateAngleZ = z;
 	}
 
 	@Override
-	public void setRotationAngles(float f, float f1, float f2, float f3, float f4, float f5, Entity entity)
-	{
-		head.rotateAngleY = f3 / (180F / (float)Math.PI);
-		head.rotateAngleX = f4 / (180F / (float)Math.PI);
+	public void setRotationAngles(float f, float f1, float f2, float f3, float f4, float f5, Entity entity) {
+		head.rotateAngleY = f3 / (180F / (float) Math.PI);
+		head.rotateAngleX = f4 / (180F / (float) Math.PI);
 
 		rightleg.rotateAngleX = MathHelper.cos(f * 0.3331F) * 0.07F * f1;
 		rightleg.rotateAngleY = 0.0F;
 
-		leftleg.rotateAngleX = MathHelper.cos(f * 0.3331F + (float)Math.PI) * 0.07F * f1;
+		leftleg.rotateAngleX = MathHelper.cos(f * 0.3331F + (float) Math.PI) * 0.07F * f1;
 		leftleg.rotateAngleY = 0.0F;
 
-		float f6 = MathHelper.sin(onGround * (float)Math.PI);
-		float f7 = MathHelper.sin((1.0F - (1.0F - onGround) * (1.0F - onGround)) * (float)Math.PI);
+		float f6 = MathHelper.sin(onGround * (float) Math.PI);
+		float f7 = MathHelper.sin((1.0F - (1.0F - onGround) * (1.0F - onGround)) * (float) Math.PI);
 		rarm1.rotateAngleZ = 0.0F;
 		larm1.rotateAngleZ = 0.0F;
 		rarm1.rotateAngleY = -(0.1F - f6 * 0.6F);
 		larm1.rotateAngleY = 0.1F - f6 * 0.6F;
-		rarm1.rotateAngleX = -((float)Math.PI / 7.2F);
-		larm1.rotateAngleX = -((float)Math.PI / 7.2F);
+		rarm1.rotateAngleX = -((float) Math.PI / 7.2F);
+		larm1.rotateAngleX = -((float) Math.PI / 7.2F);
 		rarm1.rotateAngleX -= f6 * 1.2F - f7 * 0.4F;
 		larm1.rotateAngleX -= f6 * 1.2F - f7 * 0.4F;
 		rarm1.rotateAngleZ += MathHelper.cos(f2 * 0.09F) * 0.05F + 0.05F;
