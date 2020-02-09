@@ -19,16 +19,9 @@ import net.minecraft.util.MathHelper;
 public class ModelShadowBeast extends ModelBase {
 
 	public ModelRenderer head;
-	public ModelRenderer btooth1;
-	public ModelRenderer btooth2;
-	public ModelRenderer btooth3;
-	public ModelRenderer btooth4;
-	public ModelRenderer btooth5;
+	public ModelRenderer[] bteeth = new ModelRenderer[5];
+	public ModelRenderer[] steeth = new ModelRenderer[4];
 	public ModelRenderer jaw;
-	public ModelRenderer stooth1;
-	public ModelRenderer stooth2;
-	public ModelRenderer stooth3;
-	public ModelRenderer stooth4;
 	public ModelRenderer spine;
 	public ModelRenderer leftshoulder;
 	public ModelRenderer lsspike;
@@ -58,49 +51,26 @@ public class ModelShadowBeast extends ModelBase {
 		textureWidth = 128;
 		textureHeight = 64;
 		
-		final float f = 0;
-
+		// Head
 		head = new ModelRenderer(this, 0, 0);
 		head.addBox(-4.5F, -9F, -4.5F, 9, 9, 9);
 		head.setRotationPoint(0F, -13F, -1F);
 		head.setTextureSize(128, 64);
 		head.mirror = true;
 		setRotation(head, 0F, 0F, 0F);
-		btooth1 = new ModelRenderer(this, 37, 4);
-		btooth1.addBox(0F, 0F, 0F, 1, 2, 1);
-		btooth1.setRotationPoint(-4.5F, 0F, -4.5F);
-		btooth1.setTextureSize(128, 64);
-		btooth1.mirror = true;
-		setRotation(btooth1, 0F, 0F, 0F);
-		head.addChild(btooth1);
-		btooth2 = new ModelRenderer(this, 37, 4);
-		btooth2.addBox(0F, 0F, 0F, 1, 2, 1);
-		btooth2.setRotationPoint(-2.5F, 0F, -4.5F);
-		btooth2.setTextureSize(128, 64);
-		btooth2.mirror = true;
-		setRotation(btooth2, 0F, 0F, 0F);
-		head.addChild(btooth2);
-		btooth3 = new ModelRenderer(this, 37, 4);
-		btooth3.addBox(0F, 0F, 0F, 1, 2, 1);
-		btooth3.setRotationPoint(-0.5F, 0F, -4.5F);
-		btooth3.setTextureSize(128, 64);
-		btooth3.mirror = true;
-		setRotation(btooth3, 0F, 0F, 0F);
-		head.addChild(btooth3);
-		btooth4 = new ModelRenderer(this, 37, 4);
-		btooth4.addBox(0F, 0F, 0F, 1, 2, 1);
-		btooth4.setRotationPoint(1.5F, 0F, -4.5F);
-		btooth4.setTextureSize(128, 64);
-		btooth4.mirror = true;
-		setRotation(btooth4, 0F, 0F, 0F);
-		head.addChild(btooth4);
-		btooth5 = new ModelRenderer(this, 37, 4);
-		btooth5.addBox(0F, 0F, 0F, 1, 2, 1);
-		btooth5.setRotationPoint(3.5F, 0F, -4.5F);
-		btooth5.setTextureSize(128, 64);
-		btooth5.mirror = true;
-		setRotation(btooth5, 0F, 0F, 0F);
-		head.addChild(btooth5);
+		// Top Teeth Row
+		for (int i = 0; i < bteeth.length; i++) {
+			bteeth[i] = new ModelRenderer(this, 37, 4);
+			bteeth[i].addBox(0F, 0F, 0F, 1, 2, 1);
+			
+			bteeth[i].setRotationPoint(-4.5F + (i * 2F), 0F, -4.5F);
+			
+			bteeth[i].setTextureSize(128, 64);
+			bteeth[i].mirror = true;
+			setRotation(bteeth[i], 0F, 0F, 0F);
+			head.addChild(bteeth[i]);
+		}
+		// Jaw
 		jaw = new ModelRenderer(this, 36, 0);
 		jaw.addBox(-4.5F, 1.9F, -5F, 9, 1, 9);
 		jaw.setRotationPoint(0, 0, 0);
@@ -108,34 +78,17 @@ public class ModelShadowBeast extends ModelBase {
 		jaw.mirror = true;
 		setRotation(jaw, 0.4461433F, 0F, 0F);
 		head.addChild(jaw);
-		stooth1 = new ModelRenderer(this, 37, 4);
-		stooth1.addBox(0F, 0F, 0F, 1, 1, 1);
-		stooth1.setRotationPoint(-3.5F, 0.9F, -5F);
-		stooth1.setTextureSize(128, 64);
-		stooth1.mirror = true;
-		setRotation(stooth1, 0, 0F, 0F);
-		jaw.addChild(stooth1);
-		stooth2 = new ModelRenderer(this, 37, 4);
-		stooth2.addBox(0F, 0F, 0F, 1, 1, 1);
-		stooth2.setRotationPoint(-1.5F, 0.9F, -5F);
-		stooth2.setTextureSize(128, 64);
-		stooth2.mirror = true;
-		setRotation(stooth2, 0, 0F, 0F);
-		jaw.addChild(stooth2);
-		stooth3 = new ModelRenderer(this, 37, 4);
-		stooth3.addBox(0F, 0F, 0F, 1, 1, 1);
-		stooth3.setRotationPoint(0.5F, 0.9F, -5F);
-		stooth3.setTextureSize(128, 64);
-		stooth3.mirror = true;
-		setRotation(stooth3, 0, 0F, 0F);
-		jaw.addChild(stooth3);
-		stooth4 = new ModelRenderer(this, 37, 4);
-		stooth4.addBox(0F, 0F, 0F, 1, 1, 1);
-		stooth4.setRotationPoint(2.5F, 0.9F, -5F);
-		stooth4.setTextureSize(128, 64);
-		stooth4.mirror = true;
-		setRotation(stooth4, 0, 0F, 0F);
-		jaw.addChild(stooth4);
+		// Bottom Teeth Row
+		for (int i = 0; i < steeth.length; i++) {
+			steeth[i] = new ModelRenderer(this, 37, 4);
+			steeth[i].addBox(0F, 0F, 0F, 1, 1, 1);
+			steeth[i].setRotationPoint(-3.5F + (i * 2F), 0.9F, -5F);
+			steeth[i].setTextureSize(128, 64);
+			steeth[i].mirror = true;
+			setRotation(steeth[i], 0F, 0F, 0F);
+			jaw.addChild(steeth[i]);
+		}
+		// Body
 		spine = new ModelRenderer(this, 72, 0);
 		spine.addBox(-2.5F, 0F, -2.5F, 5, 20, 5);
 		spine.setRotationPoint(0F, -12F, -1F);
@@ -305,23 +258,9 @@ public class ModelShadowBeast extends ModelBase {
 		leftshoulder.render(f5);
 		lsspike.render(f5);
 		larm1.render(f5);
-		// larm2.render(f5);
-		// laspike1.render(f5);
-		// laspike2.render(f5);
-		// lfinger1.render(f5);
-		// lfinger3.render(f5);
-		// lfinger2.render(f5);
-		// lfinger4.render(f5);
 		rightshoulder.render(f5);
 		rsspike.render(f5);
 		rarm1.render(f5);
-		// rarm2.render(f5);
-		// raspike1.render(f5);
-		// raspike2.render(f5);
-		// rfinger1.render(f5);
-		// rfinger2.render(f5);
-		// rfinger3.render(f5);
-		// rfinger4.render(f5);
 		pelvis.render(f5);
 		leftleg.render(f5);
 		rightleg.render(f5);
