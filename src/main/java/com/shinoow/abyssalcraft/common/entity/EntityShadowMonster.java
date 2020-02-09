@@ -30,8 +30,8 @@ import net.minecraft.world.World;
 
 public class EntityShadowMonster extends ACMob implements IOmotholEntity {
 
-	public EntityShadowMonster(World par1World) {
-		super(par1World);
+	public EntityShadowMonster(World world) {
+		super(world);
 		setDrop(AbyssalCraft.shadowshard, 1.5F);
 		tasks.addTask(2, new EntityAIAttackOnCollide(this, EntityPlayer.class, 1D, true));
 		tasks.addTask(3, new EntityAIMoveTowardsRestriction(this, 1D));

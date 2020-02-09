@@ -51,7 +51,7 @@ public class ModelShadowBeast extends ModelBase {
 		textureWidth = 128;
 		textureHeight = 64;
 		
-		final float y = -5.5F;
+		final float y = 5.5F;
 		
 		// Head
 		head = new ModelRenderer(this, 0, 0);
@@ -60,11 +60,12 @@ public class ModelShadowBeast extends ModelBase {
 		head.setTextureSize(128, 64);
 		head.mirror = true;
 		setRotation(head, 0F, 0F, 0F);
+		
 		// Top Teeth Row
 		for (int i = 0; i < bteeth.length; i++) {
 			bteeth[i] = new ModelRenderer(this, 37, 4);
 			bteeth[i].addBox(0F, 0F, 0F, 1, 2, 1);
-			bteeth[i].setRotationPoint(-4.5F + (i * 2F), y, -4.5F);
+			bteeth[i].setRotationPoint(-4.5F + (i * 2F), 0F, -4.5F);
 			bteeth[i].setTextureSize(128, 64);
 			bteeth[i].mirror = true;
 			setRotation(bteeth[i], 0F, 0F, 0F);
@@ -82,7 +83,7 @@ public class ModelShadowBeast extends ModelBase {
 		for (int i = 0; i < steeth.length; i++) {
 			steeth[i] = new ModelRenderer(this, 37, 4);
 			steeth[i].addBox(0F, 0F, 0F, 1, 1, 1);
-			steeth[i].setRotationPoint(-3.5F + (i * 2F), y + 0.9F, -5F);
+			steeth[i].setRotationPoint(-3.5F + (i * 2F), 0.9F, -5F);
 			steeth[i].setTextureSize(128, 64);
 			steeth[i].mirror = true;
 			setRotation(steeth[i], 0F, 0F, 0F);
@@ -95,140 +96,152 @@ public class ModelShadowBeast extends ModelBase {
 		spine.setTextureSize(128, 64);
 		spine.mirror = true;
 		setRotation(spine, 0.2974289F, 0F, 0F);
+		
 		leftshoulder = new ModelRenderer(this, 41, 11);
 		leftshoulder.addBox(-8F, 0F, 0F, 8, 5, 7);
 		leftshoulder.setRotationPoint(9.5F, y - 8F, -3F);
 		leftshoulder.setTextureSize(128, 64);
 		leftshoulder.mirror = true;
 		setRotation(leftshoulder, 0F, 0F, 0.111544F);
+		
 		lsspike = new ModelRenderer(this, 0, 0);
 		lsspike.addBox(0F, -4F, 0F, 1, 5, 1);
-		lsspike.setRotationPoint(7F, y - 9F, 0F);
+		lsspike.setRotationPoint(7F, -9F, 0F);
 		lsspike.setTextureSize(128, 64);
 		lsspike.mirror = true;
 		setRotation(lsspike, 0F, 0F, 0.111544F);
+		
 		larm1 = new ModelRenderer(this, 0, 19);
 		larm1.addBox(0F, -1F, -1.5F, 3, 11, 3);
 		larm1.setRotationPoint(5F, y - 6.5F, 0.5F);
 		larm1.setTextureSize(128, 64);
 		larm1.mirror = true;
 		setRotation(larm1, 0F, 0F, 0F);
+		
 		larm2 = new ModelRenderer(this, 0, 19);
 		larm2.addBox(0F, 6F, 5F, 3, 7, 3);
-		larm2.setRotationPoint(0, y, 0);
+		larm2.setRotationPoint(0, 0, 0);
 		larm2.setTextureSize(128, 64);
 		larm2.mirror = true;
 		setRotation(larm2, -0.7807508F, 0F, 0F);
 		larm1.addChild(larm2);
+		
 		laspike1 = new ModelRenderer(this, 0, 0);
 		laspike1.addBox(6F, -1F, -0.5F, 1, 4, 1);
-		laspike1.setRotationPoint(0, y, 0);
+		laspike1.setRotationPoint(0, 0, 0);
 		laspike1.setTextureSize(128, 64);
 		laspike1.mirror = true;
 		setRotation(laspike1, 0F, 0F, 0.8179311F);
 		larm1.addChild(laspike1);
 		laspike2 = new ModelRenderer(this, 34, 0);
 		laspike2.addBox(-1F, 10F, 5.5F, 4, 1, 1);
-		laspike2.setRotationPoint(0, y, 0);
+		laspike2.setRotationPoint(0, 0, 0);
 		laspike2.setTextureSize(128, 64);
 		laspike2.mirror = true;
 		setRotation(laspike2, -0.7744724F, -0.2617994F, -0.2617994F);
 		larm1.addChild(laspike2);
+		
 		lfinger1 = new ModelRenderer(this, 30, 0);
 		lfinger1.addBox(3F, 11F, 6F, 1, 5, 1);
-		lfinger1.setRotationPoint(0, y, 0);
+		lfinger1.setRotationPoint(0, 0, 0);
 		lfinger1.setTextureSize(128, 64);
 		lfinger1.mirror = true;
 		setRotation(lfinger1, -0.7807556F, 0F, 0F);
 		larm1.addChild(lfinger1);
 		lfinger3 = new ModelRenderer(this, 30, 0);
 		lfinger3.addBox(1F, 11F, 4F, 1, 5, 1);
-		lfinger3.setRotationPoint(0, y, 0);
+		lfinger3.setRotationPoint(0, 0, 0);
 		lfinger3.setTextureSize(128, 64);
 		lfinger3.mirror = true;
 		setRotation(lfinger3, -0.7807556F, 0F, 0F);
 		larm1.addChild(lfinger3);
 		lfinger2 = new ModelRenderer(this, 30, 0);
 		lfinger2.addBox(-1F, 11F, 6F, 1, 5, 1);
-		lfinger2.setRotationPoint(0, y, 0);
+		lfinger2.setRotationPoint(0, 0, 0);
 		lfinger2.setTextureSize(128, 64);
 		lfinger2.mirror = true;
 		setRotation(lfinger2, -0.7807556F, 0F, 0F);
 		larm1.addChild(lfinger2);
 		lfinger4 = new ModelRenderer(this, 30, 0);
 		lfinger4.addBox(1F, 11F, 8F, 1, 5, 1);
-		lfinger4.setRotationPoint(0, y, 0);
+		lfinger4.setRotationPoint(0, 0, 0);
 		lfinger4.setTextureSize(128, 64);
 		lfinger4.mirror = true;
 		setRotation(lfinger4, -0.7807556F, 0F, 0F);
 		larm1.addChild(lfinger4);
+		
 		rightshoulder = new ModelRenderer(this, 41, 11);
 		rightshoulder.addBox(0F, 0F, 0F, 8, 5, 7);
 		rightshoulder.setRotationPoint(-9.5F, y - 8F, -3F);
 		rightshoulder.setTextureSize(128, 64);
 		rightshoulder.mirror = true;
 		setRotation(rightshoulder, 0F, 0F, -0.1115358F);
+		
 		rsspike = new ModelRenderer(this, 0, 0);
 		rsspike.addBox(0F, -4F, 0F, 1, 5, 1);
-		rsspike.setRotationPoint(-8F, y - 9F, 0F);
+		rsspike.setRotationPoint(-8F, -9F, 0F);
 		rsspike.setTextureSize(128, 64);
 		rsspike.mirror = true;
 		setRotation(rsspike, 0F, 0F, -0.111544F);
+		
 		rarm1 = new ModelRenderer(this, 0, 19);
 		rarm1.addBox(-3F, -1F, -1.5F, 3, 11, 3);
 		rarm1.setRotationPoint(-5F, y - 6.5F, 0.5F);
 		rarm1.setTextureSize(128, 64);
 		rarm1.mirror = true;
 		setRotation(rarm1, 0F, 0F, 0F);
+		
 		rarm2 = new ModelRenderer(this, 0, 19);
 		rarm2.addBox(-3F, 6F, 5F, 3, 7, 3);
-		rarm2.setRotationPoint(0, y, 0);
+		rarm2.setRotationPoint(0, 0, 0);
 		rarm2.setTextureSize(128, 64);
 		rarm2.mirror = true;
 		setRotation(rarm2, -0.7807508F, 0F, 0F);
 		rarm1.addChild(rarm2);
+		
 		raspike1 = new ModelRenderer(this, 0, 0);
 		raspike1.addBox(-7F, -1F, -0.5F, 1, 4, 1);
-		raspike1.setRotationPoint(0, y, 0);
+		raspike1.setRotationPoint(0, 0, 0);
 		raspike1.setTextureSize(128, 64);
 		raspike1.mirror = true;
 		setRotation(raspike1, 0F, 0F, -0.8179294F);
 		rarm1.addChild(raspike1);
 		raspike2 = new ModelRenderer(this, 34, 0);
 		raspike2.addBox(-3F, 10F, 5.5F, 4, 1, 1);
-		raspike2.setRotationPoint(0, y, 0);
+		raspike2.setRotationPoint(0, 0, 0);
 		raspike2.setTextureSize(128, 64);
 		raspike2.mirror = true;
 		setRotation(raspike2, -0.7807556F, 0.2617994F, 0.2617994F);
 		rarm1.addChild(raspike2);
 		rfinger1 = new ModelRenderer(this, 30, 0);
 		rfinger1.addBox(0F, 11F, 6F, 1, 5, 1);
-		rfinger1.setRotationPoint(0, y, 0);
+		rfinger1.setRotationPoint(0, 0, 0);
 		rfinger1.setTextureSize(128, 64);
 		rfinger1.mirror = true;
 		setRotation(rfinger1, -0.7807556F, 0F, 0F);
 		rarm1.addChild(rfinger1);
 		rfinger2 = new ModelRenderer(this, 30, 0);
 		rfinger2.addBox(-4F, 11F, 6F, 1, 5, 1);
-		rfinger2.setRotationPoint(0, y, 0);
+		rfinger2.setRotationPoint(0, 0, 0);
 		rfinger2.setTextureSize(128, 64);
 		rfinger2.mirror = true;
 		setRotation(rfinger2, -0.7807556F, 0F, 0F);
 		rarm1.addChild(rfinger2);
 		rfinger3 = new ModelRenderer(this, 30, 0);
 		rfinger3.addBox(-2F, 11F, 4F, 1, 5, 1);
-		rfinger3.setRotationPoint(0, y, 0);
+		rfinger3.setRotationPoint(0, 0, 0);
 		rfinger3.setTextureSize(128, 64);
 		rfinger3.mirror = true;
 		setRotation(rfinger3, -0.7807556F, 0F, 0F);
 		rarm1.addChild(rfinger3);
 		rfinger4 = new ModelRenderer(this, 30, 0);
 		rfinger4.addBox(-2F, 11F, 8F, 1, 5, 1);
-		rfinger4.setRotationPoint(0, y, 0);
+		rfinger4.setRotationPoint(0, 0, 0);
 		rfinger4.setTextureSize(128, 64);
 		rfinger4.mirror = true;
 		setRotation(rfinger4, -0.7807556F, 0F, 0F);
 		rarm1.addChild(rfinger4);
+		
 		pelvis = new ModelRenderer(this, 37, 24);
 		pelvis.addBox(0F, 0F, -1F, 12, 5, 5);
 		pelvis.setRotationPoint(-6F, y + 7F, 3F);
