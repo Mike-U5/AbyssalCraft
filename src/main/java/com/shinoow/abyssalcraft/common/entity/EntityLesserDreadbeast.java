@@ -58,8 +58,8 @@ public class EntityLesserDreadbeast extends ACMob implements IDreadEntity, IRang
 	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
 
-		getEntityAttribute(SharedMonsterAttributes.knockbackResistance).setBaseValue(0.4D);
-		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.7D);
+		getEntityAttribute(SharedMonsterAttributes.knockbackResistance).setBaseValue(0.5D);
+		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.3D);
 
 		if(AbyssalCraft.hardcoreMode){
 			getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(600.0D);
