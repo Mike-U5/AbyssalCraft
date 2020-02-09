@@ -272,14 +272,9 @@ public class EntityRemnant extends ACMob implements IMerchant, IOmotholEntity {
 	@Override
 	public boolean attackEntityFrom(DamageSource dmgSrc, float par2) {
 		if (dmgSrc.getSourceOfDamage() instanceof EntityLivingBase && !dmgSrc.isFireDamage()) {
-			if (entityToAttack != dmgSrc.getSourceOfDamage()) {
+			if (entityToAttack != dmgSrc.getSourceOfDamage() && !isAngry) {
 				entityToAttack = dmgSrc.getEntity();
 				enrage(true, (EntityLivingBase) entityToAttack);
-			}
-			if (!isAngry) {
-				enrage(true);
-			} else {
-				enrage(rand.nextInt(10) == 0);
 			}
 		}
 		return super.attackEntityFrom(dmgSrc, par2);
@@ -303,26 +298,26 @@ public class EntityRemnant extends ACMob implements IMerchant, IOmotholEntity {
 	}
 
 	@Override
-	public void writeEntityToNBT(NBTTagCompound par1NBTTagCompound) {
-		super.writeEntityToNBT(par1NBTTagCompound);
-		par1NBTTagCompound.setInteger("Profession", getProfession());
-		par1NBTTagCompound.setInteger("Money", wealth);
-		par1NBTTagCompound.setBoolean("IsAngry", isAngry);
+	public void writeEntityToNBT(NBTTagCompound nbt) {
+		super.writeEntityToNBT(nbt);
+		nbt.setInteger("Profession", getProfession());
+		nbt.setInteger("Money", wealth);
+		nbt.setBoolean("IsAngry", isAngry);
 
-		if (tradingList != null)
-			par1NBTTagCompound.setTag("Offers", tradingList.getRecipiesAsTags());
+		if (tradingList != null) {
+			nbt.setTag("Offers", tradingList.getRecipiesAsTags());
+		}
 	}
 
 	@Override
-	public void readEntityFromNBT(NBTTagCompound par1NBTTagCompound) {
-		super.readEntityFromNBT(par1NBTTagCompound);
-		setProfession(par1NBTTagCompound.getInteger("Profession"));
-		wealth = par1NBTTagCompound.getInteger("Money");
-		isAngry = par1NBTTagCompound.getBoolean("IsAngry");
+	public void readEntityFromNBT(NBTTagCompound nbt) {
+		super.readEntityFromNBT(nbt);
+		setProfession(nbt.getInteger("Profession"));
+		wealth = nbt.getInteger("Money");
+		isAngry = nbt.getBoolean("IsAngry");
 
-		if (par1NBTTagCompound.hasKey("Offers", 10)) {
-			NBTTagCompound nbttagcompound1 = par1NBTTagCompound.getCompoundTag("Offers");
-			tradingList = new MerchantRecipeList(nbttagcompound1);
+		if (nbt.hasKey("Offers", 10)) {
+			tradingList = new MerchantRecipeList(nbt.getCompoundTag("Offers"));
 		}
 	}
 
@@ -355,8 +350,8 @@ public class EntityRemnant extends ACMob implements IMerchant, IOmotholEntity {
 	}
 
 	@Override
-	public void setCustomer(EntityPlayer var1) {
-		tradingPlayer = var1;
+	public void setCustomer(EntityPlayer player) {
+		tradingPlayer = player;
 	}
 
 	@Override
@@ -370,8 +365,9 @@ public class EntityRemnant extends ACMob implements IMerchant, IOmotholEntity {
 
 	@Override
 	public MerchantRecipeList getRecipes(EntityPlayer var1) {
-		if (tradingList == null)
+		if (tradingList == null) {
 			addDefaultEquipmentAndRecipies(1);
+		}
 
 		return tradingList;
 	}
@@ -391,6 +387,78 @@ public class EntityRemnant extends ACMob implements IMerchant, IOmotholEntity {
 			arr[i] = tmp;
 		}
 	}
+	
+	private MerchantRecipe randomBookTrade() {
+		ItemStack book = new ItemStack(Items.written_book);
+		int worth = 1;
+		final int roll = worldObj.rand.nextInt(11);
+		
+		if (roll == 0) {
+			book = new ItemStack(AbyssalCraft.necronomicon_cor);
+			worth = 16 + worldObj.rand.nextInt(2);
+		}
+		if (roll == 1) {
+			book = new ItemStack(AbyssalCraft.necronomicon_dre);
+			worth = 32 + worldObj.rand.nextInt(8);
+		}
+		if (roll == 2) {
+			book = new ItemStack(AbyssalCraft.necronomicon_omt);
+			worth = 48 + worldObj.rand.nextInt(17);
+		}
+		if (roll == 3) {
+			Item thaumonomicon = GameRegistry.findItem("Thaumcraft", "ItemThaumonomicon");
+			if (thaumonomicon != null) {
+				book = new ItemStack(thaumonomicon);
+			}
+		}
+		if (roll == 4) {
+			Item crimsonrites = GameRegistry.findItem("Thaumcraft", "ItemEldritchObject");
+			if (crimsonrites != null) {
+				book = new ItemStack(crimsonrites, 1, 1);
+				worth = 1 + worldObj.rand.nextInt(3);
+			}
+		}
+		if (roll == 5) {
+			Item lexicana = GameRegistry.findItem("Botania", "LexicanaBotania");
+			if (lexicana != null) {
+				book = new ItemStack(lexicana);
+			}
+		}
+		if (roll == 6) {
+			Item manual = GameRegistry.findItem("ImmersiveEngineering", "tool");
+			if (manual != null) {
+				book = new ItemStack(manual, 1, 3);
+			}
+		}
+		if (roll == 7) {
+			Item blueprint = GameRegistry.findItem("ImmersiveEngineering", "blueprint");
+			if (blueprint != null) {
+				book = new ItemStack(blueprint, 1, worldObj.rand.nextInt(3));
+			}
+		}
+		if (roll == 8) {
+			Item blueprint = GameRegistry.findItem("ImmersiveEngineering", "blueprint");
+			if (blueprint != null) {
+				book = new ItemStack(blueprint, 1, worldObj.rand.nextInt(3));
+			}
+		}
+		if (roll == 9) {
+			Item schemaMoon = GameRegistry.findItem("GalacticraftCore", "item.schematic");
+			if (schemaMoon != null) {
+				worth = 35 + worldObj.rand.nextInt(10);
+				book = new ItemStack(schemaMoon, 1, worldObj.rand.nextInt(2));
+			}
+		}
+		if (roll == 10) {
+			Item schemaMars = GameRegistry.findItem("GalacticraftMars", "item.schematic");
+			if (schemaMars != null) {
+				worth = 40 + worldObj.rand.nextInt(10);
+				book = new ItemStack(schemaMars, 1, worldObj.rand.nextInt(3));
+			}
+		}
+		
+		return new MerchantRecipe(book, null, coins(worth));
+	}
 
 	@SuppressWarnings("unchecked")
 	private void addDefaultEquipmentAndRecipies(int par1) {
@@ -407,7 +475,7 @@ public class EntityRemnant extends ACMob implements IMerchant, IOmotholEntity {
 
 		switch (getProfession()) {
 		case 0:
-			// Statue Trader
+			// Priest
 			Block[] statues = new Block[] { AbyssalCraft.cthulhuStatue, AbyssalCraft.jzaharStatue, AbyssalCraft.azathothStatue, AbyssalCraft.nyarlathotepStatue, AbyssalCraft.yogsothothStatue, AbyssalCraft.shubniggurathStatue };
 			shuffle(statues);
 			ItemStack relic = new ItemStack(Item.getItemFromBlock(AbyssalCraft.relic), 1);
@@ -417,35 +485,27 @@ public class EntityRemnant extends ACMob implements IMerchant, IOmotholEntity {
 				if (rand.nextFloat() < 0.5F) {
 					list.add(new MerchantRecipe(relic, null, statue));
 				} else {
-					int greed = 1 + (int) rand.nextFloat() * 11;
-					ItemStack cost = new ItemStack(AbyssalCraft.elderCoin, greed, 0);
-					list.add(new MerchantRecipe(statue, cost, relic));
+					list.add(new MerchantRecipe(statue, coins(1, 12), relic));
 				}
 			}
 
 			break;
 		case 1:
-			// Librarian
+			// Buys Books
+			list.add(randomBookTrade());
+			list.add(randomBookTrade());
+			list.add(randomBookTrade());
+			// Sell Either an enchanted book or a Abyssalnomicon
 			if (rand.nextFloat() < 0.8F) {
-				list.add(new MerchantRecipe(getItemStackWithQuantity(Items.book, rand), AbyssalCraft.elderCoin));
-			}
-			if (rand.nextFloat() < 0.7F) {
-				list.add(new MerchantRecipe(getItemStackWithQuantity(Item.getItemFromBlock(Blocks.bookshelf), rand), AbyssalCraft.elderCoin));
-			}
-			addCoinTrade(list, Item.getItemFromBlock(Blocks.bookshelf), rand, adjustProbability(0.8F));
-			addCoinTrade(list, Item.getItemFromBlock(Blocks.glass), rand, adjustProbability(0.2F));
-			addCoinTrade(list, Items.compass, rand, adjustProbability(0.2F));
-			addCoinTrade(list, Items.clock, rand, adjustProbability(0.2F));
-			if (rand.nextFloat() < adjustProbability(0.07F)) {
-				Enchantment enchantment = Enchantment.enchantmentsBookList[rand.nextInt(Enchantment.enchantmentsBookList.length)];
-				int i1 = MathHelper.getRandomIntegerInRange(rand, enchantment.getMinLevel(), enchantment.getMaxLevel());
-				ItemStack itemstack = Items.enchanted_book.getEnchantedItemStack(new EnchantmentData(enchantment, i1));
-				k = 2 + rand.nextInt(5 + i1 * 10) + 3 * i1;
-				list.add(new MerchantRecipe(new ItemStack(Items.book), new ItemStack(AbyssalCraft.elderCoin, k), itemstack));
+				final Enchantment enchantment = Enchantment.enchantmentsBookList[rand.nextInt(Enchantment.enchantmentsBookList.length)];
+				final int enchLvl = MathHelper.getRandomIntegerInRange(rand, enchantment.getMinLevel(), enchantment.getMaxLevel());
+				final ItemStack itemstack = Items.enchanted_book.getEnchantedItemStack(new EnchantmentData(enchantment, enchLvl));
+				final int rate = 2 + rand.nextInt(5 + enchLvl * 10) + (3 * enchLvl);
+				list.add(new MerchantRecipe(new ItemStack(Items.book), coins(rate), itemstack));
 			} else {
-				addCoinTrade(list, AbyssalCraft.necronomicon, rand, adjustProbability(1.0F));
+				list.add(new MerchantRecipe(coins(5, 10), new ItemStack(Items.book), new ItemStack(AbyssalCraft.abyssalnomicon)));
 			}
-
+			Collections.shuffle(list);
 			break;
 		case 2:
 			addCoinTrade(list, Items.ender_eye, rand, adjustProbability(0.3F));
@@ -477,11 +537,22 @@ public class EntityRemnant extends ACMob implements IMerchant, IOmotholEntity {
 
 				++k;
 			}
+		/* ~~ Artisan ~~ */
 		case 3:
-			addItemTrade(list, Items.coal, rand, adjustProbability(0.7F));
-			addItemTrade(list, AbyssalCraft.Cingot, rand, adjustProbability(0.5F));
-			addItemTrade(list, AbyssalCraft.dreadiumingot, rand, adjustProbability(0.5F));
-			addItemTrade(list, AbyssalCraft.ethaxiumIngot, rand, adjustProbability(0.3F));
+			// Buys Alumentum or Coal Trade
+			final Item alumentum = GameRegistry.findItem("Thaumcraft", "ItemResource");
+			if (alumentum != null) {
+				final ItemStack request = new ItemStack(alumentum, 5 + worldObj.rand.nextInt(3), 0);
+				list.add(new MerchantRecipe(request, null, coins(1)));
+			} else {
+				final ItemStack request = new ItemStack(Items.coal, 15 + worldObj.rand.nextInt(11));
+				list.add(new MerchantRecipe(request, null, coins(1)));
+			}
+			// Sell Ethaxium Bricks
+			final ItemStack offer = new ItemStack(AbyssalCraft.ethaxium_brick);
+			final ItemStack request = new ItemStack(AbyssalCraft.eldritchScale, 1);
+			list.add(new MerchantRecipe(request, coins(2, 2), offer));
+			// Other trash
 			addCoinTrade(list, AbyssalCraft.ethSword, rand, adjustProbability(0.5F));
 			addCoinTrade(list, AbyssalCraft.ethAxe, rand, adjustProbability(0.3F));
 			addCoinTrade(list, AbyssalCraft.ethPickaxe, rand, adjustProbability(0.5F));
@@ -492,7 +563,6 @@ public class EntityRemnant extends ACMob implements IMerchant, IOmotholEntity {
 			addCoinTrade(list, AbyssalCraft.ethPlate, rand, adjustProbability(0.1F));
 			addCoinTrade(list, AbyssalCraft.ethLegs, rand, adjustProbability(0.1F));
 			addCoinTrade(list, AbyssalCraft.engravingBlank, rand, adjustProbability(0.2F));
-			addItemTrade(list, AbyssalCraft.crushedwart, rand, adjustProbability(0.7F));
 			break;
 		case 4:
 			// Chef
@@ -506,12 +576,14 @@ public class EntityRemnant extends ACMob implements IMerchant, IOmotholEntity {
 			addItemTrade(list, Items.cooked_fished, rand, adjustProbability(0.4F));
 			addCoinTrade(list, AbyssalCraft.MRE, rand, adjustProbability(1.0F));
 	
+			// Sell a Black Lotus
 			Item lotus = GameRegistry.findItem("Botania", "blackLotus");
 			if (lotus != null) {
-				list.add(new MerchantRecipe(new ItemStack(lotus), new ItemStack(AbyssalCraft.elderCoin, 15 + rand.nextInt(26))));
+				list.add(new MerchantRecipe(coins(15, 26), new ItemStack(lotus)));
 			}
 			break;
 		case 5:
+			// Banker
 			addCoinTrade(list, AbyssalCraft.elderCoin, 8, AbyssalCraft.cthulhuCoin, 1);
 			addCoinTrade(list, AbyssalCraft.elderCoin, 8, AbyssalCraft.hasturCoin, 1);
 			addCoinTrade(list, AbyssalCraft.elderCoin, 8, AbyssalCraft.jzaharCoin, 1);
@@ -536,6 +608,7 @@ public class EntityRemnant extends ACMob implements IMerchant, IOmotholEntity {
 			break;
 
 		case 6:
+			// Misc
 			addItemTrade(list, Items.coal, rand, adjustProbability(0.7F));
 			addItemTrade(list, AbyssalCraft.Cingot, rand, adjustProbability(0.5F));
 			addItemTrade(list, AbyssalCraft.dreadiumingot, rand, adjustProbability(0.5F));
@@ -545,14 +618,6 @@ public class EntityRemnant extends ACMob implements IMerchant, IOmotholEntity {
 			addCoinTrade(list, AbyssalCraft.ethPickaxe, rand, adjustProbability(0.5F));
 			addCoinTrade(list, AbyssalCraft.ethShovel, rand, adjustProbability(0.2F));
 			addCoinTrade(list, AbyssalCraft.ethHoe, rand, adjustProbability(0.2F));
-			addCoinTrade(list, AbyssalCraft.CorbootsP, rand, adjustProbability(0.2F));
-			addCoinTrade(list, AbyssalCraft.dreadiumSboots, rand, adjustProbability(0.2F));
-			addCoinTrade(list, AbyssalCraft.CorhelmetP, rand, adjustProbability(0.2F));
-			addCoinTrade(list, AbyssalCraft.dreadiumShelmet, rand, adjustProbability(0.2F));
-			addCoinTrade(list, AbyssalCraft.CorplateP, rand, adjustProbability(0.2F));
-			addCoinTrade(list, AbyssalCraft.dreadiumSplate, rand, adjustProbability(0.2F));
-			addCoinTrade(list, AbyssalCraft.CorlegsP, rand, adjustProbability(0.2F));
-			addCoinTrade(list, AbyssalCraft.dreadiumSlegs, rand, adjustProbability(0.2F));
 			addCoinTrade(list, AbyssalCraft.ethBoots, rand, adjustProbability(0.1F));
 			addCoinTrade(list, AbyssalCraft.ethHelmet, rand, adjustProbability(0.1F));
 			addCoinTrade(list, AbyssalCraft.ethPlate, rand, adjustProbability(0.1F));
@@ -565,11 +630,11 @@ public class EntityRemnant extends ACMob implements IMerchant, IOmotholEntity {
 			addCoinTrade(list, AbyssalCraft.engravingYogsothoth, rand, adjustProbability(0.1F));
 			addCoinTrade(list, AbyssalCraft.engravingShubniggurath, rand, adjustProbability(0.1F));
 		}
-
+		
 		if (list.isEmpty()) {
-			addItemTrade(list, Items.iron_ingot, rand, 1.0F);
+			list.add(new MerchantRecipe(coins(1), new ItemStack(AbyssalCraft.abydreadbrick)));
 		}
-
+		
 		Collections.shuffle(list);
 
 		if (tradingList == null) {
@@ -579,6 +644,14 @@ public class EntityRemnant extends ACMob implements IMerchant, IOmotholEntity {
 		for (int l = 0; l < par1 && l < list.size(); ++l) {
 			tradingList.addToListWithCheck((MerchantRecipe) list.get(l));
 		}
+	}
+	
+	private ItemStack coins(int min) {
+		return this.coins(min, 1);
+	}
+	
+	private ItemStack coins(int min, int rng) {
+		return new ItemStack(AbyssalCraft.elderCoin, min + worldObj.rand.nextInt(rng), 0);
 	}
 
 	@Override

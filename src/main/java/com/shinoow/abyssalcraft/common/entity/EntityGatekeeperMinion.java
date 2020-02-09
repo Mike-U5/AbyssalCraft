@@ -129,16 +129,12 @@ public class EntityGatekeeperMinion extends ACMob implements IOmotholEntity {
 	}
 
 	@Override
-	protected void dropFewItems(boolean par1, int lootLvl) {
-		float drp = 1.0F + (lootLvl*0.5F);
-		int finalAmt = (drp % 1 > Math.random()) ? (int)Math.ceil(drp) : (int)Math.floor(drp);
-		
-		ItemStack items = new ItemStack(AbyssalCraft.eldritchScale, finalAmt);
-		if(rand.nextInt(10) == 0 && worldObj.provider.dimensionId == AbyssalCraft.configDimId3) {
-			items = new ItemStack(AbyssalCraft.ethaxiumIngot, finalAmt);
-		}
+	protected void dropFewItems(boolean killedByPlayer, int lootLvl) {
+		float dropRate = 1.0F + (lootLvl*0.5F);
+		int amount = (dropRate % 1 > Math.random()) ? (int)Math.ceil(dropRate) : (int)Math.floor(dropRate);
+		final ItemStack items = new ItemStack(AbyssalCraft.eldritchScale, amount);
 
-		if (items != null) {
+		if (amount > 0) {
 			entityDropItem(items, 0);
 		}
 	}

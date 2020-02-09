@@ -65,7 +65,7 @@ public class ItemDrainStaff extends Item {
 	
 	@SuppressWarnings("unchecked")
 	protected void drain(ItemStack stack, World world, EntityPlayer player, int drainPower) {
-		world.playSoundAtEntity(player, "mob.silverfish.say", 0.4F, 2.5F);
+		world.playSoundAtEntity(player, "mob.silverfish.say", 0.2F, 2.5F);
 		
 		// Give essence
 		if(getEnergy(stack, "Abyssal") >= 100) {
@@ -84,17 +84,17 @@ public class ItemDrainStaff extends Item {
 			setEnergy(0, stack, "Omothol");
 		}
 		
-		// Drain life
+		// Get Look Vector
 		final Vec3 vec = player.getLookVec().normalize();
+		final double cone = 1.1;
+		final double pXa = player.posX - cone;
+		final double pYa = player.posY - cone + player.getEyeHeight();
+		final double pZa = player.posZ - cone;
+		final double pXb = player.posX + cone;
+		final double pYb = player.posY + cone + player.getEyeHeight();
+		final double pZb = player.posZ + cone;
+		// Drain Life
 		for(int i = 1; i < 32; i++) {
-			// Make the cone thicker at close range
-			double cone = 1.2 - (i*0.03);
-			double pXa = player.posX - cone;
-			double pYa = player.posY - cone + player.getEyeHeight();
-			double pZa = player.posZ - cone;
-			double pXb = player.posX + cone;
-			double pYb = player.posY + cone + player.getEyeHeight();
-			double pZb = player.posZ + cone;
 			final AxisAlignedBB aabb = AxisAlignedBB.getBoundingBox(pXa + vec.xCoord * i, pYa + vec.yCoord * i, pZa + vec.zCoord * i, pXb + vec.xCoord * i, pYb + vec.yCoord * i, pZb + vec.zCoord * i);
 			final List<EntityLiving> list = world.getEntitiesWithinAABB(EntityLiving.class, aabb);
 			if(list.iterator().hasNext()) {

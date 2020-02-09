@@ -249,7 +249,6 @@ public class AbyssalCrafting {
 	private static void addItemSmelting() {
 		GameRegistry.addSmelting(AbyssalCraft.Cchunk, new ItemStack(AbyssalCraft.Cingot, 2), 3F);
 		GameRegistry.addSmelting(AbyssalCraft.Cbucket, new ItemStack(AbyssalCraft.cstone, 1), 0.2F);
-		GameRegistry.addSmelting(AbyssalCraft.coin, new ItemStack(Items.iron_ingot, 4), 0.5F);
 	}
 
 	private static void addEngraving() {
