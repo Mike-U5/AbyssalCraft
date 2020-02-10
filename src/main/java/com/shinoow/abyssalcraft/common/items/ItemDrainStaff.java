@@ -101,21 +101,28 @@ public class ItemDrainStaff extends Item {
 				for (int j = 0; j < list.size(); j++) {
 					// Drain Energy
 					final EntityLiving target = list.get(j);
-					if (target != null && !target.isDead && !(target instanceof IBossDisplayData)) {
+					if (isDrainable(target) && player.canEntityBeSeen(target)) {
 						final DamageSource dmgSrc = new EntityDamageSource("vajra", player).setDamageBypassesArmor().setDamageIsAbsolute();
-						final int trueDmg = (int)Math.min(Math.floor(target.getHealth()), drainPower);
+						final int trueDmg = Math.min((int)Math.floor(target.getHealth()), drainPower);
 						final String type = this.getEnemyType(world, target);
 						// If target can be harmed, increase energy
 						if(target.attackEntityFrom(dmgSrc, trueDmg)) {
 							target.setLastAttacker(player);
 							increaseEnergy(stack, type, trueDmg);
-							player.addExhaustion(0.01F);
+							player.addExhaustion(0.02F);
 							return;
 						}
 					}
 				}
 			}
 		}
+	}
+	
+	private boolean isDrainable(EntityLiving e) {
+		if (!e.isEntityAlive() || e instanceof IBossDisplayData) {
+			return false;
+		}
+		return (e instanceof ICoraliumEntity || e instanceof IDreadEntity || e instanceof IOmotholEntity || EntityList.getEntityString(e).equals("w_angels.EntityWeepingAngel"));
 	}
 	
 	private String getEnemyType(World world, EntityLiving target) {
@@ -126,27 +133,6 @@ public class ItemDrainStaff extends Item {
 				return "Dread";
 			} else if((world.provider.dimensionId == AbyssalCraft.configDimId3 && target instanceof IOmotholEntity) || EntityList.getEntityString(target).equals("w_angels.EntityWeepingAngel")) {
 				return "Omothol";
-			}
-		}
-		return null;
-	}
-	
-	@SuppressWarnings({ "unchecked", "unused" })
-	private EntityLiving getLookingTarget(EntityPlayer player, World world) {
-		final Vec3 vec = player.getLookVec().normalize();
-		for(int i = 0; i <= 30; i++) {
-			// Make the cone thicker at close range
-			double cone = 1.15 - (i*0.03);
-			double pXa = player.posX - cone;
-			double pYa = player.posY - cone + player.getEyeHeight();
-			double pZa = player.posZ - cone;
-			double pXb = player.posX + cone;
-			double pYb = player.posY + cone + player.getEyeHeight();
-			double pZb = player.posZ + cone;
-			AxisAlignedBB aabb = AxisAlignedBB.getBoundingBox(pXa + vec.xCoord * i, pYa + vec.yCoord * i, pZa + vec.zCoord * i, pXb + vec.xCoord * i, pYb + vec.yCoord * i, pZb + vec.zCoord * i);
-			List<EntityLiving> list = world.getEntitiesWithinAABB(EntityLiving.class, aabb);
-			if(list.iterator().hasNext()) {
-				return list.get(0);
 			}
 		}
 		return null;
@@ -162,7 +148,7 @@ public class ItemDrainStaff extends Item {
 
 	@Override
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public void addInformation(ItemStack is, EntityPlayer player, List l, boolean B) {
+	public void addInformation(ItemStack is, EntityPlayer player, List l, boolean bool) {
 		final int aE = getEnergy(is, "Abyssal");
 		final int dE = getEnergy(is, "Dread");
 		final int oE = getEnergy(is, "Omothol");

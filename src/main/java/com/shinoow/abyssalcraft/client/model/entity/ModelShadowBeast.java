@@ -71,14 +71,16 @@ public class ModelShadowBeast extends ModelBase {
 			setRotation(bteeth[i], 0F, 0F, 0F);
 			head.addChild(bteeth[i]);
 		}
+		
 		// Jaw
 		jaw = new ModelRenderer(this, 36, 0);
 		jaw.addBox(-4.5F, 1.9F, -5F, 9, 1, 9);
-		jaw.setRotationPoint(0, y, 0);
+		jaw.setRotationPoint(0, 0, 0);
 		jaw.setTextureSize(128, 64);
 		jaw.mirror = true;
 		setRotation(jaw, 0.4461433F, 0F, 0F);
 		head.addChild(jaw);
+		
 		// Bottom Teeth Row
 		for (int i = 0; i < steeth.length; i++) {
 			steeth[i] = new ModelRenderer(this, 37, 4);
