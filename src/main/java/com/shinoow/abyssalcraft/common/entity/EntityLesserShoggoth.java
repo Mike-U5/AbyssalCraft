@@ -38,7 +38,7 @@ import com.shinoow.abyssalcraft.common.entity.demon.*;
 import com.shinoow.abyssalcraft.common.util.EntityUtil;
 import com.shinoow.abyssalcraft.common.world.gen.WorldGenShoggothMonolith;
 
-public class EntityLesserShoggoth extends ACMob implements ICoraliumEntity, IDreadEntity {
+public class EntityLesserShoggoth extends ACMob implements ICoraliumEntity, IDreadEntity, IOmotholEntity {
 
 	private static final UUID babySpeedBoostUUID = UUID.fromString("B9766B59-9566-4402-BC1F-2EE2A276D836");
 	private static final AttributeModifier babySpeedBoostModifier = new AttributeModifier(babySpeedBoostUUID, "Baby speed boost", 0.3D, 1);
