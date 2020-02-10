@@ -30,20 +30,12 @@ public class ModelShadowBeast extends ModelBase {
 	public ModelRenderer laspike1;
 	public ModelRenderer laspike2;
 	public ModelRenderer[] lfingers = new ModelRenderer[4];
-	/*public ModelRenderer lfinger1;
-	public ModelRenderer lfinger3;
-	public ModelRenderer lfinger2;
-	public ModelRenderer lfinger4;*/
 	public ModelRenderer rightshoulder;
 	public ModelRenderer rsspike;
 	public ModelRenderer rarm1;
 	public ModelRenderer rarm2;
 	public ModelRenderer raspike1;
 	public ModelRenderer raspike2;
-	/*public ModelRenderer rfinger1;
-	public ModelRenderer rfinger2;
-	public ModelRenderer rfinger3;
-	public ModelRenderer rfinger4;*/
 	public ModelRenderer[] rfingers = new ModelRenderer[4];
 	public ModelRenderer pelvis;
 	public ModelRenderer leftleg;
@@ -157,34 +149,6 @@ public class ModelShadowBeast extends ModelBase {
 			setRotation(lfingers[i], -0.7807556F, 0F, 0F);
 			larm1.addChild(lfingers[i]);
 		}
-		//lfinger1 = new ModelRenderer(this, 30, 0);
-		//lfinger1.addBox(3F, 11F, 6F, 1, 5, 1);
-		//lfinger1.setRotationPoint(0, 0, 0);
-		//lfinger1.setTextureSize(128, 64);
-		//lfinger1.mirror = true;
-		//setRotation(lfinger1, -0.7807556F, 0F, 0F);
-		//larm1.addChild(lfinger1);
-		//lfinger2 = new ModelRenderer(this, 30, 0);
-		//lfinger2.addBox(-1F, 11F, 6F, 1, 5, 1);
-		//lfinger2.setRotationPoint(0, 0, 0);
-		//lfinger2.setTextureSize(128, 64);
-		//lfinger2.mirror = true;
-		//setRotation(lfinger2, -0.7807556F, 0F, 0F);
-		//larm1.addChild(lfinger2);
-		//lfinger3 = new ModelRenderer(this, 30, 0);
-		//lfinger3.addBox(1F, 11F, 4F, 1, 5, 1);
-		//lfinger3.setRotationPoint(0, 0, 0);
-		//lfinger3.setTextureSize(128, 64);
-		//lfinger3.mirror = true;
-		//setRotation(lfinger3, -0.7807556F, 0F, 0F);
-		//larm1.addChild(lfinger3);
-		//lfinger4 = new ModelRenderer(this, 30, 0);
-		//lfinger4.addBox(1F, 11F, 8F, 1, 5, 1);
-		//lfinger4.setRotationPoint(0, 0, 0);
-		//lfinger4.setTextureSize(128, 64);
-		//lfinger4.mirror = true;
-		//setRotation(lfinger4, -0.7807556F, 0F, 0F);
-		//larm1.addChild(lfinger4);
 		
 		rightshoulder = new ModelRenderer(this, 41, 11);
 		rightshoulder.addBox(0F, 0F, 0F, 8, 5, 7);
@@ -242,35 +206,6 @@ public class ModelShadowBeast extends ModelBase {
 			setRotation(rfingers[i], -0.7807556F, 0F, 0F);
 			rarm1.addChild(rfingers[i]);
 		}
-		
-		//rfinger1 = new ModelRenderer(this, 30, 0);
-		//rfinger1.addBox(0F, 11F, 6F, 1, 5, 1);
-		//rfinger1.setRotationPoint(0, 0, 0);
-		//rfinger1.setTextureSize(128, 64);
-		//rfinger1.mirror = true;
-		//setRotation(rfinger1, -0.7807556F, 0F, 0F);
-		//rarm1.addChild(rfinger1);
-		//rfinger2 = new ModelRenderer(this, 30, 0);
-		//rfinger2.addBox(-4F, 11F, 6F, 1, 5, 1);
-		//rfinger2.setRotationPoint(0, 0, 0);
-		//rfinger2.setTextureSize(128, 64);
-		//rfinger2.mirror = true;
-		//setRotation(rfinger2, -0.7807556F, 0F, 0F);
-		//rarm1.addChild(rfinger2);
-		//rfinger3 = new ModelRenderer(this, 30, 0);
-		//rfinger3.addBox(-2F, 11F, 4F, 1, 5, 1);
-		//rfinger3.setRotationPoint(0, 0, 0);
-		//rfinger3.setTextureSize(128, 64);
-		//rfinger3.mirror = true;
-		//setRotation(rfinger3, -0.7807556F, 0F, 0F);
-		//rarm1.addChild(rfinger3);
-		//rfinger4 = new ModelRenderer(this, 30, 0);
-		//rfinger4.addBox(-2F, 11F, 8F, 1, 5, 1);
-		//rfinger4.setRotationPoint(0, 0, 0);
-		//rfinger4.setTextureSize(128, 64);
-		//rfinger4.mirror = true;
-		//setRotation(rfinger4, -0.7807556F, 0F, 0F);
-		//rarm1.addChild(rfinger4);
 		
 		pelvis = new ModelRenderer(this, 37, 24);
 		pelvis.addBox(0F, 0F, -1F, 12, 5, 5);
