@@ -43,7 +43,7 @@ public class EntityLesserShoggoth extends ACMob implements ICoraliumEntity, IDre
 	private static final UUID babySpeedBoostUUID = UUID.fromString("B9766B59-9566-4402-BC1F-2EE2A276D836");
 	private static final AttributeModifier babySpeedBoostModifier = new AttributeModifier(babySpeedBoostUUID, "Baby speed boost", 0.3D, 1);
 	private static final UUID babyPushVulnUUID = UUID.fromString("648D7064-6A60-4F59-8ABE-C2C23A6DD7A9");
-	private static final AttributeModifier babyPushVulnModifier = new AttributeModifier(babyPushVulnUUID, "Baby push vulnerability", -0.3D, 0);
+	private static final AttributeModifier babyPushVulnModifier = new AttributeModifier(babyPushVulnUUID, "Baby push vulnerability", -0.4D, 0);
 	
 	private static List<Class<? extends EntityLivingBase>> noms = new ArrayList<Class<? extends EntityLivingBase>>();
 
@@ -90,7 +90,7 @@ public class EntityLesserShoggoth extends ACMob implements ICoraliumEntity, IDre
 		super.applyEntityAttributes();
 		
 		// Adult shoggots a have a reduced default knockback rate
-		getEntityAttribute(SharedMonsterAttributes.knockbackResistance).setBaseValue(0.3D);
+		getEntityAttribute(SharedMonsterAttributes.knockbackResistance).setBaseValue(0.4D);
 
 		if(AbyssalCraft.hardcoreMode){
 			getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(200.0D);

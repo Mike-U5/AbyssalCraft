@@ -129,6 +129,7 @@ public class ModelShadowBeast extends ModelBase {
 		laspike1.mirror = true;
 		setRotation(laspike1, 0F, 0F, 0.8179311F);
 		larm1.addChild(laspike1);
+		
 		laspike2 = new ModelRenderer(this, 34, 0);
 		laspike2.addBox(-1F, 10F, 5.5F, 4, 1, 1);
 		laspike2.setRotationPoint(0, 0, 0);
@@ -186,6 +187,7 @@ public class ModelShadowBeast extends ModelBase {
 		raspike1.mirror = true;
 		setRotation(raspike1, 0F, 0F, -0.8179294F);
 		rarm1.addChild(raspike1);
+		
 		raspike2 = new ModelRenderer(this, 34, 0);
 		raspike2.addBox(-3F, 10F, 5.5F, 4, 1, 1);
 		raspike2.setRotationPoint(0, 0, 0);

@@ -1791,6 +1791,7 @@ public class AbyssalCraft {
 		OreDictionary.registerOre("liquidCoralium", Cwater);
 		OreDictionary.registerOre("materialCoraliumPearl", Cpearl);
 		OreDictionary.registerOre("liquidAntimatter", anticwater);
+		OreDictionary.registerOre("slabWood", DLTslab1);
 		OreDictionary.registerOre("logWood", DLTLog);
 		OreDictionary.registerOre("logWood", dreadlog);
 		OreDictionary.registerOre("plankWood", DLTplank);
@@ -1828,21 +1829,13 @@ public class AbyssalCraft {
 	}
 
 	private void addChestGenHooks() {
-		ChestGenHooks.addItem(ChestGenHooks.DUNGEON_CHEST, new WeightedRandomChestContent(new ItemStack(copperIngot), 1, 5, 7));
-		ChestGenHooks.addItem(ChestGenHooks.DUNGEON_CHEST, new WeightedRandomChestContent(new ItemStack(Cingot), 1, 2, 1));
-
-		ChestGenHooks.addItem(ChestGenHooks.DUNGEON_CHEST, new WeightedRandomChestContent(new ItemStack(MRE), 1, 1, 5));
-		ChestGenHooks.addItem(ChestGenHooks.DUNGEON_CHEST, new WeightedRandomChestContent(new ItemStack(Coralium), 1, 5, 8));
-		ChestGenHooks.addItem(ChestGenHooks.DUNGEON_CHEST, new WeightedRandomChestContent(new ItemStack(shadowfragment), 1, 10, 8));
-		ChestGenHooks.addItem(ChestGenHooks.DUNGEON_CHEST, new WeightedRandomChestContent(new ItemStack(shadowshard), 1, 6, 5));
-		ChestGenHooks.addItem(ChestGenHooks.DUNGEON_CHEST, new WeightedRandomChestContent(new ItemStack(shadowgem), 1, 1, 3));
-		ChestGenHooks.addItem(ChestGenHooks.DUNGEON_CHEST, new WeightedRandomChestContent(new ItemStack(tinIngot), 1, 5, 7));
-		ChestGenHooks.addItem(ChestGenHooks.STRONGHOLD_CORRIDOR, new WeightedRandomChestContent(new ItemStack(shadowfragment), 1, 10, 8));
-		ChestGenHooks.addItem(ChestGenHooks.STRONGHOLD_CORRIDOR, new WeightedRandomChestContent(new ItemStack(shadowshard), 1, 6, 5));
-		ChestGenHooks.addItem(ChestGenHooks.STRONGHOLD_CORRIDOR, new WeightedRandomChestContent(new ItemStack(shadowgem), 1, 1, 3));
-		ChestGenHooks.addItem(ChestGenHooks.STRONGHOLD_CORRIDOR, new WeightedRandomChestContent(new ItemStack(tinIngot), 1, 5, 7));
-		ChestGenHooks.addItem(ChestGenHooks.STRONGHOLD_CORRIDOR, new WeightedRandomChestContent(new ItemStack(Cingot), 1, 1, 1));
-		ChestGenHooks.addItem(ChestGenHooks.STRONGHOLD_CORRIDOR, new WeightedRandomChestContent(new ItemStack(copperIngot), 1, 5, 7));
+		ChestGenHooks.addItem(ChestGenHooks.DUNGEON_CHEST, new WeightedRandomChestContent(new ItemStack(MRE), 1, 1, 3));
+		ChestGenHooks.addItem(ChestGenHooks.DUNGEON_CHEST, new WeightedRandomChestContent(new ItemStack(Coralium), 1, 5, 4));
+		ChestGenHooks.addItem(ChestGenHooks.DUNGEON_CHEST, new WeightedRandomChestContent(new ItemStack(shadowfragment), 1, 10, 4));
+		ChestGenHooks.addItem(ChestGenHooks.DUNGEON_CHEST, new WeightedRandomChestContent(new ItemStack(shadowshard), 1, 6, 2));
+		
+		ChestGenHooks.addItem(ChestGenHooks.STRONGHOLD_CORRIDOR, new WeightedRandomChestContent(new ItemStack(shadowfragment), 1, 10, 4));
+		ChestGenHooks.addItem(ChestGenHooks.STRONGHOLD_CORRIDOR, new WeightedRandomChestContent(new ItemStack(shadowshard), 1, 6, 2));
 	}
 
 	private void addDungeonHooks() {
