@@ -99,10 +99,20 @@ public final class EntityUtil {
 	 * @param player The Player to check
 	 * @return True if the Player has a Necronomicon, otherwise false
 	 */
-	public static boolean hasNecronomicon(EntityPlayer player){
+	public static boolean hasNecronomicon(EntityPlayer player) {
 		return player.inventory.hasItem(AbyssalCraft.necronomicon) || player.inventory.hasItem(AbyssalCraft.necronomicon_cor) ||
 				player.inventory.hasItem(AbyssalCraft.necronomicon_dre) || player.inventory.hasItem(AbyssalCraft.necronomicon_omt) ||
 				player.inventory.hasItem(AbyssalCraft.abyssalnomicon);
+	}
+	
+	/**
+	 * You must have a Omothol Necronomicon to talk to Remnants.
+	 */
+	public static boolean hasEldritchTongue(EntityPlayer player) {
+		if (EntityUtil.isPlayerWearingPendant(player)) {
+			return true;
+		}
+		return player.inventory.hasItem(AbyssalCraft.necronomicon_omt) || player.inventory.hasItem(AbyssalCraft.abyssalnomicon);
 	}
 
 	static class Vars{

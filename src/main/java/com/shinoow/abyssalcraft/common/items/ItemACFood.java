@@ -13,12 +13,21 @@ package com.shinoow.abyssalcraft.common.items;
 
 import com.shinoow.abyssalcraft.AbyssalCraft;
 
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemFood;
+import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
 
 public class ItemACFood extends ItemFood {
 	public ItemACFood(int foodPts, float saturation, boolean dogFood) {
 		super(foodPts, saturation, dogFood);
 		setCreativeTab(AbyssalCraft.tabItems);
 		setMaxStackSize(64);
+	}
+
+	protected void onFoodEaten(ItemStack stack, World world, EntityPlayer player) {
+		if (!world.isRemote) {
+			player.heal(1);
+		}
 	}
 }

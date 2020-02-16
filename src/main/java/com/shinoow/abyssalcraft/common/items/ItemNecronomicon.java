@@ -85,10 +85,14 @@ public class ItemNecronomicon extends ItemACBasic implements IEnergyTransporter 
 
 	@Override
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public void addInformation(ItemStack is, EntityPlayer player, List l, boolean B){
-		if(is.hasTagCompound() && is.stackTagCompound.hasKey("owner"))
-		l.add("Owner: " + is.stackTagCompound.getString("owner"));
+	public void addInformation(ItemStack is, EntityPlayer player, List l, boolean b) {
+		///if(is.hasTagCompound() && is.stackTagCompound.hasKey("owner"))
+		///l.add("Owner: " + is.stackTagCompound.getString("owner"));
 		l.add(String.format("%d/%d PE", (int)getContainedEnergy(is), getMaxEnergy(is)));
+		
+		if(this == AbyssalCraft.necronomicon_omt || this == AbyssalCraft.abyssalnomicon) {
+			l.add("Owner can speak ancient tongue");
+		}
 	}
 
 	@Override
@@ -96,7 +100,7 @@ public class ItemNecronomicon extends ItemACBasic implements IEnergyTransporter 
 		return true;
 	}
 
-	public int getBookType(){
+	public int getBookType() {
 		return bookType;
 	}
 

@@ -155,7 +155,7 @@ public class EntityRemnant extends ACMob implements IMerchant, IOmotholEntity {
 	@Override
 	public boolean interact(EntityPlayer player) {
 		if (isEntityAlive() && !isAngry) {
-			if (EntityUtil.hasNecronomicon(player)) {
+			if (EntityUtil.hasEldritchTongue(player)) {
 				if (!isTrading()) {
 					if (!worldObj.isRemote) {
 						setCustomer(player);
@@ -495,7 +495,7 @@ public class EntityRemnant extends ACMob implements IMerchant, IOmotholEntity {
 			list.add(randomBookTrade());
 			list.add(randomBookTrade());
 			list.add(randomBookTrade());
-			// Sell Either an enchanted book or a Abyssalnomicon
+			// Sell Either an enchanted book or a Necronomicon
 			if (rand.nextFloat() < 0.8F) {
 				final Enchantment enchantment = Enchantment.enchantmentsBookList[rand.nextInt(Enchantment.enchantmentsBookList.length)];
 				final int enchLvl = MathHelper.getRandomIntegerInRange(rand, enchantment.getMinLevel(), enchantment.getMaxLevel());
@@ -503,7 +503,7 @@ public class EntityRemnant extends ACMob implements IMerchant, IOmotholEntity {
 				final int rate = 2 + rand.nextInt(5 + enchLvl * 10) + (3 * enchLvl);
 				list.add(new MerchantRecipe(new ItemStack(Items.book), coins(rate), itemstack));
 			} else {
-				list.add(new MerchantRecipe(coins(5, 10), new ItemStack(Items.book), new ItemStack(AbyssalCraft.abyssalnomicon)));
+				list.add(new MerchantRecipe(coins(5, 10), null, new ItemStack(AbyssalCraft.necronomicon)));
 			}
 			Collections.shuffle(list);
 			break;

@@ -182,7 +182,7 @@ public class AbyssalCrafting {
 		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.dreadcloth, 1), new Object[] { "#%#", "%&%", "#%#", '#', Items.string, '%', AbyssalCraft.dreadfragment, '&', Items.leather });
 		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.dreadcloth, 1), new Object[] { "#%#", "%&%", "#%#", '%', Items.string, '#', AbyssalCraft.dreadfragment, '&', Items.leather });
 		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.dreadplate, 1), new Object[] { "###", "#%#", "###", '#', AbyssalCraft.dreadiumingot, '%', AbyssalCraft.dreadcloth });
-		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.dreadhilt, 1), new Object[] { "###", "%&%", "%&%", '#', AbyssalCraft.dreadiumingot, '%', AbyssalCraft.dreadcloth, '&', AbyssalCraft.dreadplanks });
+		///GameRegistry.addRecipe(new ItemStack(AbyssalCraft.dreadhilt, 1), new Object[] { "###", "%&%", "%&%", '#', AbyssalCraft.dreadiumingot, '%', AbyssalCraft.dreadcloth, '&', AbyssalCraft.dreadplanks });
 		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.dreadkatana, 1), new Object[] { "# ", "% ", '#', AbyssalCraft.dreadblade, '%', AbyssalCraft.dreadhilt });
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Items.gunpowder, 4), true, new Object[] { "#&#", "#%#", "###", '#', "dustSaltpeter", '%', new ItemStack(Items.coal, 1, 1), '&', "dustSulfur" }));
 		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.ethaxiumIngot), new Object[] { "###", "#%#", "###", '#', AbyssalCraft.ethaxium_brick, '%', AbyssalCraft.lifeCrystal });
@@ -229,6 +229,10 @@ public class AbyssalCrafting {
 		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.shadowfragment, 9), new Object[] { "#", '#', AbyssalCraft.shadowshard });
 		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.charm, 1, 0), new Object[] { "###", "#%#", "###", '#', Items.gold_ingot, '%', Items.diamond });
 
+		// Bronze Ingot/Nugget Conversion
+		GameRegistry.addShapelessRecipe(new ItemStack(AbyssalCraft.bronzeNugget, 9), new Object[] { AbyssalCraft.bronzeIngot });
+		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.bronzeIngot, 1), new Object[] { "###", "###", "###", '#', new ItemStack(AbyssalCraft.bronzeNugget) });
+		
 		// Coralium Gem Cluster Recipes
 		GameRegistry.addShapelessRecipe(new ItemStack(AbyssalCraft.Coraliumcluster9, 1), AbyssalCraft.Coralium, AbyssalCraft.Coralium, AbyssalCraft.Coralium, AbyssalCraft.Coralium, AbyssalCraft.Coralium, AbyssalCraft.Coralium, AbyssalCraft.Coralium, AbyssalCraft.Coralium, AbyssalCraft.Coralium);
 		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.Coralium, 9), new Object[] { "#", '#', AbyssalCraft.Coraliumcluster9 });
@@ -380,18 +384,22 @@ public class AbyssalCrafting {
 		RitualRegistry.instance().registerRitual(new NecronomiconInfusionRitual("saDLupgrade", 2, 1200F, new ItemStack(AbyssalCraft.tieredSacrificialAltar, 1, 2), new ItemStack(AbyssalCraft.tieredSacrificialAltar, 1, 1), dloffers));
 		RitualRegistry.instance().registerRitual(new NecronomiconInfusionRitual("saOMTupgrade", 3, 1600F, new ItemStack(AbyssalCraft.tieredSacrificialAltar, 1, 3), new ItemStack(AbyssalCraft.tieredSacrificialAltar, 1, 2), omtoffers));
 
+		// Dreadium Katana Hilt
+		final Object[] hiltoffers = new Object[] {new ItemStack(AbyssalCraft.dreadiumingot), new ItemStack(AbyssalCraft.dreadiumingot), new ItemStack(AbyssalCraft.dreadiumingot), new ItemStack(AbyssalCraft.dreadcloth), new ItemStack(AbyssalCraft.dreadcloth), new ItemStack(AbyssalCraft.dreadplanks), new ItemStack(AbyssalCraft.dreadcloth), new ItemStack(AbyssalCraft.dreadcloth), new ItemStack(AbyssalCraft.dreadiumingot)};
+		RitualRegistry.instance().registerRitual(new NecronomiconInfusionRitual("dreadHilt", 2, AbyssalCraft.configDimId2, 150F, false, new ItemStack(AbyssalCraft.trapezohedron), new ItemStack(AbyssalCraft.dreadplanks), hiltoffers));
+		
 		// Anti-Jzhar Amulet
-		Object[] pendantOfferings = new Object[] { new ItemStack(AbyssalCraft.essence, 1, 1), new ItemStack(AbyssalCraft.essence, 1, 2), AbyssalCraft.ethaxium_brick, AbyssalCraft.eldritchScale, AbyssalCraft.ethaxiumIngot, AbyssalCraft.eldritchScale, AbyssalCraft.ethaxium_brick, new ItemStack(AbyssalCraft.essence, 1, 0) };
+		final Object[] pendantOfferings = new Object[] { new ItemStack(AbyssalCraft.essence, 1, 1), new ItemStack(AbyssalCraft.essence, 1, 2), AbyssalCraft.ethaxium_brick, AbyssalCraft.eldritchScale, AbyssalCraft.ethaxiumIngot, AbyssalCraft.eldritchScale, AbyssalCraft.ethaxium_brick, new ItemStack(AbyssalCraft.essence, 1, 0) };
 		RitualRegistry.instance().registerRitual(new NecronomiconInfusionRitual("jzaharAmulet", 3, AbyssalCraft.configDimId3, 666F, false, new ItemStack(AbyssalCraft.trapezohedron), AbyssalCraft.Cpearl, pendantOfferings));
 		
 		// Monster Drain Staff
-		Object[] rendingMonsterOfferings = new Object[] { AbyssalCraft.dreadfragment, AbyssalCraft.dreadfragment, AbyssalCraft.Corflesh, AbyssalCraft.Corflesh, AbyssalCraft.shadowgem, AbyssalCraft.Corflesh, AbyssalCraft.Corflesh, AbyssalCraft.dreadfragment };
+		final Object[] rendingMonsterOfferings = new Object[] { AbyssalCraft.dreadfragment, AbyssalCraft.dreadfragment, AbyssalCraft.Corflesh, AbyssalCraft.Corflesh, AbyssalCraft.shadowgem, AbyssalCraft.Corflesh, AbyssalCraft.Corflesh, AbyssalCraft.dreadfragment };
 		RitualRegistry.instance().registerRitual(new NecronomiconInfusionRitual("drainStaffMonster", 2, AbyssalCraft.configDimId1, 1500F, false, new ItemStack(AbyssalCraft.drainStaffMonster), AbyssalCraft.drainStaff, rendingMonsterOfferings));
 		// Beast Drain Staff
-		Object[] rendingBeastofferings = new Object[] { AbyssalCraft.dreadfragment, AbyssalCraft.dreadfragment, AbyssalCraft.omotholFlesh, AbyssalCraft.omotholFlesh, AbyssalCraft.shadowgem, AbyssalCraft.omotholFlesh, AbyssalCraft.omotholFlesh, AbyssalCraft.dreadfragment };
+		final Object[] rendingBeastofferings = new Object[] { AbyssalCraft.dreadfragment, AbyssalCraft.dreadfragment, AbyssalCraft.omotholFlesh, AbyssalCraft.omotholFlesh, AbyssalCraft.shadowgem, AbyssalCraft.omotholFlesh, AbyssalCraft.omotholFlesh, AbyssalCraft.dreadfragment };
 		RitualRegistry.instance().registerRitual(new NecronomiconInfusionRitual("drainStaffBeast", 3, AbyssalCraft.configDimId2, 3000F, false, new ItemStack(AbyssalCraft.drainStaffBeast), AbyssalCraft.drainStaffMonster, rendingBeastofferings));
 		// Jzahar Crozier
-		Object[] staffofferings = new Object[] { new ItemStack(AbyssalCraft.essence, 1, 1), new ItemStack(AbyssalCraft.essence, 1, 2), AbyssalCraft.eldritchScale, AbyssalCraft.ethaxiumIngot, AbyssalCraft.portalPlacerJzh, AbyssalCraft.ethaxiumIngot, AbyssalCraft.eldritchScale, new ItemStack(AbyssalCraft.essence, 1, 0) };
+		final Object[] staffofferings = new Object[] { new ItemStack(AbyssalCraft.essence, 1, 1), new ItemStack(AbyssalCraft.essence, 1, 2), AbyssalCraft.eldritchScale, AbyssalCraft.ethaxiumIngot, AbyssalCraft.portalPlacerJzh, AbyssalCraft.ethaxiumIngot, AbyssalCraft.eldritchScale, new ItemStack(AbyssalCraft.essence, 1, 0) };
 		RitualRegistry.instance().registerRitual(new NecronomiconInfusionRitual("jzaharStaff", 4, AbyssalCraft.configDimId3, 50000F, true, new ItemStack(AbyssalCraft.Staff), AbyssalCraft.drainStaffBeast, staffofferings));
 	}
 

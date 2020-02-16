@@ -442,7 +442,7 @@ necronomicon.text.abyssal.progression.3=Once you have tracked down the Powerston
 
 necronomicon.text.dreadlands.progression.1=Once you have reached the Dreadlands, your next goal is to reach Omothol. You will need to own a Transmutator, and you need to defeat Cha'garoth, The Dreadbeast. In order to reach Cha'garoth, you need the Altar of Cha'garoth, made out of 2 pieces. Both recipes are found in the special materials section.
 necronomicon.text.dreadlands.progression.2=Once you have both Altar pieces, you need to place them at Y = 40 inside a Dreadlands Mountain biome and right-click it. Doing so will grant you entry to The Lair of Cha'garoth. After fighting through Dreadguards and eventually killing Cha'garoth, you will receive the Legendary Treasure of The Dreadlands.
-necronomicon.text.dreadlands.progression.3=With the aforementioned Transmutator you can transmute a Dread-plagued Gateway Key into a R'lyehian Gateway Key, granting you access to Omothol. Upgrading your Necronomicon to the Omothol Necronomicon requires 8 Skins of Omothol.
+necronomicon.text.dreadlands.progression.3=With some basic alchemy you can transmute a Dread-plagued Gateway Key into a R'lyehian Gateway Key, granting you access to Omothol. Upgrading your Necronomicon to the Omothol Necronomicon requires 8 Skins of Omothol.
 
 necronomicon.text.omothol.progression.1=Now that you've arrived in Omothol, it's time to battle J'zahar, Gatekeeper of The Abyss. However, you cannot simply grasp the true form of J'zahar.
 necronomicon.text.omothol.progression.2=As such, you must create a Pendant of Sedefkar and equip it before facing J'zahar. The Temple of J'zahar can be located at the heart of Omothol.
@@ -915,6 +915,8 @@ tile.jzaharspawner.name=J'zahar Spawner Block
 tile.gatekeeperminionspawner.name=Minion of The Gatekeeper Spawner Block
 tile.abyssalsand.name=Abyssal Sand
 tile.fusedabyssalsand.name=Fused Abyssal Sand
+tile.relic.name=Divine Relic
+tile.ASB.name=Abyssal Stone Bricks
 
 #Items
 item.DEV_BLADE.name=The Dev Blade
@@ -1052,7 +1054,7 @@ item.DB.name=Dreadium Katana Blade
 item.hilt.name=Dreadium Katana Hilt
 item.katana.name=Inauspicious Katana
 item.DK.name=Dread-plagued Gateway Key
-item.GKJ.name=Cha'garoth's R'lyehian Gateway Key
+item.GKJ.name=R'lyehian Gateway Key
 item.ADSB.name=Dreadium Samurai Boots
 item.ADSH.name=Dreadium Samurai Helmet
 item.ADSC.name=Dreadium Samurai Chestplate
@@ -1164,8 +1166,11 @@ item.engraving.yogsothoth.name=Yog-Sothoth Coin Engraving
 item.engraving.shubniggurath.name=Shub-Niggurath Coin Engraving
 item.gatekeeperessence.name=Eidolon of The Gatekeeper
 item.crushedwart.name=Crushed Wart
-item.jellyfish.name=Jellyfish
+item.jellyFish.name=Jellyfish
 item.trapezohedron.name=Pendant of Sedefkar
+item.gritBronze.name=Bronze Grit
+item.ingotBronze.name=Bronze Ingot
+item.nuggetBronze.name=Bronze Nugget
 
 #Entities
 entity.abyssalcraft.depthsghoul.name=Depths Ghoul

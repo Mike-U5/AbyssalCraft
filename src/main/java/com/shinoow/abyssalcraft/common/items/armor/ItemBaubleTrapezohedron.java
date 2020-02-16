@@ -4,6 +4,8 @@
 
 package com.shinoow.abyssalcraft.common.items.armor;
 
+import java.util.List;
+
 import baubles.api.BaubleType;
 import baubles.api.BaublesApi;
 import baubles.api.IBauble;
@@ -49,6 +51,12 @@ public class ItemBaubleTrapezohedron extends Item implements IBauble, IRunicArmo
 		}
 
 		return stack;
+	}
+	
+	@Override
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public void addInformation(ItemStack is, EntityPlayer player, List l, boolean b) {
+		l.add("Wearer can speak ancient tongue and face J'zahar");
 	}
 
 	@Override
