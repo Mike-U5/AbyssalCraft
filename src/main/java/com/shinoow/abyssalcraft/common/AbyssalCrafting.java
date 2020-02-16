@@ -386,7 +386,7 @@ public class AbyssalCrafting {
 
 		// Dreadium Katana Hilt
 		final Object[] hiltoffers = new Object[] {new ItemStack(AbyssalCraft.dreadiumingot), new ItemStack(AbyssalCraft.dreadiumingot), new ItemStack(AbyssalCraft.dreadiumingot), new ItemStack(AbyssalCraft.dreadcloth), new ItemStack(AbyssalCraft.dreadcloth), new ItemStack(AbyssalCraft.dreadplanks), new ItemStack(AbyssalCraft.dreadcloth), new ItemStack(AbyssalCraft.dreadcloth), new ItemStack(AbyssalCraft.dreadiumingot)};
-		RitualRegistry.instance().registerRitual(new NecronomiconInfusionRitual("dreadHilt", 2, AbyssalCraft.configDimId2, 150F, false, new ItemStack(AbyssalCraft.trapezohedron), new ItemStack(AbyssalCraft.dreadplanks), hiltoffers));
+		RitualRegistry.instance().registerRitual(new NecronomiconInfusionRitual("dreadHilt", 2, AbyssalCraft.configDimId2, 150F, false, new ItemStack(AbyssalCraft.dreadhilt), new ItemStack(AbyssalCraft.dreadplanks), hiltoffers));
 		
 		// Anti-Jzhar Amulet
 		final Object[] pendantOfferings = new Object[] { new ItemStack(AbyssalCraft.essence, 1, 1), new ItemStack(AbyssalCraft.essence, 1, 2), AbyssalCraft.ethaxium_brick, AbyssalCraft.eldritchScale, AbyssalCraft.ethaxiumIngot, AbyssalCraft.eldritchScale, AbyssalCraft.ethaxium_brick, new ItemStack(AbyssalCraft.essence, 1, 0) };

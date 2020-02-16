@@ -71,12 +71,12 @@ public class EntityAbygolem extends ACMob {
 
 	@Override
 	protected String getHurtSound() {
-		return "abyssalcraft:dreadgolem.hit";
+		return "abyssalcraft:abygolem.hit";
 	}
 
 	@Override
 	protected String getDeathSound() {
-		return "abyssalcraft:dreadgolem.death";
+		return "abyssalcraft:abygolem.death";
 	}
 	
 	@Override
