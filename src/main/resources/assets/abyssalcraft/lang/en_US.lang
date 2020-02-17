@@ -681,9 +681,17 @@ ac.ritual.jzaharStaff.desc=A Crozier of The Gatekeeper is created by infusing a 
 ac.ritual.respawnJzahar=Ritual of reversed time
 ac.ritual.respawnJzahar.desc=If you in some way failed to obtain a Eidolon of The Gatekeeper, you can revert time and fight J'zahar again. Can only be performed at the Ritual Altar inside the Temple of J'zahar (X=4, Y=54, Z=85).
 
-ac.ritual.drainStaffBeast.desc=If you in some way failed to obtain a Eidolon of The Gatekeeper, you can revert time and fight J'zahar again. Can only be performed at the Ritual Altar inside the Temple of J'zahar (X=4, Y=54, Z=85).
+ac.ritual.drainStaffMonster=Monsterous Vajra of Rending
+ac.ritual.drainStaffMonster.desc=
+
+ac.ritual.drainStaffBeast=Beastly Vajra of Rending
+ac.ritual.drainStaffBeast.desc=
+
 ac.ritual.jzaharAmulet=Pendant of Sedefkar
 ac.ritual.jzaharAmulet.desc=This pendant allows it's wearer to gaze upon The Gatekeeper of the Abyss.
+
+ac.ritual.dreadHilt=Dreadium Katana Hilt
+ac.ritual.dreadHilt.desc=A Dreadium Hilt is created by infusing some dread planks with Dread Cloth and Dreadium Ingots.
 
 
 #Configuration

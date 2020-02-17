@@ -56,7 +56,7 @@ public class ItemBaubleTrapezohedron extends Item implements IBauble, IRunicArmo
 	@Override
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void addInformation(ItemStack is, EntityPlayer player, List l, boolean b) {
-		l.add("Wearer can speak ancient tongue and face J'zahar");
+		l.add("Wearer can speak Aklo and gaze upon the Great Old Ones");
 	}
 
 	@Override

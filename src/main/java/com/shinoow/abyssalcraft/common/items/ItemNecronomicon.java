@@ -13,18 +13,16 @@ package com.shinoow.abyssalcraft.common.items;
 
 import java.util.List;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.StatCollector;
-import net.minecraft.world.World;
-
 import com.shinoow.abyssalcraft.AbyssalCraft;
 import com.shinoow.abyssalcraft.api.energy.IEnergyTransporter;
 import com.shinoow.abyssalcraft.common.blocks.BlockRitualAltar;
 import com.shinoow.abyssalcraft.common.util.IRitualAltar;
 import com.shinoow.abyssalcraft.common.util.RitualUtil;
-import com.shinoow.abyssalcraft.common.util.SpecialTextUtil;
+
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.World;
 
 public class ItemNecronomicon extends ItemACBasic implements IEnergyTransporter {
 
@@ -43,16 +41,9 @@ public class ItemNecronomicon extends ItemACBasic implements IEnergyTransporter 
 		}
 		if(!stack.stackTagCompound.hasKey("owner")) {
 			stack.stackTagCompound.setString("owner", player.getCommandSenderName());
-			if(!player.isSneaking()) {
-				player.openGui(AbyssalCraft.instance, AbyssalCraft.necronmiconGuiID, world, 0, 0, 0);
-			}
 		}
-		if(stack.stackTagCompound.getString("owner").equals(player.getCommandSenderName())){
-			if(!player.isSneaking()) {
-				player.openGui(AbyssalCraft.instance, AbyssalCraft.necronmiconGuiID, world, 0, 0, 0);
-			}
-		} else if(world.isRemote) {
-			SpecialTextUtil.JzaharText(StatCollector.translateToLocal("message.necronomicon.nope"));
+		if(!player.isSneaking()) {
+			player.openGui(AbyssalCraft.instance, AbyssalCraft.necronmiconGuiID, world, 0, 0, 0);
 		}
 		return stack;
 	}
@@ -86,12 +77,10 @@ public class ItemNecronomicon extends ItemACBasic implements IEnergyTransporter 
 	@Override
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void addInformation(ItemStack is, EntityPlayer player, List l, boolean b) {
-		///if(is.hasTagCompound() && is.stackTagCompound.hasKey("owner"))
-		///l.add("Owner: " + is.stackTagCompound.getString("owner"));
 		l.add(String.format("%d/%d PE", (int)getContainedEnergy(is), getMaxEnergy(is)));
 		
 		if(this == AbyssalCraft.necronomicon_omt || this == AbyssalCraft.abyssalnomicon) {
-			l.add("Owner can speak ancient tongue");
+			l.add("Owner can speak Aklo");
 		}
 	}
 

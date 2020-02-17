@@ -86,24 +86,18 @@
 			"abyssalcraft:golem/hit2"
 		]
 	},
-	"dreadgolem.idle": {
+	"abygolem.death": {
 		"category": "hostile",
 		"sounds": [
-			"abyssalcraft:dreadgolem/idle1",
-			"abyssalcraft:golem/silence"
+			"abyssalcraft:abygolem/death1",
+			"abyssalcraft:abygolem/death2"
 		]
 	},
-	"dreadgolem.death": {
+	"abygolem.hit": {
 		"category": "hostile",
 		"sounds": [
-			"abyssalcraft:dreadgolem/death"
-		]
-	},
-	"dreadgolem.hit": {
-		"category": "hostile",
-		"sounds": [
-			"abyssalcraft:dreadgolem/hit1",
-			"abyssalcraft:dreadgolem/hit2"
+			"abyssalcraft:abygolem/hit1",
+			"abyssalcraft:abygolem/hit2"
 		]
 	},
 	"sacthoth.death": {
@@ -201,30 +195,23 @@
 	"dreadling.idle": {
 		"category": "hostile",
 		"sounds": [
-			"abyssalcraft:wideman/wideman_idle1",
-			"abyssalcraft:wideman/wideman_idle2",
-			"abyssalcraft:wideman/wideman_idle3",
-			"abyssalcraft:wideman/wideman_idle4",
-			"abyssalcraft:wideman/wideman_idle5"
+			"abyssalcraft:husk/Husk_idle1",
+			"abyssalcraft:husk/Husk_idle2",
+			"abyssalcraft:husk/Husk_idle3"
 		]
 	},
 	"dreadling.hurt": {
 		"category": "hostile",
 		"sounds": [
-			"abyssalcraft:wideman/wideman_hurt1",
-			"abyssalcraft:wideman/wideman_hurt2",
-			"abyssalcraft:wideman/wideman_hurt3",
-			"abyssalcraft:wideman/wideman_hurt4",
-			"abyssalcraft:wideman/wideman_hurt5",
-			"abyssalcraft:wideman/wideman_hurt6"
+			"abyssalcraft:husk/Husk_hurt1",
+			"abyssalcraft:husk/Husk_hurt2"
 		]
 	},
 	"dreadling.death": {
 		"category": "hostile",
 		"sounds": [
-			"abyssalcraft:wideman/wideman_death1",
-			"abyssalcraft:wideman/wideman_death2",
-			"abyssalcraft:wideman/wideman_death3"
+			"abyssalcraft:husk/Husk_death1",
+			"abyssalcraft:husk/Husk_death2"
 		]
 	},
 	"dreadslug.idle": {

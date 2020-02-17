@@ -417,11 +417,7 @@ public class EntityDragonBoss extends ACMob implements IBossDisplayData, IEntity
 			Entity target = (Entity) list.get(i);
 
 			if (target instanceof EntityLivingBase) {
-				target.attackEntityFrom(DamageSource.causeMobDamage(this), 5.0F);
-				EntityLivingBase living = (EntityLivingBase) target;
-				if (!EntityUtil.isEntityCoralium(living) || AbyssalCraft.shouldInfect == true && !EntityUtil.isEntityCoralium(living)) {
-					living.addPotionEffect(new PotionEffect(AbyssalCraft.Cplague.id, 125));
-				}
+				target.attackEntityFrom(DamageSource.causeMobDamage(this), 10.0F);
 			}
 		}
 	}
