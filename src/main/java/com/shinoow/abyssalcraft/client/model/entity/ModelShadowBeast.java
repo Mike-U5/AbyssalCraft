@@ -102,7 +102,7 @@ public class ModelShadowBeast extends ModelBase {
 		
 		lsspike = new ModelRenderer(this, 0, 0);
 		lsspike.addBox(0F, -4F, 0F, 1, 5, 1);
-		lsspike.setRotationPoint(7F, -9F, 0F);
+		lsspike.setRotationPoint(7F, y - 9F, 0F);
 		lsspike.setTextureSize(128, 64);
 		lsspike.mirror = true;
 		setRotation(lsspike, 0F, 0F, 0.111544F);
@@ -160,7 +160,7 @@ public class ModelShadowBeast extends ModelBase {
 		
 		rsspike = new ModelRenderer(this, 0, 0);
 		rsspike.addBox(0F, -4F, 0F, 1, 5, 1);
-		rsspike.setRotationPoint(-8F, -9F, 0F);
+		rsspike.setRotationPoint(-8F, y - 9F, 0F);
 		rsspike.setTextureSize(128, 64);
 		rsspike.mirror = true;
 		setRotation(rsspike, 0F, 0F, -0.111544F);
@@ -197,7 +197,7 @@ public class ModelShadowBeast extends ModelBase {
 		rarm1.addChild(raspike2);
 		
 		// Fingers on right hand
-		final float[] rfxo = {0F, 4F, -2F, -2F};
+		final float[] rfxo = {0F, -4F, -2F, -2F};
 		final float[] rfzo = {6F, 6F, 4F, 8F};
 		for (int i = 0; i < lfingers.length; i++) {
 			rfingers[i] = new ModelRenderer(this, 30, 0);

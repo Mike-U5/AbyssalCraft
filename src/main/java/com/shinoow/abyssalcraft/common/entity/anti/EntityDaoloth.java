@@ -36,6 +36,7 @@ public class EntityDaoloth extends EntityMob implements IAntiEntity {
 	
 	public EntityDaoloth(World world) {
 		super(world);
+		this.isImmuneToFire = true;
 		// Custom Selector to not target those who hold the Gatekeeper's Crozier
 		final IEntitySelector selector = new IEntitySelector() {
 			@Override
@@ -64,7 +65,7 @@ public class EntityDaoloth extends EntityMob implements IAntiEntity {
 		super.applyEntityAttributes();
 		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(1.0D);
 		getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(8.5D);
-		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.1D);
+		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.14D);
 	}
 
 	@Override
@@ -74,7 +75,7 @@ public class EntityDaoloth extends EntityMob implements IAntiEntity {
 
 	@Override
 	public boolean canDespawn() {
-		return false;
+		return true;
 	}
 	
 	@Override
@@ -129,5 +130,15 @@ public class EntityDaoloth extends EntityMob implements IAntiEntity {
 		}
 		
 		return false;
+	}
+	
+	@Override
+	public void fall(float distance) {
+		
+	}
+	
+	@Override
+	public boolean canBreatheUnderwater() {
+		return true;
 	}
 }
