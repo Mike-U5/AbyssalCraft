@@ -98,7 +98,7 @@ public class AbyssalCraftEventHooks {
 
 	@SubscribeEvent
 	public void onItemPickup(EntityItemPickupEvent event) {
-		if (event.item.getEntityItem().getItem() == AbyssalCraft.Coralium || event.item.getEntityItem().getItem() == AbyssalCraft.Coraliumcluster2 || event.item.getEntityItem().getItem() == AbyssalCraft.Coraliumcluster3 || event.item.getEntityItem().getItem() == AbyssalCraft.Coraliumcluster4 || event.item.getEntityItem().getItem() == AbyssalCraft.Coraliumcluster5 || event.item.getEntityItem().getItem() == AbyssalCraft.Coraliumcluster6 || event.item.getEntityItem().getItem() == AbyssalCraft.Coraliumcluster7 || event.item.getEntityItem().getItem() == AbyssalCraft.Coraliumcluster8 || event.item.getEntityItem().getItem() == AbyssalCraft.Coraliumcluster9 || event.item.getEntityItem().getItem() == Item.getItemFromBlock(AbyssalCraft.Coraliumore))
+		if (event.item.getEntityItem().getItem() == AbyssalCraft.Coralium || event.item.getEntityItem().getItem() == AbyssalCraft.Coraliumcluster9 || event.item.getEntityItem().getItem() == Item.getItemFromBlock(AbyssalCraft.Coraliumore))
 			event.entityPlayer.addStat(AbyssalCraft.mineCorgem, 1);
 		if (event.item.getEntityItem().getItem() == Item.getItemFromBlock(AbyssalCraft.AbyLCorOre) || event.item.getEntityItem().getItem() == Item.getItemFromBlock(AbyssalCraft.AbyPCorOre) || event.item.getEntityItem().getItem() == Item.getItemFromBlock(AbyssalCraft.AbyCorOre))
 			event.entityPlayer.addStat(AbyssalCraft.mineCor, 1);

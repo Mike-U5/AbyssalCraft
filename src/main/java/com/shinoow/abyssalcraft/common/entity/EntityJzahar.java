@@ -162,6 +162,8 @@ public class EntityJzahar extends EntityMob implements IBossDisplayData, IAntiEn
 
 		// Resistant to arrows
 		if (dmgSrc.damageType == "arrow") {
+			amount *= 0.3F;
+		} else {
 			amount *= 0.5F;
 		}
 

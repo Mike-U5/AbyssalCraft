@@ -30,7 +30,7 @@ public class BlockACOre extends BlockACBasic {
 
 	@Override
 	public Item getItemDropped(int par1, Random par2Random, int par3) {
-		return this == AbyssalCraft.CoraliumInfusedStone ? AbyssalCraft.Cpearl: this == AbyssalCraft.Coraliumore ? AbyssalCraft.Coralium: this == AbyssalCraft.nitreOre ? AbyssalCraft.nitre: this == AbyssalCraft.AbyNitOre ? AbyssalCraft.nitre: this == AbyssalCraft.AbyDiaOre ? Items.diamond:
+		return this == AbyssalCraft.Coraliumore ? AbyssalCraft.Coralium: this == AbyssalCraft.nitreOre ? AbyssalCraft.nitre: this == AbyssalCraft.AbyNitOre ? AbyssalCraft.nitre: this == AbyssalCraft.AbyDiaOre ? Items.diamond:
 			this == AbyssalCraft.AbyCorOre ? AbyssalCraft.Coralium: this == AbyssalCraft.AbyPCorOre ? AbyssalCraft.Cpearl: Item.getItemFromBlock(this);
 	}
 
@@ -76,8 +76,6 @@ public class BlockACOre extends BlockACBasic {
 				j1 = MathHelper.getRandomIntegerInRange(rand, 0, 2);
 			else if (this == AbyssalCraft.nitreOre)
 				j1 = MathHelper.getRandomIntegerInRange(rand, 0, 2);
-			else if (this == AbyssalCraft.CoraliumInfusedStone)
-				j1 = MathHelper.getRandomIntegerInRange(rand, 2, 5);
 			else if (this == AbyssalCraft.AbyCorOre)
 				j1 = MathHelper.getRandomIntegerInRange(rand, 0, 2);
 			else if (this == AbyssalCraft.AbyDiaOre)

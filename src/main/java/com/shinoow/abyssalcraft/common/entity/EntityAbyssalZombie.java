@@ -42,7 +42,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.MathHelper;
-import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldProviderEnd;
 import net.minecraftforge.common.ForgeModContainer;
@@ -267,43 +266,6 @@ public class EntityAbyssalZombie extends CoraliumEntity implements ICoraliumEnti
 		}
 
 		nbtTag.setByte("ZombieType", (byte) getZombieType());
-	}
-
-	@Override
-	public void onKillEntity(EntityLivingBase victim) {
-		super.onKillEntity(victim);
-
-		if (worldObj.difficultySetting == EnumDifficulty.NORMAL || worldObj.difficultySetting == EnumDifficulty.HARD && victim instanceof EntityZombie) {
-
-			if (rand.nextBoolean())
-				return;
-
-			EntityAbyssalZombie EntityDephsZombie = new EntityAbyssalZombie(worldObj);
-			EntityDephsZombie.copyLocationAndAnglesFrom(victim);
-			worldObj.removeEntity(victim);
-			EntityDephsZombie.onSpawnWithEgg((IEntityLivingData) null);
-
-			if (victim.isChild())
-				EntityDephsZombie.setChild(true);
-
-			worldObj.spawnEntityInWorld(EntityDephsZombie);
-			worldObj.playAuxSFXAtEntity((EntityPlayer) null, 1016, (int) posX, (int) posY, (int) posZ, 0);
-		} else if (worldObj.difficultySetting == EnumDifficulty.NORMAL || worldObj.difficultySetting == EnumDifficulty.HARD && victim instanceof EntityPlayer) {
-
-			if (rand.nextBoolean())
-				return;
-
-			EntityAbyssalZombie EntityDephsZombie = new EntityAbyssalZombie(worldObj);
-			EntityDephsZombie.copyLocationAndAnglesFrom(victim);
-			worldObj.removeEntity(victim);
-			EntityDephsZombie.onSpawnWithEgg((IEntityLivingData) null);
-
-			if (victim.isChild())
-				EntityDephsZombie.setChild(true);
-
-			worldObj.spawnEntityInWorld(EntityDephsZombie);
-			worldObj.playAuxSFXAtEntity((EntityPlayer) null, 1016, (int) posX, (int) posY, (int) posZ, 0);
-		}
 	}
 
 	@Override

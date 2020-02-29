@@ -309,6 +309,18 @@ public class EntityChagaroth extends ACMob implements IBossDisplayData, IDreadEn
 		if (getAttackTarget() == null) {
 			return false;
 		}
+		
+		if (dmgSrc == DamageSource.lava || dmgSrc == DamageSource.inWall || dmgSrc == DamageSource.cactus) {
+			return false;
+		}
+		
+		// Resistant to arrows
+		if (dmgSrc.damageType == "arrow") {
+			amount *= 0.45F;
+		} else {
+			amount *= 0.75F;
+		}
+		
 		return super.attackEntityFrom(dmgSrc, amount);
 	}
 

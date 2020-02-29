@@ -223,7 +223,6 @@ import com.shinoow.abyssalcraft.common.items.ItemDrainStaff;
 import com.shinoow.abyssalcraft.common.items.ItemDrainStaffBeast;
 import com.shinoow.abyssalcraft.common.items.ItemDrainStaffMonster;
 import com.shinoow.abyssalcraft.common.items.ItemEoA;
-import com.shinoow.abyssalcraft.common.items.ItemEthaxiumBow;
 import com.shinoow.abyssalcraft.common.items.ItemEthaxiumPickaxe;
 import com.shinoow.abyssalcraft.common.items.ItemMetadata;
 import com.shinoow.abyssalcraft.common.items.ItemNecronomicon;
@@ -238,10 +237,10 @@ import com.shinoow.abyssalcraft.common.items.armor.ItemBaubleTrapezohedron;
 import com.shinoow.abyssalcraft.common.items.armor.ItemCoraliumArmor;
 import com.shinoow.abyssalcraft.common.items.armor.ItemCoraliumPArmor;
 import com.shinoow.abyssalcraft.common.items.armor.ItemDepthsArmor;
-import com.shinoow.abyssalcraft.common.items.armor.ItemGuardArmor;
 import com.shinoow.abyssalcraft.common.items.armor.ItemDreadiumArmor;
 import com.shinoow.abyssalcraft.common.items.armor.ItemDreadiumSamuraiArmor;
 import com.shinoow.abyssalcraft.common.items.armor.ItemEthaxiumArmor;
+import com.shinoow.abyssalcraft.common.items.armor.ItemGuardArmor;
 import com.shinoow.abyssalcraft.common.network.PacketDispatcher;
 import com.shinoow.abyssalcraft.common.potion.PotionAntimatter;
 import com.shinoow.abyssalcraft.common.potion.PotionAuditory;
@@ -391,7 +390,8 @@ public class AbyssalCraft {
 	// dread items
 	public static Item Dreadshard, dreadiumingot, dreadfragment, dreadcloth, dreadplate, dreadblade, dreadKey;
 	// coralium items
-	public static Item Coralium, Coraliumcluster2, Coraliumcluster3, Coraliumcluster4, Coraliumcluster5, Coraliumcluster6, Coraliumcluster7, Coraliumcluster8, Coraliumcluster9, Cpearl, Corb, Cchunk, Cingot, Cplate, Corflesh, Corbone, corbow, ethaxiumBow;
+	///public static Item Coralium, Coraliumcluster9, Cpearl, Corb, Cchunk, Cingot, Cplate, Corflesh, Corbone, corbow;
+	public static Item Coralium, Coraliumcluster2, Coraliumcluster3, Coraliumcluster4, Coraliumcluster5, Coraliumcluster6, Coraliumcluster7, Coraliumcluster8, Coraliumcluster9, Cpearl, Corb, Cchunk, Cingot, Cplate, Corflesh, Corbone, corbow;
 	// tools
 	public static Item Corpickaxe, Coraxe, Corshovel, Corsword, Corhoe, dreadiumpickaxe, dreadiumaxe, dreadiumshovel, dreadiumsword, dreadiumhoe, dreadhilt, dreadkatana, ethPickaxe, ethAxe, ethShovel, ethSword, ethHoe, soulSword;
 	// armor
@@ -550,7 +550,7 @@ public class AbyssalCraft {
 		Coraliumore = new BlockACOre(2, 3.0F, 6.0F).setBlockName("CO").setBlockTextureName(modid + ":" + "CO");
 
 		DSCwall = new BlockDarkstonecobblewall(Darkstone_cobble).setHardness(1.65F).setResistance(12.0F).setStepSound(Block.soundTypeStone).setBlockName("DSCw").setBlockTextureName(modid + ":" + "DSC");
-		CoraliumInfusedStone = new BlockACOre(3, 3.0F, 6.0F).setBlockName("CIS").setBlockTextureName(modid + ":" + "CIS");
+		//CoraliumInfusedStone = new BlockACOre(3, 3.0F, 6.0F).setBlockName("CIS").setBlockTextureName(modid + ":" + "CIS");
 		relic = new BlockDivineRelic().setStepSound(Block.soundTypeMetal).setHardness(3.0F).setResistance(0F).setBlockName("relic");
 		portal = new BlockAbyssPortal().setBlockName("AG").setBlockTextureName(modid + ":" + "AG");
 		Darkstoneslab1 = new BlockDarkstoneSlab().setStepSound(Block.soundTypeStone).setCreativeTab(tabBlock).setHardness(1.65F).setResistance(12.0F).setBlockName("DSs1");
@@ -778,13 +778,6 @@ public class AbyssalCraft {
 		dreadKey = registerItem(new ItemACBasic("DK"), "dreadkey");
 
 		// Coralium items
-		Coraliumcluster2 = registerItem(new ItemCoraliumcluster("2").setCreativeTab(tabItems).setUnlocalizedName("CGCA").setTextureName(modid + ":" + "CGCA"), "ccluster2");
-		Coraliumcluster3 = registerItem(new ItemCoraliumcluster("3").setCreativeTab(tabItems).setUnlocalizedName("CGCB").setTextureName(modid + ":" + "CGCB"), "ccluster3");
-		Coraliumcluster4 = registerItem(new ItemCoraliumcluster("4").setCreativeTab(tabItems).setUnlocalizedName("CGCC").setTextureName(modid + ":" + "CGCC"), "ccluster4");
-		Coraliumcluster5 = registerItem(new ItemCoraliumcluster("5").setCreativeTab(tabItems).setUnlocalizedName("CGCD").setTextureName(modid + ":" + "CGCD"), "ccluster5");
-		Coraliumcluster6 = registerItem(new ItemCoraliumcluster("6").setCreativeTab(tabItems).setUnlocalizedName("CGCE").setTextureName(modid + ":" + "CGCE"), "ccluster6");
-		Coraliumcluster7 = registerItem(new ItemCoraliumcluster("7").setCreativeTab(tabItems).setUnlocalizedName("CGCF").setTextureName(modid + ":" + "CGCF"), "ccluster7");
-		Coraliumcluster8 = registerItem(new ItemCoraliumcluster("8").setCreativeTab(tabItems).setUnlocalizedName("CGCG").setTextureName(modid + ":" + "CGCG"), "ccluster8");
 		Coraliumcluster9 = registerItem(new ItemCoraliumcluster("9").setCreativeTab(tabItems).setUnlocalizedName("CGCH").setTextureName(modid + ":" + "CGCH"), "ccluster9");
 		Cpearl = registerItem(new ItemACBasic("CP"), "cpearl");
 		Cchunk = registerItem(new ItemACBasic("CC"), "cchunk");
@@ -795,19 +788,8 @@ public class AbyssalCraft {
 		Corflesh = registerItem(new ItemCorflesh(2, 0.1F, false, "CF"), "corflesh");
 		Corbone = registerItem(new ItemCorbone(2, 0.1F, false, "CB"), "corbone");
 		corbow = registerItem(new ItemCoraliumBow(20.0F, 0, 8, 16).setUnlocalizedName("Corbow").setTextureName(modid + ":" + "Corbow"), "corbow");
-		ethaxiumBow = registerItem(new ItemEthaxiumBow(20.0F, 0, 8, 16).setUnlocalizedName("ethaxiumBow").setTextureName(modid + ":" + "ethaxiumBow"), "ethaxiumBow");
-
+		
 		// Tools
-		/// pickaxe = registerItem(new ItemACPickaxe(AbyssalCraftAPI.darkstoneTool,
-		// "DP", 1), "dpick");
-		/// axe = registerItem(new ItemACAxe(AbyssalCraftAPI.darkstoneTool, "DA", 1),
-		// "daxe");
-		/// shovel = registerItem(new ItemACShovel(AbyssalCraftAPI.darkstoneTool, "DS",
-		// 1), "dshovel");
-		/// sword = registerItem(new ItemACSword(AbyssalCraftAPI.darkstoneTool, "DSW"),
-		// "dsword");
-		/// hoe = registerItem(new ItemACHoe(AbyssalCraftAPI.darkstoneTool, "DH"),
-		// "dhoe");
 		Corpickaxe = registerItem(new ItemACPickaxe(AbyssalCraftAPI.refinedCoraliumTool, "RCP", 5, EnumChatFormatting.AQUA), "corpick");
 		Coraxe = registerItem(new ItemACAxe(AbyssalCraftAPI.refinedCoraliumTool, "RCA", 5, EnumChatFormatting.AQUA), "coraxe");
 		Corshovel = registerItem(new ItemACShovel(AbyssalCraftAPI.refinedCoraliumTool, "RCS", 5, EnumChatFormatting.AQUA), "corshovel");
@@ -938,7 +920,6 @@ public class AbyssalCraft {
 		}
 
 		// Block Register
-		// GameRegistry.registerBlock(Darkstone, "darkstone");
 		GameRegistry.registerBlock(Darkstone_cobble, "darkstone_cobble");
 		GameRegistry.registerBlock(Darkstone_brick, "darkstone_brick");
 		GameRegistry.registerBlock(DSGlow, "dsglow");
@@ -962,7 +943,7 @@ public class AbyssalCraft {
 
 		GameRegistry.registerBlock(abyfence, ItemBlockColorName.class, "abyfence");
 		GameRegistry.registerBlock(DSCwall, "dscwall");
-		GameRegistry.registerBlock(CoraliumInfusedStone, "coraliumstone");
+		//GameRegistry.registerBlock(CoraliumInfusedStone, "coraliumstone");
 		GameRegistry.registerBlock(relic, ItemBlockColorName.class, "odbcore");
 		/// GameRegistry.registerBlock(Crate, "Crate");
 		GameRegistry.registerBlock(portal, "portal");
@@ -1156,8 +1137,6 @@ public class AbyssalCraft {
 		EntityRegistry.addSpawn(EntityAbyssalZombie.class, 10, 1, 3, EnumCreatureType.monster, BiomeDictionary.getBiomesForType(Type.WATER));
 		EntityRegistry.addSpawn(EntityAbyssalZombie.class, 10, 1, 3, EnumCreatureType.monster, BiomeDictionary.getBiomesForType(Type.BEACH));
 		EntityRegistry.addSpawn(EntityAbyssalZombie.class, 10, 1, 3, EnumCreatureType.monster, BiomeDictionary.getBiomesForType(Type.SWAMP));
-		if (endAbyssalZombie)
-			EntityRegistry.addSpawn(EntityAbyssalZombie.class, 10, 1, 3, EnumCreatureType.monster, BiomeDictionary.getBiomesForType(Type.END));
 		EntityRegistry.removeSpawn(EntityAbyssalZombie.class, EnumCreatureType.monster, new BiomeGenBase[] { BiomeGenBase.mushroomIslandShore });
 
 		EntityRegistry.registerModEntity(EntityODBPrimed.class, "Primed ODB", 28, this, 80, 3, true);
@@ -1786,7 +1765,7 @@ public class AbyssalCraft {
 		OreDictionary.registerOre("oreCoralium", AbyCorOre);
 		OreDictionary.registerOre("oreDreadedAbyssalnite", dreadore);
 		OreDictionary.registerOre("oreAbyssalnite", abydreadore);
-		OreDictionary.registerOre("oreCoraliumStone", CoraliumInfusedStone);
+		//OreDictionary.registerOre("oreCoraliumStone", CoraliumInfusedStone);
 		OreDictionary.registerOre("gemShadow", shadowgem);
 		OreDictionary.registerOre("liquidCoralium", Cwater);
 		OreDictionary.registerOre("materialCoraliumPearl", Cpearl);
