@@ -15,6 +15,7 @@ import java.util.List;
 
 import com.shinoow.abyssalcraft.AbyssalCraft;
 import com.shinoow.abyssalcraft.api.entity.IDreadEntity;
+import com.shinoow.abyssalcraft.common.util.EntityUtil;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
@@ -80,11 +81,13 @@ public class EntityGreaterDreadSpawn extends ACMob implements IDreadEntity, IRan
 	}
 
 	@Override
-	public boolean attackEntityAsMob(Entity par1Entity){
-		if (super.attackEntityAsMob(par1Entity))
-			if (par1Entity instanceof EntityLivingBase)
-				((EntityLivingBase)par1Entity).addPotionEffect(new PotionEffect(AbyssalCraft.Dplague.id, 100));
-		return super.attackEntityAsMob(par1Entity);
+	public boolean attackEntityAsMob(Entity entity) {
+		if (super.attackEntityAsMob(entity)) {
+			if (entity instanceof EntityLivingBase) {
+				EntityUtil.applyDreadPlague((EntityLivingBase)entity);
+			}
+		}
+		return super.attackEntityAsMob(entity);
 	}
 
 	@Override

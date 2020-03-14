@@ -34,6 +34,7 @@ import net.minecraft.world.World;
 
 import com.shinoow.abyssalcraft.AbyssalCraft;
 import com.shinoow.abyssalcraft.api.entity.IDreadEntity;
+import com.shinoow.abyssalcraft.common.util.EntityUtil;
 
 public class EntityLesserDreadbeast extends ACMob implements IDreadEntity, IRangedAttackMob {
 
@@ -76,12 +77,13 @@ public class EntityLesserDreadbeast extends ACMob implements IDreadEntity, IRang
 	}
 
 	@Override
-	public boolean attackEntityAsMob(Entity par1Entity){
-
-		if (super.attackEntityAsMob(par1Entity))
-			if (par1Entity instanceof EntityLivingBase)
-				((EntityLivingBase)par1Entity).addPotionEffect(new PotionEffect(AbyssalCraft.Dplague.id, 100));
-		return super.attackEntityAsMob(par1Entity);
+	public boolean attackEntityAsMob(Entity entity) {
+		if (super.attackEntityAsMob(entity)) {
+			if (entity instanceof EntityLivingBase) {
+				EntityUtil.applyDreadPlague((EntityLivingBase)entity);
+			}
+		}
+		return super.attackEntityAsMob(entity);
 	}
 
 	@Override

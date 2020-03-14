@@ -291,7 +291,7 @@ public class EntityLesserShoggoth extends ACMob implements ICoraliumEntity, IDre
 			if(getShoggothType() == 1 && !EntityUtil.isEntityCoralium(victim)) {
 				victim.addPotionEffect(new PotionEffect(AbyssalCraft.Cplague.id, 100));
 			} else if(getShoggothType() == 2 && !EntityUtil.isEntityDread(victim)) {
-				victim.addPotionEffect(new PotionEffect(AbyssalCraft.Dplague.id, 100));
+				EntityUtil.applyDreadPlague(victim);
 			} else if(getShoggothType() == 3) {
 				victim.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 100));
 			} else if(getShoggothType() == 4) {

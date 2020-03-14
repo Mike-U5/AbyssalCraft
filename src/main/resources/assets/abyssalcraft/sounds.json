@@ -264,22 +264,6 @@
 			"abyssalcraft:dreadspawn/death"
 		]
 	},
-	"fist.hurt": {
-		"category": "hostile",
-		"sounds": [
-			"abyssalcraft:freezer/idle1",
-			"abyssalcraft:freezer/idle2",
-			"abyssalcraft:freezer/idle3"
-		]
-	},
-	"fist.death": {
-		"category": "hostile",
-		"sounds": [
-			"abyssalcraft:freezer/death1",
-			"abyssalcraft:freezer/death2",
-			"abyssalcraft:freezer/death3"
-		]
-	},
 	"antiplayer.idle": {
 		"category": "hostile",
 		"sounds": [

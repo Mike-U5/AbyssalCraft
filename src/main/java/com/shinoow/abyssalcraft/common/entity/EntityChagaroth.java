@@ -15,6 +15,7 @@ import com.shinoow.abyssalcraft.AbyssalCraft;
 import com.shinoow.abyssalcraft.api.AbyssalCraftAPI.ACPotions;
 import com.shinoow.abyssalcraft.api.entity.IDreadEntity;
 import com.shinoow.abyssalcraft.common.potion.CurseEffect;
+import com.shinoow.abyssalcraft.common.util.EntityUtil;
 import com.shinoow.abyssalcraft.common.util.SpecialTextUtil;
 
 import net.minecraft.entity.Entity;
@@ -33,7 +34,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityLargeFireball;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
@@ -66,7 +66,7 @@ public class EntityChagaroth extends ACMob implements IBossDisplayData, IDreadEn
 	public boolean attackEntityAsMob(Entity entity) {
 		if (super.attackEntityAsMob(entity)) {
 			if (entity instanceof EntityLivingBase) {
-				((EntityLivingBase)entity).addPotionEffect(new PotionEffect(AbyssalCraft.Dplague.id, 100));
+				EntityUtil.applyDreadPlague((EntityLivingBase)entity);
 			}
 		}
 		return super.attackEntityAsMob(entity);

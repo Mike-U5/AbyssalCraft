@@ -13,6 +13,7 @@ package com.shinoow.abyssalcraft.common.entity;
 
 import com.shinoow.abyssalcraft.AbyssalCraft;
 import com.shinoow.abyssalcraft.api.entity.IDreadEntity;
+import com.shinoow.abyssalcraft.common.util.EntityUtil;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
@@ -27,7 +28,6 @@ import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
 
 public class EntityChagarothSpawn extends ACMob implements IDreadEntity {
@@ -67,12 +67,13 @@ public class EntityChagarothSpawn extends ACMob implements IDreadEntity {
 	}
 
 	@Override
-	public boolean attackEntityAsMob(Entity par1Entity){
-
-		if (super.attackEntityAsMob(par1Entity))
-			if (par1Entity instanceof EntityLivingBase)
-				((EntityLivingBase)par1Entity).addPotionEffect(new PotionEffect(AbyssalCraft.Dplague.id, 100));
-		return super.attackEntityAsMob(par1Entity);
+	public boolean attackEntityAsMob(Entity entity) {
+		if (super.attackEntityAsMob(entity)) {
+			if (entity instanceof EntityLivingBase) {
+				EntityUtil.applyDreadPlague((EntityLivingBase)entity);
+			}
+		}
+		return super.attackEntityAsMob(entity);
 	}
 
 	@Override

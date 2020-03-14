@@ -13,26 +13,24 @@ package com.shinoow.abyssalcraft.common.blocks;
 
 import java.util.Random;
 
+import com.shinoow.abyssalcraft.AbyssalCraft;
+import com.shinoow.abyssalcraft.api.biome.ACBiomes;
+import com.shinoow.abyssalcraft.common.blocks.tile.TileEntityDreadAltarTop;
+import com.shinoow.abyssalcraft.common.structures.dreadlands.chagarothlair;
+import com.shinoow.abyssalcraft.common.util.EntityUtil;
+import com.shinoow.abyssalcraft.common.util.SpecialTextUtil;
+
+import cpw.mods.fml.client.FMLClientHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.potion.PotionEffect;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
-
-import com.shinoow.abyssalcraft.AbyssalCraft;
-import com.shinoow.abyssalcraft.api.biome.ACBiomes;
-import com.shinoow.abyssalcraft.api.entity.IDreadEntity;
-import com.shinoow.abyssalcraft.common.blocks.tile.TileEntityDreadAltarTop;
-import com.shinoow.abyssalcraft.common.structures.dreadlands.chagarothlair;
-import com.shinoow.abyssalcraft.common.util.SpecialTextUtil;
-
-import cpw.mods.fml.client.FMLClientHandler;
 
 public class BlockDreadAltarTop extends BlockContainer {
 
@@ -111,11 +109,10 @@ public class BlockDreadAltarTop extends BlockContainer {
 	}
 
 	@Override
-	public void onEntityCollidedWithBlock(World par1World, int par2, int par3, int par4, Entity par5Entity) {
-		super.onEntityCollidedWithBlock(par1World, par2, par3, par4, par5Entity);
-
-		if(par5Entity instanceof IDreadEntity){}
-		else if(par5Entity instanceof EntityLivingBase)
-			((EntityLivingBase)par5Entity).addPotionEffect(new PotionEffect(AbyssalCraft.Dplague.id, 100));
+	public void onEntityCollidedWithBlock(World par1World, int par2, int par3, int par4, Entity entity) {
+		super.onEntityCollidedWithBlock(par1World, par2, par3, par4, entity);
+		if(entity instanceof EntityLivingBase) {
+			EntityUtil.applyDreadPlague((EntityLivingBase)entity);
+		}
 	}
 }

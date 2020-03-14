@@ -11,66 +11,54 @@
  ******************************************************************************/
 package com.shinoow.abyssalcraft.common.blocks;
 
+import com.shinoow.abyssalcraft.AbyssalCraft;
+import com.shinoow.abyssalcraft.common.util.EntityUtil;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.BlockFire;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-import com.shinoow.abyssalcraft.AbyssalCraft;
-import com.shinoow.abyssalcraft.api.entity.IDreadEntity;
-
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-
 public class BlockDreadFire extends BlockFire {
 
 	@SideOnly(Side.CLIENT)
 	private IIcon[] iconArray;
-	public BlockDreadFire()
-	{
+
+	public BlockDreadFire() {
 		super();
 		setTickRandomly(true);
 	}
 
 	@Override
-	public boolean isBurning(IBlockAccess world, int x, int y, int z)
-	{
+	public boolean isBurning(IBlockAccess world, int x, int y, int z) {
 		return true;
 	}
 
 	@Override
-	public IIcon getIcon(int par1, int par2)
-	{
+	public IIcon getIcon(int par1, int par2) {
 		return iconArray[0];
 	}
 
-	private boolean canNeighborBurn(World par1World, int par2, int par3, int par4)
-	{
-		return canCatchFire(par1World, par2 + 1, par3, par4, ForgeDirection.WEST) ||
-				canCatchFire(par1World, par2 - 1, par3, par4, ForgeDirection.EAST) ||
-				canCatchFire(par1World, par2, par3 - 1, par4, ForgeDirection.UP) ||
-				canCatchFire(par1World, par2, par3 + 1, par4, ForgeDirection.DOWN) ||
-				canCatchFire(par1World, par2, par3, par4 - 1, ForgeDirection.SOUTH) ||
-				canCatchFire(par1World, par2, par3, par4 + 1, ForgeDirection.NORTH);
+	private boolean canNeighborBurn(World par1World, int par2, int par3, int par4) {
+		return canCatchFire(par1World, par2 + 1, par3, par4, ForgeDirection.WEST) || canCatchFire(par1World, par2 - 1, par3, par4, ForgeDirection.EAST) || canCatchFire(par1World, par2, par3 - 1, par4, ForgeDirection.UP) || canCatchFire(par1World, par2, par3 + 1, par4, ForgeDirection.DOWN) || canCatchFire(par1World, par2, par3, par4 - 1, ForgeDirection.SOUTH) || canCatchFire(par1World, par2, par3, par4 + 1, ForgeDirection.NORTH);
 	}
 
 	@Override
-	public void onEntityCollidedWithBlock(World par1World, int par2, int par3, int par4, Entity par5Entity) {
-		super.onEntityCollidedWithBlock(par1World, par2, par3, par4, par5Entity);
-
-		if(par5Entity instanceof EntityLivingBase)
-			if((EntityLivingBase)par5Entity instanceof IDreadEntity){}
-			else ((EntityLivingBase)par5Entity).addPotionEffect(new PotionEffect(AbyssalCraft.Dplague.id, 100));
+	public void onEntityCollidedWithBlock(World par1World, int par2, int par3, int par4, Entity entity) {
+		super.onEntityCollidedWithBlock(par1World, par2, par3, par4, entity);
+		if (entity instanceof EntityLivingBase) {
+			EntityUtil.applyDreadPlague((EntityLivingBase)entity);
+		}
 	}
 
 	@Override
-	public void onBlockAdded(World par1World, int par2, int par3, int par4)
-	{
+	public void onBlockAdded(World par1World, int par2, int par3, int par4) {
 
 		if (par1World.getBlock(par2, par3 - 1, par4) != AbyssalCraft.dreadstone || !BlockDreadlandsPortal.tryToCreatePortal(par1World, par2, par3, par4))
 			if (!World.doesBlockHaveSolidTopSurface(par1World, par2, par3 - 1, par4) && !canNeighborBurn(par1World, par2, par3, par4))
@@ -81,11 +69,11 @@ public class BlockDreadFire extends BlockFire {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void registerBlockIcons(IIconRegister par1IconRegister)
-	{
+	public void registerBlockIcons(IIconRegister par1IconRegister) {
 		iconArray = new IIcon[] { par1IconRegister.registerIcon("abyssalcraft:dfire_layer_0"), par1IconRegister.registerIcon("abyssalcraft:dfire_layer_1") };
 		blockIcon = par1IconRegister.registerIcon(AbyssalCraft.modid + ":" + "dfire_layer_0");
 	}
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getFireIcon(int par1) {

@@ -319,17 +319,14 @@ public class InternalNecroDataHandler extends DummyNecroDataHandler {
 			new Page(4, new CraftingStack(AbyssalCraft.dreadaltarbottom), NecronomiconText.CRAFTING_DREAD_ALTAR_BOTTOM),
 			new Page(5, new CraftingStack(AbyssalCraft.dreadaltartop), NecronomiconText.CRAFTING_DREAD_ALTAR_TOP),
 			new Page(6, new CraftingStack(AbyssalCraft.dreadplate), NecronomiconText.CRAFTING_DREADIUM_PLATE),
-			new Page(7, new CraftingStack(AbyssalCraft.dreadhilt), NecronomiconText.CRAFTING_DREADIUM_HILT),
-			new Page(8, new CraftingStack(AbyssalCraft.dreadblade), NecronomiconText.CRAFTING_DREADIUM_BLADE),
-			new Page(9, new CraftingStack(new ItemStack(AbyssalCraft.skin, 1, 2)), NecronomiconText.CRAFTING_SKIN_OF_OMOTHOL_1),
-			new Page(10, new CraftingStack(AbyssalCraft.necronomicon_omt), NecronomiconText.CRAFTING_NECRONOMICON_O)
+			new Page(7, new CraftingStack(new ItemStack(AbyssalCraft.skin, 1, 2)), NecronomiconText.CRAFTING_SKIN_OF_OMOTHOL_1),
+			new Page(8, new CraftingStack(AbyssalCraft.necronomicon_omt), NecronomiconText.CRAFTING_NECRONOMICON_O)
 		);
 		addPages("dreadlands", "armortools", 
 			new Page(1, new CraftingStack(AbyssalCraft.dreadiumShelmet), NecronomiconText.CRAFTING_DREADIUM_SAMURAI_HELMET),
 			new Page(2, new CraftingStack(AbyssalCraft.dreadiumSplate), NecronomiconText.CRAFTING_DREADIUM_SAMURAI_CHESTPLATE),
 			new Page(3, new CraftingStack(AbyssalCraft.dreadiumSlegs), NecronomiconText.CRAFTING_DREADIUM_SAMURAI_LEGGINGS),
-			new Page(4, new CraftingStack(AbyssalCraft.dreadiumSboots), NecronomiconText.CRAFTING_DREADIUM_SAMURAI_BOOTS),
-			new Page(5, new CraftingStack(AbyssalCraft.dreadkatana), NecronomiconText.CRAFTING_DREADIUM_KATANA)
+			new Page(4, new CraftingStack(AbyssalCraft.dreadiumSboots), NecronomiconText.CRAFTING_DREADIUM_SAMURAI_BOOTS)
 		);
 		addPages("omothol", "materials", 
 			new Page(1, new ItemStack(AbyssalCraft.omotholstone), NecronomiconText.MATERIAL_OMOTHOL_STONE_1),

@@ -11,12 +11,10 @@
  ******************************************************************************/
 package com.shinoow.abyssalcraft.common.entity;
 
-import com.shinoow.abyssalcraft.AbyssalCraft;
 import com.shinoow.abyssalcraft.common.util.EntityUtil;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntityThrowable;
-import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
@@ -43,8 +41,9 @@ public class EntityDreadSlug extends EntityThrowable {
 		{
 			byte b0 = 6;
 
-			if(mop.entityHit instanceof EntityLivingBase && !EntityUtil.isEntityDread((EntityLivingBase) mop.entityHit))
-				((EntityLivingBase)mop.entityHit).addPotionEffect(new PotionEffect(AbyssalCraft.Dplague.id, 100));
+			if(mop.entityHit instanceof EntityLivingBase) {
+				EntityUtil.applyDreadPlague((EntityLivingBase)mop.entityHit);
+			}
 
 			mop.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, getThrower()), b0);
 		}

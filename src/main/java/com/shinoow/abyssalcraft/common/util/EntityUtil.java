@@ -73,8 +73,8 @@ public final class EntityUtil {
 	 * @param par1 The Entity to check
 	 * @return True if the Entity is immune, otherwise false
 	 */
-	public static boolean isEntityDread(EntityLivingBase par1){
-		return par1 instanceof IDreadEntity;
+	public static boolean isEntityDread(EntityLivingBase entity) {
+		return entity instanceof IDreadEntity;
 	}
 
 	/**
@@ -164,6 +164,12 @@ public final class EntityUtil {
 			if (!player.isPotionActive(Potion.confusion) || player.getActivePotionEffect(Potion.confusion).getDuration() > 25) {
 				player.addPotionEffect(new PotionEffect(Potion.confusion.id, 115));
 			}
+		}
+	}
+	
+	public static void applyDreadPlague(EntityLivingBase entity) {
+		if (!EntityUtil.isEntityDread(entity)) {
+			entity.addPotionEffect(new PotionEffect(AbyssalCraft.Dplague.id, 100));
 		}
 	}
 }
