@@ -12,9 +12,11 @@
 package com.shinoow.abyssalcraft.common.entity;
 
 import com.shinoow.abyssalcraft.AbyssalCraft;
+import com.shinoow.abyssalcraft.common.entity.ai.EntityAIAvoidPlague;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackOnCollide;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
@@ -29,8 +31,9 @@ import net.minecraft.world.World;
 
 public class EntityAbygolem extends ACMob {
 
-	public EntityAbygolem(World par1World) {
-		super(par1World);
+	public EntityAbygolem(World world) {
+		super(world);
+		tasks.addTask(1, new EntityAIAvoidPlague(this, EntityLivingBase.class, 8.0F, 0.4D, 0.4D));
 		tasks.addTask(2, new EntityAIAttackOnCollide(this, EntityDreadgolem.class, 0.35D, true));
 		tasks.addTask(3, new EntityAIAttackOnCollide(this, EntityPlayer.class, 0.35D, false));
 		tasks.addTask(4, new EntityAIMoveTowardsRestriction(this, 0.35D));

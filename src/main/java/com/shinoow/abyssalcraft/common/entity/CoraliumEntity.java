@@ -13,10 +13,7 @@ package com.shinoow.abyssalcraft.common.entity;
 
 import com.shinoow.abyssalcraft.AbyssalCraft;
 import com.shinoow.abyssalcraft.api.entity.ICoraliumEntity;
-import com.shinoow.abyssalcraft.common.util.EntityUtil;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
@@ -44,13 +41,5 @@ public class CoraliumEntity extends ACMob implements ICoraliumEntity {
 			}
 		}
 		return super.attackEntityFrom(src, dmg);
-	}
-
-	@Override
-	public boolean attackEntityAsMob(Entity entity) {
-		if (!worldObj.isRemote && entity instanceof EntityPlayer) {
-			EntityUtil.corruptWaterContainers((EntityPlayer)entity);
-		}
-		return super.attackEntityAsMob(entity);
 	}
 }

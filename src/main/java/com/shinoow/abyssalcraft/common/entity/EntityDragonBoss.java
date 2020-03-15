@@ -17,7 +17,6 @@ import java.util.List;
 import com.shinoow.abyssalcraft.AbyssalCraft;
 import com.shinoow.abyssalcraft.api.entity.ICoraliumEntity;
 import com.shinoow.abyssalcraft.client.lib.ParticleEffects;
-import com.shinoow.abyssalcraft.common.util.EntityUtil;
 import com.shinoow.abyssalcraft.common.util.SpecialTextUtil;
 
 import net.minecraft.entity.Entity;
@@ -33,7 +32,6 @@ import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;

@@ -23,7 +23,6 @@ import net.minecraft.block.material.MaterialLiquid;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.IIcon;
@@ -79,9 +78,6 @@ public class BlockCLiquid extends BlockFluidClassic {
 
 		if(entity instanceof EntityLivingBase && !EntityUtil.isEntityCoralium((EntityLivingBase)entity) && ((EntityLivingBase)entity).getActivePotionEffect(AbyssalCraft.Cplague) == null) {
 			((EntityLivingBase)entity).addPotionEffect(new PotionEffect(AbyssalCraft.Cplague.id, 200));
-		}
-		if (entity instanceof EntityPlayer && entity.ticksExisted % 10 == 0) {
-			EntityUtil.corruptWaterContainers((EntityPlayer)entity);
 		}
 	}
 }

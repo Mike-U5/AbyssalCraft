@@ -393,6 +393,12 @@
 			"abyssalcraft:stray/Stray_death2"
 		]
 	},
+	"event.dreadwail": {
+		"category": "hostile",
+		"sounds": [
+			"abyssalcraft:event/dreadwail"
+		]
+	},
 	"event.sin": {
 		"category": "hostile",
 		"sounds": [

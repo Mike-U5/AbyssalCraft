@@ -11,6 +11,7 @@
  ******************************************************************************/
 package com.shinoow.abyssalcraft.common.util;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 import com.shinoow.abyssalcraft.AbyssalCraft;
@@ -23,11 +24,12 @@ import com.shinoow.abyssalcraft.common.entity.EntityRemnant;
 import com.shinoow.abyssalcraft.common.items.ItemCrozier;
 
 import baubles.api.BaublesApi;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockLiquid;
 import net.minecraft.command.IEntitySelector;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.launchwrapper.Launch;
 import net.minecraft.potion.Potion;
@@ -37,16 +39,6 @@ import net.minecraft.util.Vec3;
 public final class EntityUtil {
 
 	private EntityUtil(){}
-	
-	public static void corruptWaterContainers(EntityPlayer player) {
-		for (int i = 0; i < player.inventory.getSizeInventory() - 4; i++) {
-			ItemStack stack = player.inventory.getStackInSlot(i);
-			if (stack != null && stack.getItem() == Items.water_bucket) {
-				player.inventory.setInventorySlotContents(i, new ItemStack(AbyssalCraft.Cbucket));
-				break;
-			}
-		}
-	}
 
 	/**
 	 * Checks if the Entity is immune to the Coralium Plague
@@ -156,6 +148,18 @@ public final class EntityUtil {
 		return false;
 	}
 	
+	public static boolean inFlowingWater(EntityLivingBase entity) {
+		final int x = (int)entity.posX;
+		final int y = (int)entity.posY;
+		final int z = (int)entity.posZ;
+		final Block blockA = entity.worldObj.getBlock(x, y, z);
+		final Block blockB = entity.worldObj.getBlock(x, y + 1, z);
+		if (blockA instanceof BlockLiquid && blockB instanceof BlockLiquid) {
+			return true;
+		}
+		return false;
+	}
+	
 	public static void meltEyes(EntityPlayer player) {
 		// Check if player is wearing pendant
 		if (!EntityUtil.isPlayerWearingPendant(player)) {
@@ -168,8 +172,14 @@ public final class EntityUtil {
 	}
 	
 	public static void applyDreadPlague(EntityLivingBase entity) {
-		if (!EntityUtil.isEntityDread(entity)) {
-			entity.addPotionEffect(new PotionEffect(AbyssalCraft.Dplague.id, 100));
+		EntityUtil.applyDreadPlague(entity, 1200);
+	}
+	
+	public static void applyDreadPlague(EntityLivingBase entity, int duration) {
+		if (!EntityUtil.isEntityDread(entity) && !EntityUtil.inFlowingWater(entity)) {
+			final PotionEffect plague = new PotionEffect(AbyssalCraft.Dplague.id, duration);
+			plague.setCurativeItems(new ArrayList<ItemStack>());
+			entity.addPotionEffect(plague);
 		}
 	}
 }
