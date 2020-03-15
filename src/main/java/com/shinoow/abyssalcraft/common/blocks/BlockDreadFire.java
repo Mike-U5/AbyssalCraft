@@ -50,14 +50,6 @@ public class BlockDreadFire extends BlockFire {
 	}
 
 	@Override
-	public void onEntityCollidedWithBlock(World par1World, int par2, int par3, int par4, Entity entity) {
-		super.onEntityCollidedWithBlock(par1World, par2, par3, par4, entity);
-		if (entity instanceof EntityLivingBase) {
-			EntityUtil.applyDreadPlague((EntityLivingBase)entity);
-		}
-	}
-
-	@Override
 	public void onBlockAdded(World par1World, int par2, int par3, int par4) {
 
 		if (par1World.getBlock(par2, par3 - 1, par4) != AbyssalCraft.dreadstone || !BlockDreadlandsPortal.tryToCreatePortal(par1World, par2, par3, par4))

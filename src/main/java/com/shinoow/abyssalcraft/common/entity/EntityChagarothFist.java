@@ -26,7 +26,7 @@ import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 
-public class EntityChagarothFist extends ACMob implements IDreadEntity {
+public class EntityChagarothFist extends DreadEntity implements IDreadEntity {
 
 	public EntityChagarothFist(World par1World) {
 		super(par1World);
@@ -41,13 +41,12 @@ public class EntityChagarothFist extends ACMob implements IDreadEntity {
 	}
 
 	@Override
-	protected void applyEntityAttributes()
-	{
+	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
 
 		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.23000000417232513D);
 
-		if(AbyssalCraft.hardcoreMode){
+		if (AbyssalCraft.hardcoreMode) {
 			getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(100.0D);
 			getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(15D);
 		} else {
@@ -60,7 +59,7 @@ public class EntityChagarothFist extends ACMob implements IDreadEntity {
 	protected boolean isAIEnabled() {
 		return true;
 	}
-	
+
 	@Override
 	protected void func_145780_a(int par1, int par2, int par3, Block par4) {
 		playSound("mob.spider.step", 0.15F, 1.0F);

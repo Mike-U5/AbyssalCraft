@@ -68,6 +68,6 @@ public class BlockDreadAltarBottom extends BlockContainer {
 	@Override
 	public void onEntityCollidedWithBlock(World par1World, int par2, int par3, int par4, Entity entity) {
 		super.onEntityCollidedWithBlock(par1World, par2, par3, par4, entity);
-		EntityUtil.applyDreadPlague((EntityLivingBase)entity);
+		EntityUtil.increaseDreadPlague((EntityLivingBase)entity, 2);
 	}
 }

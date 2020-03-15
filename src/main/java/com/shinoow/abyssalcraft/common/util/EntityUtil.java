@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 import com.shinoow.abyssalcraft.AbyssalCraft;
+import com.shinoow.abyssalcraft.api.AbyssalCraftAPI;
 import com.shinoow.abyssalcraft.api.entity.IAntiEntity;
 import com.shinoow.abyssalcraft.api.entity.ICoraliumEntity;
 import com.shinoow.abyssalcraft.api.entity.IDreadEntity;
@@ -171,12 +172,30 @@ public final class EntityUtil {
 		}
 	}
 	
-	public static void applyDreadPlague(EntityLivingBase entity) {
-		EntityUtil.applyDreadPlague(entity, 1200);
+	// Adds duration to the victim's Dread Plague if it's not immune
+	public static void increaseDreadPlague(EntityLivingBase entity, int timeToAdd) {
+		if (!EntityUtil.isEntityDread(entity) && !EntityUtil.inFlowingWater(entity)) {
+			// Add Duration to Plague
+			int newDuration = timeToAdd;
+			if (entity.isPotionActive(AbyssalCraftAPI.potionId2)) {
+				newDuration += entity.getActivePotionEffect(Potion.potionTypes[AbyssalCraftAPI.potionId2]).getDuration();
+			}
+			
+			// Cap at 12000
+			if (newDuration > 12000) {
+				newDuration = 12000;
+			}
+			
+			final PotionEffect plague = new PotionEffect(AbyssalCraft.Dplague.id, newDuration);
+			plague.setCurativeItems(new ArrayList<ItemStack>());
+			entity.addPotionEffect(plague);
+		}
 	}
 	
+	// Add Dread Plague to a victim if it's not immune
 	public static void applyDreadPlague(EntityLivingBase entity, int duration) {
 		if (!EntityUtil.isEntityDread(entity) && !EntityUtil.inFlowingWater(entity)) {
+			// Apply the Dread Plague with the set duration
 			final PotionEffect plague = new PotionEffect(AbyssalCraft.Dplague.id, duration);
 			plague.setCurativeItems(new ArrayList<ItemStack>());
 			entity.addPotionEffect(plague);

@@ -37,7 +37,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
-public class EntityDreadguard extends ACMob implements IDreadEntity {
+public class EntityDreadguard extends DreadEntity implements IDreadEntity {
 
 	private static final UUID attackDamageBoostUUID = UUID.fromString("648D7064-6A60-4F59-8ABE-C2C23A6DD7A9");
 	private static final AttributeModifier attackDamageBoost = new AttributeModifier(attackDamageBoostUUID, "Halloween Attack Damage Boost", 5.0D, 0);
@@ -88,11 +88,10 @@ public class EntityDreadguard extends ACMob implements IDreadEntity {
 	public boolean attackEntityAsMob(Entity target) {
 		if (super.attackEntityAsMob(target)) {
 			if (target instanceof EntityLivingBase) {
-				Vec3 vec = this.getLookVec();
+				final Vec3 vec = this.getLookVec();
 				target.motionX = vec.xCoord;
 				target.motionY = vec.yCoord;
 				target.motionZ = vec.zCoord;
-				///((EntityLivingBase)par1Entity).addPotionEffect(new PotionEffect(AbyssalCraft.Dplague.id, 100));
 			}
 		}
 		return super.attackEntityAsMob(target);

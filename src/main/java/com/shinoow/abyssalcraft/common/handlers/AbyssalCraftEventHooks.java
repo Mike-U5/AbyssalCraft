@@ -36,12 +36,14 @@ import com.shinoow.abyssalcraft.common.util.SpecialTextUtil;
 import com.shinoow.abyssalcraft.common.world.TeleporterDarkRealm;
 
 import cpw.mods.fml.common.eventhandler.Event.Result;
+import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -49,6 +51,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.stats.StatisticsFile;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.WorldServer;
@@ -58,6 +61,7 @@ import net.minecraftforge.event.entity.living.EnderTeleportEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.player.BonemealEvent;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
+import net.minecraftforge.event.entity.player.PlayerUseItemEvent;
 import net.minecraftforge.event.terraingen.BiomeEvent;
 import net.minecraftforge.event.terraingen.PopulateChunkEvent;
 import thaumcraft.api.ThaumcraftApiHelper;
@@ -170,9 +174,12 @@ public class AbyssalCraftEventHooks {
 
 	@SubscribeEvent
 	public void onCraftingEvent(PlayerEvent.ItemCraftedEvent event) {
-		for (int h = 0; h < event.craftMatrix.getSizeInventory(); h++)
-			if (event.craftMatrix.getStackInSlot(h) != null)
-				for (int i = 0; i < event.craftMatrix.getSizeInventory(); i++)
+		//
+		
+		// Does, uh, stuff?
+		for (int h = 0; h < event.craftMatrix.getSizeInventory(); h++) {
+			if (event.craftMatrix.getStackInSlot(h) != null) {
+				for (int i = 0; i < event.craftMatrix.getSizeInventory(); i++) {
 					if (event.craftMatrix.getStackInSlot(i) != null) {
 						ItemStack k = event.craftMatrix.getStackInSlot(h);
 						ItemStack j = event.craftMatrix.getStackInSlot(i);
@@ -235,6 +242,9 @@ public class AbyssalCraftEventHooks {
 							}
 						}
 					}
+				}
+			}
+		}
 
 		if (event.crafting.getItem() == AbyssalCraft.portalPlacer)
 			event.player.addStat(AbyssalCraft.GK1, 1);
@@ -334,6 +344,19 @@ public class AbyssalCraftEventHooks {
 			event.entityPlayer.addStat(AbyssalCraft.ritualPotionAoE, 1);
 		if (event.ritual instanceof NecronomiconInfusionRitual)
 			event.entityPlayer.addStat(AbyssalCraft.ritualInfusion, 1);
+	}
+	
+	// Consuming Food Effect
+	@SubscribeEvent
+	public void consume(PlayerUseItemEvent.Finish event) {
+		if (event.item.getItem().getItemUseAction(event.item) == EnumAction.eat) {
+			if (event.item.hasTagCompound() && event.item.stackTagCompound.getBoolean("dreadplagued")) {
+				EntityUtil.increaseDreadPlague(event.entityPlayer, 100);
+				if (!event.entityPlayer.worldObj.isRemote) {
+					FMLClientHandler.instance().getClient().ingameGUI.getChatGUI().printChatMessage(new ChatComponentText("§4It tastes rather dreadful..§f"));
+				}
+			}
+		}
 	}
 	
 	//Called when the world ticks

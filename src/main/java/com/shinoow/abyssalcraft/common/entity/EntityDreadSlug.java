@@ -42,7 +42,7 @@ public class EntityDreadSlug extends EntityThrowable {
 			byte b0 = 6;
 
 			if(mop.entityHit instanceof EntityLivingBase) {
-				EntityUtil.applyDreadPlague((EntityLivingBase)mop.entityHit);
+				EntityUtil.increaseDreadPlague(((EntityLivingBase)mop.entityHit), 100);
 			}
 
 			mop.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, getThrower()), b0);

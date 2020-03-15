@@ -15,10 +15,8 @@ import java.util.List;
 
 import com.shinoow.abyssalcraft.AbyssalCraft;
 import com.shinoow.abyssalcraft.api.entity.IDreadEntity;
-import com.shinoow.abyssalcraft.common.util.EntityUtil;
 
 import net.minecraft.block.Block;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.entity.IRangedAttackMob;
@@ -33,12 +31,11 @@ import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
-public class EntityGreaterDreadSpawn extends ACMob implements IDreadEntity, IRangedAttackMob {
+public class EntityGreaterDreadSpawn extends DreadEntity implements IDreadEntity, IRangedAttackMob {
 
 	private static boolean hasMerged;
 
@@ -78,16 +75,6 @@ public class EntityGreaterDreadSpawn extends ACMob implements IDreadEntity, IRan
 	@Override
 	protected boolean isAIEnabled() {
 		return true;
-	}
-
-	@Override
-	public boolean attackEntityAsMob(Entity entity) {
-		if (super.attackEntityAsMob(entity)) {
-			if (entity instanceof EntityLivingBase) {
-				EntityUtil.applyDreadPlague((EntityLivingBase)entity);
-			}
-		}
-		return super.attackEntityAsMob(entity);
 	}
 
 	@Override
