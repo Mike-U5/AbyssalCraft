@@ -11,8 +11,6 @@
  ******************************************************************************/
 package com.shinoow.abyssalcraft.common.entity;
 
-import java.util.List;
-
 import com.shinoow.abyssalcraft.AbyssalCraft;
 import com.shinoow.abyssalcraft.api.entity.IDreadEntity;
 
@@ -27,6 +25,7 @@ import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAILookIdle;
 import net.minecraft.entity.ai.EntityAIMoveTowardsRestriction;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
+import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.player.EntityPlayer;
@@ -37,14 +36,13 @@ import net.minecraft.world.World;
 
 public class EntityGreaterDreadSpawn extends DreadEntity implements IDreadEntity, IRangedAttackMob {
 
-	private static boolean hasMerged;
-
 	private EntityAIArrowAttack arrowAttack = new EntityAIArrowAttack(this, 0.6D, 20, 60, 8.0F);
 	private EntityAIAttackOnCollide attackOnCollide = new EntityAIAttackOnCollide(this, EntityPlayer.class, 0.35D, true);
 
-	public EntityGreaterDreadSpawn(World par1World) {
-		super(par1World);
+	public EntityGreaterDreadSpawn(World world) {
+		super(world);
 		setSize(1.2F, 1.2F);
+		tasks.addTask(0, new EntityAISwimming(this));
 		tasks.addTask(2, arrowAttack);
 		tasks.addTask(3, attackOnCollide);
 		tasks.addTask(4, new EntityAIMoveTowardsRestriction(this, 0.5D));
@@ -54,6 +52,7 @@ public class EntityGreaterDreadSpawn extends DreadEntity implements IDreadEntity
 		targetTasks.addTask(1, new EntityAIHurtByTarget(this, false));
 		targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true));
 		isImmuneToFire = true;
+		experienceValue = 8;
 	}
 
 	@Override
@@ -109,7 +108,7 @@ public class EntityGreaterDreadSpawn extends DreadEntity implements IDreadEntity
 
 	@Override
 	protected void func_145780_a(int par1, int par2, int par3, Block par4) {
-		worldObj.playSoundAtEntity(this, "mob.zombie.step", 0.15F, 1.0F);
+		worldObj.playSoundAtEntity(this, "mob.spider.step", 0.1F, 0.7F);
 	}
 
 	@Override
@@ -156,41 +155,19 @@ public class EntityGreaterDreadSpawn extends DreadEntity implements IDreadEntity
 		return EnumCreatureAttribute.ARTHROPOD;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public void onLivingUpdate() {
 		super.onLivingUpdate();
 
-		if(entityToAttack != null && getDistanceToEntity(entityToAttack) >= 5)
-			if(worldObj.rand.nextInt(1000) == 0)
+		if(entityToAttack != null && getDistanceToEntity(entityToAttack) >= 5) {
+			if(worldObj.rand.nextInt(1000) == 0) {
 				attackEntityWithRangedAttack((EntityLivingBase) entityToAttack, 4);
-
-
-		List<EntityGreaterDreadSpawn> greaterspawns = worldObj.getEntitiesWithinAABB(getClass(), boundingBox.expand(5D, 5D, 5D));
-
-		if(!worldObj.isRemote)
-			if(!greaterspawns.isEmpty())
-				if(greaterspawns.size() >= 5 && !hasMerged){
-					hasMerged = true;
-					for(int i = 0; i < 5; i++)
-						worldObj.removeEntity(greaterspawns.get(i));
-					EntityLesserDreadbeast lesserdreadbeast = new EntityLesserDreadbeast(worldObj);
-					lesserdreadbeast.copyLocationAndAnglesFrom(this);
-					worldObj.removeEntity(this);
-					worldObj.spawnEntityInWorld(lesserdreadbeast);
-					hasMerged = false;
-				}
-
-		if(worldObj.rand.nextInt(2000) == 0)
-			if(!worldObj.isRemote){
-				EntityDreadSpawn spawn = new EntityDreadSpawn(worldObj);
-				spawn.copyLocationAndAnglesFrom(this);
-				worldObj.spawnEntityInWorld(spawn);
 			}
+		}
 	}
 
 	@Override
-	public void onDeath(DamageSource par1DamageSource) {
+	public void onDeath(DamageSource damageSource) {
 		if(!worldObj.isRemote){
 			EntityDreadSpawn spawn1 = new EntityDreadSpawn(worldObj);
 			EntityDreadSpawn spawn2 = new EntityDreadSpawn(worldObj);
@@ -199,7 +176,7 @@ public class EntityGreaterDreadSpawn extends DreadEntity implements IDreadEntity
 			worldObj.spawnEntityInWorld(spawn1);
 			worldObj.spawnEntityInWorld(spawn2);
 		}
-		super.onDeath(par1DamageSource);
+		super.onDeath(damageSource);
 	}
 
 	@Override

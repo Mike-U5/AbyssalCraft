@@ -22,6 +22,7 @@ import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAILookIdle;
 import net.minecraft.entity.ai.EntityAIMoveTowardsRestriction;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
+import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.player.EntityPlayer;
@@ -29,10 +30,10 @@ import net.minecraft.world.World;
 
 public class EntityChagarothSpawn extends DreadEntity implements IDreadEntity {
 
-	public EntityChagarothSpawn(World par1World) {
-		super(par1World);
+	public EntityChagarothSpawn(World world) {
+		super(world);
 		setSize(0.6F, 0.6F);
-		setDrop(AbyssalCraft.dreadfragment, 1.0F);
+		tasks.addTask(0, new EntityAISwimming(this));
 		tasks.addTask(1, new EntityAIAttackOnCollide(this, EntityPlayer.class, 0.35D, true));
 		tasks.addTask(2, new EntityAIMoveTowardsRestriction(this, 0.35D));
 		tasks.addTask(3, new EntityAIWander(this, 0.35D));
@@ -41,6 +42,7 @@ public class EntityChagarothSpawn extends DreadEntity implements IDreadEntity {
 		targetTasks.addTask(1, new EntityAIHurtByTarget(this, false));
 		targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true));
 		isImmuneToFire = true;
+		experienceValue = 0;
 	}
 
 	@Override
@@ -80,7 +82,7 @@ public class EntityChagarothSpawn extends DreadEntity implements IDreadEntity {
 
 	@Override
 	protected void func_145780_a(int par1, int par2, int par3, Block par4) {
-		worldObj.playSoundAtEntity(this, "mob.zombie.step", 0.15F, 1.0F);
+		worldObj.playSoundAtEntity(this, "mob.zombie.step", 0.15F, 1.2F);
 	}
 
 	@Override

@@ -1,12 +1,28 @@
 package com.shinoow.abyssalcraft.common.util;
 
+import java.util.Arrays;
+
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.EnumAction;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
 public class ItemUtil {
-	public static boolean isFood(ItemStack stack) {
-		return (stack.getItem().getItemUseAction(stack) == EnumAction.eat);
+	public static Item[] dreadables = new Item[] {
+		Items.wheat,
+		Items.egg,
+		Items.sugar,
+		Item.getItemFromBlock(Blocks.brown_mushroom_block),
+		Item.getItemFromBlock(Blocks.red_mushroom_block),
+		Item.getItemFromBlock(Blocks.brown_mushroom),
+		Item.getItemFromBlock(Blocks.red_mushroom_block)
+	}; 
+	
+	public static boolean isConsumable(ItemStack stack) {
+		final EnumAction act = stack.getItem().getItemUseAction(stack);
+		return (act == EnumAction.eat || act == EnumAction.drink);
 	}
 	
 	// Check if food is dreaded
@@ -14,9 +30,17 @@ public class ItemUtil {
 		return (stack.hasTagCompound() && stack.stackTagCompound.getBoolean("dreadplagued"));
 	}
 	
+	public static boolean canBeDreadified(ItemStack stack) {
+		if (stack != null && !ItemUtil.isDreadful(stack)) {
+			final Item item = stack.getItem();
+			return (ItemUtil.isConsumable(stack) || Arrays.asList(ItemUtil.dreadables).contains(item));
+		}
+		return false;
+	}
+	
 	// Turn food into dreadful food
 	public static void dreadifyFood(ItemStack stack) {
-		if (stack != null && ItemUtil.isFood(stack) && !ItemUtil.isDreadful(stack)) {
+		if (ItemUtil.canBeDreadified(stack)) {
 			if(!stack.hasTagCompound()) {
 				stack.setTagCompound(new NBTTagCompound());
 			}

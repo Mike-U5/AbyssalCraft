@@ -152,7 +152,6 @@ public class AbyssalCrafting {
 	}
 
 	private static void addItemCrafting() {
-		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.devsword, 1), new Object[] { "#", '#', AbyssalCraft.devsword }); // You ain't seen nothing
 		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.portalPlacer, 1), new Object[] { " #%", " &#", "&  ", '#', AbyssalCraft.Cpearl, '%', AbyssalCraft.OC, '&', Items.blaze_rod });
 		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.Cplate, 1), new Object[] { "#%#", "#%#", "#%#", '#', AbyssalCraft.Cingot, '%', AbyssalCraft.Cpearl });
 		GameRegistry.addRecipe(new ItemStack(AbyssalCraft.Cchunk, 1), new Object[] { "###", "#%#", "###", '#', AbyssalCraft.Coraliumcluster9, '%', AbyssalCraft.abystone });

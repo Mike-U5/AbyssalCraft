@@ -24,6 +24,7 @@ import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAILookIdle;
 import net.minecraft.entity.ai.EntityAIMoveTowardsRestriction;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
+import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.player.EntityPlayer;
@@ -33,9 +34,10 @@ import net.minecraft.world.World;
 public class EntityDreadSpawn extends DreadEntity implements IDreadEntity {
 	private static boolean hasMerged;
 
-	public EntityDreadSpawn(World par1World) {
-		super(par1World);
+	public EntityDreadSpawn(World world) {
+		super(world);
 		setSize(0.6F, 0.6F);
+		tasks.addTask(0, new EntityAISwimming(this));
 		tasks.addTask(2, new EntityAIAttackOnCollide(this, EntityPlayer.class, 0.35D, true));
 		tasks.addTask(3, new EntityAIMoveTowardsRestriction(this, 0.35D));
 		tasks.addTask(4, new EntityAIWander(this, 0.35D));
@@ -94,7 +96,7 @@ public class EntityDreadSpawn extends DreadEntity implements IDreadEntity {
 
 	@Override
 	protected void func_145780_a(int par1, int par2, int par3, Block par4) {
-		worldObj.playSoundAtEntity(this, "mob.zombie.step", 0.15F, 1.0F);
+		worldObj.playSoundAtEntity(this, "mob.spider.step", 0.1F, 1.1F);
 	}
 
 	@Override
@@ -157,9 +159,10 @@ public class EntityDreadSpawn extends DreadEntity implements IDreadEntity {
 			if(!dreadspawns.isEmpty()) {
 				if(dreadspawns.size() >= 5 && !hasMerged) {
 					hasMerged = true;
-					for(int i = 0; i < 5; i++)
+					for(int i = 0; i < 5; i++) {
 						worldObj.removeEntity(dreadspawns.get(i));
-					EntityGreaterDreadSpawn greaterspawn = new EntityGreaterDreadSpawn(worldObj);
+					}
+					final EntityGreaterDreadSpawn greaterspawn = new EntityGreaterDreadSpawn(worldObj);
 					greaterspawn.copyLocationAndAnglesFrom(this);
 					worldObj.removeEntity(this);
 					worldObj.spawnEntityInWorld(greaterspawn);

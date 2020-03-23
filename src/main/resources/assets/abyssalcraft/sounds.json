@@ -264,6 +264,12 @@
 			"abyssalcraft:dreadspawn/death"
 		]
 	},
+	"spawner.create": {
+		"category": "hostile",
+		"sounds": [
+			"abyssalcraft:entrail/spawner_create"
+		]
+	},
 	"antiplayer.idle": {
 		"category": "hostile",
 		"sounds": [
@@ -397,6 +403,12 @@
 		"category": "hostile",
 		"sounds": [
 			"abyssalcraft:event/dreadwail"
+		]
+	},
+	"event.leveldown": {
+		"category": "hostile",
+		"sounds": [
+			"abyssalcraft:event/leveldown"
 		]
 	},
 	"event.sin": {

@@ -11,16 +11,12 @@
  ******************************************************************************/
 package com.shinoow.abyssalcraft.common.entity;
 
-import java.util.Calendar;
-import java.util.UUID;
-
 import com.shinoow.abyssalcraft.AbyssalCraft;
 import com.shinoow.abyssalcraft.api.entity.IDreadEntity;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.EnumCreatureAttribute;
-import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackOnCollide;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
@@ -29,8 +25,6 @@ import net.minecraft.entity.ai.EntityAIMoveTowardsRestriction;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
-import net.minecraft.entity.ai.attributes.AttributeModifier;
-import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
@@ -39,11 +33,8 @@ import net.minecraft.world.World;
 
 public class EntityDreadguard extends DreadEntity implements IDreadEntity {
 
-	private static final UUID attackDamageBoostUUID = UUID.fromString("648D7064-6A60-4F59-8ABE-C2C23A6DD7A9");
-	private static final AttributeModifier attackDamageBoost = new AttributeModifier(attackDamageBoostUUID, "Halloween Attack Damage Boost", 5.0D, 0);
-
-	public EntityDreadguard(World par1World) {
-		super(par1World);
+	public EntityDreadguard(World world) {
+		super(world);
 		setSize(1.0F, 3.0F);
 		isImmuneToFire = true;
 		tasks.addTask(2, new EntityAIAttackOnCollide(this, EntityPlayer.class, 1.0D, true));
@@ -76,12 +67,12 @@ public class EntityDreadguard extends DreadEntity implements IDreadEntity {
 	}
 
 	@Override
-	public void onDeath(DamageSource par1DamageSource) {
-		if (par1DamageSource.getEntity() instanceof EntityPlayer) {
-			EntityPlayer entityplayer = (EntityPlayer)par1DamageSource.getEntity();
+	public void onDeath(DamageSource damageSource) {
+		if (damageSource.getEntity() instanceof EntityPlayer) {
+			EntityPlayer entityplayer = (EntityPlayer)damageSource.getEntity();
 			entityplayer.addStat(AbyssalCraft.killdreadguard, 1);
 		}
-		super.onDeath(par1DamageSource);
+		super.onDeath(damageSource);
 	}
 
 	@Override
@@ -99,12 +90,13 @@ public class EntityDreadguard extends DreadEntity implements IDreadEntity {
 
 	@Override
 	public int getTotalArmorValue() {
-		int var1 = super.getTotalArmorValue() + 2;
+		int armor = super.getTotalArmorValue() + 2;
 
-		if (var1 > 20)
-			var1 = 20;
+		if (armor > 20) {
+			armor = 20;
+		}
 
-		return var1;
+		return armor;
 	}
 
 	@Override
@@ -153,18 +145,5 @@ public class EntityDreadguard extends DreadEntity implements IDreadEntity {
 			setCurrentItemOrArmor(2, new ItemStack(AbyssalCraft.legsD));
 		}
 		super.onLivingUpdate();
-	}
-
-	@Override
-	public IEntityLivingData onSpawnWithEgg(IEntityLivingData par1EntityLivingData) {
-		par1EntityLivingData = super.onSpawnWithEgg(par1EntityLivingData);
-
-		IAttributeInstance attribute = getEntityAttribute(SharedMonsterAttributes.attackDamage);
-		Calendar calendar = worldObj.getCurrentDate();
-
-		if (calendar.get(2) + 1 == 10 && calendar.get(5) == 31 && rand.nextFloat() < 0.25F)
-			attribute.applyModifier(attackDamageBoost);
-
-		return par1EntityLivingData;
 	}
 }

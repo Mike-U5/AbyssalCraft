@@ -283,9 +283,6 @@ public class EntityLesserShoggoth extends ACMob implements ICoraliumEntity, IDre
 
 	@Override
 	public boolean attackEntityAsMob(Entity entity) {
-		///if (getDistanceToEntity(entity) > 3) {
-		///	return false;
-		///}
 		if (super.attackEntityAsMob(entity) && entity instanceof EntityLivingBase) {
 			EntityLivingBase victim = (EntityLivingBase) entity;
 			if(getShoggothType() == 1 && !EntityUtil.isEntityCoralium(victim)) {
@@ -344,7 +341,7 @@ public class EntityLesserShoggoth extends ACMob implements ICoraliumEntity, IDre
 
 	@Override
 	protected void func_145780_a(int par1, int par2, int par3, Block par4) {
-		playSound("mob.spider.step", 0.15F, 1.0F);
+		playSound("mob.spider.step", 0.15F, 0.6F);
 	}
 
 	@Override

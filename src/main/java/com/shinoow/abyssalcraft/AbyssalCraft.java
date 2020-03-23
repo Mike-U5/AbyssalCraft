@@ -243,7 +243,6 @@ import com.shinoow.abyssalcraft.common.items.armor.ItemEthaxiumArmor;
 import com.shinoow.abyssalcraft.common.items.armor.ItemGuardArmor;
 import com.shinoow.abyssalcraft.common.network.PacketDispatcher;
 import com.shinoow.abyssalcraft.common.potion.PotionAntimatter;
-import com.shinoow.abyssalcraft.common.potion.PotionAuditory;
 import com.shinoow.abyssalcraft.common.potion.PotionCplague;
 import com.shinoow.abyssalcraft.common.potion.PotionDoomed;
 import com.shinoow.abyssalcraft.common.potion.PotionDplague;
@@ -376,7 +375,7 @@ public class AbyssalCraft {
 			cstonebrickstairs, cstonebrickslab1, cstonebrickslab2, cstonebutton, cstonepplate, dreadaltartop, dreadaltarbottom, dreadiumblock, dreadguardspawner, chagarothspawner, DrTfence, nitreOre, AbyIroOre, AbyGolOre, AbyDiaOre, AbyNitOre, AbyTinOre, AbyCopOre, AbyPCorOre, AbyLCorOre, solidLava, ethaxium, ethaxiumbrick, ethaxiumpillar, ethaxiumstairs, ethaxiumslab1, ethaxiumslab2, ethaxiumfence, omotholstone, ethaxiumblock, omotholportal, omotholfire, engraver, house, darkethaxiumbrick, darkethaxiumpillar, darkethaxiumstairs, darkethaxiumslab1, darkethaxiumslab2, darkethaxiumfence, ritualaltar, ritualpedestal, shoggothBlock, cthulhuStatue, hasturStatue, jzaharStatue, azathothStatue, nyarlathotepStatue, yogsothothStatue, shubniggurathStatue, monolithStone, shoggothBiomass, energyPedestal, monolithPillar, sacrificialAltar, tieredEnergyPedestal, tieredSacrificialAltar, jzaharspawner, gatekeeperminionspawner, mimicFire;
 
 	// "secret" dev stuff
-	public static Item devsword;
+	public static Item devsword, dreadeye;
 	// crystal bags
 	public static Item crystalbag_s, crystalbag_m, crystalbag_l, crystalbag_h;
 	// misc items
@@ -685,6 +684,7 @@ public class AbyssalCraft {
 
 		// "secret" dev stuff
 		devsword = new AbyssalCraftTool().setUnlocalizedName("DEV_BLADE").setTextureName(modid + ":" + "Sword");
+		dreadeye = new Item().setTextureName(modid + ":" + "dreadeye");
 
 		// Misc items
 		OC = registerItem(new ItemOC().setCreativeTab(tabItems).setUnlocalizedName("OC").setTextureName(modid + ":" + "OC"), "OC");
@@ -813,18 +813,6 @@ public class AbyssalCraft {
 		drainStaffBeast = registerItem(new ItemDrainStaffBeast(), "drainstaffbeast");
 
 		// Armor
-		/// boots = registerItem(new
-		// ItemAbyssalniteArmor(AbyssalCraftAPI.abyssalniteArmor, 5,
-		// 3).setUnlocalizedName("AAB").setTextureName(modid + ":" + "AAB"), "aboots");
-		/// helmet = registerItem(new
-		// ItemAbyssalniteArmor(AbyssalCraftAPI.abyssalniteArmor, 5,
-		// 0).setUnlocalizedName("AAH").setTextureName(modid + ":" + "AAh"), "ahelmet");
-		/// plate = registerItem(new
-		// ItemAbyssalniteArmor(AbyssalCraftAPI.abyssalniteArmor, 5,
-		// 1).setUnlocalizedName("AAC").setTextureName(modid + ":" + "AAC"), "aplate");
-		/// legs = registerItem(new
-		// ItemAbyssalniteArmor(AbyssalCraftAPI.abyssalniteArmor, 5,
-		// 2).setUnlocalizedName("AAP").setTextureName(modid + ":" + "AAP"), "alegs");
 		bootsD = registerItem(new ItemGuardArmor(AbyssalCraftAPI.dreadedAbyssalniteArmor, 5, 3).setUnlocalizedName("ADAB").setTextureName(modid + ":" + "ADAB"), "dboots");
 		helmetD = registerItem(new ItemGuardArmor(AbyssalCraftAPI.dreadedAbyssalniteArmor, 5, 0).setUnlocalizedName("ADAH").setTextureName(modid + ":" + "ADAH"), "dhelmet");
 		plateD = registerItem(new ItemGuardArmor(AbyssalCraftAPI.dreadedAbyssalniteArmor, 5, 1).setUnlocalizedName("ADAC").setTextureName(modid + ":" + "ADAC"), "dplate");
@@ -900,7 +888,7 @@ public class AbyssalCraft {
 		antiMatter = new PotionAntimatter(useDynamicPotionIds ? getNextAvailablePotionId() : AbyssalCraftAPI.potionId3, true, 0xFFFFFF).setIconIndex(1, 0).setPotionName("potion.Antimatter");
 		earthquake = new PotionEarthquake(useDynamicPotionIds ? getNextAvailablePotionId() : AbyssalCraftAPI.potionId4, true, 0x826C34).setPotionName("potion.Earthquake");
 		doom = new PotionDoomed(useDynamicPotionIds ? getNextAvailablePotionId() : AbyssalCraftAPI.potionId5, true, 0x826C34).setPotionName("potion.Doom");
-		auditory = new PotionAuditory(useDynamicPotionIds ? getNextAvailablePotionId() : AbyssalCraftAPI.potionId6, true, 0x826C34).setPotionName("potion.Auditory");
+		//auditory = new PotionAuditory(useDynamicPotionIds ? getNextAvailablePotionId() : AbyssalCraftAPI.potionId6, true, 0x826C34).setPotionName("potion.Auditory");
 
 		coraliumE = new EnchantmentWeaponInfusion(getNextAvailableEnchantmentId(), 2, "coralium");
 		dreadE = new EnchantmentWeaponInfusion(getNextAvailableEnchantmentId(), 2, "dread");
@@ -916,7 +904,6 @@ public class AbyssalCraft {
 			AbyssalCraftAPI.potionId3 = antiMatter.id;
 			AbyssalCraftAPI.potionId4 = earthquake.id;
 			AbyssalCraftAPI.potionId5 = doom.id;
-			AbyssalCraftAPI.potionId6 = auditory.id;
 		}
 
 		// Block Register
@@ -1057,6 +1044,7 @@ public class AbyssalCraft {
 
 		// Item Register
 		GameRegistry.registerItem(devsword, "devsword");
+		GameRegistry.registerItem(dreadeye, "dreadeye");
 
 		AbyssalCraftAPI.setRepairItems();
 		LIQUID_CORALIUM.setBlock(Cwater).setUnlocalizedName(Cwater.getUnlocalizedName());

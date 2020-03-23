@@ -22,6 +22,7 @@ import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAILookIdle;
 import net.minecraft.entity.ai.EntityAIMoveTowardsRestriction;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
+import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.player.EntityPlayer;
@@ -30,8 +31,9 @@ import net.minecraft.world.World;
 
 public class EntityDreadgolem extends ACMob implements IDreadEntity {
 
-	public EntityDreadgolem(World par1World) {
-		super(par1World);
+	public EntityDreadgolem(World world) {
+		super(world);
+		tasks.addTask(0, new EntityAISwimming(this));
 		tasks.addTask(2, new EntityAIAttackOnCollide(this, EntityAbygolem.class, 0.35D, true));
 		tasks.addTask(3, new EntityAIAttackOnCollide(this, EntityPlayer.class, 0.35D, false));
 		tasks.addTask(4, new EntityAIMoveTowardsRestriction(this, 0.35D));

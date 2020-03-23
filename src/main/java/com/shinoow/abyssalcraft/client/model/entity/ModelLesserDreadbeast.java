@@ -45,58 +45,36 @@ public class ModelLesserDreadbeast extends ModelBase {
 		textureHeight = 64;
 
 		body = new ModelRenderer(this, 12, 22);
-		body.addBox(-3F, -3F, -3F, 6, 9, 6);
+		body.addBox(-3F, -2F, -3F, 6, 8, 6);
 		body.setRotationPoint(0F, 18F, 0F);
 		body.setTextureSize(128, 64);
 		body.mirror = true;
 		setRotation(body, 0F, 0F, 0F);
-		smallspike1 = new ModelRenderer(this, 30, 12);
-		smallspike1.addBox(0F, -4F, 0F, 1, 5, 1);
+		
+		smallspike1 = smallSpike();
 		smallspike1.setRotationPoint(2F, 15F, -3F);
-		smallspike1.setTextureSize(128, 64);
-		smallspike1.mirror = true;
 		setRotation(smallspike1, 0.3346075F, -0.7435722F, 0F);
-		smallspike2 = new ModelRenderer(this, 30, 12);
-		smallspike2.addBox(0F, -4F, 0F, 1, 5, 1);
+		smallspike2 = smallSpike();
 		smallspike2.setRotationPoint(-3F, 15F, -2F);
-		smallspike2.setTextureSize(128, 64);
-		smallspike2.mirror = true;
 		setRotation(smallspike2, 0.3346145F, 0.8922867F, 0F);
-		smallspike3 = new ModelRenderer(this, 30, 12);
-		smallspike3.addBox(0F, -4F, 0F, 1, 5, 1);
+		smallspike3 = smallSpike();
 		smallspike3.setRotationPoint(-2F, 15F, 3F);
-		smallspike3.setTextureSize(128, 64);
-		smallspike3.mirror = true;
 		setRotation(smallspike3, 0.3346075F, 2.41661F, 0F);
-		smallspike4 = new ModelRenderer(this, 30, 12);
-		smallspike4.addBox(0F, -4F, 0F, 1, 5, 1);
+		smallspike4 = smallSpike();
 		smallspike4.setRotationPoint(3F, 15F, 2F);
-		smallspike4.setTextureSize(128, 64);
-		smallspike4.mirror = true;
 		setRotation(smallspike4, 0.3346075F, -2.379431F, 0F);
-		bigspike1 = new ModelRenderer(this, 24, 11);
-		bigspike1.addBox(-1F, -5F, -1F, 2, 5, 2);
+		
+		bigspike1 = bigSpike();
 		bigspike1.setRotationPoint(0F, 18F, 2F);
-		bigspike1.setTextureSize(128, 64);
-		bigspike1.mirror = true;
 		setRotation(bigspike1, -0.8922867F, 0F, 0F);
-		bigspike2 = new ModelRenderer(this, 24, 11);
-		bigspike2.addBox(-1F, -5F, -1F, 2, 5, 2);
+		bigspike2 = bigSpike();
 		bigspike2.setRotationPoint(0F, 18F, -2F);
-		bigspike2.setTextureSize(128, 64);
-		bigspike2.mirror = true;
 		setRotation(bigspike2, 0.8922821F, 0F, 0F);
-		bigspike3 = new ModelRenderer(this, 24, 11);
-		bigspike3.addBox(-1F, -5F, -1F, 2, 5, 2);
+		bigspike3 = bigSpike();
 		bigspike3.setRotationPoint(-2F, 18F, 0F);
-		bigspike3.setTextureSize(128, 64);
-		bigspike3.mirror = true;
 		setRotation(bigspike3, 0F, 0F, -0.8922821F);
-		bigspike4 = new ModelRenderer(this, 24, 11);
-		bigspike4.addBox(-1F, -5F, -1F, 2, 5, 2);
+		bigspike4 = bigSpike();
 		bigspike4.setRotationPoint(2F, 18F, 0F);
-		bigspike4.setTextureSize(128, 64);
-		bigspike4.mirror = true;
 		setRotation(bigspike4, 0F, 0F, 0.8922821F);
 		
 		leftleg1 = new ModelRenderer(this, 0, 0);
@@ -171,6 +149,23 @@ public class ModelLesserDreadbeast extends ModelBase {
 		rightleg3.setTextureSize(128, 64);
 		rightleg3.mirror = true;
 		setRotation(rightleg3, 0F, 0F, 0F);
+	}
+	
+	private ModelRenderer smallSpike() {
+		final ModelRenderer smallspike = new ModelRenderer(this, 30, 12);
+		smallspike.addBox(0F, -3.5F, 0F, 1, 5, 1);
+		smallspike.setTextureSize(128, 64);
+		smallspike.mirror = true;
+		return smallspike;
+	}
+
+	
+	private ModelRenderer bigSpike() {
+		final ModelRenderer bigspike = new ModelRenderer(this, 24, 11);
+		bigspike.addBox(-1F, -4.5F, -1F, 2, 5, 2);
+		bigspike.setTextureSize(128, 64);
+		bigspike.mirror = true;
+		return bigspike;
 	}
 
 	@Override

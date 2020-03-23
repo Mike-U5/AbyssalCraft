@@ -27,6 +27,7 @@ public class NEIACConfig implements IConfigureNEI {
 		API.registerRecipeHandler(new RitualRecipeHandler());
 		API.registerUsageHandler(new RitualRecipeHandler());
 
+		API.hideItem(new ItemStack(AbyssalCraft.dreadeye));
 		API.hideItem(new ItemStack(AbyssalCraft.devsword));
 		API.hideItem(new ItemStack(AbyssalCraft.house));
 		API.hideItem(new ItemStack(AbyssalCraft.Altar));

@@ -23,6 +23,7 @@ import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAILookIdle;
 import net.minecraft.entity.ai.EntityAIMoveTowardsRestriction;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
+import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.player.EntityPlayer;
@@ -33,6 +34,7 @@ public class EntityAbygolem extends ACMob {
 
 	public EntityAbygolem(World world) {
 		super(world);
+		tasks.addTask(0, new EntityAISwimming(this));
 		tasks.addTask(1, new EntityAIAvoidPlague(this, EntityLivingBase.class, 8.0F, 0.5D, 0.5D));
 		tasks.addTask(2, new EntityAIAttackOnCollide(this, EntityDreadgolem.class, 0.35D, true));
 		tasks.addTask(3, new EntityAIAttackOnCollide(this, EntityPlayer.class, 0.35D, false));

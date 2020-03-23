@@ -25,8 +25,7 @@ import com.shinoow.abyssalcraft.common.entity.EntityRemnant;
 import com.shinoow.abyssalcraft.common.items.ItemCrozier;
 
 import baubles.api.BaublesApi;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockLiquid;
+import net.minecraft.block.material.Material;
 import net.minecraft.command.IEntitySelector;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -149,16 +148,8 @@ public final class EntityUtil {
 		return false;
 	}
 	
-	public static boolean inFlowingWater(EntityLivingBase entity) {
-		final int x = (int)entity.posX;
-		final int y = (int)entity.posY;
-		final int z = (int)entity.posZ;
-		final Block blockA = entity.worldObj.getBlock(x, y, z);
-		final Block blockB = entity.worldObj.getBlock(x, y + 1, z);
-		if (blockA instanceof BlockLiquid && blockB instanceof BlockLiquid) {
-			return true;
-		}
-		return false;
+	public static boolean isSubmergedInWater(EntityLivingBase entity) {
+		return (entity.isInsideOfMaterial(Material.water) && entity.isInWater());
 	}
 	
 	public static void meltEyes(EntityPlayer player) {
@@ -174,7 +165,7 @@ public final class EntityUtil {
 	
 	// Adds duration to the victim's Dread Plague if it's not immune
 	public static void increaseDreadPlague(EntityLivingBase entity, int timeToAdd) {
-		if (!EntityUtil.isEntityDread(entity) && !EntityUtil.inFlowingWater(entity)) {
+		if (!EntityUtil.isEntityDread(entity) && !EntityUtil.isSubmergedInWater(entity)) {
 			// Add Duration to Plague
 			int newDuration = timeToAdd;
 			if (entity.isPotionActive(AbyssalCraftAPI.potionId2)) {
@@ -194,7 +185,7 @@ public final class EntityUtil {
 	
 	// Add Dread Plague to a victim if it's not immune
 	public static void applyDreadPlague(EntityLivingBase entity, int duration) {
-		if (!EntityUtil.isEntityDread(entity) && !EntityUtil.inFlowingWater(entity)) {
+		if (!EntityUtil.isEntityDread(entity) && !EntityUtil.isSubmergedInWater(entity)) {
 			// Apply the Dread Plague with the set duration
 			final PotionEffect plague = new PotionEffect(AbyssalCraft.Dplague.id, duration);
 			plague.setCurativeItems(new ArrayList<ItemStack>());

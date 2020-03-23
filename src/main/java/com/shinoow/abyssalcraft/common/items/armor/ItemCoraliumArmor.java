@@ -25,7 +25,7 @@ import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 
 public class ItemCoraliumArmor extends ItemArmor {
-	public ItemCoraliumArmor(ArmorMaterial par2EnumArmorMaterial, int par3, int par4){
+	public ItemCoraliumArmor(ArmorMaterial par2EnumArmorMaterial, int par3, int par4) {
 		super(par2EnumArmorMaterial, par3, par4);
 		setCreativeTab(AbyssalCraft.tabTools);
 	}
@@ -37,20 +37,19 @@ public class ItemCoraliumArmor extends ItemArmor {
 	}
 
 	@Override
-	public String getArmorTexture(ItemStack stack, Entity entity, int slot, String type)
-	{
-		if(stack.getItem() == AbyssalCraft.Corhelmet || stack.getItem() == AbyssalCraft.Corplate || stack.getItem() == AbyssalCraft.Corboots)
+	public String getArmorTexture(ItemStack stack, Entity entity, int slot, String type) {
+		if (stack.getItem() == AbyssalCraft.Corhelmet || stack.getItem() == AbyssalCraft.Corplate || stack.getItem() == AbyssalCraft.Corboots)
 			return "abyssalcraft:textures/armor/coralium_1.png";
 
-		if(stack.getItem() == AbyssalCraft.Corlegs)
+		if (stack.getItem() == AbyssalCraft.Corlegs)
 			return "abyssalcraft:textures/armor/coralium_2.png";
-		else return null;
+		else
+			return null;
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void registerIcons(IIconRegister par1IconRegister)
-	{
+	public void registerIcons(IIconRegister par1IconRegister) {
 		itemIcon = par1IconRegister.registerIcon(AbyssalCraft.modid + ":" + this.getUnlocalizedName().substring(5));
 	}
 
@@ -60,21 +59,21 @@ public class ItemCoraliumArmor extends ItemArmor {
 		if (player.getCurrentArmor(3) != null && player.getCurrentArmor(3).getItem().equals(AbyssalCraft.Corhelmet)) {
 			setEff++;
 		}
-		
+
 		if (player.getCurrentArmor(2) != null && player.getCurrentArmor(2).getItem().equals(AbyssalCraft.Corplate)) {
 			setEff++;
 		}
-		
+
 		if (player.getCurrentArmor(1) != null && player.getCurrentArmor(1).getItem().equals(AbyssalCraft.Corlegs)) {
 			setEff++;
 		}
-		
+
 		if (player.getCurrentArmor(0) != null && player.getCurrentArmor(0).getItem().equals(AbyssalCraft.Corboots)) {
 			setEff++;
 		}
-		
+
 		if (setEff >= 4) {
-			if(player.getActivePotionEffect(AbyssalCraft.Cplague) != null) {
+			if (player.getActivePotionEffect(AbyssalCraft.Cplague) != null) {
 				player.removePotionEffect(AbyssalCraft.Cplague.getId());
 			}
 		}
