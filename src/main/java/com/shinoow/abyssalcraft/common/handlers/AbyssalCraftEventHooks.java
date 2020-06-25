@@ -35,6 +35,7 @@ import com.shinoow.abyssalcraft.common.ritual.NecronomiconBreedingRitual;
 import com.shinoow.abyssalcraft.common.ritual.NecronomiconDreadSpawnRitual;
 import com.shinoow.abyssalcraft.common.util.EntityUtil;
 import com.shinoow.abyssalcraft.common.util.ItemUtil;
+import com.shinoow.abyssalcraft.common.util.NecroPetList;
 import com.shinoow.abyssalcraft.common.util.SpecialTextUtil;
 import com.shinoow.abyssalcraft.common.world.TeleporterDarkRealm;
 
@@ -43,7 +44,9 @@ import cpw.mods.fml.common.eventhandler.Event.Result;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.IEntityOwnable;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
@@ -53,6 +56,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.stats.StatisticsFile;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.DamageSource;
@@ -62,6 +66,7 @@ import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.EnderTeleportEvent;
+import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.BonemealEvent;
@@ -170,32 +175,32 @@ public class AbyssalCraftEventHooks {
 				break;
 			}
 		}
-		
+
 		if (dreadfulcomponent && ItemUtil.isConsumable(event.crafting)) {
 			ItemUtil.dreadifyFood(event.crafting);
 		}
-		
+
 		// Does, uh, stuff?
 		for (int h = 0; h < event.craftMatrix.getSizeInventory(); h++) {
 			if (event.craftMatrix.getStackInSlot(h) != null) {
 				for (int i = 0; i < event.craftMatrix.getSizeInventory(); i++) {
 					if (event.craftMatrix.getStackInSlot(i) != null) {
 						ItemStack k = event.craftMatrix.getStackInSlot(h);
-						
-						if(k.getItem() instanceof ItemCrystalBag){
+
+						if (k.getItem() instanceof ItemCrystalBag) {
 							NBTTagCompound compound = new NBTTagCompound();
 							NBTTagList items = new NBTTagList();
 
-							if(k.stackTagCompound == null) {
+							if (k.stackTagCompound == null) {
 								k.stackTagCompound = compound;
 							}
 							items = k.stackTagCompound.getTagList("ItemInventory", 10);
 
 							ItemStack l = event.crafting;
 
-							if(l.getItem() instanceof ItemCrystalBag){
-								((ItemCrystalBag)l.getItem()).setInventorySize(l);
-								if(l.stackTagCompound == null)
+							if (l.getItem() instanceof ItemCrystalBag) {
+								((ItemCrystalBag) l.getItem()).setInventorySize(l);
+								if (l.stackTagCompound == null)
 									l.stackTagCompound = compound;
 								l.stackTagCompound.setTag("ItemInventory", items);
 
@@ -330,7 +335,7 @@ public class AbyssalCraftEventHooks {
 		if (event.ritual instanceof NecronomiconInfusionRitual)
 			event.entityPlayer.addStat(AbyssalCraft.ritualInfusion, 1);
 	}
-	
+
 	// Consuming Food Effect
 	@SubscribeEvent
 	public void onConsume(PlayerUseItemEvent.Finish event) {
@@ -340,7 +345,7 @@ public class AbyssalCraftEventHooks {
 				// Reduce based on active plague
 				if (event.entityPlayer.isPotionActive(ACPotions.Dread_plague)) {
 					final PotionEffect effect = event.entityPlayer.getActivePotionEffect(ACPotions.Dread_plague);
-					amountToAdd -= effect.getDuration() / 30;
+					amountToAdd -= effect.getDuration() / 25;
 				}
 				// Apply
 				if (amountToAdd > 0) {
@@ -352,13 +357,13 @@ public class AbyssalCraftEventHooks {
 			}
 		}
 	}
-	
-	//Called when the world ticks
+
+	// Called when the world ticks
 	@SuppressWarnings("unchecked")
 	@SubscribeEvent
 	public void onWorldTick(TickEvent.WorldTickEvent event) {
 		// Only run at end of tick
-		if(event.phase == TickEvent.Phase.END) {
+		if (event.phase == TickEvent.Phase.END) {
 			return;
 		}
 		// Only exec every X world ticks
@@ -367,16 +372,16 @@ public class AbyssalCraftEventHooks {
 		}
 		// Hit one random player
 		final List<EntityPlayer> players = event.world.playerEntities;
-		Collections.shuffle(players); 
-		
+		Collections.shuffle(players);
+
 		for (int i = 0; i < players.size(); i++) {
 			final EntityPlayer p = players.get(i);
-			
+
 			// Only happens in Omothol
 			if (p.dimension != AbyssalCraft.configDimId3 && p.dimension != AbyssalCraft.configDimId4) {
 				continue;
 			}
-			
+
 			// If the player killed Jzhar once, they gain no warp in Omothol
 			if (p instanceof EntityPlayerMP && ((EntityPlayerMP) p).func_147099_x() != null) {
 				final StatisticsFile stats = ((EntityPlayerMP) p).func_147099_x();
@@ -384,34 +389,34 @@ public class AbyssalCraftEventHooks {
 					continue;
 				}
 			}
-			
+
 			// If pendant is worn, cancel warp
 			if (EntityUtil.isPlayerWearingPendant(p)) {
 				continue;
 			}
-			
+
 			// Add temporary warp to the player
 			ThaumcraftApiHelper.addWarpToPlayer(p, 1, true);
 			event.world.playSoundAtEntity(p, "abyssalcraft:jzahar.speak", 1.5F, 1F);
 			return;
 		}
 	}
-	
+
 	// Hurt Event
 	@SubscribeEvent
 	public void LivingHurtEvent(final LivingHurtEvent event) {
 		if (event.entity instanceof EntityPlayer) {
 			// Base stats
-			final EntityPlayer victim = (EntityPlayer)event.entity;
+			final EntityPlayer victim = (EntityPlayer) event.entity;
 			float cactusMult = 1;
 			float pierceMult = 1;
 			float allMult = 1;
-			
+
 			// Check all armor types
 			for (int i = 0; i < 4; i++) {
 				if (victim.getCurrentArmor(i) != null) {
 					final Item armor = victim.getCurrentArmor(i).getItem();
-					
+
 					if (armor instanceof ItemEthaxiumArmor) {
 						allMult -= 0.05;
 						pierceMult -= 0.2;
@@ -419,7 +424,7 @@ public class AbyssalCraftEventHooks {
 					}
 				}
 			}
-			
+
 			// Damage multipliers
 			event.ammount *= allMult;
 			if (event.source == DamageSource.cactus) {
@@ -427,24 +432,45 @@ public class AbyssalCraftEventHooks {
 			} else if (event.source.isUnblockable() && event.source != DamageSource.starve) {
 				event.ammount *= pierceMult;
 			}
-			
+
 			// Cancel if no damage is left
 			if (event.ammount <= 0) {
 				event.setCanceled(true);
 			}
 		}
 	}
-	
+
 	@SubscribeEvent
 	public void EntityJoinWorld(final EntityJoinWorldEvent event) {
 		if (event.entity instanceof EntityLivingBase) {
-			final EntityLivingBase entity = (EntityLivingBase)event.entity;
-			
+			final EntityLivingBase entity = (EntityLivingBase) event.entity;
+
 			if (entity.isPotionActive(ACPotions.Dread_plague)) {
 				entity.getActivePotionEffect(ACPotions.Dread_plague).setCurativeItems(new ArrayList<ItemStack>());
 			}
 			if (entity.isPotionActive(ACPotions.Earthquake)) {
 				entity.getActivePotionEffect(ACPotions.Earthquake).setCurativeItems(new ArrayList<ItemStack>());
+			}
+		}
+	}
+	
+	@SubscribeEvent
+	public void onDeath(LivingDeathEvent event) {
+		if (event.entityLiving instanceof EntityLiving) {
+			final EntityLiving entity = (EntityLiving)event.entityLiving;
+			if(entity instanceof IEntityOwnable && entity.hasCustomNameTag()) {
+				final IEntityOwnable pet = (IEntityOwnable)entity;
+				if (pet.getOwner() instanceof EntityPlayer) {
+					System.out.println(entity.getCustomNameTag() + " has perished!");
+					MinecraftServer.getServer().addChatMessage(new ChatComponentText(entity.getCustomNameTag() + " has perished!"));
+					
+					final NBTTagCompound petData = new NBTTagCompound();
+					entity.writeToNBTOptional(petData);
+					
+					final NecroPetList necroList = new NecroPetList((EntityPlayer)pet.getOwner());
+					necroList.add(petData);
+					necroList.writeToPlayer();
+				}
 			}
 		}
 	}

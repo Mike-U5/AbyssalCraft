@@ -79,7 +79,7 @@ public class ReputationProps implements IExtendedEntityProperties
 
 		NBTTagCompound properties = (NBTTagCompound) compound.getTag(EXT_PROP_NAME);
 
-		if(properties != null){
+		if(properties != null) {
 			if(properties.hasKey(DeityType.CTHULHU.getName()))
 				cthulhuRep = properties.getInteger(DeityType.CTHULHU.getName());
 			if(properties.hasKey(DeityType.HASTUR.getName()))

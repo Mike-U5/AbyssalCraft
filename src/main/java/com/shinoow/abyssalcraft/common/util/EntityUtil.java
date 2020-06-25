@@ -22,19 +22,28 @@ import com.shinoow.abyssalcraft.api.entity.IDreadEntity;
 import com.shinoow.abyssalcraft.common.entity.EntityGatekeeperMinion;
 import com.shinoow.abyssalcraft.common.entity.EntityOmotholGhoul;
 import com.shinoow.abyssalcraft.common.entity.EntityRemnant;
+import com.shinoow.abyssalcraft.common.entity.anti.EntityAbomination;
 import com.shinoow.abyssalcraft.common.items.ItemCrozier;
 
 import baubles.api.BaublesApi;
 import net.minecraft.block.material.Material;
 import net.minecraft.command.IEntitySelector;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.passive.EntityHorse;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.launchwrapper.Launch;
+import net.minecraft.nbt.NBTBase;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.Vec3;
+import net.minecraft.world.World;
 
 public final class EntityUtil {
 
@@ -190,6 +199,42 @@ public final class EntityUtil {
 			final PotionEffect plague = new PotionEffect(AbyssalCraft.Dplague.id, duration);
 			plague.setCurativeItems(new ArrayList<ItemStack>());
 			entity.addPotionEffect(plague);
+		}
+	}
+	
+	private static Entity getReviveEntity(NBTTagCompound nbt, String name, World world) {
+		if (Math.random() < 0.3F) {
+			final EntityAbomination abo = new EntityAbomination(world);
+			abo.setCustomNameTag(name);
+			return abo;
+		}
+		
+		return EntityList.createEntityFromNBT(nbt, world);
+	}
+	
+	/** Check Necromancy Capability of the player **/
+	public static void getNecroCapacility(EntityPlayer player) {
+		if (player.worldObj.isRemote) {
+			return;
+		}
+		
+		final NecroPetList necroList = new NecroPetList(player);
+		if (necroList.size() > 0) {
+			final NBTTagCompound petData = necroList.shift();
+			if (petData.hasKey("CustomName")) {
+				final Entity e = EntityUtil.getReviveEntity(petData, petData.getString("CustomName"), player.worldObj);
+				if (e instanceof EntityLivingBase) {
+					final EntityLivingBase revivedEntity = (EntityLivingBase)e;
+					revivedEntity.copyLocationAndAnglesFrom(player);
+					revivedEntity.motionX = 0;
+					revivedEntity.motionY = 0;
+					revivedEntity.motionZ = 0;
+					revivedEntity.fallDistance = 0;
+					revivedEntity.setHealth(revivedEntity.getMaxHealth());
+					necroList.writeToPlayer();
+					player.worldObj.spawnEntityInWorld(revivedEntity);
+				}
+			}
 		}
 	}
 }

@@ -13,6 +13,7 @@ package com.shinoow.abyssalcraft.common.potion;
 
 import com.shinoow.abyssalcraft.AbyssalCraft;
 import com.shinoow.abyssalcraft.api.AbyssalCraftAPI;
+import com.shinoow.abyssalcraft.common.entity.anti.EntityAbomination;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -35,9 +36,19 @@ public class PotionAntimatter extends Potion{
 		return this;
 	}
 	
+	private boolean isImmune(EntityLivingBase entity) {
+		if (entity instanceof EntityAbomination) {
+			return true;
+		}
+		if (entity instanceof IBossDisplayData && (entity.isImmuneToFire() || entity instanceof ITaintedMob)) {
+			return true;
+		}
+		return false;
+	}
+	
 	@Override
 	public void performEffect(EntityLivingBase entity, int par2) {
-		if (entity instanceof IBossDisplayData && (entity.isImmuneToFire() || entity instanceof ITaintedMob)) {
+		if (isImmune(entity)) {
 			entity.removePotionEffect(AbyssalCraft.antiMatter.id);
 		} else {
 			final int dmg = 3;

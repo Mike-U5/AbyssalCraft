@@ -13,11 +13,14 @@ package com.shinoow.abyssalcraft.common.items;
 
 import java.util.List;
 
+import com.shinoow.abyssalcraft.common.util.EntityUtil;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
+import net.minecraft.world.World;
 
 public class ItemOC extends Item {
 
@@ -34,5 +37,11 @@ public class ItemOC extends Item {
 	@Override
 	public void addInformation(ItemStack is, EntityPlayer player, List l, boolean B) {
 		l.add(StatCollector.translateToLocal("tooltip.oc"));
+	}
+
+	@Override
+	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
+		EntityUtil.getNecroCapacility(player);
+		return stack;
 	}
 }

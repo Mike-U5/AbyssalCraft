@@ -175,6 +175,7 @@ import com.shinoow.abyssalcraft.common.entity.EntityShadowCreature;
 import com.shinoow.abyssalcraft.common.entity.EntityShadowMonster;
 import com.shinoow.abyssalcraft.common.entity.EntitySkeletonGoliath;
 import com.shinoow.abyssalcraft.common.entity.EntityWormHole;
+import com.shinoow.abyssalcraft.common.entity.anti.EntityAbomination;
 import com.shinoow.abyssalcraft.common.entity.anti.EntityAntiAbyssalZombie;
 import com.shinoow.abyssalcraft.common.entity.anti.EntityAntiBat;
 import com.shinoow.abyssalcraft.common.entity.anti.EntityAntiChicken;
@@ -1224,6 +1225,8 @@ public class AbyssalCraft {
 		EntityRegistry.registerModEntity(EntityGatekeeperEssence.class, "GatekeeperEssence", 71, instance, 64, 10, true);
 
 		registerEntityWithEgg(EntityWormHole.class, "wormhole", 72, 80, 3, true, 10592673, 16711680);
+		
+		registerEntityWithEgg(EntityAbomination.class, "abomination", 73, 80, 3, true, 10592673, 16711680);
 
 		proxy.addArmor("Abyssalnite");
 		proxy.addArmor("Dread");

@@ -399,6 +399,17 @@
 			"abyssalcraft:stray/Stray_death2"
 		]
 	},
+	"abdomination.hurt": {
+		"category": "hostile",
+		"sounds": [
+			"abyssalcraft:abdomination/abdomination_hurt1",
+			"abyssalcraft:abdomination/abdomination_hurt2",
+			"abyssalcraft:abdomination/abdomination_hurt3",
+			"abyssalcraft:abdomination/abdomination_hurt4",
+			"abyssalcraft:abdomination/abdomination_hurt5",
+			"abyssalcraft:abdomination/abdomination_hurt6"
+		]
+	},
 	"event.dreadwail": {
 		"category": "hostile",
 		"sounds": [
