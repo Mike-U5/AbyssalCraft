@@ -36,7 +36,6 @@ import com.shinoow.abyssalcraft.common.ritual.NecronomiconBreedingRitual;
 import com.shinoow.abyssalcraft.common.ritual.NecronomiconDreadSpawnRitual;
 import com.shinoow.abyssalcraft.common.util.EntityUtil;
 import com.shinoow.abyssalcraft.common.util.ItemUtil;
-import com.shinoow.abyssalcraft.common.util.NecroPetList;
 import com.shinoow.abyssalcraft.common.util.SpecialTextUtil;
 import com.shinoow.abyssalcraft.common.world.TeleporterDarkRealm;
 
@@ -48,6 +47,7 @@ import cpw.mods.fml.common.gameevent.TickEvent;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IEntityOwnable;
+import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
@@ -57,7 +57,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.stats.StatisticsFile;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.DamageSource;
@@ -443,6 +442,7 @@ public class AbyssalCraftEventHooks {
 
 	@SubscribeEvent
 	public void EntityJoinWorld(final EntityJoinWorldEvent event) {
+		// Remove curative items for incurable effects
 		if (event.entity instanceof EntityLivingBase) {
 			final EntityLivingBase entity = (EntityLivingBase) event.entity;
 
@@ -459,7 +459,7 @@ public class AbyssalCraftEventHooks {
 	public void onDeath(LivingDeathEvent event) {
 		if (event.entityLiving instanceof EntityLiving) {
 			final EntityLiving entity = (EntityLiving)event.entityLiving;
-			if(entity instanceof IEntityOwnable && entity.hasCustomNameTag()) {
+			if(entity.hasCustomNameTag() && (entity instanceof EntityAnimal || entity instanceof IEntityOwnable)) {
 				// Drop Nametag
 				if (!entity.worldObj.isRemote) {
 					// Create Memento
@@ -475,20 +475,6 @@ public class AbyssalCraftEventHooks {
 					entityItem.delayBeforeCanPickup = 40;
 					entity.worldObj.spawnEntityInWorld(entityItem);
 				}
-				
-				// Register death to owner
-				/*final IEntityOwnable pet = (IEntityOwnable)entity;
-				if (pet.getOwner() instanceof EntityPlayer) {
-					System.out.println(entity.getCustomNameTag() + " has perished!");
-					MinecraftServer.getServer().addChatMessage(new ChatComponentText(entity.getCustomNameTag() + " has perished!"));
-					
-					final NBTTagCompound petData = new NBTTagCompound();
-					entity.writeToNBTOptional(petData);
-					
-					final NecroPetList necroList = new NecroPetList((EntityPlayer)pet.getOwner());
-					necroList.add(petData);
-					necroList.writeToPlayer();
-				}*/
 			}
 		}
 	}

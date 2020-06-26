@@ -57,6 +57,7 @@ public class NecronomiconNecromancyRitual extends NecronomiconSummonRitual {
 			revivedEntity.setHealth(revivedEntity.getMaxHealth());
 			revivedEntity.clearActivePotions();
 			world.spawnEntityInWorld(revivedEntity);
+			world.playSound(x, y, z, "abyssalcraft:necromancy.success", 1F, 1F, false);
 		}
 	}
 
