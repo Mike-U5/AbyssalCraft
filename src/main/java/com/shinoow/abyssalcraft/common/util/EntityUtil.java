@@ -230,4 +230,8 @@ public final class EntityUtil {
 			}	
 		}
 	}
+	
+	public static EntityLivingBase getFromNbt(NBTTagCompound petData) {
+		return null;
+	}
 }

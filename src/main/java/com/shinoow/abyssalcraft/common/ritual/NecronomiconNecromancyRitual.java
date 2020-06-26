@@ -11,21 +11,21 @@
  ******************************************************************************/
 package com.shinoow.abyssalcraft.common.ritual;
 
+import com.shinoow.abyssalcraft.AbyssalCraft;
 import com.shinoow.abyssalcraft.api.ritual.NecronomiconSummonRitual;
-import com.shinoow.abyssalcraft.common.util.EntityUtil;
 
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 
 public class NecronomiconNecromancyRitual extends NecronomiconSummonRitual {
 	
-	private ItemStack ped1Stack;
+	private NBTTagCompound petData;
 
 	public NecronomiconNecromancyRitual(String unlocalizedName, int bookType, float requiredEnergy, Class<? extends EntityLivingBase> entity, Object...offerings) {
 		super(unlocalizedName, bookType, requiredEnergy, entity, offerings);
@@ -41,45 +41,43 @@ public class NecronomiconNecromancyRitual extends NecronomiconSummonRitual {
 	protected ItemStack getItemStackFromPedestal(World world, int x, int y, int z) {
 		final NBTTagCompound nbtPedestal = getCompoundFromPedestal(world, x, y, z);
 		final NBTTagCompound nbtItem = nbtPedestal.getCompoundTag("Item");
-		System.out.println(nbtItem.toString());
+		System.out.println(nbtItem);
 		return ItemStack.loadItemStackFromNBT(nbtItem);
+	}
+	
+	private void reviveEntity(NBTTagCompound data, World world, int x, int y, int z) {
+		Entity entity = EntityList.createEntityFromNBT(data, world);
+		if (entity instanceof EntityLivingBase) {
+			final EntityLivingBase revivedEntity = (EntityLivingBase)entity;
+			revivedEntity.setLocationAndAngles(x, y, z, 0, 0);
+			revivedEntity.motionX = 0;
+			revivedEntity.motionY = 0;
+			revivedEntity.motionZ = 0;
+			revivedEntity.fallDistance = 0;
+			revivedEntity.setHealth(revivedEntity.getMaxHealth());
+			revivedEntity.clearActivePotions();
+			world.spawnEntityInWorld(revivedEntity);
+		}
 	}
 
 	@Override
 	public boolean canCompleteRitual(World world, int x, int y, int z, EntityPlayer player) {
-		this.ped1Stack = getItemStackFromPedestal(world, x, y, z);
-		return true;
-		// Get Sacrifice
-		/*final ItemStack sacrificeStack = this.getAltarItemStack(world, x, y, z);
+		final ItemStack mementoStack = getItemStackFromPedestal(world, x, y, z);
 		
-		// Check if player has necropets
-		final NecroPetList necroList = new NecroPetList(player);
-		System.out.print("Necrosize: " + necroList.size());
-		if (necroList.size() > 0) {
-			if (this.getSacrifice() instanceof ItemStack) {
-				System.out.print(sacrificeStack.getDisplayName());
-				if (sacrificeStack.getDisplayName().equals("Brian")) {
-					System.out.println("Can do ritual!");
-					return true;
-				} else {
-					System.out.println("Failure due to name not being Brian!");
-				}
-			} else {
-				System.out.println("Failure due to sacrifice not being an ItemStack!");
-			}
-		} else {
-			System.out.println("Failure due to lack of necropets!");
+		if (mementoStack.getItem() == AbyssalCraft.memento) {
+			this.petData = mementoStack.getTagCompound();
+			return true;
 		}
-		return false;*/
+
+		return false;
 	}
 
 	@Override
 	protected void completeRitualServer(World world, int x, int y, int z, EntityPlayer player) {
-		final ItemStack mementoStack = this.ped1Stack;
-		if (mementoStack != null) {
-			System.out.println(mementoStack.toString());
-			MinecraftServer.getServer().addChatMessage(new ChatComponentText(mementoStack.toString()));
-			EntityUtil.necroByName(player, "Brian", x, y, z);
+		if (this.petData != null) {
+			System.out.println(this.petData);
+			this.reviveEntity(this.petData, world, x, y + 2, z);
+			this.petData = null;
 		} else {
 			System.err.println("Fuck mementoStack is undefined.");
 		}
