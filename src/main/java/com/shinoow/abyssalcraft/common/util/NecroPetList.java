@@ -22,9 +22,19 @@ public class NecroPetList {
 		}
 	}
 	
-	//public NecroPetByName(EntityPlayer player) {
-		
-	//}
+	public NBTTagCompound getByName(String name) {
+		for (int i = 0; i < this.list.size(); i++) {
+			final NBTTagCompound tag = this.list.get(i);
+			if (tag.hasKey("CustomName")) {
+				System.out.println("~~~ " + tag.getString("CustomName") + " === " + name + " ~~~");
+			}
+			if (tag.hasKey("CustomName") && name.equals(tag.getString("CustomName"))) {
+				System.out.println("Returning Tag!");
+				return tag;
+			}
+		}
+		return null;
+	}
 	
 	public void writeToPlayer() {
 		for (int i = 0; i < this.limit; i++) {

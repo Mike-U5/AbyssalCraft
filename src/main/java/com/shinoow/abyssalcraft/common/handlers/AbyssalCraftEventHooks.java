@@ -28,6 +28,7 @@ import com.shinoow.abyssalcraft.api.ritual.NecronomiconSummonRitual;
 import com.shinoow.abyssalcraft.common.blocks.BlockDLTSapling;
 import com.shinoow.abyssalcraft.common.blocks.BlockDreadSapling;
 import com.shinoow.abyssalcraft.common.entity.EntityJzahar;
+import com.shinoow.abyssalcraft.common.entity.props.EntityPersistentItem;
 import com.shinoow.abyssalcraft.common.items.ItemCrystalBag;
 import com.shinoow.abyssalcraft.common.items.ItemNecronomicon;
 import com.shinoow.abyssalcraft.common.items.armor.ItemEthaxiumArmor;
@@ -459,7 +460,24 @@ public class AbyssalCraftEventHooks {
 		if (event.entityLiving instanceof EntityLiving) {
 			final EntityLiving entity = (EntityLiving)event.entityLiving;
 			if(entity instanceof IEntityOwnable && entity.hasCustomNameTag()) {
-				final IEntityOwnable pet = (IEntityOwnable)entity;
+				// Drop Nametag
+				if (!entity.worldObj.isRemote) {
+					// Create Memento
+					final ItemStack mementoStack = new ItemStack(AbyssalCraft.memento);
+					final NBTTagCompound petData = new NBTTagCompound();
+					entity.writeToNBTOptional(petData);
+					mementoStack.setTagCompound(petData);
+					mementoStack.setStackDisplayName(entity.getCustomNameTag());
+					
+					// Convert Item to Entity
+					final EntityPersistentItem entityItem = new EntityPersistentItem(entity.worldObj, entity.posX, entity.posY, entity.posZ, mementoStack);
+					entityItem.lifespan = 72000;
+					entityItem.delayBeforeCanPickup = 40;
+					entity.worldObj.spawnEntityInWorld(entityItem);
+				}
+				
+				// Register death to owner
+				/*final IEntityOwnable pet = (IEntityOwnable)entity;
 				if (pet.getOwner() instanceof EntityPlayer) {
 					System.out.println(entity.getCustomNameTag() + " has perished!");
 					MinecraftServer.getServer().addChatMessage(new ChatComponentText(entity.getCustomNameTag() + " has perished!"));
@@ -470,7 +488,7 @@ public class AbyssalCraftEventHooks {
 					final NecroPetList necroList = new NecroPetList((EntityPlayer)pet.getOwner());
 					necroList.add(petData);
 					necroList.writeToPlayer();
-				}
+				}*/
 			}
 		}
 	}

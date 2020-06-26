@@ -205,6 +205,7 @@ import com.shinoow.abyssalcraft.common.items.ItemACBasic;
 import com.shinoow.abyssalcraft.common.items.ItemACFood;
 import com.shinoow.abyssalcraft.common.items.ItemACHoe;
 import com.shinoow.abyssalcraft.common.items.ItemACKatana;
+import com.shinoow.abyssalcraft.common.items.ItemACPersistent;
 import com.shinoow.abyssalcraft.common.items.ItemACPickaxe;
 import com.shinoow.abyssalcraft.common.items.ItemACShovel;
 import com.shinoow.abyssalcraft.common.items.ItemACSword;
@@ -402,6 +403,8 @@ public class AbyssalCraft {
 	public static Item ethaxium_brick, ethaxiumIngot;
 	// Baubles
 	public static Item trapezohedron;
+	// Special Items
+	public static Item memento;
 	
 	
 	public static Potion Cplague, Dplague, antiMatter, earthquake, doom, auditory;
@@ -849,6 +852,7 @@ public class AbyssalCraft {
 		// Special
 		crushedwart = registerItem(new ItemACBasic("crushedwart"), "crushedwart").setPotionEffect("+4");
 		jellyfish = registerItem(new ItemACBasic("jellyFish"), "jellyfish");
+		memento = registerItem(new ItemACPersistent("memento"), "memento");
 
 		// Foodstuffs (MRE stays for remnant trades)
 		MRE = registerItem(new ItemACFood(20, 1F, false).setUnlocalizedName("MRE").setTextureName(modid + ":" + "MRE"), "mre");

@@ -31,17 +31,12 @@ import net.minecraft.command.IEntitySelector;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.passive.EntityHorse;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.launchwrapper.Launch;
-import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
@@ -213,28 +208,26 @@ public final class EntityUtil {
 	}
 	
 	/** Check Necromancy Capability of the player **/
-	public static void getNecroCapacility(EntityPlayer player) {
+	public static void necroByName(EntityPlayer player, String petName, double x, double y, double z) {
 		if (player.worldObj.isRemote) {
 			return;
 		}
 		
 		final NecroPetList necroList = new NecroPetList(player);
-		if (necroList.size() > 0) {
-			final NBTTagCompound petData = necroList.shift();
-			if (petData.hasKey("CustomName")) {
-				final Entity e = EntityUtil.getReviveEntity(petData, petData.getString("CustomName"), player.worldObj);
-				if (e instanceof EntityLivingBase) {
-					final EntityLivingBase revivedEntity = (EntityLivingBase)e;
-					revivedEntity.copyLocationAndAnglesFrom(player);
-					revivedEntity.motionX = 0;
-					revivedEntity.motionY = 0;
-					revivedEntity.motionZ = 0;
-					revivedEntity.fallDistance = 0;
-					revivedEntity.setHealth(revivedEntity.getMaxHealth());
-					necroList.writeToPlayer();
-					player.worldObj.spawnEntityInWorld(revivedEntity);
-				}
-			}
+		final NBTTagCompound petData = necroList.getByName(petName);
+		if (petData != null) {
+			final Entity e = EntityUtil.getReviveEntity(petData, petData.getString("CustomName"), player.worldObj);
+			if (e instanceof EntityLivingBase) {
+				final EntityLivingBase revivedEntity = (EntityLivingBase)e;
+				revivedEntity.setLocationAndAngles(x, y, z, 0, 0);
+				revivedEntity.motionX = 0;
+				revivedEntity.motionY = 0;
+				revivedEntity.motionZ = 0;
+				revivedEntity.fallDistance = 0;
+				revivedEntity.setHealth(revivedEntity.getMaxHealth());
+				necroList.writeToPlayer();
+				player.worldObj.spawnEntityInWorld(revivedEntity);
+			}	
 		}
 	}
 }

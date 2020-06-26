@@ -1,5 +1,6 @@
 package com.shinoow.abyssalcraft.common.entity.anti;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.monster.EntitySlime;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
@@ -9,7 +10,9 @@ public class EntityAbomination extends EntitySlime {
 
 	public EntityAbomination(World world) {
 		super(world);
+		this.isImmuneToFire = true;
 		this.setSlimeSize(2);
+		setSize(0.9F, 1.2F);
 	}
 
 	@Override
@@ -19,7 +22,11 @@ public class EntityAbomination extends EntitySlime {
 
 	@Override
 	public boolean attackEntityFrom(DamageSource src, float amount) {
-		return super.attackEntityFrom(src, 0);
+		if (src.getEntity() instanceof Entity || src.isExplosion()) {
+			return super.attackEntityFrom(src, 0);
+		}
+		
+		return false;
 	}
 
 	@Override
@@ -55,5 +62,10 @@ public class EntityAbomination extends EntitySlime {
 	@Override
 	protected boolean canDespawn() {
 		return false;
+	}
+	
+	@Override
+	public boolean canBreatheUnderwater() {
+		return true;
 	}
 }

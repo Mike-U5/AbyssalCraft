@@ -45,6 +45,7 @@ import com.shinoow.abyssalcraft.common.entity.EntityShadowMonster;
 import com.shinoow.abyssalcraft.common.entity.anti.EntityFallenHero;
 import com.shinoow.abyssalcraft.common.ritual.NecronomiconBreedingRitual;
 import com.shinoow.abyssalcraft.common.ritual.NecronomiconDreadSpawnRitual;
+import com.shinoow.abyssalcraft.common.ritual.NecronomiconNecromancyRitual;
 import com.shinoow.abyssalcraft.common.ritual.NecronomiconPurificationRitual;
 import com.shinoow.abyssalcraft.common.ritual.NecronomiconRespawnJzaharRitual;
 
@@ -297,7 +298,12 @@ public class AbyssalCrafting {
 		RitualRegistry.instance().registerRitual(new NecronomiconSummonRitual("summonAsorah", 1, AbyssalCraft.configDimId1, 1000F, EntityDragonBoss.class, asorahofferings));
 		RitualRegistry.instance().registerRitual(new NecronomiconBreedingRitual());
 		RitualRegistry.instance().registerRitual(new NecronomiconPurificationRitual());
+		
+		// Pet Revival
+		Object[] petnecroofferings = new Object[] { new ItemStack(AbyssalCraft.memento), new ItemStack(Blocks.obsidian), new ItemStack(Blocks.obsidian), new ItemStack(Blocks.obsidian), new ItemStack(Blocks.obsidian), new ItemStack(Blocks.obsidian), new ItemStack(Blocks.obsidian), new ItemStack(Blocks.obsidian) };
+		RitualRegistry.instance().registerRitual(new NecronomiconNecromancyRitual("petNecromancy", 0, 100F, EntitySacthoth.class, petnecroofferings));
 
+		// Abyssal Wasteland
 		Object[] sacthothofferings = new Object[] { new ItemStack(AbyssalCraft.OC), new ItemStack(Blocks.obsidian), new ItemStack(AbyssalCraft.Cbucket), new ItemStack(Blocks.obsidian), new ItemStack(AbyssalCraft.antibucket), new ItemStack(Blocks.obsidian), new ItemStack(AbyssalCraft.relic), new ItemStack(Blocks.obsidian) };
 		RitualRegistry.instance().registerRitual(new NecronomiconSummonRitual("summonSacthoth", 1, 1000F, EntitySacthoth.class, sacthothofferings));
 		RitualRegistry.instance().registerRitual(new NecronomiconDreadSpawnRitual());

@@ -1226,6 +1226,7 @@ entity.abyssalcraft.evilcow.name=Cow
 entity.abyssalcraft.evilchicken.name=Chicken
 entity.abyssalcraft.demoncow.name=Demon Cow
 entity.abyssalcraft.demonchicken.name=Demon Chicken
+entity.abyssalcraft.abomination.name=Abomination
 
 # Potions
 potion.Cplague=Coralium Infection

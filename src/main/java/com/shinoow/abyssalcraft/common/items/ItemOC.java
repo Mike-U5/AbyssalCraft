@@ -41,7 +41,7 @@ public class ItemOC extends Item {
 
 	@Override
 	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
-		EntityUtil.getNecroCapacility(player);
+		EntityUtil.necroByName(player, stack.getDisplayName(), player.posX, player.posY + 1, player.posZ);
 		return stack;
 	}
 }

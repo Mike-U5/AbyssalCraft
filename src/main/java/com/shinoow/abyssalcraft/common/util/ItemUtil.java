@@ -2,6 +2,7 @@ package com.shinoow.abyssalcraft.common.util;
 
 import java.util.Arrays;
 
+import com.shinoow.abyssalcraft.AbyssalCraft;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.EnumAction;
@@ -47,5 +48,27 @@ public class ItemUtil {
 			stack.stackTagCompound.setBoolean("dreadplagued", true);
 			stack.setStackDisplayName("§4" + stack.getDisplayName() +"§f");	
 		}
+	}
+	
+	public static ItemStack makeNameTagWithName(String name) {
+		final ItemStack nameTagStack = new ItemStack(Items.name_tag);
+		final NBTTagCompound nbtStack = new NBTTagCompound();
+		final NBTTagCompound nbtName = new NBTTagCompound();
+		nbtName.setString("Name", name);
+		nbtStack.setTag("display", nbtName);
+		nameTagStack.setTagCompound(nbtStack);
+		
+		return nameTagStack;
+	}
+	
+	public static ItemStack makeMementoWithName(String name) {
+		final ItemStack nameTagStack = new ItemStack(AbyssalCraft.memento);
+		final NBTTagCompound nbtStack = new NBTTagCompound();
+		final NBTTagCompound nbtName = new NBTTagCompound();
+		nbtName.setString("Name", name);
+		nbtStack.setTag("display", nbtName);
+		nameTagStack.setTagCompound(nbtStack);
+		
+		return nameTagStack;
 	}
 }
