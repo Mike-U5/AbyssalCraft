@@ -50,17 +50,6 @@ public class ItemUtil {
 		}
 	}
 	
-	public static ItemStack makeNameTagWithName(String name) {
-		final ItemStack nameTagStack = new ItemStack(Items.name_tag);
-		final NBTTagCompound nbtStack = new NBTTagCompound();
-		final NBTTagCompound nbtName = new NBTTagCompound();
-		nbtName.setString("Name", name);
-		nbtStack.setTag("display", nbtName);
-		nameTagStack.setTagCompound(nbtStack);
-		
-		return nameTagStack;
-	}
-	
 	public static ItemStack makeMementoWithName(String name) {
 		final ItemStack nameTagStack = new ItemStack(AbyssalCraft.memento);
 		final NBTTagCompound nbtStack = new NBTTagCompound();

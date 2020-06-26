@@ -422,6 +422,18 @@
 			"abyssalcraft:event/leveldown"
 		]
 	},
+	"event.necromancy.success": {
+		"category": "hostile",
+		"sounds": [
+			"abyssalcraft:event/necromancy_success"
+		]
+	},
+	"event.necromancy.failure": {
+		"category": "hostile",
+		"sounds": [
+			"abyssalcraft:event/necromancy_failure"
+		]
+	},
 	"event.sin": {
 		"category": "hostile",
 		"sounds": [
