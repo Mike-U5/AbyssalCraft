@@ -13,13 +13,17 @@ package com.shinoow.abyssalcraft.common.ritual;
 
 import com.shinoow.abyssalcraft.AbyssalCraft;
 import com.shinoow.abyssalcraft.api.ritual.NecronomiconSummonRitual;
+import com.shinoow.abyssalcraft.common.entity.anti.EntityAbomination;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.potion.Potion;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
@@ -46,18 +50,38 @@ public class NecronomiconNecromancyRitual extends NecronomiconSummonRitual {
 	}
 	
 	private void reviveEntity(NBTTagCompound data, World world, int x, int y, int z) {
-		Entity entity = EntityList.createEntityFromNBT(data, world);
-		if (entity instanceof EntityLivingBase) {
-			final EntityLivingBase revivedEntity = (EntityLivingBase)entity;
-			revivedEntity.setLocationAndAngles(x, y, z, 0, 0);
-			revivedEntity.motionX = 0;
-			revivedEntity.motionY = 0;
-			revivedEntity.motionZ = 0;
-			revivedEntity.fallDistance = 0;
-			revivedEntity.setHealth(revivedEntity.getMaxHealth());
-			revivedEntity.clearActivePotions();
-			world.spawnEntityInWorld(revivedEntity);
-			world.playSound(x, y, z, "abyssalcraft:necromancy.success", 1F, 1F, false);
+		final Entity entity = EntityList.createEntityFromNBT(data, world);
+		if (entity instanceof EntityLiving) {
+			final EntityLiving reviveEntity = (EntityLiving)entity;
+			
+			// Roll for Abdomination
+			if (Math.random() < 0.25F) {
+				final EntityAbomination abomination = new EntityAbomination(world);
+				abomination.setLocationAndAngles(x, y, z, 0, 0);
+				abomination.onSpawnWithEgg((IEntityLivingData)null);
+				abomination.setCustomNameTag(reviveEntity.getCustomNameTag());
+				world.spawnEntityInWorld(abomination);
+				world.playSoundEffect(x, y, z, "abyssalcraft:event.necromancy.failure", 1.0F, 1.0F);
+				return;
+			}
+			
+			// Safe Revival
+			reviveEntity.setLocationAndAngles(x, y, z, 0, 0);
+			reviveEntity.motionX = 0;
+			reviveEntity.motionY = 0;
+			reviveEntity.motionZ = 0;
+			reviveEntity.fallDistance = 0;
+			reviveEntity.setHealth(reviveEntity.getMaxHealth());
+			reviveEntity.extinguish();
+			reviveEntity.removePotionEffect(Potion.poison.id);
+			reviveEntity.removePotionEffect(Potion.wither.id);
+			
+			final NBTTagCompound reviveNbt = reviveEntity.getEntityData();
+			reviveNbt.setBoolean("wasRevivedFromAbyss", true);
+			reviveEntity.writeEntityToNBT(reviveNbt);
+			
+			world.spawnEntityInWorld(reviveEntity);
+			world.playSoundEffect(x, y, z, "abyssalcraft:event.necromancy.success", 1.0F, 1.0F);
 		}
 	}
 
@@ -79,8 +103,6 @@ public class NecronomiconNecromancyRitual extends NecronomiconSummonRitual {
 			System.out.println(this.petData);
 			this.reviveEntity(this.petData, world, x, y + 2, z);
 			this.petData = null;
-		} else {
-			System.err.println("Fuck mementoStack is undefined.");
 		}
 	}
 }

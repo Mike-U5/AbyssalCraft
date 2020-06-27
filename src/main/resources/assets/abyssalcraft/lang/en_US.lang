@@ -1179,6 +1179,7 @@ item.trapezohedron.name=Pendant of Sedefkar
 item.gritBronze.name=Bronze Grit
 item.ingotBronze.name=Bronze Ingot
 item.nuggetBronze.name=Bronze Nugget
+item.memento.name=Memento
 
 #Entities
 entity.abyssalcraft.depthsghoul.name=Depths Ghoul

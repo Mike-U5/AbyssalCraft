@@ -67,6 +67,7 @@ import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.EnderTeleportEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.BonemealEvent;
@@ -452,6 +453,14 @@ public class AbyssalCraftEventHooks {
 			if (entity.isPotionActive(ACPotions.Earthquake)) {
 				entity.getActivePotionEffect(ACPotions.Earthquake).setCurativeItems(new ArrayList<ItemStack>());
 			}
+		}
+	}
+	
+	@SubscribeEvent
+	public void onDrop(LivingDropsEvent event) {
+		final NBTTagCompound tags = event.entityLiving.getEntityData();
+		if (tags.hasKey("wasRevivedFromAbyss")) {
+			event.drops.clear();
 		}
 	}
 	

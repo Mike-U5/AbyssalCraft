@@ -300,7 +300,7 @@ public class AbyssalCrafting {
 		RitualRegistry.instance().registerRitual(new NecronomiconPurificationRitual());
 		
 		// Pet Revival
-		Object[] petnecroofferings = new Object[] { new ItemStack(AbyssalCraft.memento), new ItemStack(Blocks.obsidian), new ItemStack(Blocks.obsidian), new ItemStack(Blocks.obsidian), new ItemStack(Blocks.obsidian), new ItemStack(Blocks.obsidian), new ItemStack(Blocks.obsidian), new ItemStack(Blocks.obsidian) };
+		Object[] petnecroofferings = new Object[] { new ItemStack(AbyssalCraft.memento), new ItemStack(AbyssalCraft.lifeCrystal), new ItemStack(AbyssalCraft.lifeCrystal), new ItemStack(AbyssalCraft.lifeCrystal), new ItemStack(AbyssalCraft.lifeCrystal), new ItemStack(AbyssalCraft.lifeCrystal), new ItemStack(AbyssalCraft.lifeCrystal), new ItemStack(AbyssalCraft.lifeCrystal) };
 		RitualRegistry.instance().registerRitual(new NecronomiconNecromancyRitual("petNecromancy", 0, 100F, EntitySacthoth.class, petnecroofferings));
 
 		// Abyssal Wasteland
