@@ -18,6 +18,7 @@ import com.shinoow.abyssalcraft.api.entity.ICoraliumEntity;
 import com.shinoow.abyssalcraft.api.entity.IDreadEntity;
 import com.shinoow.abyssalcraft.api.entity.IOmotholEntity;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.boss.IBossDisplayData;
@@ -26,8 +27,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
 import net.minecraft.util.Vec3;
@@ -41,6 +40,18 @@ public class ItemDrainStaff extends Item {
 		setCreativeTab(AbyssalCraft.tabTools);
 		setTextureName("abyssalcraft:DrainStaff");
 		setMaxStackSize(1);
+	}
+	
+	@Override
+	public void onUpdate(ItemStack stack, World world, Entity entity, int num, boolean flag) {
+		if (stack.hasTagCompound() && stack.stackTagCompound.hasKey("cooldown")) {
+			int cooldown = stack.stackTagCompound.getInteger("cooldown");
+			if (cooldown <= 1) {
+				stack.stackTagCompound.removeTag("cooldown");
+			} else {
+				stack.stackTagCompound.setInteger("cooldown", cooldown - 1);
+			}
+		}
 	}
 
 	@Override
@@ -65,6 +76,18 @@ public class ItemDrainStaff extends Item {
 	
 	@SuppressWarnings("unchecked")
 	protected void drain(ItemStack stack, World world, EntityPlayer player, int drainPower) {
+		if (!stack.hasTagCompound()) {
+			stack.setTagCompound(new NBTTagCompound());
+		}
+		
+		// Check if on cooldown
+		if (stack.stackTagCompound.hasKey("cooldown")) {
+			return;
+		} else {
+			stack.stackTagCompound.setInteger("cooldown", 10);
+		}
+		
+		// Activate Drain
 		world.playSoundAtEntity(player, "mob.silverfish.say", 0.2F, 2.5F);
 		
 		// Give essence
@@ -93,6 +116,7 @@ public class ItemDrainStaff extends Item {
 		final double pXb = player.posX + cone;
 		final double pYb = player.posY + cone + player.getEyeHeight();
 		final double pZb = player.posZ + cone;
+
 		// Drain Life
 		for(int i = 1; i < 32; i++) {
 			final AxisAlignedBB aabb = AxisAlignedBB.getBoundingBox(pXa + vec.xCoord * i, pYa + vec.yCoord * i, pZa + vec.zCoord * i, pXb + vec.xCoord * i, pYb + vec.yCoord * i, pZb + vec.zCoord * i);
@@ -101,17 +125,20 @@ public class ItemDrainStaff extends Item {
 				for (int j = 0; j < list.size(); j++) {
 					// Drain Energy
 					final EntityLiving target = list.get(j);
-					if (isDrainable(target) && player.canEntityBeSeen(target)) {
-						final DamageSource dmgSrc = new EntityDamageSource("vajra", player).setDamageBypassesArmor().setDamageIsAbsolute();
-						final int trueDmg = Math.min((int)Math.floor(target.getHealth()), drainPower);
+					if (isDrainable(target) && player.canEntityBeSeen(target) && target.hurtResistantTime <= 0) {
 						final String type = this.getEnemyType(world, target);
-						// If target can be harmed, increase energy
-						if(target.attackEntityFrom(dmgSrc, trueDmg)) {
-							target.setLastAttacker(player);
-							increaseEnergy(stack, type, trueDmg);
-							player.addExhaustion(0.02F);
+						if (type == null) {
 							return;
 						}
+						float dealableDamage = Math.min(target.getHealth(), drainPower);
+						final int trueDmg = (int)Math.floor(dealableDamage);
+						
+						// If target can be harmed, increase energy
+						target.setHealth(target.getHealth() - trueDmg);
+						target.performHurtAnimation();
+						target.hurtResistantTime = target.maxHurtResistantTime;
+						increaseEnergy(stack, type, trueDmg);
+						player.addExhaustion(0.02F);
 					}
 				}
 			}
